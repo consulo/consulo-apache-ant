@@ -1,0 +1,15 @@
+<idea-plugin version="2">
+	<id>org.consulo.phing</id>
+	<name>Phing</name>
+	<depends>org.consulo.ant.core</depends>
+	<depends>org.consulo.php</depends>
+
+	<extensions defaultExtensionNs="org.consulo.ant.core">
+		<buildSystemProvider implementation="org.consulo.phing.PhingBuildSystemProvider" />
+	</extensions>
+
+	<extensions defaultExtensionNs="com.intellij">
+		<toolWindow anchor="right" icon="/icons/toolWindowPhing.png" id="Phing"
+					factoryClass="org.consulo.phing.toolWindow.PhingBuildToolWindowFactory" requireModuleExtensions="php"/>
+	</extensions>
+</idea-plugin>

@@ -1,0 +1,32 @@
+<component name="libraryTable">
+  <library name="apache-ant">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-antlr.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-apache-bcel.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-apache-bsf.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-apache-log4j.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-apache-oro.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-apache-regexp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-apache-resolver.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-apache-xalan2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-commons-logging.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-commons-net.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-jai.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-javamail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-jdepend.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-jmf.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-jsch.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-junit.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-launcher.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-netrexx.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-swing.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant-testutil.jar!/" />
+      <root url="jar://$PROJECT_DIR$/consulo-apache-ant/dist/apache-ant/lib/ant.jar!/" />
+    </CLASSES>
+    <DOCUMENTATION />
+    <SOURCES>
+      <root url="zip://F:/github.com/consulo/consulo-apache-ant-incubator/consulo-apache-ant/dist/apache-ant/src/bundled_ant_src.zip!/bundled_ant_src" />
+    </SOURCES>
+    <jarDirectory url="zip://F:/github.com/consulo/consulo-apache-ant-incubator/consulo-apache-ant/dist/apache-ant/src/bundled_ant_src.zip!/bundled_ant_src" recursive="false" type="SOURCES" />
+  </library>
+</component>
