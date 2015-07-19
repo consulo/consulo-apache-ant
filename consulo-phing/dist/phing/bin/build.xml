@@ -1,5 +1,0 @@
-<project name="test" default="dist">
-	<target name="dist">
-		<echo message="Hello World" />
-	</target>
-</project>
