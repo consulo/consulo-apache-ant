@@ -14,7 +14,7 @@
 	</extensionPoints>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<!--TODO [VISTALL] <sdkType implementation="org.consulo.java.ant.sdk.AntSdkType" /> -->
+		<sdkType implementation="org.mustbe.consulo.apache.ant.sdk.AntSdkType" />
 		<projectService serviceInterface="com.intellij.lang.ant.config.AntConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntConfigurationImpl"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.AntBuildFileGroupManager" serviceImplementation="com.intellij.lang.ant.config.impl.group.AntBuildFileGroupManagerImpl"/>
