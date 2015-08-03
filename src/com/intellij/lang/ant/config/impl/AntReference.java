@@ -15,18 +15,17 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import java.util.Comparator;
+
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.CantRunException;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.Externalizer;
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Comparator;
 
 public abstract class AntReference {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntReference");
@@ -35,11 +34,11 @@ public abstract class AntReference {
   @NonNls private static final String BUNDLED_ANT_ATTR = "bundledAnt";
 
   public static final Externalizer<AntReference> EXTERNALIZER = new Externalizer<AntReference>() {
-    public AntReference readValue(Element dataElement) throws InvalidDataException {
+    public AntReference readValue(Element dataElement)  {
       if (Boolean.valueOf(dataElement.getAttributeValue(PROJECT_DEFAULT_ATTR)).booleanValue()) return PROJECT_DEFAULT;
       if (Boolean.valueOf(dataElement.getAttributeValue(BUNDLED_ANT_ATTR)).booleanValue()) return BUNDLED_ANT;
       String name = dataElement.getAttributeValue(NAME_ATTR);
-      if (name == null) throw new InvalidDataException();
+      if (name == null) throw new IllegalStateException();
       return new MissingAntReference(name);
     }
 

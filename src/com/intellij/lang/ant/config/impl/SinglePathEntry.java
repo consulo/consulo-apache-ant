@@ -15,22 +15,22 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import java.io.File;
+import java.util.List;
+
+import javax.swing.JComponent;
+
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.openapi.roots.ui.FileAppearanceService;
 import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.Function;
 import com.intellij.util.PathUtil;
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-
-import javax.swing.*;
-import java.io.File;
-import java.util.List;
 
 public class SinglePathEntry implements AntClasspathEntry {
   private static final Function<VirtualFile, AntClasspathEntry> CREATE_FROM_VIRTUAL_FILE = new Function<VirtualFile, AntClasspathEntry>() {
@@ -56,7 +56,7 @@ public class SinglePathEntry implements AntClasspathEntry {
     myFile = new File(PathUtil.toPresentableUrl(value));
   }
 
-  public void writeExternal(final Element element) throws WriteExternalException {
+  public void writeExternal(final Element element) {
     String url = VirtualFileManager.constructUrl(LocalFileSystem.PROTOCOL, myFile.getAbsolutePath().replace(File.separatorChar, '/'));
     element.setAttribute(PATH, url);
   }

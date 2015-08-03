@@ -21,14 +21,12 @@ import java.net.MalformedURLException;
 import java.util.Comparator;
 import java.util.Properties;
 
-import org.mustbe.consulo.apache.ant.util.AntVersionUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.mustbe.consulo.apache.ant.util.AntVersionUtil;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ExternalizablePropertyContainer;
 import com.intellij.util.config.Externalizer;
@@ -36,6 +34,7 @@ import com.intellij.util.config.ListProperty;
 import com.intellij.util.config.StringProperty;
 import com.intellij.util.containers.Convertor;
 
+@Deprecated
 public class AntInstallation
 {
 	private static final Logger LOG = Logger.getInstance("#com.intellij.ant.impl.AntInstallation");
@@ -79,20 +78,20 @@ public class AntInstallation
 
 	public static final Externalizer<AntInstallation> EXTERNALIZER = new Externalizer<AntInstallation>()
 	{
-		public AntInstallation readValue(Element dataElement) throws InvalidDataException
+		public AntInstallation readValue(Element dataElement)
 		{
 			AntInstallation antInstallation = new AntInstallation();
 			antInstallation.readExternal(dataElement);
 			return antInstallation;
 		}
 
-		public void writeValue(Element dataElement, AntInstallation antInstallation) throws WriteExternalException
+		public void writeValue(Element dataElement, AntInstallation antInstallation)
 		{
 			antInstallation.myProperties.writeExternal(dataElement);
 		}
 	};
 
-	private void readExternal(Element dataElement) throws InvalidDataException
+	private void readExternal(Element dataElement)
 	{
 		myProperties.readExternal(dataElement);
 		File antJar = new File(HOME_DIR.get(myProperties), PATH_TO_ANT_JAR);

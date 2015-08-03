@@ -15,24 +15,24 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.List;
+
+import javax.swing.JComponent;
+
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.openapi.roots.ui.FileAppearanceService;
 import com.intellij.openapi.roots.ui.ModifiableCellAppearanceEx;
-import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-
-import javax.swing.*;
-import java.io.File;
-import java.io.FileFilter;
-import java.util.List;
 
 public class AllJarsUnderDirEntry implements AntClasspathEntry {
   @NonNls private static final String JAR_SUFFIX = ".jar";
@@ -55,7 +55,7 @@ public class AllJarsUnderDirEntry implements AntClasspathEntry {
     this(new File(osPath));
   }
 
-  public void writeExternal(final Element dataElement) throws WriteExternalException {
+  public void writeExternal(final Element dataElement) {
     String url = VirtualFileManager.constructUrl(LocalFileSystem.PROTOCOL, myDir.getAbsolutePath().replace(File.separatorChar, '/'));
     dataElement.setAttribute(DIR, url);
   }
