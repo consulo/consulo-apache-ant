@@ -19,6 +19,7 @@ import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntInstallation;
 import com.intellij.lang.ant.config.impl.AntReference;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.ui.ComboboxWithBrowseButton;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.containers.ConvertingIterator;
@@ -70,11 +71,11 @@ public class RunWithAntBinding extends UIPropertyBinding {
 
       public AntReference openConfigureDialog(AntReference reference, JComponent parent) {
         AntSetPanel antSetPanel = new AntSetPanel();
-        AntInstallation installation = myAntConfiguration.getConfiguredAnts().get(reference);
+        Sdk installation = myAntConfiguration.getConfiguredAnts().get(reference);
         if (installation == null) installation = myAntConfiguration.getConfiguredAnts().get(AntReference.BUNDLED_ANT);
         antSetPanel.reset();
         antSetPanel.setSelection(installation);
-        AntInstallation antInstallation = antSetPanel.showDialog(parent);
+		Sdk antInstallation = antSetPanel.showDialog(parent);
         return antInstallation != null ? antInstallation.getReference() : null;
       }
     };

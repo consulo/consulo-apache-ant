@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 
+import org.consulo.lombok.annotations.LazyInstance;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mustbe.consulo.apache.ant.ApacheAntIcons;
@@ -44,6 +45,13 @@ import com.intellij.openapi.vfs.util.ArchiveVfsUtil;
  */
 public class AntSdkType extends SdkType
 {
+	@NotNull
+	@LazyInstance
+	public static AntSdkType getInstance()
+	{
+		return EP_NAME.findExtension(AntSdkType.class);
+	}
+
 	public AntSdkType()
 	{
 		super("APACHE_ANT");

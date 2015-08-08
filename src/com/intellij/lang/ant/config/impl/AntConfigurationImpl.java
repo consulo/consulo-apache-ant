@@ -59,6 +59,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.startup.StartupManager;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.InvalidDataException;
@@ -411,7 +412,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
     myAntWorkspaceConfiguration.IS_AUTOSCROLL_TO_SOURCE = value;
   }
 
-  public AntInstallation getProjectDefaultAnt() {
+  public Sdk getProjectDefaultAnt() {
     return DEFAULT_ANT.get(getProperties()).find(GlobalAntConfiguration.getInstance());
   }
 

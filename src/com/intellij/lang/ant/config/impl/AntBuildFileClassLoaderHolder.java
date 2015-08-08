@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mustbe.consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.util.config.AbstractProperty;
@@ -33,9 +34,10 @@ public class AntBuildFileClassLoaderHolder extends ClassLoaderHolder
 
 	public AntBuildFileClassLoaderHolder(AbstractProperty.AbstractPropertyContainer options)
 	{
-		super(options);
+		myOptions = options;
 	}
 
+	@Override
 	protected ClassLoader buildClasspath()
 	{
 		final ArrayList<File> files = new ArrayList<File>();
@@ -45,7 +47,7 @@ public class AntBuildFileClassLoaderHolder extends ClassLoaderHolder
 		}
 
 		final Sdk antInstallation = AntBuildFileImpl.RUN_WITH_ANT.get(myOptions);
-		final ClassLoader parentLoader = (antInstallation != null) ? antInstallation.getClassLoader() : null;
+		final ClassLoader parentLoader = (antInstallation != null) ? AntSdkClassLoaderUtil.getClassLoader(antInstallation) : null;
 		if(parentLoader != null && files.size() == 0)
 		{
 			// no additional classpath, so it's ok to use ant installation's loader

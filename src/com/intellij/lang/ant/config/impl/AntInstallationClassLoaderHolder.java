@@ -23,14 +23,19 @@ import java.util.List;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.roots.types.BinariesOrderRootType;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.util.ArchiveVfsUtil;
 
 public class AntInstallationClassLoaderHolder extends ClassLoaderHolder
 {
 	private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntInstallationClassLoaderHolder");
+	private Sdk mySdk;
 
 	public AntInstallationClassLoaderHolder(Sdk sdk)
 	{
-		super(sdk, null);
+		mySdk = sdk;
 	}
 
 	@Override
@@ -38,10 +43,14 @@ public class AntInstallationClassLoaderHolder extends ClassLoaderHolder
 	{
 		final ArrayList<File> files = new ArrayList<File>();
 		// ant installation jars
-		final List<AntClasspathEntry> cp = AntInstallation.CLASS_PATH.get(myOptions);
-		for(final AntClasspathEntry entry : cp)
+		VirtualFile[] virtualFiles = mySdk.getRootProvider().getFiles(BinariesOrderRootType.getInstance());
+		for(VirtualFile virtualFile : virtualFiles)
 		{
-			entry.addFilesTo(files);
+			VirtualFile localFile = ArchiveVfsUtil.getVirtualFileForArchive(virtualFile);
+			if(localFile != null)
+			{
+				files.add(VfsUtil.virtualToIoFile(localFile));
+			}
 		}
 
 		// jars from user home

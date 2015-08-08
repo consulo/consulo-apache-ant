@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.CantRunException;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.Externalizer;
@@ -66,7 +67,7 @@ public abstract class AntReference {
       dataElement.setAttribute(PROJECT_DEFAULT_ATTR, Boolean.TRUE.toString());
     }
 
-    public AntInstallation find(GlobalAntConfiguration ants) {
+    public Sdk find(GlobalAntConfiguration ants) {
       throw new UnsupportedOperationException("Should not call");
     }
 
@@ -101,8 +102,8 @@ public abstract class AntReference {
       return GlobalAntConfiguration.BUNDLED_ANT_NAME;
     }
 
-    public AntInstallation find(GlobalAntConfiguration antConfiguration) {
-      return antConfiguration.getBundledAnt();
+    public Sdk find(GlobalAntConfiguration antConfiguration) {
+      return antConfiguration.findBundleAntBundle();
     }
 
     public AntReference bind(GlobalAntConfiguration antConfiguration) {
@@ -112,7 +113,7 @@ public abstract class AntReference {
 
   public abstract String getName();
 
-  public abstract AntInstallation find(GlobalAntConfiguration antConfiguration);
+  public abstract Sdk find(GlobalAntConfiguration antConfiguration);
 
   public abstract AntReference bind(GlobalAntConfiguration antConfiguration);
 
@@ -127,7 +128,7 @@ public abstract class AntReference {
   }
 
   @Nullable
-  public static AntInstallation findAnt(AbstractProperty<AntReference> property, AbstractProperty.AbstractPropertyContainer container) {
+  public static Sdk findAnt(AbstractProperty<AntReference> property, AbstractProperty.AbstractPropertyContainer container) {
     GlobalAntConfiguration antConfiguration = GlobalAntConfiguration.INSTANCE.get(container);
     LOG.assertTrue(antConfiguration != null);
     AntReference antReference = property.get(container);
@@ -138,13 +139,13 @@ public abstract class AntReference {
     return antReference.find(antConfiguration);
   }
 
-  public static AntInstallation findNotNullAnt(AbstractProperty<AntReference> property,
+  public static Sdk findNotNullAnt(AbstractProperty<AntReference> property,
                                                AbstractProperty.AbstractPropertyContainer container,
                                                GlobalAntConfiguration antConfiguration) throws CantRunException {
     AntReference antReference = property.get(container);
     if (antReference == PROJECT_DEFAULT) antReference = AntConfigurationImpl.DEFAULT_ANT.get(container);
     if (antReference == null) throw new CantRunException(AntBundle.message("cant.run.ant.no.ant.configured.error.message"));
-    AntInstallation antInstallation = antReference.find(antConfiguration);
+	  Sdk antInstallation = antReference.find(antConfiguration);
     if (antInstallation == null) {
       throw new CantRunException(AntBundle.message("cant.run.ant.ant.reference.is.not.configured.error.message", antReference.getName()));
     }
@@ -152,10 +153,10 @@ public abstract class AntReference {
   }
 
   @Nullable
-  public static AntInstallation findAntOrBundled(AbstractProperty.AbstractPropertyContainer container) {
+  public static Sdk findAntOrBundled(AbstractProperty.AbstractPropertyContainer container) {
     GlobalAntConfiguration antConfiguration = GlobalAntConfiguration.INSTANCE.get(container);
     if (container.hasProperty(AntBuildFileImpl.ANT_REFERENCE)) return findAnt(AntBuildFileImpl.ANT_REFERENCE, container);
-    return antConfiguration.getBundledAnt();
+    return antConfiguration.findBundleAntBundle();
   }
 
   static class MissingAntReference extends AntReference {
@@ -173,25 +174,25 @@ public abstract class AntReference {
       return myName;
     }
 
-    public AntInstallation find(GlobalAntConfiguration antConfiguration) {
+    public Sdk find(GlobalAntConfiguration antConfiguration) {
       return antConfiguration.getConfiguredAnts().get(this);
     }
 
     public AntReference bind(GlobalAntConfiguration antConfiguration) {
-      AntInstallation antInstallation = find(antConfiguration);
+		Sdk antInstallation = find(antConfiguration);
       if (antInstallation != null) return new BindedReference(antInstallation);
       return this;
     }
   }
 
   static class BindedReference extends AntReference {
-    private final AntInstallation myAnt;
+    private final Sdk myAnt;
 
-    public BindedReference(AntInstallation ant) {
+    public BindedReference(Sdk ant) {
       myAnt = ant;
     }
 
-    public AntInstallation find(GlobalAntConfiguration antConfiguration) {
+    public Sdk find(GlobalAntConfiguration antConfiguration) {
       return myAnt;
     }
 

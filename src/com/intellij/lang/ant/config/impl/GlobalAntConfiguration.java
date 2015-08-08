@@ -15,18 +15,18 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.mustbe.consulo.apache.ant.sdk.AntSdkType;
 import com.intellij.ide.macro.MacroManager;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -38,25 +38,23 @@ import com.intellij.openapi.util.JDOMExternalizable;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ExternalizablePropertyContainer;
-import com.intellij.util.config.ListProperty;
 import com.intellij.util.config.StorageProperty;
 import com.intellij.util.config.ValueProperty;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.util.containers.hash.LinkedHashMap;
 
 public class GlobalAntConfiguration implements ApplicationComponent, JDOMExternalizable
 {
 	private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntGlobalConfiguration");
 	public static final StorageProperty FILTERS_TABLE_LAYOUT = new StorageProperty("filtersTableLayout");
 	public static final StorageProperty PROPERTIES_TABLE_LAYOUT = new StorageProperty("propertiesTableLayout");
-	static final ListProperty<AntInstallation> ANTS = ListProperty.create("registeredAnts");
+
 	private final ExternalizablePropertyContainer myProperties = new ExternalizablePropertyContainer();
-	private final AntInstallation myBundledAnt;
 	public static final String BUNDLED_ANT_NAME = AntBundle.message("ant.reference.bundled.ant.name");
-	public final Condition<AntInstallation> IS_USER_ANT = new Condition<AntInstallation>()
+	public final Condition<Sdk> IS_USER_ANT = new Condition<Sdk>()
 	{
-		public boolean value(AntInstallation antInstallation)
+		public boolean value(Sdk antInstallation)
 		{
-			return antInstallation != myBundledAnt;
+			return antInstallation != findBundleAntBundle();
 		}
 	};
 
@@ -73,11 +71,9 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 	{
 		myProperties.registerProperty(FILTERS_TABLE_LAYOUT);
 		myProperties.registerProperty(PROPERTIES_TABLE_LAYOUT);
-		myProperties.registerProperty(ANTS, ANT_FILE, AntInstallation.EXTERNALIZER);
 		INSTANCE.set(myProperties, this);
 		myProperties.rememberKey(INSTANCE);
 
-		myBundledAnt = createBundledAnt();
 	}
 
 	@NotNull
@@ -90,23 +86,11 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 	{
 	}
 
-	public static AntInstallation createBundledAnt()
+
+	@Nullable
+	public Sdk findBundleAntBundle()
 	{
-		AntInstallation bundledAnt = new AntInstallation()
-		{
-			public AntReference getReference()
-			{
-				return AntReference.BUNDLED_ANT;
-			}
-		};
-		AntInstallation.NAME.set(bundledAnt.getProperties(), BUNDLED_ANT_NAME);
-		final File antHome = PathManager.findFileInLibDirectory(ANT_FILE);
-		AntInstallation.HOME_DIR.set(bundledAnt.getProperties(), antHome.getAbsolutePath());
-		ArrayList<AntClasspathEntry> classpath = AntInstallation.CLASS_PATH.getModifiableList(bundledAnt.getProperties());
-		File antLibDir = new File(antHome, LIB_DIR);
-		classpath.add(new AllJarsUnderDirEntry(antLibDir));
-		bundledAnt.updateVersion(new File(antLibDir, ANT_JAR_FILE_NAME));
-		return bundledAnt;
+		return SdkTable.getInstance().findPredefinedSdkByType(AntSdkType.getInstance());
 	}
 
 	public void disposeComponent()
@@ -128,16 +112,23 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 		return ApplicationManager.getApplication().getComponent(GlobalAntConfiguration.class);
 	}
 
-	public Map<AntReference, AntInstallation> getConfiguredAnts()
+	@NotNull
+	public Map<AntReference, Sdk> getConfiguredAnts()
 	{
-		Map<AntReference, AntInstallation> map = ContainerUtil.newMapFromValues(ANTS.getIterator(getProperties()), AntInstallation.REFERENCE_TO_ANT);
-		map.put(AntReference.BUNDLED_ANT, myBundledAnt);
+		List<Sdk> sdksOfType = SdkTable.getInstance().getSdksOfType(AntSdkType.getInstance());
+		Map<AntReference, Sdk> map = new LinkedHashMap<AntReference, Sdk>();
+		for(Sdk sdk : sdksOfType)
+		{
+			if(sdk.isPredefined())
+			{
+				map.put(AntReference.BUNDLED_ANT, sdk);
+			}
+			else
+			{
+				map.put(new AntReference.BindedReference(sdk), sdk);
+			}
+		}
 		return map;
-	}
-
-	public AntInstallation getBundledAnt()
-	{
-		return myBundledAnt;
 	}
 
 	public AbstractProperty.AbstractPropertyContainer getProperties()
@@ -153,18 +144,15 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 		});
 	}
 
+	@Deprecated
 	public void addConfiguration(final AntInstallation ant)
 	{
-		if(getConfiguredAnts().containsKey(ant.getReference()))
-		{
-			LOG.error("Duplicate name: " + ant.getName());
-		}
-		ANTS.getModifiableList(getProperties()).add(ant);
+
 	}
 
+	@Deprecated
 	public void removeConfiguration(final AntInstallation ant)
 	{
-		ANTS.getModifiableList(getProperties()).remove(ant);
 	}
 
 	public static Sdk findJdk(final String jdkName)

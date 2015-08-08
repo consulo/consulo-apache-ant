@@ -15,13 +15,21 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.execution.configurations.ParametersList;
 import com.intellij.ide.macro.Macro;
 import com.intellij.ide.macro.MacroManager;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.config.impl.*;
+import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
+import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
+import com.intellij.lang.ant.config.impl.BuildFileProperty;
+import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.projectRoots.JavaSdkType;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -35,11 +43,6 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.PathUtil;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NonNls;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AntCommandLineBuilder {
   private final List<String> myTargets = new ArrayList<String>();
@@ -99,12 +102,12 @@ public class AntCommandLineBuilder {
     vmParametersList.add("-Xmx" + AntBuildFileImpl.MAX_HEAP_SIZE.get(container) + "m");
     vmParametersList.add("-Xss" + AntBuildFileImpl.MAX_STACK_SIZE.get(container) + "m");
 
-    final AntInstallation antInstallation = AntBuildFileImpl.ANT_INSTALLATION.get(container);
+    final Sdk antInstallation = AntBuildFileImpl.ANT_INSTALLATION.get(container);
     if (antInstallation == null) {
       throw new CantRunException(AntBundle.message("ant.installation.not.configured.error.message"));
     }
 
-    final String antHome = AntInstallation.HOME_DIR.get(antInstallation.getProperties());
+    final String antHome = antInstallation.getHomePath();
     vmParametersList.add("-Dant.home=" + antHome);
     final String libraryDir = antHome + (antHome.endsWith("/") || antHome.endsWith(File.separator) ? "" : File.separator) + "lib";
     vmParametersList.add("-Dant.library.dir=" + libraryDir);

@@ -27,12 +27,12 @@ import java.util.Map;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mustbe.consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
 import org.mustbe.consulo.apache.ant.util.AntSdkUtil;
 import com.intellij.lang.ant.ReflectedProject;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
-import com.intellij.lang.ant.config.impl.AntInstallation;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -164,22 +164,22 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
         loader = buildFile.getClassLoader();
       }
       else {
-        AntInstallation antInstallation = getAntInstallation();
-        loader = antInstallation.getClassLoader();
+        Sdk antInstallation = getAntInstallation();
+        loader = AntSdkClassLoaderUtil.getClassLoader(antInstallation);
       }
       myClassLoader = loader;
     }
     return loader;
   }
 
-  public AntInstallation getAntInstallation() {
+  public Sdk getAntInstallation() {
     final AntConfigurationBase configuration = AntConfigurationBase.getInstance(getXmlTag().getProject());
-    AntInstallation antInstallation = null;
+	  Sdk antInstallation = null;
     if (configuration != null) {
       antInstallation = configuration.getProjectDefaultAnt();
     }
     if (antInstallation == null) {
-      antInstallation = GlobalAntConfiguration.getInstance().getBundledAnt();
+      antInstallation = GlobalAntConfiguration.getInstance().findBundleAntBundle();
     }
     assert antInstallation != null;
     return antInstallation;
@@ -284,12 +284,12 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
       appendProperty(destination, "basedir", FileUtil.toSystemIndependentName(basedir));
     }
 
-    final AntInstallation installation = getAntInstallation();
-    final String homeDir = installation.getHomeDir();
+    final Sdk installation = getAntInstallation();
+    final String homeDir = installation.getHomePath();
     if (homeDir != null) {
       appendProperty(destination, "ant.home", FileUtil.toSystemIndependentName(homeDir));
     }
-    appendProperty(destination, "ant.version", installation.getVersion());
+    appendProperty(destination, "ant.version", installation.getVersionString());
 
     final String projectName = getName().getRawText();
     appendProperty(destination, "ant.project.name", (projectName == null) ? "" : projectName);

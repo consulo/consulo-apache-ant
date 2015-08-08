@@ -437,7 +437,7 @@ public class BuildFilePropertiesPanel {
           AntSetPanel antSetPanel = new AntSetPanel(myAntGlobalConfiguration);
           antSetPanel.reset();
           antSetPanel.setSelection(myProjectDefaultAnt.find(myAntGlobalConfiguration));
-          AntInstallation antInstallation = antSetPanel.showDialog(mySetDefaultAnt);
+          Sdk antInstallation = antSetPanel.showDialog(mySetDefaultAnt);
           if (antInstallation == null) {
             return;
           }

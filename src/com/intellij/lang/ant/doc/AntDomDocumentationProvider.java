@@ -15,16 +15,29 @@
  */
 package com.intellij.lang.ant.doc;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ant.AntFilesProvider;
 import com.intellij.lang.ant.AntSupport;
-import com.intellij.lang.ant.config.impl.AntInstallation;
 import com.intellij.lang.ant.dom.AntDomElement;
 import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.lang.ant.dom.AntDomTarget;
 import com.intellij.lang.documentation.DocumentationProvider;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.*;
+import com.intellij.openapi.vfs.JarFileSystem;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.pom.PomTarget;
 import com.intellij.pom.PomTargetPsiElement;
 import com.intellij.psi.PsiElement;
@@ -37,15 +50,6 @@ import com.intellij.util.StringBuilderSpinAllocator;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomTarget;
 import com.intellij.util.xml.reflect.DomChildrenDescription;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 public class AntDomDocumentationProvider implements DocumentationProvider {
 
@@ -133,11 +137,11 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     if (antProject == null) {
       return null;
     }
-    final AntInstallation installation = antProject.getAntInstallation();
+    final Sdk installation = antProject.getAntInstallation();
     if (installation == null) {
       return null; // not configured properly and bundled installation missing
     }
-    final String antHomeDir = AntInstallation.HOME_DIR.get(installation.getProperties());
+    final String antHomeDir = installation.getHomePath();
 
     if (antHomeDir == null) {
       return null;

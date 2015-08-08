@@ -15,7 +15,6 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import com.intellij.util.config.AbstractProperty;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -23,12 +22,7 @@ import org.jetbrains.annotations.NotNull;
  *         Date: Mar 26, 2007
  */
 public abstract class ClassLoaderHolder {
-  protected final AbstractProperty.AbstractPropertyContainer myOptions;
   private ClassLoader myLoader;
-
-  public ClassLoaderHolder(AbstractProperty.AbstractPropertyContainer options) {
-    myOptions = options;
-  }
 
   @NotNull
   public ClassLoader getClassloader() {
