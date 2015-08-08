@@ -1,9 +1,10 @@
 <idea-plugin version="2">
-	<id>org.consulo.ant.core</id>
-	<name>Apache Ant Core</name>
-	<version>1.0</version>
-	<description>Editing, maintaining and running ANT build scripts inside IntelliJ IDEA.</description>
+	<id>org.mustbe.consulo.ant</id>
+	<name>Apache Ant</name>
+	<version>SNAPSHOT</version>
+	<description>Editing, maintaining and running ANT build scripts</description>
 	<vendor>JetBrains</vendor>
+	<category>Build</category>
 
 	<resource-bundle>com.intellij.lang.ant.resources.AntActionsBundle</resource-bundle>
 	<depends>com.intellij.properties</depends>
