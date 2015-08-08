@@ -15,8 +15,15 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import java.io.IOException;
+
+import org.mustbe.consulo.apache.ant.rt.AntLoggerConstants;
 import com.intellij.execution.junit.JUnitProcessHandler;
-import com.intellij.execution.junit2.segments.*;
+import com.intellij.execution.junit2.segments.DeferredActionsQueue;
+import com.intellij.execution.junit2.segments.DeferredActionsQueueImpl;
+import com.intellij.execution.junit2.segments.InputConsumer;
+import com.intellij.execution.junit2.segments.OutputPacketProcessor;
+import com.intellij.execution.junit2.segments.SegmentReader;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.testframework.Printable;
 import com.intellij.execution.ui.ConsoleViewContentType;
@@ -25,10 +32,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ex.MessagesEx;
-import com.intellij.rt.ant.execution.IdeaAntLogger2;
 import com.intellij.rt.execution.junit.segments.PacketProcessor;
-
-import java.io.IOException;
 
 final class OutputParser2 extends OutputParser implements PacketProcessor, InputConsumer, OutputPacketProcessor {
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.OutputParser2");
@@ -56,7 +60,7 @@ final class OutputParser2 extends OutputParser implements PacketProcessor, Input
     if (myLastPacketIndex + 1 > index) return;
     myLastPacketIndex++;
     char id = reader.readChar();
-    if (id == IdeaAntLogger2.INPUT_REQUEST) {
+    if (id == AntLoggerConstants.INPUT_REQUEST) {
       try {
         InputRequestHandler.processInput(getProject(), reader, getProcessHandler());
       }
@@ -69,9 +73,9 @@ final class OutputParser2 extends OutputParser implements PacketProcessor, Input
       char contentType = reader.readChar();
       String message = reader.readLimitedString();
       switch (id) {
-        case IdeaAntLogger2.BUILD_END:
-          if (contentType == IdeaAntLogger2.EXCEPTION_CONTENT) {
-            processTag(IdeaAntLogger2.EXCEPTION, message, priority);
+        case AntLoggerConstants.BUILD_END:
+          if (contentType == AntLoggerConstants.EXCEPTION_CONTENT) {
+            processTag(AntLoggerConstants.EXCEPTION, message, priority);
           }
           break;
         default:

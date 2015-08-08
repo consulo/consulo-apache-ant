@@ -150,6 +150,7 @@ public class AntCommandLineBuilder
 
 		myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.getUserHomeLibraries());
 		myCommandLine.getClassPath().add(new File(plugin.getPath(), "ant-rt.jar"));
+		myCommandLine.getClassPath().add(new File(plugin.getPath(), "lib/ant-rt-common.jar"));
 
 		final SdkTypeId sdkType = jdk.getSdkType();
 		if(sdkType instanceof JavaSdkType)

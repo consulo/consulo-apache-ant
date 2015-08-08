@@ -37,6 +37,7 @@
               <jarDirectory url="file://$MODULE_DIR$/../dist/apache-ant/lib" recursive="false" />
             </library>
           </orderEntry>
+          <orderEntry type="module" module-name="ant-rt-common" />
         </module-layer>
       </module>
       <module name="consulo-apache-ant" dirurl="file://$PROJECT_DIR$" current-layer="Default">
@@ -85,6 +86,17 @@
               </binaries>
             </library>
           </orderEntry>
+          <orderEntry type="module" module-name="ant-rt-common" />
+        </module-layer>
+      </module>
+      <module name="ant-rt-common" dirurl="file://$PROJECT_DIR$/ant-rt-common" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="java" sdk-module-name="" sdk-name="1.6" language-level-module-name="" language-level-name="JDK_1_6" special-dir-location="SOURCE_DIR" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="sourceFolder" />
         </module-layer>
       </module>
     </modules>
