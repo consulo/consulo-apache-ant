@@ -85,7 +85,6 @@
               </binaries>
             </library>
           </orderEntry>
-          <orderEntry type="module" module-name="ant-rt" />
         </module-layer>
       </module>
     </modules>

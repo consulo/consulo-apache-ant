@@ -24,7 +24,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import org.mustbe.consulo.sdk.SdkUtil;
@@ -39,7 +38,6 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ui.OrderEntryAppearanceService;
 import com.intellij.openapi.ui.FixedSizeButton;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
@@ -50,7 +48,7 @@ import com.intellij.util.ui.CellEditorComponentWithBrowseButton;
 
 public class AntUIUtil
 {
-  	private static final Logger LOG = Logger.getInstance("#com.intellij.ant.impl.configuration.AntUIUtil");
+	private static final Logger LOG = Logger.getInstance("#com.intellij.ant.impl.configuration.AntUIUtil");
 
 	private AntUIUtil()
 	{
@@ -196,15 +194,15 @@ public class AntUIUtil
 		}
 	}
 
-	public static class ProjectJdkRenderer extends ColoredListCellRenderer
+	public static class JavaSdkdkRenderer extends ColoredListCellRenderer
 	{
 		private final boolean myInComboBox;
-		private final String myProjectJdkName;
+		private final String myAutoSelectSdkName;
 
-		public ProjectJdkRenderer(boolean inComboBox, String projectJdkName)
+		public JavaSdkdkRenderer(boolean inComboBox, String autoSelectSdkName)
 		{
 			myInComboBox = inComboBox;
-			myProjectJdkName = projectJdkName != null ? projectJdkName : "";
+			myAutoSelectSdkName = autoSelectSdkName != null ? autoSelectSdkName : "";
 		}
 
 		@Override
@@ -218,17 +216,16 @@ public class AntUIUtil
 			Sdk jdk = GlobalAntConfiguration.findJdk(jdkName);
 			if(jdk == null)
 			{
-				if(myProjectJdkName.length() > 0)
+				if(myAutoSelectSdkName.length() > 0)
 				{
 					setIcon(AllIcons.General.Jdk);
-					append(AntBundle.message("project.jdk.project.jdk.name.list.column.value", myProjectJdkName),
-							selected && !(SystemInfo.isWinVistaOrNewer && UIManager.getLookAndFeel().getName().contains("Windows")) ?
-									SimpleTextAttributes.SELECTED_SIMPLE_CELL_ATTRIBUTES : SimpleTextAttributes.SIMPLE_CELL_ATTRIBUTES);
+					append("Auto-Selected: " + myAutoSelectSdkName,
+							SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
 				}
 				else
 				{
 					setIcon(PlatformIcons.INVALID_ENTRY_ICON);
-					append(AntBundle.message("project.jdk.not.specified.list.column.value"), SimpleTextAttributes.ERROR_ATTRIBUTES);
+					append("Sdk not set", SimpleTextAttributes.ERROR_ATTRIBUTES);
 				}
 			}
 			else

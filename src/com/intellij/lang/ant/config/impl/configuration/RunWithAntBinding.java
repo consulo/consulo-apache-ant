@@ -28,6 +28,8 @@ import javax.swing.JRadioButton;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntReference;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.projectRoots.ui.SingleSdkEditor;
 import com.intellij.ui.ComboboxWithBrowseButton;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.containers.ConvertingIterator;
@@ -88,17 +90,23 @@ public class RunWithAntBinding extends UIPropertyBinding
 			@Override
 			public AntReference openConfigureDialog(AntReference reference, JComponent parent)
 			{
-				/*AntSetPanel antSetPanel = new AntSetPanel();
-				Sdk installation = myAntConfiguration.getConfiguredAnts().get(reference);
-				if(installation == null)
+				Sdk sdk = myAntConfiguration.getConfiguredAnts().get(reference);
+				SingleSdkEditor editor = new SingleSdkEditor(sdk, parent);
+				editor.show();
+
+				Sdk selectedSdk = editor.getSelectedSdk();
+				if(selectedSdk != null)
 				{
-					installation = myAntConfiguration.getConfiguredAnts().get(AntReference.BUNDLED_ANT);
+					if(selectedSdk.isPredefined())
+					{
+						return AntReference.BUNDLED_ANT;
+					}
+					return new AntReference.BindedReference(sdk);
 				}
-				antSetPanel.reset();
-				antSetPanel.setSelection(installation);
-				Sdk antInstallation = antSetPanel.showDialog(parent);
-				return antInstallation != null ? antInstallation.getReference() : null;     */
-				return reference;
+				else
+				{
+					return AntReference.BUNDLED_ANT;
+				}
 			}
 		};
 		myAntsController.setRenderer(new AntUIUtil.AntReferenceRenderer(myAntConfiguration));

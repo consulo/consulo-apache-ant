@@ -8,12 +8,12 @@
             <element id="module-output" name="consulo-apache-ant" />
             <element id="module-production-resource-output" name="consulo-apache-ant" />
           </element>
-          <element id="zip-archive" name="ant-rt.jar">
-            <element id="module-output" name="ant-rt" />
-          </element>
         </element>
         <element id="directory" name="dist">
           <element id="dir-copy" path="$PROJECT_DIR$/dist" />
+        </element>
+        <element id="zip-archive" name="ant-rt.jar">
+          <element id="module-output" name="ant-rt" />
         </element>
       </element>
     </root>

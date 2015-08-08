@@ -185,7 +185,7 @@ public abstract class AntReference {
     }
   }
 
-  static class BindedReference extends AntReference {
+  public static class BindedReference extends AntReference {
     private final Sdk myAnt;
 
     public BindedReference(Sdk ant) {

@@ -17,10 +17,9 @@ package com.intellij.lang.ant.config.impl.configuration;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -44,12 +43,11 @@ import com.intellij.lang.ant.config.impl.BuildFileProperty;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
 import com.intellij.lang.ant.config.impl.TargetFilter;
 import com.intellij.openapi.Disposable;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.JavaSdk;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
-import com.intellij.openapi.projectRoots.ui.ProjectJdksEditor;
+import com.intellij.openapi.projectRoots.ui.SingleSdkEditor;
 import com.intellij.openapi.ui.ComponentWithBrowseButton;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -543,22 +541,18 @@ public class BuildFilePropertiesPanel
 				@Override
 				public Iterator<Sdk> getAllListItems()
 				{
-					Application application = ApplicationManager.getApplication();
-					if(application == null)
-					{
-						return Collections.singletonList((Sdk) null).iterator();
-					}
-					ArrayList<Sdk> allJdks = new ArrayList<Sdk>(Arrays.asList(SdkTable.getInstance().getAllSdks()));
-					allJdks.add(0, null);
-					return allJdks.iterator();
+					List<Sdk> sdksOfType = SdkTable.getInstance().getSdksOfType(JavaSdk.getInstance());
+					List<Sdk> controller = new ArrayList<Sdk>(sdksOfType);
+					controller.add(0, null);
+					return controller.iterator();
 				}
 
 				@Override
 				public Sdk openConfigureDialog(Sdk jdk, JComponent parent)
 				{
-					ProjectJdksEditor editor = new ProjectJdksEditor(jdk, myJDKs.getComboBox());
+					SingleSdkEditor editor = new SingleSdkEditor(jdk, myJDKs.getComboBox());
 					editor.show();
-					return editor.getSelectedJdk();
+					return editor.getSelectedSdk();
 				}
 			};
 
@@ -584,8 +578,8 @@ public class BuildFilePropertiesPanel
 		@Override
 		public void reset(AbstractProperty.AbstractPropertyContainer options)
 		{
-			String projectJdkName = AntConfigurationImpl.DEFAULT_JDK_NAME.get(options);
-			myJDKsController.setRenderer(new AntUIUtil.ProjectJdkRenderer(true, projectJdkName));
+			String autoselectJdk = AntConfigurationImpl.DEFAULT_JDK_NAME.get(options);
+			myJDKsController.setRenderer(new AntUIUtil.JavaSdkdkRenderer(true, autoselectJdk));
 			super.reset(options);
 			myJDKsController.resetList(null);
 			myProjectDefaultAnt = AntConfigurationImpl.DEFAULT_ANT.get(options);

@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.util.AntSdkUtil;
+import org.mustbe.consulo.apache.ant.util.AntJavaSdkUtil;
 import org.mustbe.consulo.java.module.extension.JavaModuleExtension;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -77,7 +77,7 @@ public class PathUtilEx {
   }
 
   public static Sdk chooseJdk(Project project, Collection<Module> modules) {
-    Sdk projectSdk = AntSdkUtil.getBundleSdk();
+    Sdk projectSdk = AntJavaSdkUtil.getBundleSdk();
     if (projectSdk != null) {
       return projectSdk;
     }

@@ -30,7 +30,7 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.util.AntSdkUtil;
+import org.mustbe.consulo.apache.ant.util.AntJavaSdkUtil;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.execution.configurations.ConfigurationFactory;
@@ -107,8 +107,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
     @Nullable
     public String get(final AbstractPropertyContainer container) {
       if (!container.hasProperty(this)) return null;
-      AntConfiguration antConfiguration = AntConfigurationImpl.INSTANCE.get(container);
-      return AntSdkUtil.getBundleSdkName();
+      return AntJavaSdkUtil.getBundleSdkName();
     }
 
     public String copy(final String jdkName) {

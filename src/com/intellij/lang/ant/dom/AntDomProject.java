@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mustbe.consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
-import org.mustbe.consulo.apache.ant.util.AntSdkUtil;
+import org.mustbe.consulo.apache.ant.util.AntJavaSdkUtil;
 import com.intellij.lang.ant.ReflectedProject;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
@@ -199,7 +199,7 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
         return SdkTable.getInstance().findSdk(jdkName);
       }
     }
-    return AntSdkUtil.getBundleSdk();
+    return AntJavaSdkUtil.getBundleSdk();
   }
 
   @NotNull
