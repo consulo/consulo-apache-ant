@@ -27,12 +27,11 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import org.mustbe.consulo.sdk.SdkUtil;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.macro.MacrosDialog;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.impl.AntClasspathEntry;
-import com.intellij.lang.ant.config.impl.AntInstallation;
 import com.intellij.lang.ant.config.impl.AntReference;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
 import com.intellij.openapi.diagnostic.Logger;
@@ -46,39 +45,25 @@ import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.IconUtil;
 import com.intellij.util.PlatformIcons;
-import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.ui.AbstractTableCellEditor;
 import com.intellij.util.ui.CellEditorComponentWithBrowseButton;
 
 public class AntUIUtil
 {
-
-	private static final Logger LOG = Logger.getInstance("#com.intellij.ant.impl.configuration.AntUIUtil");
+  	private static final Logger LOG = Logger.getInstance("#com.intellij.ant.impl.configuration.AntUIUtil");
 
 	private AntUIUtil()
 	{
 	}
 
-	public interface PropertiesEditor<T>
-	{
-		AbstractProperty.AbstractPropertyContainer getProperties(T object);
-	}
-
 	public static class AntInstallationRenderer extends ColoredListCellRenderer
 	{
-		private final PropertiesEditor<AntInstallation> myEditor;
 
-		public AntInstallationRenderer(PropertiesEditor<AntInstallation> editor)
+		public AntInstallationRenderer()
 		{
-			myEditor = editor != null ? editor : new PropertiesEditor<AntInstallation>()
-			{
-				public AbstractProperty.AbstractPropertyContainer getProperties(AntInstallation antInstallation)
-				{
-					return antInstallation.getProperties();
-				}
-			};
 		}
 
+		@Override
 		protected void customizeCellRenderer(JList list, Object value, int index, boolean selected, boolean hasFocus)
 		{
 			Sdk ant = (Sdk) value;
@@ -86,8 +71,7 @@ public class AntUIUtil
 			{
 				return;
 			}
-			AbstractProperty.AbstractPropertyContainer container = myEditor.getProperties(ant);
-			customizeAnt(container, this);
+			customizeAnt(ant, this);
 		}
 	}
 
@@ -100,6 +84,7 @@ public class AntUIUtil
 			myConfiguration = configuration;
 		}
 
+		@Override
 		protected void customizeCellRenderer(JList list, Object value, int index, boolean selected, boolean hasFocus)
 		{
 			if(value == null)
@@ -115,7 +100,7 @@ public class AntUIUtil
 		Sdk antInstallation = antReference.find(configuration);
 		if(antInstallation != null)
 		{
-			customizeAnt(antInstallation.getProperties(), component);
+			customizeAnt(antInstallation, component);
 		}
 		else
 		{
@@ -124,12 +109,12 @@ public class AntUIUtil
 		}
 	}
 
-	public static void customizeAnt(AbstractProperty.AbstractPropertyContainer antProperties, SimpleColoredComponent component)
+	public static void customizeAnt(Sdk sdk, SimpleColoredComponent component)
 	{
-		component.setIcon(ApacheAntIcons.AntInstallation);
-		String name = AntInstallation.NAME.get(antProperties);
+		component.setIcon(SdkUtil.getIcon(sdk));
+		String name = sdk.getName();
 		component.append(name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
-		String versionString = AntInstallation.VERSION.get(antProperties);
+		String versionString = sdk.getVersionString();
 		if(name.indexOf(versionString) == -1)
 		{
 			component.append(" (" + versionString + ")", SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
@@ -139,6 +124,7 @@ public class AntUIUtil
 
 	public static class ClasspathRenderer extends ColoredListCellRenderer
 	{
+		@Override
 		protected void customizeCellRenderer(JList list, Object value, int index, boolean selected, boolean hasFocus)
 		{
 			AntClasspathEntry entry = (AntClasspathEntry) value;
@@ -160,6 +146,7 @@ public class AntUIUtil
 			button.setToolTipText(AntBundle.message("ant.property.value.editor.insert.macro.tooltip.text"));
 			button.addActionListener(new ActionListener()
 			{
+				@Override
 				public void actionPerformed(ActionEvent e)
 				{
 					MacrosDialog dialog = new MacrosDialog(getChildComponent());
@@ -185,6 +172,7 @@ public class AntUIUtil
 			});
 		}
 
+		@Override
 		public Object getCellEditorValue()
 		{
 			return getChildComponent().getText();
@@ -200,6 +188,7 @@ public class AntUIUtil
 			return myComponent.getChildComponent();
 		}
 
+		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 		{
 			getChildComponent().setText((String) value);
@@ -218,6 +207,7 @@ public class AntUIUtil
 			myProjectJdkName = projectJdkName != null ? projectJdkName : "";
 		}
 
+		@Override
 		protected void customizeCellRenderer(JList list, Object value, int index, boolean selected, boolean hasFocus)
 		{
 			String jdkName = (String) value;

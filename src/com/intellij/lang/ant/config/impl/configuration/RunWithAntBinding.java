@@ -28,7 +28,6 @@ import javax.swing.JRadioButton;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntReference;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
-import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.ui.ComboboxWithBrowseButton;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.containers.ConvertingIterator;
@@ -89,7 +88,7 @@ public class RunWithAntBinding extends UIPropertyBinding
 			@Override
 			public AntReference openConfigureDialog(AntReference reference, JComponent parent)
 			{
-				AntSetPanel antSetPanel = new AntSetPanel();
+				/*AntSetPanel antSetPanel = new AntSetPanel();
 				Sdk installation = myAntConfiguration.getConfiguredAnts().get(reference);
 				if(installation == null)
 				{
@@ -98,7 +97,8 @@ public class RunWithAntBinding extends UIPropertyBinding
 				antSetPanel.reset();
 				antSetPanel.setSelection(installation);
 				Sdk antInstallation = antSetPanel.showDialog(parent);
-				return antInstallation != null ? antInstallation.getReference() : null;
+				return antInstallation != null ? antInstallation.getReference() : null;     */
+				return reference;
 			}
 		};
 		myAntsController.setRenderer(new AntUIUtil.AntReferenceRenderer(myAntConfiguration));

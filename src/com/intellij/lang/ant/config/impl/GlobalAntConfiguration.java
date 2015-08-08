@@ -52,6 +52,7 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 	public static final String BUNDLED_ANT_NAME = AntBundle.message("ant.reference.bundled.ant.name");
 	public final Condition<Sdk> IS_USER_ANT = new Condition<Sdk>()
 	{
+		@Override
 		public boolean value(Sdk antInstallation)
 		{
 			return antInstallation != findBundleAntBundle();
@@ -76,12 +77,14 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 
 	}
 
+	@Override
 	@NotNull
 	public String getComponentName()
 	{
 		return "GlobalAntConfiguration";
 	}
 
+	@Override
 	public void initComponent()
 	{
 	}
@@ -93,15 +96,18 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 		return SdkTable.getInstance().findPredefinedSdkByType(AntSdkType.getInstance());
 	}
 
+	@Override
 	public void disposeComponent()
 	{
 	}
 
+	@Override
 	public void readExternal(Element element) throws InvalidDataException
 	{
 		myProperties.readExternal(element);
 	}
 
+	@Override
 	public void writeExternal(Element element) throws WriteExternalException
 	{
 		myProperties.writeExternal(element);
@@ -142,17 +148,6 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 				myProperties,
 				AntConfigurationBase.getInstance(project).getProperties()
 		});
-	}
-
-	@Deprecated
-	public void addConfiguration(final AntInstallation ant)
-	{
-
-	}
-
-	@Deprecated
-	public void removeConfiguration(final AntInstallation ant)
-	{
 	}
 
 	public static Sdk findJdk(final String jdkName)

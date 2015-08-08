@@ -16,15 +16,12 @@
 package com.intellij.lang.ant.config.impl.configuration;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -520,19 +517,16 @@ public class BuildFilePropertiesPanel
 		private ComboboxWithBrowseButton myAnts;
 		private ComboboxWithBrowseButton myJDKs;
 		private final ChooseAndEditComboBoxController<Sdk, String> myJDKsController;
-		private JButton mySetDefaultAnt;
 		private SimpleColoredComponent myDefaultAnt;
 		private JRadioButton myUseCastomAnt;
 		private JRadioButton myUseDefaultAnt;
 
 		private AntReference myProjectDefaultAnt = null;
 		private final GlobalAntConfiguration myAntGlobalConfiguration;
-		private final Project myProject;
 
 		public ExecutionTab(final GlobalAntConfiguration antConfiguration, @NotNull final Project project)
 		{
 			myAntGlobalConfiguration = antConfiguration;
-			myProject = project;
 			myAntCommandLine.attachLabel(myAntCmdLineLabel);
 			myAntCommandLine.setDialogCaption(AntBundle.message("run.execution.tab.ant.command.line.dialog.title"));
 			setLabelFor(myJDKLabel, myJDKs);
@@ -572,24 +566,6 @@ public class BuildFilePropertiesPanel
 			binding.bindString(myAntCommandLine.getTextField(), AntBuildFileImpl.ANT_COMMAND_LINE_PARAMETERS);
 			binding.bindString(myJDKs.getComboBox(), AntBuildFileImpl.CUSTOM_JDK_NAME);
 			binding.addBinding(new RunWithAntBinding(myUseDefaultAnt, myUseCastomAnt, myAnts, myAntGlobalConfiguration));
-
-			mySetDefaultAnt.addActionListener(new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					AntSetPanel antSetPanel = new AntSetPanel(myAntGlobalConfiguration);
-					antSetPanel.reset();
-					antSetPanel.setSelection(myProjectDefaultAnt.find(myAntGlobalConfiguration));
-					Sdk antInstallation = antSetPanel.showDialog(mySetDefaultAnt);
-					if(antInstallation == null)
-					{
-						return;
-					}
-					myProjectDefaultAnt = antInstallation.getReference();
-					updateDefaultAnt();
-				}
-			});
 		}
 
 		@Override
