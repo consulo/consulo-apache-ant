@@ -20,11 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NonNls;
+import org.mustbe.consulo.apache.ant.sdk.AntSdkType;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.execution.configurations.ParametersList;
 import com.intellij.ide.macro.Macro;
 import com.intellij.ide.macro.MacroManager;
+import com.intellij.ide.plugins.IdeaPluginDescriptor;
+import com.intellij.ide.plugins.PluginManager;
+import com.intellij.ide.plugins.cl.PluginClassLoader;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
@@ -36,7 +40,6 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTypeId;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.rt.ant.execution.AntMain2;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.PathUtil;
 import com.intellij.util.config.AbstractProperty;
@@ -142,8 +145,11 @@ public class AntCommandLineBuilder
 
 		myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.ALL_CLASS_PATH.get(container));
 
+		PluginClassLoader classLoader = (PluginClassLoader) AntSdkType.class.getClassLoader();
+		IdeaPluginDescriptor plugin = PluginManager.getPlugin(classLoader.getPluginId());
+
 		myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.getUserHomeLibraries());
-		myCommandLine.getClassPath().add(PathUtil.getJarPathForClass(AntMain2.class));
+		myCommandLine.getClassPath().add(new File(plugin.getPath(), "ant-rt.jar"));
 
 		final SdkTypeId sdkType = jdk.getSdkType();
 		if(sdkType instanceof JavaSdkType)
