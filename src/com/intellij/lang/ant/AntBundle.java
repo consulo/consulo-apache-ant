@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant;
 
-import org.consulo.lombok.annotations.Bundle;
+import consulo.lombok.annotations.Bundle;
 
 @Bundle
 public class AntBundle {
