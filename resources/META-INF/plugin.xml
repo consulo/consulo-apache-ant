@@ -20,7 +20,6 @@
 		<projectService serviceInterface="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.AntBuildFileGroupManager" serviceImplementation="com.intellij.lang.ant.config.impl.group.AntBuildFileGroupManagerImpl"/>
 
-		<errorHandler implementation="com.intellij.diagnostic.ITNReporter"/>
 		<renameHandler implementation="com.intellij.lang.ant.refactoring.AntRenameHandler"/>
 		<stepsBeforeRunProvider implementation="com.intellij.lang.ant.config.impl.AntBeforeRunTaskProvider"/>
 		<packaging.artifactPropertiesProvider implementation="com.intellij.lang.ant.config.impl.artifacts.AntArtifactPostprocessingPropertiesProvider"/>

@@ -26,7 +26,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 
-import org.mustbe.consulo.sdk.SdkUtil;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.macro.MacrosDialog;
 import com.intellij.lang.ant.AntBundle;
@@ -45,6 +44,7 @@ import com.intellij.util.IconUtil;
 import com.intellij.util.PlatformIcons;
 import com.intellij.util.ui.AbstractTableCellEditor;
 import com.intellij.util.ui.CellEditorComponentWithBrowseButton;
+import consulo.bundle.SdkUtil;
 
 public class AntUIUtil
 {

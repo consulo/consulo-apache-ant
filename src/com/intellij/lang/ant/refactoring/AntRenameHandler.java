@@ -19,7 +19,6 @@ import java.util.Collection;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.codeInsight.TargetElementUtil;
 import com.intellij.lang.ant.dom.AntDomFileDescription;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -32,6 +31,7 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.refactoring.rename.PsiElementRenameHandler;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.codeInsight.TargetElementUtil;
 
 /**
  * @author Eugene Zhuravlev

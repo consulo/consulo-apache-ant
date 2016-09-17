@@ -23,10 +23,10 @@ import java.util.List;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.types.BinariesOrderRootType;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.util.ArchiveVfsUtil;
+import consulo.roots.types.BinariesOrderRootType;
+import consulo.vfs.util.ArchiveVfsUtil;
 
 public class AntInstallationClassLoaderHolder extends ClassLoaderHolder
 {

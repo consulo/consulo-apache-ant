@@ -40,13 +40,11 @@ import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.types.BinariesOrderRootType;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.util.ArchiveVfsUtil;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlFile;
@@ -60,6 +58,8 @@ import com.intellij.util.config.ListProperty;
 import com.intellij.util.config.StringProperty;
 import com.intellij.util.config.ValueProperty;
 import com.intellij.util.containers.HashMap;
+import consulo.roots.types.BinariesOrderRootType;
+import consulo.vfs.util.ArchiveVfsUtil;
 
 public class AntBuildFileImpl implements AntBuildFileBase
 {

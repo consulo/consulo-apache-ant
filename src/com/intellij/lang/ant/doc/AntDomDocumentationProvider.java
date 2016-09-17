@@ -33,7 +33,6 @@ import com.intellij.lang.documentation.DocumentationProvider;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.JarFileSystem;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -47,9 +46,11 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.StringBuilderSpinAllocator;
+import com.intellij.util.io.URLUtil;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomTarget;
 import com.intellij.util.xml.reflect.DomChildrenDescription;
+import consulo.fileTypes.ZipArchiveFileType;
 
 public class AntDomDocumentationProvider implements DocumentationProvider {
 
@@ -155,7 +156,7 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     else {
       path = antHomeDir + "/docs.zip";
       if (new File(path).exists()) {
-        url = VirtualFileManager.constructUrl(JarFileSystem.PROTOCOL, FileUtil.toSystemIndependentName(path) + JarFileSystem.JAR_SEPARATOR + "docs/manual");
+        url = VirtualFileManager.constructUrl(ZipArchiveFileType.PROTOCOL, FileUtil.toSystemIndependentName(path) + URLUtil.ARCHIVE_SEPARATOR + "docs/manual");
       }
       else {
         return null;

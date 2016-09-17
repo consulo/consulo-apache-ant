@@ -26,7 +26,6 @@ import java.util.List;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
 import org.mustbe.consulo.apache.ant.util.AntJavaSdkUtil;
-import org.mustbe.consulo.java.module.extension.JavaModuleExtension;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtilCore;
@@ -38,6 +37,7 @@ import com.intellij.util.PathUtil;
 import com.intellij.util.PathsList;
 import com.intellij.util.containers.ComparatorUtil;
 import com.intellij.util.containers.Convertor;
+import consulo.java.module.extension.JavaModuleExtension;
 
 public class PathUtilEx {
   @NonNls private static final String IDEA_PREPEND_RTJAR = "idea.prepend.rtjar";
