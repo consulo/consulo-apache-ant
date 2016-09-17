@@ -18,7 +18,7 @@ package com.intellij.lang.ant.config.impl;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.openapi.actionSystem.AnAction;

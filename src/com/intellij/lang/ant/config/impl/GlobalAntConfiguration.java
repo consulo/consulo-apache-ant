@@ -22,7 +22,7 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.sdk.AntSdkType;
+import consulo.apache.ant.sdk.AntSdkType;
 import com.intellij.ide.macro.MacroManager;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntConfigurationBase;

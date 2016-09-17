@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mustbe.consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
+import consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.util.config.AbstractProperty;

@@ -1,4 +1,4 @@
-package org.mustbe.consulo.apache.ant.util;
+package consulo.apache.ant.util;
 
 import com.intellij.openapi.projectRoots.JavaSdk;
 import com.intellij.openapi.projectRoots.Sdk;

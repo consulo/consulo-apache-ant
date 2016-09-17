@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.AntBuildFileGroup;
 import com.intellij.openapi.project.Project;

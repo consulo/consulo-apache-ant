@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  */
-package org.mustbe.consulo.apache.ant.util;
+package consulo.apache.ant.util;
 
 import java.io.File;
 import java.util.NoSuchElementException;
@@ -155,7 +155,7 @@ public class PathTokenizer
 				{
 					if(nextToken.equals(":"))
 					{
-						if(!token.startsWith("/") && !token.startsWith("\\") && !token.startsWith(".") && !token.startsWith(".."))
+						if(!token.startsWith("/") && !token.startsWith("\\") && !token.startsWith(".") && !token.startsWith(""))
 						{
 							// it indeed is a drive spec, get the next bit
 							String oneMore = tokenizer.nextToken().trim();

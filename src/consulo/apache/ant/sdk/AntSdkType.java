@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.mustbe.consulo.apache.ant.sdk;
+package consulo.apache.ant.sdk;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,8 +24,8 @@ import javax.swing.Icon;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
-import org.mustbe.consulo.apache.ant.util.AntVersionUtil;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.util.AntVersionUtil;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.ide.plugins.cl.PluginClassLoader;

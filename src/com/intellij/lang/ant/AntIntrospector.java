@@ -28,7 +28,7 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.ApacheAntClasses;
+import consulo.apache.ant.ApacheAntClasses;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.util.Alarm;
 

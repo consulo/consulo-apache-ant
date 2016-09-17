@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.util.PathTokenizer;
+import consulo.apache.ant.util.PathTokenizer;
 import com.intellij.lang.ant.AntFilesProvider;
 import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.util.xml.Attribute;

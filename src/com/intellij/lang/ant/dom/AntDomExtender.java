@@ -22,7 +22,7 @@ import java.util.*;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.ApacheAntClasses;
+import consulo.apache.ant.ApacheAntClasses;
 import com.intellij.lang.ant.AntIntrospector;
 import com.intellij.lang.ant.ReflectedProject;
 import com.intellij.openapi.diagnostic.Logger;

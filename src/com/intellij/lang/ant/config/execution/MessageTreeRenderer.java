@@ -19,7 +19,7 @@ import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.icons.AllIcons;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.MultilineTreeCellRenderer;

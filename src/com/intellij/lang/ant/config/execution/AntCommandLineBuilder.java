@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NonNls;
-import org.mustbe.consulo.apache.ant.sdk.AntSdkType;
+import consulo.apache.ant.sdk.AntSdkType;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.execution.configurations.ParametersList;

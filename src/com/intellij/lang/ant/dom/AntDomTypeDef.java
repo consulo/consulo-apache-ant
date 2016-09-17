@@ -17,7 +17,7 @@ package com.intellij.lang.ant.dom;
 
 import java.util.List;
 
-import org.mustbe.consulo.apache.ant.ApacheAntClasses;
+import consulo.apache.ant.ApacheAntClasses;
 import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;

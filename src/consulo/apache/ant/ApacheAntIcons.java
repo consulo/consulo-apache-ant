@@ -1,4 +1,4 @@
-package org.mustbe.consulo.apache.ant;
+package consulo.apache.ant;
 
 import javax.swing.Icon;
 

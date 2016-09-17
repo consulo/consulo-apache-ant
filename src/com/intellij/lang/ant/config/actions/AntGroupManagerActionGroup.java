@@ -23,7 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFileGroup;
 import com.intellij.lang.ant.config.AntBuildFileGroupManager;

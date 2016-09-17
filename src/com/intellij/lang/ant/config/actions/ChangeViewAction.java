@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config.actions;
 
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.execution.AntBuildMessageView;
 import com.intellij.openapi.actionSystem.AnAction;

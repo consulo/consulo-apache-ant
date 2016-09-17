@@ -1,4 +1,4 @@
-package org.mustbe.consulo.apache.ant.sdk;
+package consulo.apache.ant.sdk;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ant.config.impl.AntInstallationClassLoaderHolder;

@@ -18,7 +18,7 @@ package com.intellij.lang.ant.config.impl;
 import javax.swing.Icon;
 
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.execution.BeforeRunTaskProvider;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.execution.configurations.RunConfiguration;

@@ -20,7 +20,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 
 import org.jetbrains.annotations.NotNull;
-import org.mustbe.consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.AntBuildFile;
