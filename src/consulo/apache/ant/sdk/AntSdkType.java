@@ -35,7 +35,6 @@ import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import consulo.lombok.annotations.Lazy;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.vfs.util.ArchiveVfsUtil;
 
@@ -46,7 +45,6 @@ import consulo.vfs.util.ArchiveVfsUtil;
 public class AntSdkType extends SdkType
 {
 	@NotNull
-	@Lazy
 	public static AntSdkType getInstance()
 	{
 		return EP_NAME.findExtension(AntSdkType.class);

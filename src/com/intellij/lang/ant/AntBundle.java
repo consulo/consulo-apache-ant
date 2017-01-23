@@ -15,8 +15,25 @@
  */
 package com.intellij.lang.ant;
 
-import consulo.lombok.annotations.Bundle;
+import org.jetbrains.annotations.PropertyKey;
+import com.intellij.AbstractBundle;
 
-@Bundle
-public class AntBundle {
+public class AntBundle extends AbstractBundle
+{
+	private static final AntBundle ourInstance = new AntBundle();
+
+	private AntBundle()
+	{
+		super("messages.AntBundle");
+	}
+
+	public static String message(@PropertyKey(resourceBundle = "messages.AntBundle") String key)
+	{
+		return ourInstance.getMessage(key);
+	}
+
+	public static String message(@PropertyKey(resourceBundle = "messages.AntBundle") String key, Object... params)
+	{
+		return ourInstance.getMessage(key, params);
+	}
 }
