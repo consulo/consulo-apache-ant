@@ -72,11 +72,8 @@
 		<fileDescription implementation="com.intellij.lang.ant.dom.AntlibDomFileDescription"/>
 		<extender domClass="com.intellij.lang.ant.dom.AntDomElement" extenderClass="com.intellij.lang.ant.dom.AntDomExtender"/>
 	</extensions>
+
 	<application-components>
-		<component>
-			<interface-class>com.intellij.lang.ant.AntSupport</interface-class>
-			<implementation-class>com.intellij.lang.ant.AntSupport</implementation-class>
-		</component>
 		<component>
 			<interface-class>com.intellij.lang.ant.config.impl.GlobalAntConfiguration</interface-class>
 			<implementation-class>com.intellij.lang.ant.config.impl.GlobalAntConfiguration</implementation-class>

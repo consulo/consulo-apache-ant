@@ -15,12 +15,14 @@
  */
 package com.intellij.lang.ant;
 
+import javax.swing.SwingUtilities;
+
+import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.lang.ant.dom.AntDomAntlib;
 import com.intellij.lang.ant.dom.AntDomElement;
 import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -32,29 +34,8 @@ import com.intellij.util.xml.ConvertContext;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomFileElement;
 import com.intellij.util.xml.DomManager;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
-public class AntSupport implements ApplicationComponent {
-
-  public AntSupport() {
-  }
-
-  @NotNull
-  @NonNls
-  public String getComponentName() {
-    return "AntSupport";
-  }
-
-  public void initComponent() {
-  }
-
-  public void disposeComponent() {
-  }
-
+public class AntSupport {
   public static void markFileAsAntFile(final VirtualFile file, final Project project, final boolean value) {
     if (file.isValid() && ForcedAntFileAttribute.isAntFile(file) != value) {
       ForcedAntFileAttribute.forceAntFile(file, value);
@@ -69,11 +50,7 @@ public class AntSupport implements ApplicationComponent {
       daemon.restart();
     }
     else {
-      SwingUtilities.invokeLater(new Runnable() {
-        public void run() {
-          daemon.restart();
-        }
-      });
+      SwingUtilities.invokeLater(daemon::restart);
     }
   }
   
