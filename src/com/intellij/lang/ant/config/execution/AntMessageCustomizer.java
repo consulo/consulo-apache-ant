@@ -5,7 +5,7 @@ import com.intellij.openapi.extensions.ExtensionPointName;
 
 public abstract class AntMessageCustomizer {
 
-  public static final ExtensionPointName<AntMessageCustomizer> EP_NAME = ExtensionPointName.create("org.mustbe.consulo.ant.messageCustomizer");
+  public static final ExtensionPointName<AntMessageCustomizer> EP_NAME = ExtensionPointName.create("consulo.apache.ant.messageCustomizer");
 
   @Nullable
   public AntMessage createCustomizedMessage(String text, int priority) {
