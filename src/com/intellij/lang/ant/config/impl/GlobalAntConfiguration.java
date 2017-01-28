@@ -22,45 +22,42 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import consulo.apache.ant.sdk.AntSdkType;
 import com.intellij.ide.macro.MacroManager;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntConfigurationBase;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.JDOMExternalizable;
-import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ExternalizablePropertyContainer;
 import com.intellij.util.config.StorageProperty;
 import com.intellij.util.config.ValueProperty;
 import com.intellij.util.containers.hash.LinkedHashMap;
+import consulo.apache.ant.sdk.AntSdkType;
 
-public class GlobalAntConfiguration implements ApplicationComponent, JDOMExternalizable
+@State(name = "GlobalAntConfiguration", storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/ant.xml"))
+public class GlobalAntConfiguration implements PersistentStateComponent<Element>
 {
+	@NotNull
+	public static GlobalAntConfiguration getInstance()
+	{
+		return ServiceManager.getService(GlobalAntConfiguration.class);
+	}
+
 	private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntGlobalConfiguration");
 	public static final StorageProperty FILTERS_TABLE_LAYOUT = new StorageProperty("filtersTableLayout");
 	public static final StorageProperty PROPERTIES_TABLE_LAYOUT = new StorageProperty("propertiesTableLayout");
 
 	private final ExternalizablePropertyContainer myProperties = new ExternalizablePropertyContainer();
 	public static final String BUNDLED_ANT_NAME = AntBundle.message("ant.reference.bundled.ant.name");
-	public final Condition<Sdk> IS_USER_ANT = new Condition<Sdk>()
-	{
-		@Override
-		public boolean value(Sdk antInstallation)
-		{
-			return antInstallation != findBundleAntBundle();
-		}
-	};
 
-	public static final AbstractProperty<GlobalAntConfiguration> INSTANCE = new ValueProperty<GlobalAntConfiguration>("$GlobalAntConfiguration" +
-			".INSTANCE", null);
+	public static final AbstractProperty<GlobalAntConfiguration> INSTANCE = new ValueProperty<>("$GlobalAntConfiguration.INSTANCE", null);
 	@NonNls
 	public static final String ANT_FILE = "ant";
 	@NonNls
@@ -74,48 +71,27 @@ public class GlobalAntConfiguration implements ApplicationComponent, JDOMExterna
 		myProperties.registerProperty(PROPERTIES_TABLE_LAYOUT);
 		INSTANCE.set(myProperties, this);
 		myProperties.rememberKey(INSTANCE);
+	}
 
+	@Nullable
+	@Override
+	public Element getState()
+	{
+		Element element = new Element("state");
+		myProperties.writeExternal(element);
+		return element;
 	}
 
 	@Override
-	@NotNull
-	public String getComponentName()
+	public void loadState(Element state)
 	{
-		return "GlobalAntConfiguration";
+		myProperties.readExternal(state);
 	}
-
-	@Override
-	public void initComponent()
-	{
-	}
-
 
 	@Nullable
 	public Sdk findBundleAntBundle()
 	{
 		return SdkTable.getInstance().findPredefinedSdkByType(AntSdkType.getInstance());
-	}
-
-	@Override
-	public void disposeComponent()
-	{
-	}
-
-	@Override
-	public void readExternal(Element element) throws InvalidDataException
-	{
-		myProperties.readExternal(element);
-	}
-
-	@Override
-	public void writeExternal(Element element) throws WriteExternalException
-	{
-		myProperties.writeExternal(element);
-	}
-
-	public static GlobalAntConfiguration getInstance()
-	{
-		return ApplicationManager.getApplication().getComponent(GlobalAntConfiguration.class);
 	}
 
 	@NotNull

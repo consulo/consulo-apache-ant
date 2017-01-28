@@ -15,7 +15,8 @@
 	</extensionPoints>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<sdkType implementation="consulo.apache.ant.sdk.AntSdkType" />
+		<sdkType implementation="consulo.apache.ant.sdk.AntSdkType"/>
+		<applicationService serviceImplementation="com.intellij.lang.ant.config.impl.GlobalAntConfiguration"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.AntConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntConfigurationImpl"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.AntBuildFileGroupManager" serviceImplementation="com.intellij.lang.ant.config.impl.group.AntBuildFileGroupManagerImpl"/>
@@ -72,13 +73,6 @@
 		<fileDescription implementation="com.intellij.lang.ant.dom.AntlibDomFileDescription"/>
 		<extender domClass="com.intellij.lang.ant.dom.AntDomElement" extenderClass="com.intellij.lang.ant.dom.AntDomExtender"/>
 	</extensions>
-
-	<application-components>
-		<component>
-			<interface-class>com.intellij.lang.ant.config.impl.GlobalAntConfiguration</interface-class>
-			<implementation-class>com.intellij.lang.ant.config.impl.GlobalAntConfiguration</implementation-class>
-		</component>
-	</application-components>
 
 	<project-components>
 		<component>
