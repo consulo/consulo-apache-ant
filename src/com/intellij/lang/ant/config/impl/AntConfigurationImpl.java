@@ -30,7 +30,6 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import consulo.apache.ant.util.AntJavaSdkUtil;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.execution.configurations.ConfigurationFactory;
@@ -53,7 +52,6 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StoragePathMacros;
-import com.intellij.openapi.components.StorageScheme;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
@@ -82,14 +80,9 @@ import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ValueProperty;
 import com.intellij.util.containers.HashMap;
+import consulo.apache.ant.util.AntJavaSdkUtil;
 
-@State(
-    name = "AntConfiguration",
-    storages = {
-      @Storage( file = StoragePathMacros.PROJECT_FILE),
-      @Storage( file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml", scheme = StorageScheme.DIRECTORY_BASED)
-    }
-)
+@State(name = "AntConfiguration", storages = @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml"))
 public class AntConfigurationImpl extends AntConfigurationBase implements PersistentStateComponent<Element>, ModificationTracker {
 
   public static final ValueProperty<AntReference> DEFAULT_ANT = new ValueProperty<AntReference>("defaultAnt", AntReference.BUNDLED_ANT);

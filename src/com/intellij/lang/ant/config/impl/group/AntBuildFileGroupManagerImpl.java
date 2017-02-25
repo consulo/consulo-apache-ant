@@ -15,31 +15,35 @@
  */
 package com.intellij.lang.ant.config.impl.group;
 
-import com.intellij.lang.ant.config.*;
-import com.intellij.openapi.components.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jdom.Element;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.ant.config.AntBuildFile;
+import com.intellij.lang.ant.config.AntBuildFileBase;
+import com.intellij.lang.ant.config.AntBuildFileGroup;
+import com.intellij.lang.ant.config.AntBuildFileGroupManager;
+import com.intellij.lang.ant.config.AntConfigurationBase;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlFile;
-import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author VISTALL
  * @since 12:27/09.03.13
  */
-@State(
-  name = "AntBuildFileGroupManager",
-  storages = {@Storage(file = StoragePathMacros.PROJECT_FILE),
-    @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml", scheme = StorageScheme.DIRECTORY_BASED)})
+@State(name = "AntBuildFileGroupManager", storages =  @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml"))
 public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager implements PersistentStateComponent<Element> {
   private final Map<AntBuildFileGroup, List<VirtualFile>> myFileGroupList = new HashMap<AntBuildFileGroup, List<VirtualFile>>();
   private final List<AntBuildFileGroup> myGroups = new ArrayList<AntBuildFileGroup>();
