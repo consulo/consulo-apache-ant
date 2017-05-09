@@ -15,6 +15,9 @@
 	</extensionPoints>
 
 	<extensions defaultExtensionNs="com.intellij">
+		<compiler.beforeTask implementation="consulo.apache.ant.compiler.BeforeAntCompileTask" />
+		<compiler.afterTask implementation="consulo.apache.ant.compiler.AfterAntCompileTask" />
+
 		<sdkType implementation="consulo.apache.ant.sdk.AntSdkType"/>
 		<applicationService serviceImplementation="com.intellij.lang.ant.config.impl.GlobalAntConfiguration"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.AntConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntConfigurationImpl"/>

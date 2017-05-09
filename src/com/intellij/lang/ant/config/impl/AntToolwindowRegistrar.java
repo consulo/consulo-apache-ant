@@ -15,22 +15,16 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ant.config.AntConfiguration;
-import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.actions.TargetActionStub;
 import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
-import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
-import com.intellij.openapi.compiler.CompileContext;
-import com.intellij.openapi.compiler.CompileTask;
-import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.ex.KeymapManagerEx;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Eugene Zhuravlev
@@ -41,8 +35,8 @@ public class AntToolwindowRegistrar extends AbstractProjectComponent {
     super(project);
   }
 
+  @Override
   public void projectOpened() {
-    
     final KeymapManagerEx keymapManager = KeymapManagerEx.getInstanceEx();
     final String prefix = AntConfiguration.getActionIdPrefix(myProject);
     final ActionManager actionManager = ActionManager.getInstance();
@@ -54,25 +48,9 @@ public class AntToolwindowRegistrar extends AbstractProjectComponent {
         }
       }      
     }
-    
-    final CompilerManager compilerManager = CompilerManager.getInstance(myProject);
-    final DataContext dataContext = SimpleDataContext.getProjectContext(myProject);
-    compilerManager.addBeforeTask(new CompileTask() {
-      public boolean execute(CompileContext context) {
-        final AntConfiguration config = AntConfiguration.getInstance(myProject);
-        ((AntConfigurationBase)config).ensureInitialized();
-        return config.executeTargetBeforeCompile(dataContext);
-      }
-    });
-    compilerManager.addAfterTask(new CompileTask() {
-      public boolean execute(CompileContext context) {
-        final AntConfiguration config = AntConfiguration.getInstance(myProject);
-        ((AntConfigurationBase)config).ensureInitialized();
-        return config.executeTargetAfterCompile(dataContext);
-      }
-    });
   }
 
+  @Override
   public void projectClosed() {
     final ActionManagerEx actionManager = ActionManagerEx.getInstanceEx();
     final String[] oldIds = actionManager.getActionIds(AntConfiguration.getActionIdPrefix(myProject));
@@ -81,6 +59,7 @@ public class AntToolwindowRegistrar extends AbstractProjectComponent {
     }
   }
 
+  @Override
   @NonNls
   @NotNull
   public String getComponentName() {
