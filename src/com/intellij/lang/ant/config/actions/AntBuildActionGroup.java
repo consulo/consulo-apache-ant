@@ -15,24 +15,34 @@
  */
 package com.intellij.lang.ant.config.actions;
 
-import com.intellij.lang.ant.config.*;
-import com.intellij.lang.ant.config.impl.MetaTarget;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.util.StringSetSpinAllocator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.ant.config.AntBuildFile;
+import com.intellij.lang.ant.config.AntBuildModelBase;
+import com.intellij.lang.ant.config.AntBuildTarget;
+import com.intellij.lang.ant.config.AntBuildTargetBase;
+import com.intellij.lang.ant.config.AntConfiguration;
+import com.intellij.lang.ant.config.AntConfigurationBase;
+import com.intellij.lang.ant.config.impl.MetaTarget;
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.project.DumbAware;
+import com.intellij.openapi.project.Project;
+import com.intellij.util.StringSetSpinAllocator;
+
 public final class AntBuildActionGroup extends ActionGroup implements DumbAware {
 
-  public void update(AnActionEvent event) {
-    Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
-    Presentation presentation = event.getPresentation();
+  public void update(AnActionEvent e) {
+    Project project = e.getProject();
+    Presentation presentation = e.getPresentation();
     presentation.setEnabled(project != null);
     presentation.setVisible(project != null);
   }
@@ -40,7 +50,7 @@ public final class AntBuildActionGroup extends ActionGroup implements DumbAware 
   @NotNull
   public AnAction[] getChildren(@Nullable AnActionEvent e) {
     if (e == null) return AnAction.EMPTY_ARRAY;
-    Project project = PlatformDataKeys.PROJECT.getData(e.getDataContext());
+    Project project = e.getProject();
     if (project == null) return AnAction.EMPTY_ARRAY;
 
     final List<AnAction> children = new ArrayList<AnAction>();

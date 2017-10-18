@@ -15,6 +15,27 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.StringTokenizer;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.CopyProvider;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.OccurenceNavigator;
@@ -25,13 +46,22 @@ import com.intellij.lang.ant.config.AntBuildModelBase;
 import com.intellij.lang.ant.config.AntBuildTargetBase;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.impl.BuildTask;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionPlaces;
+import com.intellij.openapi.actionSystem.ActionPopupMenu;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataProvider;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.IdeActions;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.actionSystem.ToggleAction;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.pom.Navigatable;
@@ -42,19 +72,6 @@ import com.intellij.util.EditSourceOnDoubleClickHandler;
 import com.intellij.util.OpenSourceUtil;
 import com.intellij.util.StringBuilderSpinAllocator;
 import com.intellij.util.ui.tree.TreeUtil;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
 
 public final class TreeView implements AntOutputView, OccurenceNavigator {
   private Tree myTree;
@@ -365,7 +382,7 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
     final TreePath path = myTree.getLeadSelectionPath();
     if (path == null) return;
     if (!(path.getLastPathComponent()instanceof MessageNode)) return;
-    if (getData(PlatformDataKeys.NAVIGATABLE_ARRAY.getName()) == null) return;
+    if (getData(PlatformDataKeys.NAVIGATABLE_ARRAY) == null) return;
     DefaultActionGroup group = new DefaultActionGroup();
     group.add(ActionManager.getInstance().getAction(IdeActions.ACTION_EDIT_SOURCE));
     ActionPopupMenu menu = ActionManager.getInstance().createActionPopupMenu(ActionPlaces.ANT_MESSAGES_POPUP, group);
@@ -381,8 +398,8 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
   }
 
   @Nullable
-  public Object getData(String dataId) {
-    if (PlatformDataKeys.NAVIGATABLE.is(dataId)) {
+  public Object getData(Key<?> dataId) {
+    if (PlatformDataKeys.NAVIGATABLE == dataId) {
       MessageNode item = getSelectedItem();
       if (item == null) return null;
       if (isValid(item.getFile())) {
@@ -599,8 +616,8 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
       TreeUtil.installActions(this);
     }
 
-    public Object getData(String dataId) {
-      if (PlatformDataKeys.COPY_PROVIDER.is(dataId)) {
+    public Object getData(Key<?> dataId) {
+      if (PlatformDataKeys.COPY_PROVIDER == dataId) {
         return new CopyProvider() {
           public boolean isCopyEnabled(@NotNull DataContext dataContext) {
             return getSelectionPath() != null;

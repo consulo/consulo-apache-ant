@@ -15,6 +15,20 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.junit2.segments.OutputPacketProcessor;
 import com.intellij.execution.testframework.Printable;
 import com.intellij.execution.testframework.Printer;
@@ -28,11 +42,22 @@ import com.intellij.ide.actions.PreviousOccurenceToolbarAction;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildListener;
-import com.intellij.lang.ant.config.actions.*;
+import com.intellij.lang.ant.config.actions.ChangeViewAction;
+import com.intellij.lang.ant.config.actions.PauseOutputAction;
+import com.intellij.lang.ant.config.actions.RunAction;
+import com.intellij.lang.ant.config.actions.StopAction;
+import com.intellij.lang.ant.config.actions.VerboseAction;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.HelpID;
 import com.intellij.openapi.Disposable;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionPlaces;
+import com.intellij.openapi.actionSystem.ActionToolbar;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonShortcuts;
+import com.intellij.openapi.actionSystem.DataProvider;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -46,21 +71,21 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.wm.*;
+import com.intellij.openapi.wm.StatusBar;
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowId;
+import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.openapi.wm.WindowManager;
 import com.intellij.openapi.wm.ex.IdeFocusTraversalPolicy;
 import com.intellij.problems.WolfTheProblemSolver;
-import com.intellij.ui.content.*;
+import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentFactory;
+import com.intellij.ui.content.ContentManager;
+import com.intellij.ui.content.ContentManagerAdapter;
+import com.intellij.ui.content.ContentManagerEvent;
+import com.intellij.ui.content.MessageView;
 import com.intellij.util.Alarm;
 import com.intellij.util.text.DateFormatUtil;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public final class AntBuildMessageView extends JPanel implements DataProvider, OccurenceNavigator {
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.AntBuildMessageView");
@@ -454,13 +479,14 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
     addCommand(new FinishTaskCommand());
   }
 
-  public Object getData(String dataId) {
+  @Override
+  public Object getData(Key<?> dataId) {
     Object data = myCurrentView.getData(dataId);
     if (data != null) return data;
-    if (PlatformDataKeys.HELP_ID.is(dataId)) {
+    if (PlatformDataKeys.HELP_ID == dataId) {
       return HelpID.ANT;
     }
-    else if (PlatformDataKeys.TREE_EXPANDER.is(dataId)) {
+    else if (PlatformDataKeys.TREE_EXPANDER == dataId) {
       return myTreeExpander;
     }
     return null;

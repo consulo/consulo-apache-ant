@@ -32,19 +32,18 @@ import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 
 public class AddAntBuildFile extends AnAction {
-  public void actionPerformed(AnActionEvent event) {
-    DataContext dataContext = event.getDataContext();
-    Project project = PlatformDataKeys.PROJECT.getData(dataContext);
-    VirtualFile file = PlatformDataKeys.VIRTUAL_FILE.getData(dataContext);
+  public void actionPerformed(AnActionEvent e) {
+    Project project = e.getProject();
+    VirtualFile file = e.getData(PlatformDataKeys.VIRTUAL_FILE);
     AntConfiguration antConfiguration = AntConfiguration.getInstance(project);
     try {
       antConfiguration.addBuildFile(file);
       ToolWindowManager.getInstance(project).getToolWindow(ToolWindowId.ANT_BUILD).activate(null);
     }
-    catch (AntNoFileException e) {
-      String message = e.getMessage();
+    catch (AntNoFileException ex) {
+      String message = ex.getMessage();
       if (message == null || message.length() == 0) {
-        message = AntBundle.message("cannot.add.build.files.from.excluded.directories.error.message", e.getFile().getPresentableUrl());
+        message = AntBundle.message("cannot.add.build.files.from.excluded.directories.error.message", ex.getFile().getPresentableUrl());
       }
 
       Messages.showWarningDialog(project, message, AntBundle.message("cannot.add.build.file.dialog.title"));
@@ -52,15 +51,14 @@ public class AddAntBuildFile extends AnAction {
   }
 
   public void update(AnActionEvent e) {
-    final DataContext dataContext = e.getDataContext();
     final Presentation presentation = e.getPresentation();
-    final Project project = PlatformDataKeys.PROJECT.getData(dataContext);
+    final Project project = e.getProject();
     if (project == null) {
       disable(presentation);
       return;
     }
 
-    final VirtualFile file = PlatformDataKeys.VIRTUAL_FILE.getData(dataContext);
+    final VirtualFile file = e.getData(PlatformDataKeys.VIRTUAL_FILE);
     if (file == null) {
       disable(presentation);
       return;

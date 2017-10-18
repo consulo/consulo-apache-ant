@@ -57,11 +57,11 @@ public final class AntRenameHandler extends PsiElementRenameHandler {
 
   @Nullable 
   private static PsiElement[] getElements(DataContext dataContext) {
-    final PsiFile psiFile = LangDataKeys.PSI_FILE.getData(dataContext);
+    final PsiFile psiFile = dataContext.getData(LangDataKeys.PSI_FILE);
     if (!(psiFile instanceof XmlFile && AntDomFileDescription.isAntFile((XmlFile)psiFile))) {
       return null;
     }
-    final Editor editor = LangDataKeys.EDITOR.getData(dataContext);
+    final Editor editor = dataContext.getData(LangDataKeys.EDITOR);
     if (editor == null) {
       return null;
     }

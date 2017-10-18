@@ -83,6 +83,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.ColoredTreeCellRenderer;
@@ -454,8 +455,8 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
   }
 
   @Nullable
-  public Object getData(@NonNls String dataId) {
-    if (PlatformDataKeys.NAVIGATABLE.is(dataId)) {
+  public Object getData(@NonNls Key<?> dataId) {
+    if (PlatformDataKeys.NAVIGATABLE == dataId) {
       final AntBuildFile buildFile = getCurrentBuildFile();
       if (buildFile == null) {
         return null;
@@ -487,13 +488,13 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
         return new OpenFileDescriptor(myProject, file);
       }
     }
-    else if (PlatformDataKeys.HELP_ID.is(dataId)) {
+    else if (PlatformDataKeys.HELP_ID == dataId) {
       return HelpID.ANT;
     }
-    else if (PlatformDataKeys.TREE_EXPANDER.is(dataId)) {
+    else if (PlatformDataKeys.TREE_EXPANDER == dataId) {
       return myProject != null? myTreeExpander : null;
     }
-    else if (PlatformDataKeys.VIRTUAL_FILE_ARRAY.is(dataId)) {
+    else if (PlatformDataKeys.VIRTUAL_FILE_ARRAY == dataId) {
       final TreePath[] paths = myTree.getSelectionPaths();
       if (paths == null) {
         return null;

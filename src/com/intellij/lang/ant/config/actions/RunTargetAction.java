@@ -15,6 +15,10 @@
  */
 package com.intellij.lang.ant.config.actions;
 
+import java.util.Collections;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildListener;
@@ -23,7 +27,11 @@ import com.intellij.lang.ant.config.execution.ExecutionHandler;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
 import com.intellij.lang.ant.dom.AntDomTarget;
 import com.intellij.lang.ant.resources.AntActionsBundle;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
@@ -35,10 +43,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.xml.DomElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
 
 /**
  * Created by Eugene Petrenko (eugene.petrenko@gmail.com)
@@ -83,13 +87,13 @@ public class RunTargetAction extends AnAction {
   private static Pair<AntBuildFileBase, AntDomTarget> findAntTarget(@NotNull AnActionEvent e) {
     final DataContext dataContext = e.getDataContext();
 
-    final Editor editor = PlatformDataKeys.EDITOR.getData(dataContext);
-    final Project project = PlatformDataKeys.PROJECT.getData(dataContext);
+    final Editor editor = dataContext.getData(PlatformDataKeys.EDITOR);
+    final Project project = dataContext.getData(PlatformDataKeys.PROJECT);
 
     if (project == null || editor == null) {
       return null;
     }
-    final VirtualFile file = PlatformDataKeys.VIRTUAL_FILE.getData(dataContext);
+    final VirtualFile file = dataContext.getData(PlatformDataKeys.VIRTUAL_FILE);
     if (file == null) {
       return null;
     }

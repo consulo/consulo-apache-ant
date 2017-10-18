@@ -668,7 +668,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
       ApplicationManager.getApplication().invokeAndWait(new Runnable() {
 
         public void run() {
-          Project project = PlatformDataKeys.PROJECT.getData(dataContext);
+          Project project = dataContext.getData(PlatformDataKeys.PROJECT);
           if (project == null || project.isDisposed()) {
             result[0] = false;
             return;

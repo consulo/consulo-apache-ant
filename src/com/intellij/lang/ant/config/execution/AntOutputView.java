@@ -17,6 +17,8 @@ package com.intellij.lang.ant.config.execution;
 
 import javax.swing.*;
 
+import com.intellij.openapi.util.Key;
+
 public interface AntOutputView {
   Object addMessage(AntMessage message);
   void addJavacMessage(AntMessage message, String url);
@@ -28,7 +30,7 @@ public interface AntOutputView {
   void finishTarget();
   void finishTask();
 
-  Object getData(String dataId);
+  Object getData(Key<?> dataId);
 
   void buildFailed(AntMessage message);
 
