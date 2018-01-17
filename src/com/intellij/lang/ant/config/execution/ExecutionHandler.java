@@ -24,7 +24,6 @@ import org.jetbrains.annotations.Nullable;
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.ExecutionException;
-import com.intellij.execution.configurations.CommandLineBuilder;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.junit.JUnitProcessHandler;
 import com.intellij.execution.junit2.segments.OutputPacketProcessor;
@@ -84,10 +83,10 @@ public final class ExecutionHandler {
         builder.calculateProperties(dataContext, additionalProperties);
         builder.addTargets(targets);
 
-        builder.getCommandLine().setCharset(EncodingProjectManager.getInstance(buildFile.getProject()).getDefaultCharset());
+        builder.getJavaParameters().setCharset(EncodingProjectManager.getInstance(buildFile.getProject()).getDefaultCharset());
 
         messageView = prepareMessageView(buildMessageViewToReuse, buildFile, targets);
-        commandLine = CommandLineBuilder.createFromJavaParameters(builder.getCommandLine());
+        commandLine = builder.getJavaParameters().toCommandLine();
         messageView.setBuildCommandLine(commandLine.getCommandLineString());
       }
       catch (RunCanceledException e) {

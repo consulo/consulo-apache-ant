@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NonNls;
-import consulo.apache.ant.sdk.AntSdkType;
 import com.intellij.execution.CantRunException;
-import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.execution.configurations.ParametersList;
 import com.intellij.ide.macro.Macro;
 import com.intellij.ide.macro.MacroManager;
@@ -44,11 +42,13 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.PathUtil;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.apache.ant.sdk.AntSdkType;
+import consulo.java.execution.configurations.OwnJavaParameters;
 
 public class AntCommandLineBuilder
 {
 	private final List<String> myTargets = new ArrayList<String>();
-	private final JavaParameters myCommandLine = new JavaParameters();
+	private final OwnJavaParameters myCommandLine = new OwnJavaParameters();
 	private String myBuildFilePath;
 	private List<BuildFileProperty> myProperties;
 	private boolean myDone = false;
@@ -201,7 +201,7 @@ public class AntCommandLineBuilder
 		myCommandLine.setWorkingDirectory(buildFile.getParent());
 	}
 
-	public JavaParameters getCommandLine()
+	public OwnJavaParameters getJavaParameters()
 	{
 		if(myDone)
 		{
