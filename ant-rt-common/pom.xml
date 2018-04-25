@@ -17,13 +17,21 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>consulo</groupId>
-		<artifactId>arch.managment</artifactId>
+		<artifactId>arch.ide-provided</artifactId>
 		<version>2-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
+
+	<groupId>consulo.plugin</groupId>
+	<artifactId>consulo.apache.ant-rt.common</artifactId>
+	<version>2-SNAPSHOT</version>
+	<packaging>consulo-plugin</packaging>
+
+	<properties>
+		<java.level>1.6</java.level>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -35,14 +43,4 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-	<groupId>consulo.plugin</groupId>
-	<artifactId>consulo.apache.ant.parent</artifactId>
-	<version>2-SNAPSHOT</version>
-	<packaging>pom</packaging>
-
-	<modules>
-		<module>ant-impl</module>
-		<module>ant-rt-common</module>
-	</modules>
 </project>

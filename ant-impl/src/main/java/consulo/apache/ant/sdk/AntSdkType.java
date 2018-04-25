@@ -24,17 +24,15 @@ import javax.swing.Icon;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import consulo.apache.ant.ApacheAntIcons;
-import consulo.apache.ant.util.AntVersionUtil;
-import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
-import com.intellij.ide.plugins.cl.PluginClassLoader;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.util.AntVersionUtil;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.vfs.util.ArchiveVfsUtil;
 
@@ -59,10 +57,7 @@ public class AntSdkType extends SdkType
 	@Override
 	public Collection<String> suggestHomePaths()
 	{
-		PluginClassLoader classLoader = (PluginClassLoader) AntSdkType.class.getClassLoader();
-		IdeaPluginDescriptor plugin = PluginManager.getPlugin(classLoader.getPluginId());
-		assert plugin != null;
-		VirtualFile fileByIoFile = LocalFileSystem.getInstance().findFileByIoFile(plugin.getPath());
+		VirtualFile fileByIoFile = LocalFileSystem.getInstance().findFileByIoFile(PluginManager.getPluginPath(AntSdkType.class));
 		if(fileByIoFile == null)
 		{
 			return Collections.emptyList();
