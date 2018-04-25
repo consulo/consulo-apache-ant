@@ -30,8 +30,8 @@ import com.intellij.psi.xml.XmlAttributeValue;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.xml.DomElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,14 +78,14 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
     return resolveResults.length == 1 ? (MyResolveResult)resolveResults[0] : null;
   }
   
-  @NotNull 
+  @Nonnull
   public ResolveResult[] multiResolve(boolean incompleteCode) {
     PsiElement element = getElement();
     PsiFile file = element.getContainingFile();
     return ResolveCache.getInstance(file.getProject()).resolveWithCaching(this, MyResolver.INSTANCE, false, incompleteCode,file);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Object[] getVariants() {
     final AntDomProject project = myInvocationContextElement.getParentOfType(AntDomProject.class, true);
@@ -189,8 +189,8 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
   private static class MyResolver implements ResolveCache.PolyVariantResolver<AntDomPropertyReference> {
     static final MyResolver INSTANCE = new MyResolver();
     
-    @NotNull
-    public ResolveResult[] resolve(@NotNull AntDomPropertyReference antDomPropertyReference, boolean incompleteCode) {
+    @Nonnull
+    public ResolveResult[] resolve(@Nonnull AntDomPropertyReference antDomPropertyReference, boolean incompleteCode) {
       final List<ResolveResult> result = new ArrayList<ResolveResult>();
       final AntDomProject project = antDomPropertyReference.myInvocationContextElement.getParentOfType(AntDomProject.class, true);
       if (project != null) {

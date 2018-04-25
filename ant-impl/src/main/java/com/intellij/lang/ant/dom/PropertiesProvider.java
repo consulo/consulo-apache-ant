@@ -16,8 +16,8 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Iterator;
 
@@ -31,7 +31,7 @@ public interface PropertiesProvider {
   // as not requiring further resolution of any property occurrences
   interface SkipPropertyExpansionInValues {}
 
-  @NotNull
+  @Nonnull
   Iterator<String> getNamesIterator();
 
   /**

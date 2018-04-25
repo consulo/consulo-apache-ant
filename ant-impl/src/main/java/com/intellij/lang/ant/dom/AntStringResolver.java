@@ -18,7 +18,7 @@ package com.intellij.lang.ant.dom;
 import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.xml.DomElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -47,8 +47,8 @@ public class AntStringResolver extends PropertyProviderFinder{
     }
   }
 
-  @NotNull
-  public static String computeString(@NotNull final DomElement context, @NotNull String valueString) {
+  @Nonnull
+  public static String computeString(@Nonnull final DomElement context, @Nonnull String valueString) {
     PropertyExpander expander = new PropertyExpander(valueString);
     if (!expander.hasPropertiesToExpand()) {
       return valueString;
@@ -94,7 +94,7 @@ public class AntStringResolver extends PropertyProviderFinder{
       myCached = cached;
     }
 
-    @NotNull
+    @Nonnull
     public Iterator<String> getNamesIterator() {
       if (allNames == null) {
         allNames = new HashSet<String>(myCached.keySet());

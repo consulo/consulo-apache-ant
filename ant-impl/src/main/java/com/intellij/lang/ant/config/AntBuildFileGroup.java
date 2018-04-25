@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.config;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL
@@ -25,12 +25,12 @@ import org.jetbrains.annotations.Nullable;
 public interface AntBuildFileGroup {
   AntBuildFileGroup[] EMPTY_ARRAY = new AntBuildFileGroup[0];
 
-  @NotNull
+  @Nonnull
   String getName();
 
   @Nullable
   AntBuildFileGroup getParent();
 
-  @NotNull
+  @Nonnull
   AntBuildFileGroup[] getChildren();
 }

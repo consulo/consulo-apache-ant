@@ -18,7 +18,7 @@ package com.intellij.lang.ant.dom;
 import com.intellij.openapi.util.Trinity;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.xml.DomElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.*;
 
@@ -31,7 +31,7 @@ public class PropertyResolver extends PropertyProviderFinder {
   private PropertiesProvider myResult;
   private Set<String> myVariants = new HashSet<String>();
 
-  private PropertyResolver(@NotNull String propertyName, DomElement contextElement) {
+  private PropertyResolver(@Nonnull String propertyName, DomElement contextElement) {
     super(contextElement);
     myPropertyName = propertyName;
   }
@@ -40,8 +40,8 @@ public class PropertyResolver extends PropertyProviderFinder {
     // deliberately skip ancall params, they will be processed as a special case
   }
 
-  @NotNull
-  public static Trinity<PsiElement, Collection<String>, PropertiesProvider> resolve(@NotNull AntDomProject project, @NotNull String propertyName, DomElement contextElement) {
+  @Nonnull
+  public static Trinity<PsiElement, Collection<String>, PropertiesProvider> resolve(@Nonnull AntDomProject project, @Nonnull String propertyName, DomElement contextElement) {
     final PropertyResolver resolver = new PropertyResolver(propertyName, contextElement);
     resolver.execute(project, project.getDefaultTarget().getRawText());
     if (resolver.getContextElement() instanceof PropertiesProvider) {
@@ -52,7 +52,7 @@ public class PropertyResolver extends PropertyProviderFinder {
 
   }
 
-  @NotNull
+  @Nonnull
   public Trinity<PsiElement, Collection<String>, PropertiesProvider> getResult() {
     final PsiElement element = myResult != null ? myResult.getNavigationElement(myPropertyName) : null;
     return new Trinity<PsiElement, Collection<String>, PropertiesProvider>(element, Collections.unmodifiableSet(myVariants), myResult);

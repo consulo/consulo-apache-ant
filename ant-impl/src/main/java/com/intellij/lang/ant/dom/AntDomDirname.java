@@ -15,13 +15,14 @@
  */
 package com.intellij.lang.ant.dom;
 
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Eugene Zhuravlev

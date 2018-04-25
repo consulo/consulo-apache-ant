@@ -15,12 +15,13 @@
  */
 package com.intellij.lang.ant.validation;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.util.xml.highlighting.BasicDomElementsInspection;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class AntInspection extends BasicDomElementsInspection<AntDomProject> {
 
@@ -29,12 +30,12 @@ public abstract class AntInspection extends BasicDomElementsInspection<AntDomPro
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   public String getGroupDisplayName() {
     return AntBundle.message("ant.inspections.display.name");
   }
 
-  @NotNull
+  @Nonnull
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;
   }

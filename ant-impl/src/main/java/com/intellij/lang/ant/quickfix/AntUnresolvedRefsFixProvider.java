@@ -15,12 +15,13 @@
  */
 package com.intellij.lang.ant.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.daemon.QuickFixActionRegistrar;
 import com.intellij.codeInsight.quickfix.UnresolvedReferenceQuickFixProvider;
 import com.intellij.lang.ant.dom.AntDomReference;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.xml.TagNameReference;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Eugene Zhuravlev
@@ -34,7 +35,7 @@ public class AntUnresolvedRefsFixProvider extends UnresolvedReferenceQuickFixPro
     }
   }
 
-  @NotNull
+  @Nonnull
   public Class<PsiReference> getReferenceClass() {
     return PsiReference.class;
   }

@@ -24,8 +24,8 @@ import com.intellij.psi.PsiReference;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.xml.*;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -50,7 +50,7 @@ public class AntDomRefIdConverter extends Converter<AntDomElement> implements Cu
     return antDomElement != null? antDomElement.getId().getRawText() : null;
   }
 
-  @NotNull
+  @Nonnull
   public PsiReference[] createReferences(final GenericDomValue<AntDomElement> genericDomValue, final PsiElement element, ConvertContext context) {
     final AntDomElement invocationElement = AntSupport.getInvocationAntDomElement(context);
     return new PsiReference[] {new AntDomReferenceBase(element, true) {
@@ -65,7 +65,7 @@ public class AntDomRefIdConverter extends Converter<AntDomElement> implements Cu
         }
         return PomService.convertToPsi(element.getProject(), target);
       }
-      @NotNull 
+      @Nonnull
       public Object[] getVariants() {
         if (invocationElement == null) {
           return ArrayUtil.EMPTY_OBJECT_ARRAY;

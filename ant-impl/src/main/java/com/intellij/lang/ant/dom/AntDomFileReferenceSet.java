@@ -17,8 +17,8 @@ package com.intellij.lang.ant.dom;
 
 import java.util.Collection;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.io.FileUtil;
@@ -82,7 +82,7 @@ public class AntDomFileReferenceSet extends FileReferenceSet
 		return new AntDomFileReference(this, range, index, text);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public XmlAttributeValue getElement()
 	{
@@ -108,7 +108,7 @@ public class AntDomFileReferenceSet extends FileReferenceSet
 		return path != null && FileUtil.isAbsolute(path);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Collection<PsiFileSystemItem> computeDefaultContexts()
 	{

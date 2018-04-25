@@ -30,7 +30,7 @@ import com.intellij.util.xml.GenericDomValue;
 import com.intellij.util.xml.highlighting.DomElementAnnotationHolder;
 import com.intellij.util.xml.highlighting.DomHighlightingHelper;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 import java.util.Set;
@@ -39,12 +39,12 @@ public class AntResolveInspection extends AntInspection {
 
   public static final String SHORT_NAME = "AntResolveInspection";
 
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return "Ant references resolve problems";
   }
 
-  @NotNull
+  @Nonnull
   public String getShortName() {
     return SHORT_NAME;
   }

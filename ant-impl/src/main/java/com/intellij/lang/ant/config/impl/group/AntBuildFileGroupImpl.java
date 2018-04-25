@@ -16,8 +16,8 @@
 package com.intellij.lang.ant.config.impl.group;
 
 import com.intellij.lang.ant.config.AntBuildFileGroup;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class AntBuildFileGroupImpl implements AntBuildFileGroup {
     myParent = parent;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return myName;
@@ -48,13 +48,13 @@ public class AntBuildFileGroupImpl implements AntBuildFileGroup {
     return myParent;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public AntBuildFileGroup[] getChildren() {
     return myChildren.toArray(AntBuildFileGroup.EMPTY_ARRAY);
   }
 
-  @NotNull
+  @Nonnull
   public List<AntBuildFileGroup> getChildrenAsList() {
     return myChildren;
   }

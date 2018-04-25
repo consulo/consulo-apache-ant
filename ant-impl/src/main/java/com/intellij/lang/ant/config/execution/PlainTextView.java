@@ -18,9 +18,9 @@ package com.intellij.lang.ant.config.execution;
 import java.io.File;
 import java.io.OutputStream;
 
+import javax.annotation.Nullable;
 import javax.swing.JComponent;
 
-import org.jetbrains.annotations.Nullable;
 import com.intellij.execution.filters.Filter;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;
 import com.intellij.execution.filters.TextConsoleBuilder;

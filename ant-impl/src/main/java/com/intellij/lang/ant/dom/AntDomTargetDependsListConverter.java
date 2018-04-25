@@ -28,8 +28,8 @@ import com.intellij.util.xml.Converter;
 import com.intellij.util.xml.CustomReferenceConverter;
 import com.intellij.util.xml.GenericDomValue;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +72,7 @@ public class AntDomTargetDependsListConverter extends Converter<TargetResolver.R
     return result != null? result.getRefsString() : null;
   }
 
-  @NotNull
+  @Nonnull
   public PsiReference[] createReferences(GenericDomValue<TargetResolver.Result> value, PsiElement element, ConvertContext context) {
     final XmlElement xmlElement = value.getXmlElement();
     if (!(xmlElement instanceof XmlAttribute)) {

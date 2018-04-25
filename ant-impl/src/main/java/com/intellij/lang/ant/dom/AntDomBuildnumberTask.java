@@ -20,7 +20,7 @@ import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -36,7 +36,7 @@ public abstract class AntDomBuildnumberTask extends AntDomElement implements Pro
   @Convert(value = AntPathConverter.class)
   public abstract GenericAttributeValue<PsiFileSystemItem> getFile();
   
-  @NotNull 
+  @Nonnull
   public Iterator<String> getNamesIterator() {
     return Collections.singletonList(PROPERTY_NAME).iterator();
   }

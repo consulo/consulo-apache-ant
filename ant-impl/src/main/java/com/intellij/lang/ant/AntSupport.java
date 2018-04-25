@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.ant;
 
+import javax.annotation.Nullable;
 import javax.swing.SwingUtilities;
 
-import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.lang.ant.dom.AntDomAntlib;
 import com.intellij.lang.ant.dom.AntDomElement;

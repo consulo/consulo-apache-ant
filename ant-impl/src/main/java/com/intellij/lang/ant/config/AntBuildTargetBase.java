@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.lang.ant.config.impl.BuildTask;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;

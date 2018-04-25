@@ -25,7 +25,7 @@ import com.intellij.openapi.progress.util.ProgressIndicatorBase;
 import com.intellij.openapi.progress.util.ProgressIndicatorUtils;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ui.tree.TreeUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
@@ -90,7 +90,7 @@ final class AntExplorerTreeBuilder extends AbstractTreeBuilder {
     queueUpdate();
   }
 
-  @NotNull
+  @Nonnull
   protected ProgressIndicator createProgressIndicator() {
     return ProgressIndicatorUtils.forceWriteActionPriority(new ProgressIndicatorBase(), this);
   }

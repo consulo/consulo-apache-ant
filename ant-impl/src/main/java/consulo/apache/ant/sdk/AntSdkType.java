@@ -20,10 +20,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.Icon;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
@@ -42,7 +42,7 @@ import consulo.vfs.util.ArchiveVfsUtil;
  */
 public class AntSdkType extends SdkType
 {
-	@NotNull
+	@Nonnull
 	public static AntSdkType getInstance()
 	{
 		return EP_NAME.findExtension(AntSdkType.class);
@@ -53,7 +53,7 @@ public class AntSdkType extends SdkType
 		super("APACHE_ANT");
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Collection<String> suggestHomePaths()
 	{
@@ -142,7 +142,7 @@ public class AntSdkType extends SdkType
 		return type == BinariesOrderRootType.getInstance();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getPresentableName()
 	{

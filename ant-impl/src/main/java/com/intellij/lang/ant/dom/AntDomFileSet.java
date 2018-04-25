@@ -21,8 +21,8 @@ import com.intellij.util.StringBuilderSpinAllocator;
 import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,7 +43,8 @@ public abstract class AntDomFileSet extends AntDomFilesProviderImpl{
   @Convert(value = AntPathConverter.class)
   public abstract GenericAttributeValue<PsiFileSystemItem> getFile();
 
-  @NotNull protected List<File> getFiles(@Nullable AntDomPattern pattern, Set<AntFilesProvider> processed) {
+  @Nonnull
+  protected List<File> getFiles(@Nullable AntDomPattern pattern, Set<AntFilesProvider> processed) {
     assert pattern != null;
     final File singleFile = getCanonicalFile(getFile().getStringValue());
     if (singleFile == null || pattern.hasIncludePatterns()) {

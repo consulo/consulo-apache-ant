@@ -20,8 +20,8 @@ import com.intellij.util.PathUtil;
 import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.GenericAttributeValue;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public abstract class AntDomFilesProviderImpl extends AntDomElement implements A
   public abstract GenericAttributeValue<String> getCaseSensitive();
 
 
-  @NotNull
+  @Nonnull
   public final List<File> getFiles(Set<AntFilesProvider> processed) {
     if (processed.contains(this)) {
       return Collections.emptyList();
@@ -73,7 +73,7 @@ public abstract class AntDomFilesProviderImpl extends AntDomElement implements A
     return AntDomPattern.create(this, shouldHonorDefaultExcludes(), matchPatternsCaseSensitive());
   }
 
-  @NotNull
+  @Nonnull
   protected List<File> getFiles(@Nullable AntDomPattern pattern, final Set<AntFilesProvider> processed) {
     return Collections.emptyList();
   }

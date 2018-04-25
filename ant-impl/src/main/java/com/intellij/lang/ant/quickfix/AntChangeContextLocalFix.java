@@ -25,7 +25,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
@@ -33,16 +33,17 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AntChangeContextLocalFix implements LocalQuickFix {
 
-  @NotNull public String getName() {
+  @Nonnull
+  public String getName() {
     return AntBundle.message("intention.configure.highlighting.text");
   }
 
-  @NotNull
+  @Nonnull
   public final String getFamilyName() {
     return AntBundle.message("intention.configure.highlighting.family.name");
   }
 
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     final PsiElement psiElement = descriptor.getPsiElement();
     final PsiFile containingFile = psiElement.getContainingFile();
     if (containingFile == null) {

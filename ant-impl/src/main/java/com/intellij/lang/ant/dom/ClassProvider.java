@@ -16,8 +16,8 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.openapi.util.Pair;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
 * @author Eugene Zhuravlev
@@ -47,7 +47,7 @@ abstract class ClassProvider {
     return clazz == null? EMPTY : new LoadedClassProvider(clazz);
   }
 
-  static ClassProvider create(@Nullable String className, @NotNull ClassLoader loader) {
+  static ClassProvider create(@Nullable String className, @Nonnull ClassLoader loader) {
     return className == null? EMPTY : new LazyLoadClassProvider(className, loader);
   }
 
@@ -93,7 +93,7 @@ abstract class ClassProvider {
       return getResult().getSecond();
     }
 
-    @NotNull
+    @Nonnull
     private Pair<Class, String> getResult() {
       Pair<Class, String> result = myResult;
       if (result == null) {

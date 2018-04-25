@@ -15,12 +15,13 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import javax.annotation.Nullable;
+
 import com.intellij.lang.ant.config.AntBuildTargetBase;
 import com.intellij.lang.ant.dom.AntDomElement;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.xml.DomTarget;
-import org.jetbrains.annotations.Nullable;
 
 public final class BuildTask {
   public static final BuildTask[] EMPTY_ARRAY = new BuildTask[0];

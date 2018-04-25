@@ -18,7 +18,7 @@ package com.intellij.lang.ant.dom;
 import com.intellij.util.xml.Converter;
 import com.intellij.util.xml.GenericDomValue;
 import com.intellij.util.xml.WrappingConverter;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.File;
 import java.util.Collections;
@@ -30,7 +30,8 @@ import java.util.List;
  */
 public class AntDomPropertyValueConverter extends WrappingConverter{
 
-  @NotNull public List<Converter> getConverters(@NotNull GenericDomValue domElement) {
+  @Nonnull
+  public List<Converter> getConverters(@Nonnull GenericDomValue domElement) {
     final String raw = domElement.getRawText();
     if (raw != null) {
       if (raw.contains("${") || raw.contains(File.separator) || (File.separatorChar != '/' && raw.contains("/"))) {
@@ -40,7 +41,7 @@ public class AntDomPropertyValueConverter extends WrappingConverter{
     return Collections.emptyList();
   }
 
-  public Converter getConverter(@NotNull GenericDomValue domElement) {
+  public Converter getConverter(@Nonnull GenericDomValue domElement) {
     final List<Converter> converterList = getConverters(domElement);
     return converterList.isEmpty()? null : converterList.get(0);
   }

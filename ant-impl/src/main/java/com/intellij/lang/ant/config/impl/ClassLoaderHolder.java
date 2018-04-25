@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class ClassLoaderHolder {
   private ClassLoader myLoader;
 
-  @NotNull
+  @Nonnull
   public ClassLoader getClassloader() {
     if (myLoader == null) {
       myLoader = buildClasspath();

@@ -18,10 +18,12 @@ package com.intellij.lang.ant.config.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.ide.macro.MacroManager;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntConfigurationBase;
@@ -44,7 +46,7 @@ import consulo.apache.ant.sdk.AntSdkType;
 @State(name = "GlobalAntConfiguration", storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/ant.xml"))
 public class GlobalAntConfiguration implements PersistentStateComponent<Element>
 {
-	@NotNull
+	@Nonnull
 	public static GlobalAntConfiguration getInstance()
 	{
 		return ServiceManager.getService(GlobalAntConfiguration.class);
@@ -94,7 +96,7 @@ public class GlobalAntConfiguration implements PersistentStateComponent<Element>
 		return SdkTable.getInstance().findPredefinedSdkByType(AntSdkType.getInstance());
 	}
 
-	@NotNull
+	@Nonnull
 	public Map<AntReference, Sdk> getConfiguredAnts()
 	{
 		List<Sdk> sdksOfType = SdkTable.getInstance().getSdksOfType(AntSdkType.getInstance());

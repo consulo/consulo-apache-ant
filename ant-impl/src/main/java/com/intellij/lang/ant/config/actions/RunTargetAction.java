@@ -17,8 +17,8 @@ package com.intellij.lang.ant.config.actions;
 
 import java.util.Collections;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildListener;
@@ -84,7 +84,7 @@ public class RunTargetAction extends AnAction {
   }
 
   @Nullable
-  private static Pair<AntBuildFileBase, AntDomTarget> findAntTarget(@NotNull AnActionEvent e) {
+  private static Pair<AntBuildFileBase, AntDomTarget> findAntTarget(@Nonnull AnActionEvent e) {
     final DataContext dataContext = e.getDataContext();
 
     final Editor editor = dataContext.getData(PlatformDataKeys.EDITOR);

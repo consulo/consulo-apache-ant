@@ -22,10 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.ide.macro.Macro;
 import com.intellij.ide.macro.MacroManager;
@@ -509,7 +510,7 @@ public class AntBuildFileImpl implements AntBuildFileBase
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public Map<String, String> getExternalProperties()
 	{
 		Map<String, String> result = myCachedExternalProperties;
@@ -570,7 +571,7 @@ public class AntBuildFileImpl implements AntBuildFileBase
 		return null;
 	}
 
-	@NotNull
+	@Nonnull
 	public ClassLoader getClassLoader()
 	{
 		return myClassloaderHolder.getClassloader();

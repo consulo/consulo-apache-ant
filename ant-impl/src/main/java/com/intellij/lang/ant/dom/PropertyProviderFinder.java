@@ -24,8 +24,8 @@ import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.util.containers.HashMap;
 import com.intellij.util.xml.DomElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.*;
 
@@ -219,7 +219,7 @@ public abstract class PropertyProviderFinder extends AntDomRecursiveVisitor {
     return myTargetsResolveMap.get(effectiveName);
   }
 
-  @NotNull
+  @Nonnull
   public final Map<String, AntDomTarget> getDiscoveredTargets() {
     return Collections.unmodifiableMap(myTargetsResolveMap);
   }
@@ -338,7 +338,7 @@ public abstract class PropertyProviderFinder extends AntDomRecursiveVisitor {
       return targetReferenceText;
     }
 
-    @NotNull
+    @Nonnull
     public InclusionKind getCurrentInclusionKind() {
       if (myPrefixes.isEmpty()) {
         return InclusionKind.TOPLEVEL;
@@ -346,7 +346,7 @@ public abstract class PropertyProviderFinder extends AntDomRecursiveVisitor {
       return myPrefixes.getLast().getSecond();
     }
 
-    @NotNull
+    @Nonnull
     public String getFQPrefix() {
       if (myCurrentPrefix != null) {
         return myCurrentPrefix;
@@ -361,12 +361,12 @@ public abstract class PropertyProviderFinder extends AntDomRecursiveVisitor {
       return myCurrentPrefix = buf.toString();
     }
 
-    @NotNull
+    @Nonnull
     public String getShortPrefix() {
       return myPrefixes.isEmpty()? "" : myPrefixes.getLast().getFirst();
     }
 
-    public void pushPrefix(AntDomIncludingDirective directive, final InclusionKind kind, final @NotNull AntDomProject slaveProject) {
+    public void pushPrefix(AntDomIncludingDirective directive, final InclusionKind kind, final @Nonnull AntDomProject slaveProject) {
       final String separator = directive.getTargetPrefixSeparatorValue();
       String prefix = directive.getTargetPrefix().getStringValue();
       if (prefix == null) {

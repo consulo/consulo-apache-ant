@@ -31,9 +31,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.lang.ant.AntFilesProvider;
 import com.intellij.lang.ant.AntSupport;
@@ -93,7 +95,7 @@ public class CustomAntElementsRegistry {
     return registry;
   }
 
-  @NotNull
+  @Nonnull
   public Set<XmlName> getCompletionVariants(AntDomElement parentElement) {
     if (parentElement instanceof AntDomCustomElement) {
       // this case is already handled in AntDomExtender when defining children
@@ -246,7 +248,7 @@ public class CustomAntElementsRegistry {
     }
   }
 
-  @NotNull
+  @Nonnull
   private ClassLoader getClassLoader(AntDomCustomClasspathComponent customComponent, AntDomProject antProject) {
     final String loaderRef = customComponent.getLoaderRef().getStringValue();
     if (loaderRef != null) {
@@ -288,7 +290,7 @@ public class CustomAntElementsRegistry {
     return factory.createFileFromText("_ant_dummy__." + fileType.getDefaultExtension(), fileType, builder, LocalTimeCounter.currentTime(), false, false);
   }
 
-  private void addCustomDefinition(@NotNull AntDomNamedElement declaringTag, String customTagName, String nsUri, ClassProvider classProvider) {
+  private void addCustomDefinition(@Nonnull AntDomNamedElement declaringTag, String customTagName, String nsUri, ClassProvider classProvider) {
     final XmlName xmlName = new XmlName(customTagName, nsUri == null? "" : nsUri);
     myCustomElements.put(xmlName, classProvider);
     myDeclarations.put(xmlName, declaringTag);
@@ -298,7 +300,7 @@ public class CustomAntElementsRegistry {
     return PsiFileFactory.getInstance(project).createFileFromText(name, type, str, LocalTimeCounter.currentTime(), false, false);
   }
 
-  private static boolean isXmlFormat(AntDomTypeDef typedef, @NotNull final String resourceOrFileName) {
+  private static boolean isXmlFormat(AntDomTypeDef typedef, @Nonnull final String resourceOrFileName) {
     final String format = typedef.getFormat().getStringValue();
     if (format != null) {
       return "xml".equalsIgnoreCase(format);
@@ -306,7 +308,7 @@ public class CustomAntElementsRegistry {
     return StringUtil.endsWithIgnoreCase(resourceOrFileName, ".xml");
   }
 
-  @NotNull
+  @Nonnull
   public static ClassLoader createClassLoader(final List<URL> urls, final AntDomProject antProject) {
     final ClassLoader parentLoader = antProject.getClassLoader();
     if (urls.size() == 0) {

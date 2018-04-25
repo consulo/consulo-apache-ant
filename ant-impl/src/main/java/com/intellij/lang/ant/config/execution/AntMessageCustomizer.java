@@ -1,6 +1,7 @@
 package com.intellij.lang.ant.config.execution;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.extensions.ExtensionPointName;
 
 public abstract class AntMessageCustomizer {

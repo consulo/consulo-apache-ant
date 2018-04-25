@@ -18,7 +18,7 @@ package com.intellij.lang.ant.config.impl.artifacts;
 import com.intellij.packaging.artifacts.ArtifactProperties;
 import com.intellij.packaging.artifacts.ArtifactPropertiesProvider;
 import com.intellij.packaging.artifacts.ArtifactType;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author nik
@@ -32,8 +32,8 @@ public class AntArtifactPostprocessingPropertiesProvider extends ArtifactPropert
     super("ant-postprocessing");
   }
 
-  @NotNull
-  public ArtifactProperties<?> createProperties(@NotNull ArtifactType artifactType) {
+  @Nonnull
+  public ArtifactProperties<?> createProperties(@Nonnull ArtifactType artifactType) {
     return new AntArtifactProperties(true);
   }
 

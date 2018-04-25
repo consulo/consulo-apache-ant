@@ -15,13 +15,14 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.ui.HtmlListCellRenderer;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
-import org.jetbrains.annotations.NotNull;
 
 abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanceEx {
   public AntNodeDescriptor(Project project, NodeDescriptor parentDescriptor) {
@@ -30,18 +31,18 @@ abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanc
 
   public abstract boolean isAutoExpand();
 
-  public void customize(@NotNull SimpleColoredComponent component) {
+  public void customize(@Nonnull SimpleColoredComponent component) {
     component.setIcon(getIcon());
     component.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
   }
 
   @Override
-  public void customize(@NotNull final HtmlListCellRenderer renderer) {
+  public void customize(@Nonnull final HtmlListCellRenderer renderer) {
     renderer.setIcon(getIcon());
     renderer.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
   }
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return toString();
   }

@@ -28,8 +28,8 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomTarget;
 import com.intellij.util.xml.DomUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class AntDomMacrodefAttributeReference extends AntDomReferenceBase{
     return ResolveCache.getInstance(getElement().getProject()).resolveWithCaching(this, MyResolver.INSTANCE, false, false);
   }
 
-  @NotNull 
+  @Nonnull
   public Object[] getVariants() {
     final AntDomMacroDef parentMacrodef = getParentMacrodef();
     if (parentMacrodef != null) {
@@ -70,7 +70,7 @@ public class AntDomMacrodefAttributeReference extends AntDomReferenceBase{
     return EMPTY_ARRAY;
   }
 
-  @Nullable 
+  @Nullable
   private AntDomMacroDef getParentMacrodef() {
     final PsiElement element = getElement();
     if (element == null) {
@@ -87,7 +87,7 @@ public class AntDomMacrodefAttributeReference extends AntDomReferenceBase{
     
     static final MyResolver INSTANCE = new MyResolver();
     
-    public PsiElement resolve(@NotNull PsiReference psiReference, boolean incompleteCode) {
+    public PsiElement resolve(@Nonnull PsiReference psiReference, boolean incompleteCode) {
       final PsiElement element = psiReference.getElement();
       if (element == null) {
         return null;

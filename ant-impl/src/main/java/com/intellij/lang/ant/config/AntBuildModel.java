@@ -16,7 +16,7 @@
 
 package com.intellij.lang.ant.config;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 public interface AntBuildModel {
   @Nullable

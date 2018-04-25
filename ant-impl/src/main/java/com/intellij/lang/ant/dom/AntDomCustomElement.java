@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.util.xml.XmlName;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * @author Eugene Zhuravlev

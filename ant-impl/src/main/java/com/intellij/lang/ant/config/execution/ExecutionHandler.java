@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.ExecutionException;
@@ -70,7 +70,7 @@ public final class ExecutionHandler {
                               String[] targets,
                               @Nullable final AntBuildMessageView buildMessageViewToReuse,
                               final DataContext dataContext,
-                              List<BuildFileProperty> additionalProperties, @NotNull final AntBuildListener antBuildListener) {
+                              List<BuildFileProperty> additionalProperties, @Nonnull final AntBuildListener antBuildListener) {
     FileDocumentManager.getInstance().saveAllDocuments();
     final AntCommandLineBuilder builder = new AntCommandLineBuilder();
     final AntBuildMessageView messageView;
@@ -118,7 +118,7 @@ public final class ExecutionHandler {
         return startInBackground;
       }
 
-      public void run(@NotNull final ProgressIndicator indicator) {
+      public void run(@Nonnull final ProgressIndicator indicator) {
         try {
           runBuild(indicator, messageView, buildFile, antBuildListener, commandLine);
         }
@@ -131,10 +131,10 @@ public final class ExecutionHandler {
   }
 
   private static void runBuild(final ProgressIndicator progress,
-                               @NotNull final AntBuildMessageView errorView,
-                               @NotNull final AntBuildFile buildFile,
-                               @NotNull final AntBuildListener antBuildListener,
-                               @NotNull GeneralCommandLine commandLine) {
+                               @Nonnull final AntBuildMessageView errorView,
+                               @Nonnull final AntBuildFile buildFile,
+                               @Nonnull final AntBuildListener antBuildListener,
+                               @Nonnull GeneralCommandLine commandLine) {
     final Project project = buildFile.getProject();
 
     final long startTime = System.currentTimeMillis();

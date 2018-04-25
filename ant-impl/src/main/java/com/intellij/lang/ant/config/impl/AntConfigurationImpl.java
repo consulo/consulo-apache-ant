@@ -24,12 +24,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.swing.SwingUtilities;
 
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.execution.configurations.ConfigurationFactory;
@@ -287,7 +288,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 				return new NotificationInfo("Ant", "Ant Task Finished", "");
 			}
 
-			public void run(@NotNull final ProgressIndicator indicator)
+			public void run(@Nonnull final ProgressIndicator indicator)
 			{
 				indicator.setIndeterminate(true);
 				indicator.pushState();
@@ -913,7 +914,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 		final String title = AntBundle.message("loading.ant.config.progress");
 		queueLater(new Task.Backgroundable(getProject(), title, false)
 		{
-			public void run(@NotNull final ProgressIndicator indicator)
+			public void run(@Nonnull final ProgressIndicator indicator)
 			{
 				if(getProject().isDisposed())
 				{
@@ -1113,7 +1114,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 		}
 	}
 
-	public void setContextFile(@NotNull XmlFile file, @Nullable XmlFile context)
+	public void setContextFile(@Nonnull XmlFile file, @Nullable XmlFile context)
 	{
 		if(context != null)
 		{
@@ -1147,7 +1148,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 	}
 
 	@Nullable
-	public AntBuildFileBase getAntBuildFile(@NotNull PsiFile file)
+	public AntBuildFileBase getAntBuildFile(@Nonnull PsiFile file)
 	{
 		final VirtualFile vFile = file.getVirtualFile();
 		if(vFile != null)

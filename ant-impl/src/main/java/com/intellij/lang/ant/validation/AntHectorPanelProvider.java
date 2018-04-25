@@ -20,14 +20,14 @@ import com.intellij.openapi.editor.HectorComponentPanel;
 import com.intellij.openapi.editor.HectorComponentPanelsProvider;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.xml.XmlFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: May 12, 2008
  */
 public class AntHectorPanelProvider implements HectorComponentPanelsProvider{
-  public HectorComponentPanel createConfigurable(@NotNull final PsiFile file) {
+  public HectorComponentPanel createConfigurable(@Nonnull final PsiFile file) {
     if (file instanceof XmlFile && AntDomFileDescription.isAntFile(((XmlFile)file))) {
       return new AntHectorConfigurable(((XmlFile)file));
     }

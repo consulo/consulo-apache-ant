@@ -18,7 +18,8 @@ package com.intellij.lang.ant;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -43,7 +44,7 @@ public class AntImportsIndex extends ScalarIndexExtension<Integer>{
   
   private static final DataIndexer<Integer,Void,FileContent> DATA_INDEXER = new DataIndexer<Integer, Void, FileContent>() {
     @Override
-    @NotNull
+    @Nonnull
     public Map<Integer, Void> map(final FileContent inputData) {
       final Map<Integer, Void> map = new HashMap<Integer, Void>();
 
@@ -99,13 +100,13 @@ public class AntImportsIndex extends ScalarIndexExtension<Integer>{
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public ID<Integer, Void> getName() {
     return INDEX_NAME;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public DataIndexer<Integer, Void, FileContent> getIndexer() {
     return DATA_INDEXER;
   }

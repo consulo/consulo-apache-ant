@@ -15,10 +15,12 @@
  */
 package com.intellij.lang.ant.config;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL
@@ -29,17 +31,17 @@ public abstract class AntBuildFileGroupManager {
     return ServiceManager.getService(project, AntBuildFileGroupManager.class);
   }
 
-  @NotNull
-  public abstract AntBuildFileGroup createGroup(@Nullable AntBuildFileGroup parent, @NotNull String name);
+  @Nonnull
+  public abstract AntBuildFileGroup createGroup(@Nullable AntBuildFileGroup parent, @Nonnull String name);
 
-  public abstract void moveToGroup(@NotNull AntBuildFile file, @Nullable AntBuildFileGroup group);
+  public abstract void moveToGroup(@Nonnull AntBuildFile file, @Nullable AntBuildFileGroup group);
 
-  public abstract AntBuildFile[] getFilesForGroup(@NotNull AntBuildFileGroup group);
+  public abstract AntBuildFile[] getFilesForGroup(@Nonnull AntBuildFileGroup group);
 
-  @NotNull
+  @Nonnull
   public abstract AntBuildFileGroup[] getFirstLevelGroups();
 
-  public abstract AntBuildFileGroup findGroup(@NotNull AntBuildFile buildFile);
+  public abstract AntBuildFileGroup findGroup(@Nonnull AntBuildFile buildFile);
 
-  public abstract void removeGroup(@NotNull AntBuildFileGroup buildGroup);
+  public abstract void removeGroup(@Nonnull AntBuildFileGroup buildGroup);
 }

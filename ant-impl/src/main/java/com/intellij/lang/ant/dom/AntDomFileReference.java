@@ -19,8 +19,8 @@ import com.intellij.lang.ant.AntBundle;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class AntDomFileReference extends FileReference implements AntDomReference{
 
@@ -38,16 +38,17 @@ public class AntDomFileReference extends FileReference implements AntDomReferenc
     return text.endsWith("/")? text.substring(0, text.length() - "/".length()) : text;
   }
 
-  @NotNull public Object[] getVariants() {
+  @Nonnull
+  public Object[] getVariants() {
     return super.getVariants();
   }
 
-  @NotNull
+  @Nonnull
   public AntDomFileReferenceSet getFileReferenceSet() {
     return (AntDomFileReferenceSet)super.getFileReferenceSet();
   }
 
-  @NotNull
+  @Nonnull
   public String getUnresolvedMessagePattern() {
     return AntBundle.message("file.doesnt.exist", getCanonicalRepresentationText());
   }

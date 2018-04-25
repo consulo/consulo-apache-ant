@@ -19,9 +19,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import consulo.apache.ant.util.PathTokenizer;
 import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiElement;
@@ -94,7 +95,7 @@ public class AntMultiPathStringConverter extends Converter<List<File>> implement
     return attribValue.getRawText();
   }
 
-  @NotNull
+  @Nonnull
   public PsiReference[] createReferences(GenericDomValue<List<File>> genericDomValue, PsiElement element, ConvertContext context) {
     final GenericAttributeValue attributeValue = (GenericAttributeValue)genericDomValue;
 

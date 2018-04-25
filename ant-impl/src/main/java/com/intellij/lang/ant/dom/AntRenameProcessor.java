@@ -22,8 +22,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.refactoring.rename.RenamePsiElementProcessor;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomTarget;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -59,7 +59,7 @@ public class AntRenameProcessor extends RenamePsiElementProcessor{
     }
   }
 
-  public boolean canProcessElement(@NotNull PsiElement element) {
+  public boolean canProcessElement(@Nonnull PsiElement element) {
     final AntDomElement antElement = convertToAntDomElement(element);
     if (antElement instanceof AntDomProperty || antElement instanceof AntDomAntCallParam) {
       return true;

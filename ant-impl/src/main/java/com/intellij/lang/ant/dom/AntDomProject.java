@@ -24,9 +24,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
 import consulo.apache.ant.util.AntJavaSdkUtil;
 import com.intellij.lang.ant.ReflectedProject;
@@ -153,7 +155,7 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
     return null;
   }
 
-  @NotNull
+  @Nonnull
   public final ClassLoader getClassLoader() {
     ClassLoader loader = myClassLoader;
     if (loader == null) {
@@ -202,7 +204,7 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
     return AntJavaSdkUtil.getBundleSdk();
   }
 
-  @NotNull
+  @Nonnull
   public Iterator<String> getNamesIterator() {
     return getProperties().keySet().iterator();
   }

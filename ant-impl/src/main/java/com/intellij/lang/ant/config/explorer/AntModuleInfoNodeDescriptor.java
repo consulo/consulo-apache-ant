@@ -21,7 +21,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
 * @author VISTALL
@@ -53,7 +53,7 @@ final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor {
   }
 
   @Override
-  public void customize(@NotNull SimpleColoredComponent component) {
+  public void customize(@Nonnull SimpleColoredComponent component) {
     component.append(toString(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
     component.setIcon(getIcon());
   }

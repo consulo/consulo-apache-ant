@@ -15,9 +15,10 @@
  */
 package com.intellij.lang.ant.dom;
 
+import javax.annotation.Nullable;
+
 import com.intellij.util.xml.ConvertContext;
 import com.intellij.util.xml.GenericAttributeValue;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Eugene Zhuravlev

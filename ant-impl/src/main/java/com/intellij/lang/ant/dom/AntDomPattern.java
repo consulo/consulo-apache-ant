@@ -18,7 +18,7 @@ package com.intellij.lang.ant.dom;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.xml.reflect.DomAttributeChildDescription;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;

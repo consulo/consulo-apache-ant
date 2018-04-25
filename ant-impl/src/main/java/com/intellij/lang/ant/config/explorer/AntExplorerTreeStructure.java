@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.ide.util.treeView.AbstractTreeStructure;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.AntBundle;
@@ -26,8 +28,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.ActionCallback;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.ui.JBColor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 final class AntExplorerTreeStructure extends AbstractTreeStructure {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.explorer.AntExplorerTreeStructure");
@@ -46,7 +48,7 @@ final class AntExplorerTreeStructure extends AbstractTreeStructure {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public AntNodeDescriptor createDescriptor(Object element, NodeDescriptor parentDescriptor) {
     if (element == myRoot) {
       return new RootNodeDescriptor(myProject, parentDescriptor);
@@ -116,7 +118,7 @@ final class AntExplorerTreeStructure extends AbstractTreeStructure {
     return PsiDocumentManager.getInstance(myProject).hasUncommitedDocuments();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public ActionCallback asyncCommit() {
     return asyncCommitDocuments(myProject);

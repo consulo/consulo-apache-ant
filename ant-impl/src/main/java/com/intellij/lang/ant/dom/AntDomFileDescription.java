@@ -17,8 +17,8 @@ package com.intellij.lang.ant.dom;
 
 import javax.swing.Icon;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.ForcedAntFileAttribute;
 import com.intellij.openapi.util.Iconable;
@@ -38,7 +38,7 @@ public class AntDomFileDescription extends AntFileDescription<AntDomProject> {
     super(AntDomProject.class, ROOT_TAG_NAME);
   }
 
-  public boolean isMyFile(@NotNull XmlFile file) {
+  public boolean isMyFile(@Nonnull XmlFile file) {
     return super.isMyFile(file) && isAntFile(file);
   }
 

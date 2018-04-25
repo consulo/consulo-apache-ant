@@ -17,8 +17,8 @@ package com.intellij.lang.ant.dom;
 
 import com.intellij.openapi.util.Pair;
 import com.intellij.util.containers.HashMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.*;
 
@@ -54,7 +54,7 @@ public class TargetResolver extends PropertyProviderFinder {
       myRefsString = refsString;
     }
 
-    @NotNull
+    @Nonnull
     public Collection<String> getTargetReferences() {
       return Collections.unmodifiableSet(myMap.keySet());
     }
@@ -64,25 +64,25 @@ public class TargetResolver extends PropertyProviderFinder {
       return myMap.get(declaredTargetRef);
     }
 
-    @NotNull
+    @Nonnull
     public Map<String, AntDomTarget> getVariants() {
       return myVariants != null? myVariants : Collections.<String, AntDomTarget>emptyMap();
     }
   }
 
-  private TargetResolver(@NotNull Collection<String> declaredDependencyRefs, @Nullable AntDomTarget contextElement) {
+  private TargetResolver(@Nonnull Collection<String> declaredDependencyRefs, @Nullable AntDomTarget contextElement) {
     super(contextElement);
     myResult = new Result();
     myDeclaredTargetRefs = new ArrayList<String>(declaredDependencyRefs);
     myContextTarget = contextElement;
   }
 
-  @NotNull
-  public static Result resolve(@NotNull AntDomProject project, @Nullable AntDomTarget contextTarget, @NotNull String declaredTargetRef) {
+  @Nonnull
+  public static Result resolve(@Nonnull AntDomProject project, @Nullable AntDomTarget contextTarget, @Nonnull String declaredTargetRef) {
     return resolve(project, contextTarget, Arrays.asList(declaredTargetRef));
   }
 
-  public static Result resolve(AntDomProject project, AntDomTarget contextTarget, @NotNull Collection<String> declaredTargetRefs) {
+  public static Result resolve(AntDomProject project, AntDomTarget contextTarget, @Nonnull Collection<String> declaredTargetRefs) {
     final TargetResolver resolver = new TargetResolver(declaredTargetRefs, contextTarget);
     resolver.execute(project, null);
     final Result result = resolver.getResult();
@@ -139,7 +139,7 @@ public class TargetResolver extends PropertyProviderFinder {
     }
   }
 
-  @NotNull
+  @Nonnull
   public Result getResult() {
     return myResult;
   }

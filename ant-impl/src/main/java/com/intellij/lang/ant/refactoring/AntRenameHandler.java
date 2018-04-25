@@ -17,8 +17,8 @@ package com.intellij.lang.ant.refactoring;
 
 import java.util.Collection;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.ant.dom.AntDomFileDescription;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -44,14 +44,14 @@ public final class AntRenameHandler extends PsiElementRenameHandler {
     return elements != null && elements.length > 1;
   }
 
-  public void invoke(@NotNull final Project project, final Editor editor, final PsiFile file, final DataContext dataContext) {
+  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file, final DataContext dataContext) {
     final PsiElement[] elements = getElements(dataContext);
     if (elements != null && elements.length > 0) {
       invoke(project, new PsiElement[]{elements[0]}, dataContext);
     }
   }
 
-  public void invoke(@NotNull final Project project, @NotNull final PsiElement[] elements, final DataContext dataContext) {
+  public void invoke(@Nonnull final Project project, @Nonnull final PsiElement[] elements, final DataContext dataContext) {
     super.invoke(project, elements, dataContext);
   }
 

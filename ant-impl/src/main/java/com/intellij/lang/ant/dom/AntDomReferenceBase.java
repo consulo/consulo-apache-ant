@@ -15,6 +15,9 @@
  */
 package com.intellij.lang.ant.dom;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.util.TextRange;
 import com.intellij.pom.PomTarget;
 import com.intellij.pom.PomTargetPsiElement;
@@ -23,8 +26,6 @@ import com.intellij.psi.PsiReferenceBase;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomTarget;
 import com.intellij.util.xml.DomUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Eugene Zhuravlev
@@ -44,7 +45,7 @@ public abstract class AntDomReferenceBase extends PsiReferenceBase<PsiElement> i
     super(element, soft);
   }
 
-  protected AntDomReferenceBase(@NotNull PsiElement element) {
+  protected AntDomReferenceBase(@Nonnull PsiElement element) {
     super(element);
   }
 
@@ -56,7 +57,7 @@ public abstract class AntDomReferenceBase extends PsiReferenceBase<PsiElement> i
     myShouldBeSkippedByAnnotator = true;
   }
   
-  @Nullable 
+  @Nullable
   public static DomElement toDomElement(PsiElement resolve) {
     if (resolve instanceof PomTargetPsiElement) {
       final PomTarget target = ((PomTargetPsiElement)resolve).getTarget();

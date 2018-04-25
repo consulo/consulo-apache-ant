@@ -19,8 +19,8 @@ import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.config.AbstractProperty;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Map;
 
@@ -57,6 +57,6 @@ public interface AntBuildFileBase extends AntBuildFile {
 
   void writeProperties(final Element element) throws WriteExternalException;
 
-  @NotNull
+  @Nonnull
   Map<String, String> getExternalProperties();
 }

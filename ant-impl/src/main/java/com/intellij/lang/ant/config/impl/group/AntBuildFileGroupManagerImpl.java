@@ -20,9 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildFileGroup;
@@ -54,9 +56,9 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
     myProject = project;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public AntBuildFileGroup createGroup(@Nullable AntBuildFileGroup parent, @NotNull String name) {
+  public AntBuildFileGroup createGroup(@Nullable AntBuildFileGroup parent, @Nonnull String name) {
     AntBuildFileGroupImpl group = new AntBuildFileGroupImpl(name, parent);
 
     if (parent != null) {
@@ -69,7 +71,7 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
   }
 
   @Override
-  public void moveToGroup(@NotNull AntBuildFile file, @Nullable AntBuildFileGroup group) {
+  public void moveToGroup(@Nonnull AntBuildFile file, @Nullable AntBuildFileGroup group) {
     for (Map.Entry<AntBuildFileGroup, List<VirtualFile>> entry : myFileGroupList.entrySet()) {
       if (entry.getValue().contains(file.getVirtualFile())) {
         entry.getValue().remove(file.getVirtualFile());
@@ -88,7 +90,7 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
   }
 
   @Override
-  public AntBuildFile[] getFilesForGroup(@NotNull AntBuildFileGroup group) {
+  public AntBuildFile[] getFilesForGroup(@Nonnull AntBuildFileGroup group) {
     final List<VirtualFile> virtualFiles = myFileGroupList.get(group);
     if (virtualFiles == null || virtualFiles.isEmpty()) {
       return AntBuildFile.EMPTY_ARRAY;
@@ -111,14 +113,14 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
     return files.toArray(new AntBuildFile[files.size()]);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public AntBuildFileGroup[] getFirstLevelGroups() {
     return myGroups.isEmpty() ? AntBuildFileGroup.EMPTY_ARRAY : myGroups.toArray(new AntBuildFileGroup[myGroups.size()]);
   }
 
   @Override
-  public AntBuildFileGroup findGroup(@NotNull AntBuildFile buildFile) {
+  public AntBuildFileGroup findGroup(@Nonnull AntBuildFile buildFile) {
     for (Map.Entry<AntBuildFileGroup, List<VirtualFile>> entry : myFileGroupList.entrySet()) {
       if (entry.getValue().contains(buildFile.getVirtualFile())) {
         return entry.getKey();
@@ -128,7 +130,7 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
   }
 
   @Override
-  public void removeGroup(@NotNull AntBuildFileGroup buildGroup) {
+  public void removeGroup(@Nonnull AntBuildFileGroup buildGroup) {
     myFileGroupList.remove(buildGroup);
     myGroups.remove(buildGroup);
 

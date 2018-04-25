@@ -23,7 +23,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
@@ -34,12 +34,12 @@ public class AntChangeContextFix extends BaseIntentionAction {
     setText(AntBundle.message("intention.configure.highlighting.text"));
   }
 
-  @NotNull
+  @Nonnull
   public final String getFamilyName() {
     return AntBundle.message("intention.configure.highlighting.family.name");
   }
 
-  public boolean isAvailable(@NotNull final Project project, final Editor editor, final PsiFile file) {
+  public boolean isAvailable(@Nonnull final Project project, final Editor editor, final PsiFile file) {
     //if (!(file instanceof XmlFile)) {
     //  return false;
     //}
@@ -54,7 +54,7 @@ public class AntChangeContextFix extends BaseIntentionAction {
     return true;
   }
 
-  public void invoke(@NotNull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
+  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
     final HectorComponent component = new HectorComponent(file);
     //final JComponent focusComponent = findComponentToFocus(component);
     component.showComponent(JBPopupFactory.getInstance().guessBestPopupLocation(editor));

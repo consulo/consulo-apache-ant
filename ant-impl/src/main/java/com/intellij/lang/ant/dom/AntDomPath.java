@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntFilesProvider;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.File;
 import java.util.Iterator;
@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public abstract class AntDomPath extends AntDomPathElement{
 
-  @NotNull 
+  @Nonnull
   protected List<File> getFiles(AntDomPattern pattern, Set<AntFilesProvider> processed) {
     final List<File> files = super.getFiles(pattern, processed);
     

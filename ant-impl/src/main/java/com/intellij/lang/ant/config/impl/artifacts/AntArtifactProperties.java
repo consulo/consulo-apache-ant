@@ -32,8 +32,8 @@ import com.intellij.packaging.artifacts.ArtifactProperties;
 import com.intellij.packaging.ui.ArtifactEditorContext;
 import com.intellij.packaging.ui.ArtifactPropertiesEditor;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class AntArtifactProperties extends ArtifactProperties<AntArtifactExtensi
     myPostProcessing = postProcessing;
   }
 
-  public ArtifactPropertiesEditor createEditor(@NotNull ArtifactEditorContext context) {
+  public ArtifactPropertiesEditor createEditor(@Nonnull ArtifactEditorContext context) {
     return new AntArtifactPropertiesEditor(this, context, myPostProcessing);
   }
 
@@ -61,14 +61,14 @@ public class AntArtifactProperties extends ArtifactProperties<AntArtifactExtensi
   }
 
   @Override
-  public void onBuildStarted(@NotNull Artifact artifact, @NotNull CompileContext compileContext) {
+  public void onBuildStarted(@Nonnull Artifact artifact, @Nonnull CompileContext compileContext) {
     if (!myPostProcessing) {
       runAntTarget(compileContext, artifact);
     }
   }
 
   @Override
-  public void onBuildFinished(@NotNull Artifact artifact, @NotNull final CompileContext compileContext) {
+  public void onBuildFinished(@Nonnull Artifact artifact, @Nonnull final CompileContext compileContext) {
     if (myPostProcessing) {
       runAntTarget(compileContext, artifact);
     }
@@ -142,7 +142,7 @@ public class AntArtifactProperties extends ArtifactProperties<AntArtifactExtensi
     return null;
   }
 
-  public List<BuildFileProperty> getAllProperties(@NotNull Artifact artifact) {
+  public List<BuildFileProperty> getAllProperties(@Nonnull Artifact artifact) {
     final List<BuildFileProperty> properties = new ArrayList<BuildFileProperty>();
     properties.add(new BuildFileProperty(ARTIFACT_OUTPUT_PATH_PROPERTY, artifact.getOutputPath()));
     properties.addAll(myExtensionProperties.myUserProperties);

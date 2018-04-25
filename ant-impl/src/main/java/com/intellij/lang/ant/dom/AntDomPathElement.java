@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import consulo.apache.ant.util.PathTokenizer;
 import com.intellij.lang.ant.AntFilesProvider;
 import com.intellij.psi.PsiFileSystemItem;
@@ -49,7 +49,7 @@ public abstract class AntDomPathElement extends AntDomFilesProviderImpl{
     return null; // not available
   }
   
-  @NotNull 
+  @Nonnull
   protected List<File> getFiles(AntDomPattern pattern, Set<AntFilesProvider> processed) {
     final List<File> files = new ArrayList<File>();
     final File baseDir = getCanonicalFile("");

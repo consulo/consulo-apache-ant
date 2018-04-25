@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -32,8 +33,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellEditor;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
@@ -73,7 +74,7 @@ public class BuildFilePropertiesPanel
 	private final Form myForm;
 	private AntBuildFileBase myBuildFile;
 
-	private BuildFilePropertiesPanel(@NotNull final Project project)
+	private BuildFilePropertiesPanel(@Nonnull final Project project)
 	{
 		myForm = new Form(project);
 	}
@@ -118,7 +119,7 @@ public class BuildFilePropertiesPanel
 		Disposer.dispose(myForm);
 	}
 
-	public static boolean editBuildFile(AntBuildFileBase buildFile, @NotNull final Project project)
+	public static boolean editBuildFile(AntBuildFileBase buildFile, @Nonnull final Project project)
 	{
 		BuildFilePropertiesPanel panel = new BuildFilePropertiesPanel(project);
 		panel.reset(buildFile);
@@ -170,7 +171,7 @@ public class BuildFilePropertiesPanel
 		private final UIPropertyBinding.Composite myBinding = new UIPropertyBinding.Composite();
 		private final TabbedPaneWrapper myWrapper;
 
-		private Form(@NotNull final Project project)
+		private Form(@Nonnull final Project project)
 		{
 			myTabs = new Tab[]{
 					new PropertiesTab(),
@@ -522,7 +523,7 @@ public class BuildFilePropertiesPanel
 		private AntReference myProjectDefaultAnt = null;
 		private final GlobalAntConfiguration myAntGlobalConfiguration;
 
-		public ExecutionTab(final GlobalAntConfiguration antConfiguration, @NotNull final Project project)
+		public ExecutionTab(final GlobalAntConfiguration antConfiguration, @Nonnull final Project project)
 		{
 			myAntGlobalConfiguration = antConfiguration;
 			myAntCommandLine.attachLabel(myAntCmdLineLabel);

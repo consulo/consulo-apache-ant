@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.ant.validation;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.lang.ant.dom.AntDomTarget;
@@ -25,20 +27,19 @@ import com.intellij.util.xml.highlighting.DomElementAnnotationHolder;
 import com.intellij.util.xml.highlighting.DomHighlightingHelper;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 public class AntDuplicateTargetsInspection extends AntInspection {
 
   @NonNls private static final String SHORT_NAME = "AntDuplicateTargetsInspection";
 
   @Nls
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return AntBundle.message("ant.duplicate.targets.inspection");
   }
 
   @NonNls
-  @NotNull
+  @Nonnull
   public String getShortName() {
     return SHORT_NAME;
   }

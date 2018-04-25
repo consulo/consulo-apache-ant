@@ -22,8 +22,8 @@ import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
 import com.intellij.util.xml.SubTagList;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public abstract class AntDomFileList extends AntDomFilesProviderImpl{
     return null; // not available for this data type
   }
 
-  @NotNull
+  @Nonnull
   protected List<File> getFiles(@Nullable AntDomPattern pattern, Set<AntFilesProvider> processed) {
     final File root = getCanonicalFile(getDir().getStringValue());
     if (root == null) {

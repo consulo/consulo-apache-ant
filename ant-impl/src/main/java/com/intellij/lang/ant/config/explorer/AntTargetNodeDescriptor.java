@@ -19,7 +19,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.ide.util.treeView.NodeDescriptor;
@@ -144,7 +145,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
     return false;
   }
 
-  public void customize(@NotNull SimpleColoredComponent component) {
+  public void customize(@Nonnull SimpleColoredComponent component) {
     getHighlightedText().customize(component);
     component.setIcon(getIcon());
     String toolTipText = getTarget().getNotEmptyDescription();
@@ -152,7 +153,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
   }
 
   @Override
-  public void customize(@NotNull final HtmlListCellRenderer renderer) {
+  public void customize(@Nonnull final HtmlListCellRenderer renderer) {
     getHighlightedText().customize(renderer);
     renderer.setIcon(getIcon());
     String toolTipText = getTarget().getNotEmptyDescription();

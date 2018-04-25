@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.ant.validation;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProperty;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -24,20 +26,19 @@ import com.intellij.util.xml.highlighting.DomElementAnnotationHolder;
 import com.intellij.util.xml.highlighting.DomHighlightingHelper;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 public class AntMissingPropertiesFileInspection extends AntInspection {
 
   @NonNls private static final String SHORT_NAME = "AntMissingPropertiesFileInspection";
 
   @Nls
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return AntBundle.message("ant.missing.properties.file.inspection");
   }
 
   @NonNls
-  @NotNull
+  @Nonnull
   public String getShortName() {
     return SHORT_NAME;
   }

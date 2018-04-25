@@ -15,7 +15,8 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.AntBuildFile;
@@ -61,7 +62,7 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
     return !Comparing.equal(myAppearance, oldAppearance);
   }
 
-  public void customize(@NotNull SimpleColoredComponent component) {
+  public void customize(@Nonnull SimpleColoredComponent component) {
     if (myAppearance != null) {
       myAppearance.customize(component);
     }
@@ -71,7 +72,7 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
   }
 
   @Override
-  public void customize(@NotNull final HtmlListCellRenderer renderer) {
+  public void customize(@Nonnull final HtmlListCellRenderer renderer) {
     if (myAppearance != null) {
       myAppearance.customize(renderer);
     }

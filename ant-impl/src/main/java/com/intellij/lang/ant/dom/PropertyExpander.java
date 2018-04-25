@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.openapi.util.Pair;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -36,11 +36,11 @@ public class PropertyExpander {
     void onPropertyExpanded(String propName, String propValue);
   }
   
-  public PropertyExpander(final @NotNull String str) {
+  public PropertyExpander(final @Nonnull String str) {
     this(str, Collections.<String>emptySet());
   }
 
-  private PropertyExpander(final @NotNull String str, Set<String> namesToSkip) {
+  private PropertyExpander(final @Nonnull String str, Set<String> namesToSkip) {
     myResolver = new Resolver(str, namesToSkip);
     myNamesToSkip.addAll(namesToSkip);
   }
@@ -101,7 +101,7 @@ public class PropertyExpander {
     }
   }
 
-  @NotNull
+  @Nonnull
   public String getResult() {
     return myResolver.getResult();
   }

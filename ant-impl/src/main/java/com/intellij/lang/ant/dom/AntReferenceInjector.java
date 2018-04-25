@@ -28,8 +28,8 @@ import com.intellij.util.xml.ConvertContext;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomReferenceInjector;
 import com.intellij.util.xml.DomUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.List;
 *         Date: Apr 9, 2010
 */
 class AntReferenceInjector implements DomReferenceInjector {
-  public String resolveString(@Nullable String unresolvedText, @NotNull ConvertContext context) {
+  public String resolveString(@Nullable String unresolvedText, @Nonnull ConvertContext context) {
     // todo: speed optimization: disable string resolution in places where it is not applicable
     if (unresolvedText == null) {
       return null;
@@ -48,8 +48,8 @@ class AntReferenceInjector implements DomReferenceInjector {
     return AntStringResolver.computeString(element, unresolvedText);
   }
 
-  @NotNull
-  public PsiReference[] inject(@Nullable String unresolvedText, @NotNull PsiElement element, @NotNull ConvertContext context) {
+  @Nonnull
+  public PsiReference[] inject(@Nullable String unresolvedText, @Nonnull PsiElement element, @Nonnull ConvertContext context) {
     if (element instanceof XmlAttributeValue) {
       final XmlAttributeValue xmlAttributeValue = (XmlAttributeValue)element;
       final List<PsiReference> refs = PsiReferenceListSpinAllocator.alloc();
@@ -65,7 +65,7 @@ class AntReferenceInjector implements DomReferenceInjector {
     return PsiReference.EMPTY_ARRAY;
   }
 
-  private static void addPropertyReferences(@NotNull ConvertContext context, final XmlAttributeValue xmlAttributeValue, final Collection<PsiReference> result) {
+  private static void addPropertyReferences(@Nonnull ConvertContext context, final XmlAttributeValue xmlAttributeValue, final Collection<PsiReference> result) {
     final String value = xmlAttributeValue.getValue();
     final DomElement contextElement = context.getInvocationElement();
     
@@ -128,7 +128,7 @@ class AntReferenceInjector implements DomReferenceInjector {
     }
   }
   
-  public static void addMacrodefParameterRefs(@NotNull XmlAttributeValue element, final Collection<PsiReference> refs) {
+  public static void addMacrodefParameterRefs(@Nonnull XmlAttributeValue element, final Collection<PsiReference> refs) {
     final DomElement domElement = DomUtil.getDomElement(element);
     if (domElement == null) {
       return;

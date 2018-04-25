@@ -19,7 +19,7 @@ import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.util.xml.Attribute;
 import com.intellij.util.xml.Convert;
 import com.intellij.util.xml.GenericAttributeValue;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
@@ -42,7 +42,7 @@ public abstract class AntDomIncludingDirective extends AntDomElement {
   @Attribute("prefixSeparator")
   public abstract GenericAttributeValue<String> getTargetPrefixSeparator();
 
-  @NotNull
+  @Nonnull
   public final String getTargetPrefixSeparatorValue() {
     final GenericAttributeValue<String> separator = getTargetPrefixSeparator();
     if (separator == null) {

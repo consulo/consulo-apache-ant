@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class AntCallParamsFinder extends AntDomRecursiveVisitor {
   private final String myPropertyName;
   private final List<PsiElement> myResult = new ArrayList<PsiElement>();
 
-  private AntCallParamsFinder(@NotNull String propertyName) {
+  private AntCallParamsFinder(@Nonnull String propertyName) {
     myPropertyName = propertyName;
   }
 
@@ -49,8 +49,8 @@ public class AntCallParamsFinder extends AntDomRecursiveVisitor {
     }
   }
 
-  @NotNull
-  public static List<PsiElement> resolve(@NotNull AntDomProject project, @NotNull String propertyName) {
+  @Nonnull
+  public static List<PsiElement> resolve(@Nonnull AntDomProject project, @Nonnull String propertyName) {
     final AntCallParamsFinder resolver = new AntCallParamsFinder(propertyName);
     project.accept(resolver);
     return resolver.myResult;

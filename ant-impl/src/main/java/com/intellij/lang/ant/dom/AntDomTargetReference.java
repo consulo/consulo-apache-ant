@@ -36,8 +36,8 @@ import com.intellij.util.text.StringTokenizer;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomTarget;
 import com.intellij.util.xml.DomUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.*;
 
@@ -64,7 +64,7 @@ class AntDomTargetReference extends AntDomReferenceBase implements BindablePsiRe
     return ResolveCache.getInstance(getElement().getProject()).resolveWithCaching(this, MyResolver.INSTANCE, false, false);
   }
 
-  public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
+  public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException {
     final DomElement targetDomElement = toDomElement(element);
     if (targetDomElement != null) {
       final AntDomTarget pointingToTarget = targetDomElement.getParentOfType(AntDomTarget.class, false);
@@ -115,7 +115,7 @@ class AntDomTargetReference extends AntDomReferenceBase implements BindablePsiRe
     return getElement();
   }
 
-  @Nullable 
+  @Nullable
   private AntDomElement getHostingAntDomElement() {
     final DomElement selfElement = DomUtil.getDomElement(getElement());
     if (selfElement == null) {
@@ -124,7 +124,7 @@ class AntDomTargetReference extends AntDomReferenceBase implements BindablePsiRe
     return selfElement.getParentOfType(AntDomElement.class, false);
   }
   
-  @NotNull
+  @Nonnull
   public Object[] getVariants() {
     final TargetResolver.Result result = doResolve(getCanonicalText());
     if (result == null) {
@@ -198,7 +198,7 @@ class AntDomTargetReference extends AntDomReferenceBase implements BindablePsiRe
   private static class MyResolver implements ResolveCache.Resolver {
     static final MyResolver INSTANCE = new MyResolver();
     
-    public PsiElement resolve(@NotNull PsiReference psiReference, boolean incompleteCode) {
+    public PsiElement resolve(@Nonnull PsiReference psiReference, boolean incompleteCode) {
       final TargetResolver.Result result = ((AntDomTargetReference)psiReference).doResolve(psiReference.getCanonicalText());
       if (result == null) {
         return null;

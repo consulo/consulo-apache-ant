@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
+import javax.annotation.Nullable;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,8 +35,8 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+
 import com.intellij.ide.CopyProvider;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.OccurenceNavigator;
@@ -619,15 +620,15 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
     public Object getData(Key<?> dataId) {
       if (PlatformDataKeys.COPY_PROVIDER == dataId) {
         return new CopyProvider() {
-          public boolean isCopyEnabled(@NotNull DataContext dataContext) {
+          public boolean isCopyEnabled(@Nonnull DataContext dataContext) {
             return getSelectionPath() != null;
           }
 
-          public boolean isCopyVisible(@NotNull DataContext dataContext) {
+          public boolean isCopyVisible(@Nonnull DataContext dataContext) {
             return true;
           }
 
-          public void performCopy(@NotNull DataContext dataContext) {
+          public void performCopy(@Nonnull DataContext dataContext) {
             TreePath selection = getSelectionPath();
             Object value = selection.getLastPathComponent();
             String text;

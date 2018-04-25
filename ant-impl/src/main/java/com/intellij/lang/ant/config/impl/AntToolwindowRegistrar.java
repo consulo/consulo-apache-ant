@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.config.impl;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.actions.TargetActionStub;
 import com.intellij.openapi.actionSystem.ActionManager;
@@ -61,7 +61,7 @@ public class AntToolwindowRegistrar extends AbstractProjectComponent {
 
   @Override
   @NonNls
-  @NotNull
+  @Nonnull
   public String getComponentName() {
     return "AntToolwindowRegistrar";
   }

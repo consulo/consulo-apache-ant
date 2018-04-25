@@ -17,8 +17,8 @@ package com.intellij.lang.ant.config;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.psi.PsiFile;
@@ -76,7 +76,7 @@ public abstract class AntConfigurationBase extends AntConfiguration {
     }
   }
 
-  public abstract void setContextFile(@NotNull XmlFile file, @Nullable XmlFile context);
+  public abstract void setContextFile(@Nonnull XmlFile file, @Nullable XmlFile context);
 
   @Nullable
   public abstract XmlFile getContextFile(@Nullable XmlFile file);
@@ -85,7 +85,7 @@ public abstract class AntConfigurationBase extends AntConfiguration {
   public abstract XmlFile getEffectiveContextFile(@Nullable XmlFile file);
 
   @Nullable
-  public abstract AntBuildFileBase getAntBuildFile(@NotNull PsiFile file);
+  public abstract AntBuildFileBase getAntBuildFile(@Nonnull PsiFile file);
   
   public abstract AntBuildFileBase[] getBuildFiles();
 }

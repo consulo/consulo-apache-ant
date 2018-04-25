@@ -22,8 +22,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -77,7 +77,7 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
   @Attribute("basedir")
   public abstract GenericAttributeValue<String> getbasedir();
 
-  @NotNull
+  @Nonnull
   public final Iterator<String> getNamesIterator() {
     final String prefix = getPropertyPrefixValue();
     final Iterator<String> delegate = buildProperties().keySet().iterator();
