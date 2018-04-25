@@ -73,7 +73,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlFile;
-import com.intellij.util.ActionRunner;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.StringSetSpinAllocator;
 import com.intellij.util.concurrency.Semaphore;
@@ -81,6 +80,7 @@ import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ValueProperty;
 import com.intellij.util.containers.HashMap;
 import consulo.apache.ant.util.AntJavaSdkUtil;
+import consulo.application.AccessRule;
 
 @State(name = "AntConfiguration", storages = @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml"))
 public class AntConfigurationImpl extends AntConfigurationBase implements PersistentStateComponent<Element>, ModificationTracker
@@ -561,40 +561,37 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 		}
 	}
 
-	private void writeExternal(final Element parentNode) throws WriteExternalException
+	private void writeExternal(final Element parentNode)
 	{
 		getProperties().writeExternal(parentNode);
 		try
 		{
-			ActionRunner.runInsideReadAction(new ActionRunner.InterruptibleRunnable()
+			AccessRule.read(() ->
 			{
-				public void run() throws WriteExternalException
+				for(final AntBuildFileBase buildFile : getBuildFiles())
 				{
-					for(final AntBuildFileBase buildFile : getBuildFiles())
+					final Element element = new Element(BUILD_FILE);
+					element.setAttribute(URL, buildFile.getVirtualFile().getUrl());
+					buildFile.writeProperties(element);
+					saveEvents(element, buildFile);
+					parentNode.addContent(element);
+				}
+				final List<VirtualFile> files = new ArrayList<VirtualFile>(myAntFileToContextFileMap.keySet());
+				// sort in order to minimize changes
+				Collections.sort(files, new Comparator<VirtualFile>()
+				{
+					public int compare(final VirtualFile o1, final VirtualFile o2)
 					{
-						final Element element = new Element(BUILD_FILE);
-						element.setAttribute(URL, buildFile.getVirtualFile().getUrl());
-						buildFile.writeProperties(element);
-						saveEvents(element, buildFile);
-						parentNode.addContent(element);
+						return o1.getUrl().compareTo(o2.getUrl());
 					}
-					final List<VirtualFile> files = new ArrayList<VirtualFile>(myAntFileToContextFileMap.keySet());
-					// sort in order to minimize changes
-					Collections.sort(files, new Comparator<VirtualFile>()
-					{
-						public int compare(final VirtualFile o1, final VirtualFile o2)
-						{
-							return o1.getUrl().compareTo(o2.getUrl());
-						}
-					});
-					for(VirtualFile file : files)
-					{
-						final Element element = new Element(CONTEXT_MAPPING);
-						final VirtualFile contextFile = myAntFileToContextFileMap.get(file);
-						element.setAttribute(URL, file.getUrl());
-						element.setAttribute(CONTEXT, contextFile.getUrl());
-						parentNode.addContent(element);
-					}
+				});
+				for(VirtualFile file : files)
+				{
+					final Element element = new Element(CONTEXT_MAPPING);
+					final VirtualFile contextFile = myAntFileToContextFileMap.get(file);
+					element.setAttribute(URL, file.getUrl());
+					element.setAttribute(CONTEXT, contextFile.getUrl());
+					parentNode.addContent(element);
 				}
 			});
 		}
@@ -985,7 +982,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 										else if("beforeRun".equals(eventId))
 										{
 					  /*
-                      for compatibility with previous format
+					  for compatibility with previous format
 
                       <buildFile url="file://$PROJECT_DIR$/module/src/support-scripts.xml">
                         <executeOn event="beforeRun" target="prebuild-steps" runConfigurationType="Application" runConfigurationName="Main" />
