@@ -22,8 +22,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.input.InputHandler;
 import org.apache.tools.ant.input.InputRequest;
 import org.apache.tools.ant.input.MultipleChoiceInputRequest;
-import consulo.shade.com.intellij.rt.execution.junit.segments.PacketWriter;
-import consulo.shade.com.intellij.rt.execution.junit.segments.SegmentedOutputStream;
+import com.intellij.rt.execution.junit.segments.PacketWriter;
+import com.intellij.rt.execution.junit.segments.SegmentedOutputStream;
 
 /**
  * @author dyoma

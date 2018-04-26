@@ -23,8 +23,8 @@ import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
 import consulo.apache.ant.rt.AntLoggerConstants;
-import consulo.shade.com.intellij.rt.execution.junit.segments.PacketWriter;
-import consulo.shade.com.intellij.rt.execution.junit.segments.SegmentedOutputStream;
+import com.intellij.rt.execution.junit.segments.PacketWriter;
+import com.intellij.rt.execution.junit.segments.SegmentedOutputStream;
 
 public final class IdeaAntLogger2 extends DefaultLogger implements AntLoggerConstants
 {

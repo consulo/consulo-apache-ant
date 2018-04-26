@@ -15,7 +15,7 @@
  */
 package com.intellij.rt.ant.execution;
 
-import consulo.shade.com.intellij.rt.execution.junit.segments.PacketWriter;
+import com.intellij.rt.execution.junit.segments.PacketWriter;
 
 /**
  * @author dyoma
