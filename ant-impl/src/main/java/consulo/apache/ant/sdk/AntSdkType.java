@@ -62,7 +62,7 @@ public class AntSdkType extends SdkType
 		{
 			return Collections.emptyList();
 		}
-		VirtualFile dist = fileByIoFile.findChild("dist");
+		VirtualFile dist = fileByIoFile.findChild("bundles");
 		if(dist == null)
 		{
 			return Collections.emptyList();

@@ -17,7 +17,6 @@ package com.intellij.lang.ant.config.execution;
 
 import java.io.IOException;
 
-import consulo.apache.ant.rt.AntLoggerConstants;
 import com.intellij.execution.junit.JUnitProcessHandler;
 import com.intellij.execution.junit2.segments.DeferredActionsQueue;
 import com.intellij.execution.junit2.segments.DeferredActionsQueueImpl;
@@ -32,9 +31,9 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ex.MessagesEx;
-import com.intellij.rt.execution.junit.segments.PacketProcessor;
+import consulo.apache.ant.rt.AntLoggerConstants;
 
-final class OutputParser2 extends OutputParser implements PacketProcessor, InputConsumer, OutputPacketProcessor {
+final class OutputParser2 extends OutputParser implements InputConsumer, OutputPacketProcessor {
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.OutputParser2");
   private int myLastPacketIndex = -1;
 

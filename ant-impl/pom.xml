@@ -61,7 +61,7 @@
 						<copies>
 							<copy>
 								<artifact>${project.groupId}:consulo.apache.ant-rt:${project.version}</artifact>
-								<path>lib/</path>
+								<path>/ant-rt.jar</path>
 							</copy>
 						</copies>
 					</packaging>
@@ -87,6 +87,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>consulo.java</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>consulo.java-java.rt</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>consulo.apache.ant-rt</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>consulo.java-java.rt</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

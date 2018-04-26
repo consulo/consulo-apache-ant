@@ -18,9 +18,10 @@ package com.intellij.lang.ant.config.execution;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.ExecutionException;
@@ -47,6 +48,7 @@ import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.encoding.EncodingProjectManager;
 import com.intellij.openapi.wm.StatusBar;
@@ -174,6 +176,14 @@ public final class ExecutionHandler {
 
     final OutputParser parser = OutputParser2.attachParser(project, handler, errorView, progress, buildFile);
 
+    handler.addProcessListener(new ProcessAdapter()
+	{
+		@Override
+		public void onTextAvailable(ProcessEvent event, Key outputType)
+		{
+			System.out.println(event.getText());
+		}
+	});
     handler.addProcessListener(new ProcessAdapter() {
       public void processTerminated(ProcessEvent event) {
         final long buildTime = System.currentTimeMillis() - startTime;

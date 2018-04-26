@@ -26,7 +26,7 @@ import com.intellij.CommonBundle;
 public final class AntActionsBundle {
   private static Reference<ResourceBundle> ourBundle;
 
-  @NonNls private static final String IDEA_ACTIONS_BUNDLE = "com.intellij.lang.ant.resources.AntActionsBundle";
+  @NonNls private static final String IDEA_ACTIONS_BUNDLE = "messages.AntActionsBundle";
 
   private AntActionsBundle() {
   }

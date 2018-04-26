@@ -24,9 +24,7 @@ import com.intellij.execution.CantRunException;
 import com.intellij.execution.configurations.ParametersList;
 import com.intellij.ide.macro.Macro;
 import com.intellij.ide.macro.MacroManager;
-import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
-import com.intellij.ide.plugins.cl.PluginClassLoader;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
@@ -36,14 +34,15 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.projectRoots.JavaSdkType;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTypeId;
-import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.projectRoots.ex.JavaSdkUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.PathUtil;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.containers.ContainerUtil;
-import consulo.apache.ant.sdk.AntSdkType;
+import consulo.apache.ant.rt.AntLoggerConstants;
 import consulo.java.execution.configurations.OwnJavaParameters;
+import consulo.roots.types.BinariesOrderRootType;
 
 public class AntCommandLineBuilder
 {
@@ -131,7 +130,7 @@ public class AntCommandLineBuilder
 		final String libraryDir = antHome + (antHome.endsWith("/") || antHome.endsWith(File.separator) ? "" : File.separator) + "lib";
 		vmParametersList.add("-Dant.library.dir=" + libraryDir);
 
-		String[] urls = jdk.getRootProvider().getUrls(OrderRootType.CLASSES);
+		String[] urls = jdk.getRootProvider().getUrls(BinariesOrderRootType.getInstance());
 		final String jdkHome = homeDirectory.getPath().replace('/', File.separatorChar);
 		@NonNls final String pathToJre = jdkHome + File.separator + "jre" + File.separator;
 		for(String url : urls)
@@ -145,12 +144,12 @@ public class AntCommandLineBuilder
 
 		myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.ALL_CLASS_PATH.get(container));
 
-		PluginClassLoader classLoader = (PluginClassLoader) AntSdkType.class.getClassLoader();
-		IdeaPluginDescriptor plugin = PluginManager.getPlugin(classLoader.getPluginId());
+		File pluginPath = PluginManager.getPluginPath(AntCommandLineBuilder.class);
 
 		myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.getUserHomeLibraries());
-		myCommandLine.getClassPath().add(new File(plugin.getPath(), "ant-rt.jar"));
-		myCommandLine.getClassPath().add(new File(plugin.getPath(), "lib/ant-rt-common.jar"));
+		// hardcoded since it's not loaded by classloader
+		myCommandLine.getClassPath().add(new File(pluginPath, "ant-rt.jar"));
+		myCommandLine.getClassPath().add(PathUtil.getJarPathForClass(AntLoggerConstants.class));
 
 		final SdkTypeId sdkType = jdk.getSdkType();
 		if(sdkType instanceof JavaSdkType)
@@ -161,7 +160,7 @@ public class AntCommandLineBuilder
 				myCommandLine.getClassPath().add(toolsJar);
 			}
 		}
-		PathUtilEx.addRtJar(myCommandLine.getClassPath());
+		JavaSdkUtil.addRtJar(myCommandLine.getClassPath());
 
 		myCommandLine.setMainClass("com.intellij.rt.ant.execution.AntMain2");
 		final ParametersList programParameters = myCommandLine.getProgramParametersList();
