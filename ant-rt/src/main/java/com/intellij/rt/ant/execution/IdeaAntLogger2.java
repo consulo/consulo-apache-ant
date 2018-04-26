@@ -22,7 +22,7 @@ import java.io.StringWriter;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
-import org.mustbe.consulo.apache.ant.rt.AntLoggerConstants;
+import consulo.apache.ant.rt.AntLoggerConstants;
 import com.intellij.rt.execution.junit.segments.PacketWriter;
 import com.intellij.rt.execution.junit.segments.SegmentedOutputStream;
 

@@ -17,7 +17,7 @@ package com.intellij.lang.ant.config.execution;
 
 import java.io.IOException;
 
-import org.mustbe.consulo.apache.ant.rt.AntLoggerConstants;
+import consulo.apache.ant.rt.AntLoggerConstants;
 import com.intellij.execution.junit.JUnitProcessHandler;
 import com.intellij.execution.junit2.segments.DeferredActionsQueue;
 import com.intellij.execution.junit2.segments.DeferredActionsQueueImpl;

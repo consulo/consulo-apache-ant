@@ -17,13 +17,21 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>consulo</groupId>
-		<artifactId>arch.managment</artifactId>
+		<artifactId>arch.ide-provided</artifactId>
 		<version>2-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
+
+	<groupId>consulo.plugin</groupId>
+	<artifactId>consulo.apache.ant-rt</artifactId>
+	<version>2-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<java.level>1.6</java.level>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -36,14 +44,26 @@
 		</repository>
 	</repositories>
 
-	<groupId>consulo.plugin</groupId>
-	<artifactId>consulo.apache.ant.parent</artifactId>
-	<version>2-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>consulo.java-java.rt</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
-	<modules>
-		<module>ant-impl</module>
-		<module>ant-rt-common</module>
-		<module>ant-rt</module>
-	</modules>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant-nodeps</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>consulo.apache.ant-rt.common</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

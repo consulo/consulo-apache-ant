@@ -27,7 +27,7 @@
 	<groupId>consulo.plugin</groupId>
 	<artifactId>consulo.apache.ant-rt.common</artifactId>
 	<version>2-SNAPSHOT</version>
-	<packaging>consulo-plugin</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.level>1.6</java.level>

@@ -58,6 +58,12 @@
 					<packaging>
 						<skip>${dev.mode}</skip>
 						<version>${build.number}</version>
+						<copies>
+							<copy>
+								<artifact>${project.groupId}:consulo.apache.ant-rt:${project.version}</artifact>
+								<path>lib/</path>
+							</copy>
+						</copies>
 					</packaging>
 				</configuration>
 				<executions>
@@ -73,6 +79,11 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>consulo.apache.ant-rt.common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>consulo.java</artifactId>

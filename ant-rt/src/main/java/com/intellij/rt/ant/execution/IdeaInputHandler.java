@@ -36,7 +36,7 @@ public class IdeaInputHandler implements InputHandler {
     }
     final SegmentedOutputStream err = IdeaAntLogger2.ourErr;
     if (err == null) {
-      throw new BuildException("Selected InputHandler should be used by Intellij IDEA");
+      throw new BuildException("Selected InputHandler should be used by Consulo");
     }
     final PacketWriter packet = PacketFactory.ourInstance.createPacket(IdeaAntLogger2.INPUT_REQUEST);
     packet.appendLimitedString(prompt);

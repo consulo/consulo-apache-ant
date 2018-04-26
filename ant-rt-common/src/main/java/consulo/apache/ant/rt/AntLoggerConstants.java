@@ -1,4 +1,4 @@
-package org.mustbe.consulo.apache.ant.rt;
+package consulo.apache.ant.rt;
 
 /**
  * @author VISTALL

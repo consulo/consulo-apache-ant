@@ -19,9 +19,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nullable;
-import org.mustbe.consulo.apache.ant.rt.AntLoggerConstants;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.compiler.impl.javaCompiler.FileObject;
 import com.intellij.compiler.impl.javaCompiler.javac.JavacOutputParser;
 import com.intellij.execution.process.OSProcessHandler;
@@ -34,6 +34,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.text.StringTokenizer;
+import consulo.apache.ant.rt.AntLoggerConstants;
 
 //import com.intellij.compiler.impl.javaCompiler.jikes.JikesOutputParser;
 
