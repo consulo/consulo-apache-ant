@@ -15,56 +15,63 @@
  */
 package com.intellij.lang.ant.dom;
 
-import javax.swing.Icon;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import consulo.apache.ant.ApacheAntIcons;
+
 import com.intellij.lang.ant.ForcedAntFileAttribute;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.ui.image.Image;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: Apr 6, 2010
  */
-public class AntDomFileDescription extends AntFileDescription<AntDomProject> {
-  private static final String ROOT_TAG_NAME = "project";
+public class AntDomFileDescription extends AntFileDescription<AntDomProject>
+{
+	private static final String ROOT_TAG_NAME = "project";
 
-  public AntDomFileDescription() {
-    super(AntDomProject.class, ROOT_TAG_NAME);
-  }
+	public AntDomFileDescription()
+	{
+		super(AntDomProject.class, ROOT_TAG_NAME);
+	}
 
-  public boolean isMyFile(@Nonnull XmlFile file) {
-    return super.isMyFile(file) && isAntFile(file);
-  }
+	public boolean isMyFile(@Nonnull XmlFile file)
+	{
+		return super.isMyFile(file) && isAntFile(file);
+	}
 
-  @Nullable
-  @Override
-  public Icon getFileIcon(@Iconable.IconFlags int flags)
-  {
-    return ApacheAntIcons.AntBuildXml;
-  }
+	@Nullable
+	@Override
+	public Image getFileIcon(@Iconable.IconFlags int flags)
+	{
+		return ApacheAntIcons.AntBuildXml;
+	}
 
-  public static boolean isAntFile(final XmlFile xmlFile) {
-    final XmlDocument document = xmlFile.getDocument();
-    if (document != null) {
-      final XmlTag tag = document.getRootTag();
-      final VirtualFile vFile = xmlFile.getOriginalFile().getVirtualFile();
-      if (tag != null && ROOT_TAG_NAME.equals(tag.getName()) && tag.getContext() instanceof XmlDocument) {
-        if (tag.getAttributeValue("name") != null && tag.getAttributeValue("default") != null
-            && vFile != null && ForcedAntFileAttribute.mayBeAntFile(vFile)) {
-          return true;
-        }
-      }
-      if (vFile != null && ForcedAntFileAttribute.isAntFile(vFile)) {
-        return true;
-      }
-    }
-    return false;
-  }
+	public static boolean isAntFile(final XmlFile xmlFile)
+	{
+		final XmlDocument document = xmlFile.getDocument();
+		if(document != null)
+		{
+			final XmlTag tag = document.getRootTag();
+			final VirtualFile vFile = xmlFile.getOriginalFile().getVirtualFile();
+			if(tag != null && ROOT_TAG_NAME.equals(tag.getName()) && tag.getContext() instanceof XmlDocument)
+			{
+				if(tag.getAttributeValue("name") != null && tag.getAttributeValue("default") != null && vFile != null && ForcedAntFileAttribute.mayBeAntFile(vFile))
+				{
+					return true;
+				}
+			}
+			if(vFile != null && ForcedAntFileAttribute.isAntFile(vFile))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

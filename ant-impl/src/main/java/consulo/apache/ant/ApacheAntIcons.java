@@ -8,7 +8,7 @@ import consulo.ui.image.Image;
 // Generated Consulo DevKit plugin 
 public interface ApacheAntIcons
 {
-	Icon AntBuildXml = IconLoader.getIcon("/icons/antBuildXml.png");  // 16x16
+	Image AntBuildXml = IconLoader.getIcon("/icons/antBuildXml.png");  // 16x16
 	Image AntGroup = IconLoader.getIcon("/icons/antGroup.png");  // 16x16
 	Image AntInstallation = IconLoader.getIcon("/icons/antInstallation.png");  // 16x16
 	Icon ChangeView = IconLoader.getIcon("/icons/changeView.png");  // 16x16
