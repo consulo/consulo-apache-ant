@@ -16,9 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-import com.intellij.openapi.module.Module;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
@@ -34,8 +32,8 @@ public class AntlibDomFileDescription extends AntFileDescription<AntDomAntlib> {
     super(AntDomAntlib.class, ROOT_TAG_NAME);
   }
 
-  public boolean isMyFile(@Nonnull XmlFile file, @Nullable Module module) {
-    return super.isMyFile(file, module) && isAntLibFile(file);
+  public boolean isMyFile(@Nonnull XmlFile file) {
+    return super.isMyFile(file) && isAntLibFile(file);
   }
 
   public static boolean isAntLibFile(final XmlFile xmlFile) {

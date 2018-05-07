@@ -24,6 +24,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.MultilineTreeCellRenderer;
 import com.intellij.ui.SideBorder;
+import consulo.awt.TargetAWT;
 
 final class MessageTreeRenderer extends MultilineTreeCellRenderer {
 
@@ -55,7 +56,7 @@ final class MessageTreeRenderer extends MultilineTreeCellRenderer {
       MessageNode node = (MessageNode)value;
       AntBuildMessageView.MessageType type = node.getType();
       if (type == AntBuildMessageView.MessageType.BUILD) {
-        icon = ApacheAntIcons.AntInstallation;
+        icon = TargetAWT.to(ApacheAntIcons.AntInstallation);
       }
       else if (type == AntBuildMessageView.MessageType.TARGET) {
         icon = ApacheAntIcons.Target;

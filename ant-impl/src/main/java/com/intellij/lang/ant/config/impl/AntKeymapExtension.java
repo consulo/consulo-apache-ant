@@ -32,6 +32,7 @@ import com.intellij.openapi.keymap.KeymapGroupFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.util.containers.HashMap;
+import consulo.awt.TargetAWT;
 
 /**
  * @author Vladislav.Kaznacheev
@@ -42,7 +43,7 @@ class AntKeymapExtension implements KeymapExtension {
   public KeymapGroup createGroup(final Condition<AnAction> filtered, Project project) {
     final Map<AntBuildFile, KeymapGroup> buildFileToGroup = new HashMap<AntBuildFile, KeymapGroup>();
     final KeymapGroup result =
-      KeymapGroupFactory.getInstance().createGroup(KeyMapBundle.message("ant.targets.group.title"), ApacheAntIcons.AntGroup);
+      KeymapGroupFactory.getInstance().createGroup(KeyMapBundle.message("ant.targets.group.title"), TargetAWT.to(ApacheAntIcons.AntGroup));
 
     final ActionManagerEx actionManager = ActionManagerEx.getInstanceEx();
     final String[] ids =

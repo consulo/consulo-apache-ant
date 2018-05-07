@@ -28,6 +28,7 @@ import com.intellij.openapi.util.Comparing;
 import com.intellij.ui.HtmlListCellRenderer;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
+import consulo.awt.TargetAWT;
 
 public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
 
@@ -48,7 +49,7 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
   }
 
   public boolean update() {
-    setIcon(ApacheAntIcons.AntInstallation);
+    setIcon(TargetAWT.to(ApacheAntIcons.AntInstallation));
 
     CompositeAppearance oldAppearance = myAppearance;
     myAppearance = new CompositeAppearance();

@@ -19,6 +19,7 @@ import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.AntBuildFileGroup;
 import com.intellij.openapi.project.Project;
+import consulo.awt.TargetAWT;
 
 /**
  * @author VISTALL
@@ -31,7 +32,7 @@ public class AntBuildGroupNodeDescriptor extends AntNodeDescriptor {
     super(project, parentDescriptor);
     myGroup = group;
     myName = myGroup.getName();
-    setIcon(ApacheAntIcons.AntGroup);
+    setIcon(TargetAWT.to(ApacheAntIcons.AntGroup));
   }
 
   @Override

@@ -22,7 +22,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.Icon;
 
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -34,6 +33,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import consulo.apache.ant.ApacheAntIcons;
 import consulo.apache.ant.util.AntVersionUtil;
 import consulo.roots.types.BinariesOrderRootType;
+import consulo.ui.image.Image;
 import consulo.vfs.util.ArchiveVfsUtil;
 
 /**
@@ -103,14 +103,14 @@ public class AntSdkType extends SdkType
 	}
 
 	@Override
-	public Icon getIcon()
+	public Image getIcon()
 	{
 		return ApacheAntIcons.AntInstallation;
 	}
 
 	@Nullable
 	@Override
-	public Icon getGroupIcon()
+	public Image getGroupIcon()
 	{
 		return ApacheAntIcons.AntGroup;
 	}

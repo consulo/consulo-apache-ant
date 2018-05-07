@@ -35,6 +35,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.AnSeparator;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.treeStructure.Tree;
+import consulo.awt.TargetAWT;
 
 /**
  * @author VISTALL
@@ -50,7 +51,7 @@ public class AntGroupManagerActionGroup extends ActionGroup {
     myGroup = group;
     myTree = tree;
     if(myGroup != null) {
-      getTemplatePresentation().setIcon(ApacheAntIcons.AntGroup);
+      getTemplatePresentation().setIcon(TargetAWT.to(ApacheAntIcons.AntGroup));
     }
     myDefaultActions = new AnAction[] {new CreateNewGroupAction(group, tree), new MoveToThisGroupAction(tree, group)};
   }

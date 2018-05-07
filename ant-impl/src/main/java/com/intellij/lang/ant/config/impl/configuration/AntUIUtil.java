@@ -44,6 +44,7 @@ import com.intellij.util.IconUtil;
 import com.intellij.util.PlatformIcons;
 import com.intellij.util.ui.AbstractTableCellEditor;
 import com.intellij.util.ui.CellEditorComponentWithBrowseButton;
+import consulo.awt.TargetAWT;
 import consulo.bundle.SdkUtil;
 
 public class AntUIUtil
@@ -109,7 +110,7 @@ public class AntUIUtil
 
 	public static void customizeAnt(Sdk sdk, SimpleColoredComponent component)
 	{
-		component.setIcon(SdkUtil.getIcon(sdk));
+		component.setIcon(TargetAWT.to(SdkUtil.getIcon(sdk)));
 		String name = sdk.getName();
 		component.append(name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
 		String versionString = sdk.getVersionString();

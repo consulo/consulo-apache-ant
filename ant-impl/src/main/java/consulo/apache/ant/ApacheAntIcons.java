@@ -3,13 +3,14 @@ package consulo.apache.ant;
 import javax.swing.Icon;
 
 import com.intellij.openapi.util.IconLoader;
+import consulo.ui.image.Image;
 
 // Generated Consulo DevKit plugin 
 public interface ApacheAntIcons
 {
 	Icon AntBuildXml = IconLoader.getIcon("/icons/antBuildXml.png");  // 16x16
-	Icon AntGroup = IconLoader.getIcon("/icons/antGroup.png");  // 16x16
-	Icon AntInstallation = IconLoader.getIcon("/icons/antInstallation.png");  // 16x16
+	Image AntGroup = IconLoader.getIcon("/icons/antGroup.png");  // 16x16
+	Image AntInstallation = IconLoader.getIcon("/icons/antInstallation.png");  // 16x16
 	Icon ChangeView = IconLoader.getIcon("/icons/changeView.png");  // 16x16
 	Icon Message = IconLoader.getIcon("/icons/message.png");  // 16x16
 	Icon MetaTarget = IconLoader.getIcon("/icons/metaTarget.png");  // 16x16
