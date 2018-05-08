@@ -54,7 +54,7 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
     CompositeAppearance oldAppearance = myAppearance;
     myAppearance = new CompositeAppearance();
     myAppearance.getEnding().addText(myBuildFile.getPresentableName(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
-    myAppearance.setIcon(getIcon());
+    myAppearance.setIcon(TargetAWT.to(getIcon()));
     final AntBuildModelBase buildModel = myBuildFile.getModelIfRegistered();
     if (buildModel != null) {
       AntTargetNodeDescriptor.addShortcutText(buildModel.getDefaultTargetActionId(), myAppearance);

@@ -49,6 +49,7 @@ import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.ui.UIUtil;
+import consulo.awt.TargetAWT;
 
 final class AntTargetNodeDescriptor extends AntNodeDescriptor {
   private static final TextAttributes ourPostfixAttributes = new TextAttributes(new JBColor(new Color(128, 0, 0), JBColor.RED), null, null, EffectType.BOXED, Font.PLAIN);
@@ -147,7 +148,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
 
   public void customize(@Nonnull SimpleColoredComponent component) {
     getHighlightedText().customize(component);
-    component.setIcon(getIcon());
+    component.setIcon(TargetAWT.to(getIcon()));
     String toolTipText = getTarget().getNotEmptyDescription();
     component.setToolTipText(toolTipText);
   }
@@ -155,7 +156,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
   @Override
   public void customize(@Nonnull final HtmlListCellRenderer renderer) {
     getHighlightedText().customize(renderer);
-    renderer.setIcon(getIcon());
+    renderer.setIcon(TargetAWT.to(getIcon()));
     String toolTipText = getTarget().getNotEmptyDescription();
     renderer.setToolTipText(toolTipText);
   }

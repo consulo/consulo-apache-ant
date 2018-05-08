@@ -15,13 +15,16 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
-import javax.annotation.Nonnull;
+import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 /**
 * @author VISTALL
@@ -34,7 +37,7 @@ final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor {
     super(project, parentDescriptor);
     myModule = module;
     myName = module.getName();
-    myClosedIcon = AllIcons.Actions.Module;
+    setIcon((Image) AllIcons.Actions.Module);
   }
 
   @Override
@@ -55,6 +58,6 @@ final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor {
   @Override
   public void customize(@Nonnull SimpleColoredComponent component) {
     component.append(toString(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
-    component.setIcon(getIcon());
+    component.setIcon(TargetAWT.to(getIcon()));
   }
 }

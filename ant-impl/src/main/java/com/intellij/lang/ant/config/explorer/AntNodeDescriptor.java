@@ -23,6 +23,7 @@ import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.ui.HtmlListCellRenderer;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
+import consulo.awt.TargetAWT;
 
 abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanceEx {
   public AntNodeDescriptor(Project project, NodeDescriptor parentDescriptor) {
@@ -32,13 +33,13 @@ abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanc
   public abstract boolean isAutoExpand();
 
   public void customize(@Nonnull SimpleColoredComponent component) {
-    component.setIcon(getIcon());
+    component.setIcon(TargetAWT.to(getIcon()));
     component.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
   }
 
   @Override
   public void customize(@Nonnull final HtmlListCellRenderer renderer) {
-    renderer.setIcon(getIcon());
+    renderer.setIcon(TargetAWT.to(getIcon()));
     renderer.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
   }
 
