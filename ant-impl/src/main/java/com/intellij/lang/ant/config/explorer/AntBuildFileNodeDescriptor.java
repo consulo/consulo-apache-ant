@@ -17,7 +17,6 @@ package com.intellij.lang.ant.config.explorer;
 
 import javax.annotation.Nonnull;
 
-import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
@@ -25,10 +24,9 @@ import com.intellij.lang.ant.config.AntBuildModelBase;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ui.util.CompositeAppearance;
 import com.intellij.openapi.util.Comparing;
-import com.intellij.ui.HtmlListCellRenderer;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
-import consulo.awt.TargetAWT;
+import consulo.apache.ant.ApacheAntIcons;
 
 public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
 
@@ -49,12 +47,12 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
   }
 
   public boolean update() {
-    setIcon(TargetAWT.to(ApacheAntIcons.AntInstallation));
+    setIcon(ApacheAntIcons.AntInstallation);
 
     CompositeAppearance oldAppearance = myAppearance;
     myAppearance = new CompositeAppearance();
     myAppearance.getEnding().addText(myBuildFile.getPresentableName(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
-    myAppearance.setIcon(TargetAWT.to(getIcon()));
+    myAppearance.setIcon(getIcon());
     final AntBuildModelBase buildModel = myBuildFile.getModelIfRegistered();
     if (buildModel != null) {
       AntTargetNodeDescriptor.addShortcutText(buildModel.getDefaultTargetActionId(), myAppearance);
@@ -69,16 +67,6 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
     }
     else {
       super.customize(component);
-    }
-  }
-
-  @Override
-  public void customize(@Nonnull final HtmlListCellRenderer renderer) {
-    if (myAppearance != null) {
-      myAppearance.customize(renderer);
-    }
-    else {
-      super.customize(renderer);
     }
   }
 

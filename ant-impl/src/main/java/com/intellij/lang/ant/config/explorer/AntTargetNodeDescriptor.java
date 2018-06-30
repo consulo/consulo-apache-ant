@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
-import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.AntBuildFile;
@@ -44,11 +43,11 @@ import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.openapi.roots.ui.util.CompositeAppearance;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.HtmlListCellRenderer;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.ui.UIUtil;
+import consulo.apache.ant.ApacheAntIcons;
 import consulo.awt.TargetAWT;
 
 final class AntTargetNodeDescriptor extends AntNodeDescriptor {
@@ -151,13 +150,5 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
     component.setIcon(TargetAWT.to(getIcon()));
     String toolTipText = getTarget().getNotEmptyDescription();
     component.setToolTipText(toolTipText);
-  }
-
-  @Override
-  public void customize(@Nonnull final HtmlListCellRenderer renderer) {
-    getHighlightedText().customize(renderer);
-    renderer.setIcon(TargetAWT.to(getIcon()));
-    String toolTipText = getTarget().getNotEmptyDescription();
-    renderer.setToolTipText(toolTipText);
   }
 }

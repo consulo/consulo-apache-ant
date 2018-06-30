@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ui.CellAppearanceEx;
-import com.intellij.ui.HtmlListCellRenderer;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import consulo.awt.TargetAWT;
@@ -35,12 +34,6 @@ abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanc
   public void customize(@Nonnull SimpleColoredComponent component) {
     component.setIcon(TargetAWT.to(getIcon()));
     component.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
-  }
-
-  @Override
-  public void customize(@Nonnull final HtmlListCellRenderer renderer) {
-    renderer.setIcon(TargetAWT.to(getIcon()));
-    renderer.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
   }
 
   @Nonnull
