@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.lang.ant.config.impl.group;
+package consulo.apache.ant.config.impl.group;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jdom.Element;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
-import com.intellij.lang.ant.config.AntBuildFileGroup;
-import com.intellij.lang.ant.config.AntBuildFileGroupManager;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
@@ -40,6 +37,8 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlFile;
+import consulo.apache.ant.config.AntBuildFileGroup;
+import consulo.apache.ant.config.AntBuildFileGroupManager;
 
 /**
  * @author VISTALL

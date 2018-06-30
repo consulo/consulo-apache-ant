@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.lang.ant.config.actions;
+package consulo.apache.ant.config.actions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,8 +26,8 @@ import javax.annotation.Nonnull;
 
 import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.config.AntBuildFileGroup;
-import com.intellij.lang.ant.config.AntBuildFileGroupManager;
+import consulo.apache.ant.config.AntBuildFileGroup;
+import consulo.apache.ant.config.AntBuildFileGroupManager;
 import com.intellij.lang.ant.config.explorer.AntBuildFileNodeDescriptor;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.AnAction;

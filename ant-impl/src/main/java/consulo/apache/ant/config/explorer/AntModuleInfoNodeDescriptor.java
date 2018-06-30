@@ -13,31 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.lang.ant.config.explorer;
+package consulo.apache.ant.config.explorer;
 
 import javax.annotation.Nonnull;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.util.treeView.NodeDescriptor;
+import com.intellij.lang.ant.config.explorer.AntNodeDescriptor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import consulo.awt.TargetAWT;
-import consulo.ui.image.Image;
 
 /**
 * @author VISTALL
 * @date 14:08/08.03.13
 */
-final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor {
+public final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor
+{
   private Module myModule;
 
   public AntModuleInfoNodeDescriptor(Project project, NodeDescriptor parentDescriptor, Module module) {
     super(project, parentDescriptor);
     myModule = module;
     myName = module.getName();
-    setIcon((Image) AllIcons.Actions.Module);
+    setIcon(AllIcons.Actions.Module);
   }
 
   @Override

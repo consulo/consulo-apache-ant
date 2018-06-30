@@ -24,7 +24,7 @@ import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import consulo.awt.TargetAWT;
 
-abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanceEx {
+public abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanceEx {
   public AntNodeDescriptor(Project project, NodeDescriptor parentDescriptor) {
     super(project, parentDescriptor);
   }

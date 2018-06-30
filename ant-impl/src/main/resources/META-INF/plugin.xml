@@ -22,7 +22,7 @@
 		<applicationService serviceImplementation="com.intellij.lang.ant.config.impl.GlobalAntConfiguration"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.AntConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntConfigurationImpl"/>
 		<projectService serviceInterface="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration" serviceImplementation="com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration"/>
-		<projectService serviceInterface="com.intellij.lang.ant.config.AntBuildFileGroupManager" serviceImplementation="com.intellij.lang.ant.config.impl.group.AntBuildFileGroupManagerImpl"/>
+		<projectService serviceInterface="consulo.apache.ant.config.AntBuildFileGroupManager" serviceImplementation="consulo.apache.ant.config.impl.group.AntBuildFileGroupManagerImpl"/>
 
 		<renameHandler implementation="com.intellij.lang.ant.refactoring.AntRenameHandler"/>
 		<stepsBeforeRunProvider implementation="com.intellij.lang.ant.config.impl.AntBeforeRunTaskProvider"/>
@@ -68,7 +68,7 @@
 		<typeName className="com.intellij.lang.ant.dom.AntDomAntCallParam" name="antcall parameter"/>
 
 		<toolWindow anchor="right" icon="/icons/toolWindowAnt.png" id="Apache Ant"
-					factoryClass="com.intellij.lang.ant.toolWindow.AntBuildToolWindowFactory" requireModuleExtensions="java"/>
+					factoryClass="consulo.apache.ant.toolWindow.AntBuildToolWindowFactory" requireModuleExtensions="java"/>
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij.xml.dom">

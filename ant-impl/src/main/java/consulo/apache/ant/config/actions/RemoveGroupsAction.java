@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.lang.ant.config.actions;
+package consulo.apache.ant.config.actions;
+
+import java.util.List;
 
 import com.intellij.ide.util.treeView.AbstractTreeBuilder;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.config.AntBuildFileGroupManager;
-import com.intellij.lang.ant.config.explorer.AntBuildGroupNodeDescriptor;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.IconUtil;
 import com.intellij.util.ui.tree.TreeUtil;
-
-import java.util.List;
+import consulo.apache.ant.config.AntBuildFileGroupManager;
+import consulo.apache.ant.config.explorer.AntBuildGroupNodeDescriptor;
 
 /**
  * @author VISTALL

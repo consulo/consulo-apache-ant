@@ -28,6 +28,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.ActionCallback;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.ui.JBColor;
+import consulo.apache.ant.config.AntBuildFileGroup;
+import consulo.apache.ant.config.explorer.AntBuildGroupNodeDescriptor;
+import consulo.apache.ant.config.explorer.AntModuleInfoNodeDescriptor;
+import consulo.apache.ant.config.explorer.AntTreeView;
 
 import javax.annotation.Nullable;
 

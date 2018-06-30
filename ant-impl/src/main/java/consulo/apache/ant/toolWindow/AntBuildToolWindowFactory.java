@@ -1,4 +1,6 @@
-package com.intellij.lang.ant.toolWindow;
+package consulo.apache.ant.toolWindow;
+
+import javax.annotation.Nonnull;
 
 import com.intellij.lang.ant.config.explorer.AntExplorer;
 import com.intellij.openapi.project.Project;
@@ -15,7 +17,7 @@ import com.intellij.ui.content.ContentManager;
 public class AntBuildToolWindowFactory implements ToolWindowFactory
 {
 	@Override
-	public void createToolWindowContent(Project project, ToolWindow toolWindow)
+	public void createToolWindowContent(@Nonnull Project project, @Nonnull ToolWindow toolWindow)
 	{
 		AntExplorer explorer = new AntExplorer(project);
 		final ContentManager contentManager = toolWindow.getContentManager();

@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.lang.ant.config;
+package consulo.apache.ant.config;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
-
-import javax.annotation.Nullable;
 
 /**
  * @author VISTALL

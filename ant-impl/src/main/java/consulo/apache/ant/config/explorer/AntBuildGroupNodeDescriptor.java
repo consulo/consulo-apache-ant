@@ -13,26 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.lang.ant.config.explorer;
+package consulo.apache.ant.config.explorer;
 
-import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.ide.util.treeView.NodeDescriptor;
-import com.intellij.lang.ant.config.AntBuildFileGroup;
+import com.intellij.lang.ant.config.explorer.AntNodeDescriptor;
 import com.intellij.openapi.project.Project;
-import consulo.awt.TargetAWT;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.config.AntBuildFileGroup;
 
 /**
  * @author VISTALL
  * @since 11:52/09.03.13
  */
-public class AntBuildGroupNodeDescriptor extends AntNodeDescriptor {
+public class AntBuildGroupNodeDescriptor extends AntNodeDescriptor
+{
   private final AntBuildFileGroup myGroup;
 
   public AntBuildGroupNodeDescriptor(Project project, NodeDescriptor parentDescriptor, AntBuildFileGroup group) {
     super(project, parentDescriptor);
     myGroup = group;
     myName = myGroup.getName();
-    setIcon(TargetAWT.to(ApacheAntIcons.AntGroup));
+    setIcon(ApacheAntIcons.AntGroup);
   }
 
   @Override
