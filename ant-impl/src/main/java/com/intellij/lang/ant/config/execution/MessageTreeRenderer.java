@@ -15,16 +15,16 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
-import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.icons.AllIcons;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.MultilineTreeCellRenderer;
 import com.intellij.ui.SideBorder;
+import consulo.apache.ant.ApacheAntIcons;
 import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 final class MessageTreeRenderer extends MultilineTreeCellRenderer {
 
@@ -50,13 +50,13 @@ final class MessageTreeRenderer extends MultilineTreeCellRenderer {
       setText(text, null);
     }
 
-    Icon icon = null;
+    Image icon = null;
 
     if (value instanceof MessageNode) {
       MessageNode node = (MessageNode)value;
       AntBuildMessageView.MessageType type = node.getType();
       if (type == AntBuildMessageView.MessageType.BUILD) {
-        icon = TargetAWT.to(ApacheAntIcons.AntInstallation);
+        icon = ApacheAntIcons.AntInstallation;
       }
       else if (type == AntBuildMessageView.MessageType.TARGET) {
         icon = ApacheAntIcons.Target;
@@ -76,6 +76,6 @@ final class MessageTreeRenderer extends MultilineTreeCellRenderer {
         icon = AllIcons.General.Error;
       }
     }
-    setIcon(icon);
+    setIcon(TargetAWT.to(icon));
   }
 }

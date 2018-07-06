@@ -20,13 +20,13 @@ import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.execution.AntBuildMessageView;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.ToggleAction;
+import consulo.awt.TargetAWT;
 
 public final class VerboseAction extends ToggleAction {
   private final AntBuildMessageView myAntBuildMessageView;
 
   public VerboseAction(AntBuildMessageView antBuildMessageView) {
-    super(AntBundle.message("ant.verbose.show.all.messages.action.name"),
-          AntBundle.message("ant.verbose.show.all.messages.action.description"), ApacheAntIcons.Verbose);
+    super(AntBundle.message("ant.verbose.show.all.messages.action.name"), AntBundle.message("ant.verbose.show.all.messages.action.description"), TargetAWT.to(ApacheAntIcons.Verbose));
     myAntBuildMessageView = antBuildMessageView;
   }
 

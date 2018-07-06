@@ -32,6 +32,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
+import consulo.ui.image.Image;
 
 /**
  * @author Vladislav.Kaznacheev
@@ -54,12 +55,12 @@ public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRun
   }
 
   @Override
-  public Icon getIcon() {
+  public Image getIcon() {
     return ApacheAntIcons.Target;
   }
 
   @Override
-  public Icon getTaskIcon(AntBeforeRunTask task) {
+  public Image getTaskIcon(AntBeforeRunTask task) {
     AntBuildTarget antTarget = findTargetToExecute(task);
     return antTarget instanceof MetaTarget ? ApacheAntIcons.MetaTarget : ApacheAntIcons.Target;
   }
