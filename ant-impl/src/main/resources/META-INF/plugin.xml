@@ -69,6 +69,8 @@
 
 		<toolWindow anchor="right" icon="/icons/toolWindowAnt.png" id="Apache Ant"
 					factoryClass="consulo.apache.ant.toolWindow.AntBuildToolWindowFactory" requireModuleExtensions="java"/>
+
+		<projectService serviceImplementation="com.intellij.lang.ant.config.impl.AntToolwindowRegistrar" lazy="false" />
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij.xml.dom">
@@ -76,12 +78,6 @@
 		<fileDescription implementation="com.intellij.lang.ant.dom.AntlibDomFileDescription"/>
 		<extender domClass="com.intellij.lang.ant.dom.AntDomElement" extenderClass="com.intellij.lang.ant.dom.AntDomExtender"/>
 	</extensions>
-
-	<project-components>
-		<component>
-			<implementation-class>com.intellij.lang.ant.config.impl.AntToolwindowRegistrar</implementation-class>
-		</component>
-	</project-components>
 
 	<actions>
 		<group id="AntBuildGroup" class="com.intellij.lang.ant.config.actions.AntBuildActionGroup">

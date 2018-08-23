@@ -15,54 +15,61 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nonnull;
+import javax.inject.Singleton;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.actions.TargetActionStub;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
-import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.ex.KeymapManagerEx;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.startup.StartupManager;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: Apr 24, 2007
  */
-public class AntToolwindowRegistrar extends AbstractProjectComponent {
-  public AntToolwindowRegistrar(Project project) {
-    super(project);
-  }
+@Singleton
+public class AntToolwindowRegistrar implements Disposable
+{
+	private final Project myProject;
 
-  @Override
-  public void projectOpened() {
-    final KeymapManagerEx keymapManager = KeymapManagerEx.getInstanceEx();
-    final String prefix = AntConfiguration.getActionIdPrefix(myProject);
-    final ActionManager actionManager = ActionManager.getInstance();
+	public AntToolwindowRegistrar(Project project, StartupManager startupManager)
+	{
+		myProject = project;
+		startupManager.registerPostStartupActivity(uiAccess -> projectOpened());
+	}
 
-    for (Keymap keymap : keymapManager.getAllKeymaps()) {
-      for (String id : keymap.getActionIds()) {
-        if (id.startsWith(prefix) && actionManager.getAction(id) == null) {
-          actionManager.registerAction(id, new TargetActionStub(id, myProject));
-        }
-      }      
-    }
-  }
+	private void projectOpened()
+	{
+		final KeymapManagerEx keymapManager = KeymapManagerEx.getInstanceEx();
+		final String prefix = AntConfiguration.getActionIdPrefix(myProject);
+		final ActionManager actionManager = ActionManager.getInstance();
 
-  @Override
-  public void projectClosed() {
-    final ActionManagerEx actionManager = ActionManagerEx.getInstanceEx();
-    final String[] oldIds = actionManager.getActionIds(AntConfiguration.getActionIdPrefix(myProject));
-    for (String oldId : oldIds) {
-      actionManager.unregisterAction(oldId);
-    }
-  }
+		for(Keymap keymap : keymapManager.getAllKeymaps())
+		{
+			for(String id : keymap.getActionIds())
+			{
+				if(id.startsWith(prefix) && actionManager.getAction(id) == null)
+				{
+					actionManager.registerAction(id, new TargetActionStub(id, myProject));
+				}
+			}
+		}
+	}
 
-  @Override
-  @NonNls
-  @Nonnull
-  public String getComponentName() {
-    return "AntToolwindowRegistrar";
-  }
+	@Override
+	public void dispose()
+	{
+		final ActionManagerEx actionManager = ActionManagerEx.getInstanceEx();
+		final String[] oldIds = actionManager.getActionIds(AntConfiguration.getActionIdPrefix(myProject));
+		for(String oldId : oldIds)
+		{
+			actionManager.unregisterAction(oldId);
+		}
+	}
 }
