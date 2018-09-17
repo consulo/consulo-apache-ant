@@ -86,7 +86,6 @@ import consulo.application.AccessRule;
 @State(name = "AntConfiguration", storages = @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml"))
 public class AntConfigurationImpl extends AntConfigurationBase implements PersistentStateComponent<Element>, ModificationTracker
 {
-
 	public static final ValueProperty<AntReference> DEFAULT_ANT = new ValueProperty<AntReference>("defaultAnt", AntReference.BUNDLED_ANT);
 	public static final ValueProperty<AntConfiguration> INSTANCE = new ValueProperty<AntConfiguration>("$instance", null);
 	public static final AbstractProperty<String> DEFAULT_JDK_NAME = new AbstractProperty<String>()

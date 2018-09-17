@@ -15,10 +15,9 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.actions.TargetActionStub;
 import com.intellij.openapi.Disposable;
@@ -38,9 +37,14 @@ public class AntToolwindowRegistrar implements Disposable
 {
 	private final Project myProject;
 
+	@Inject
 	public AntToolwindowRegistrar(Project project, StartupManager startupManager)
 	{
 		myProject = project;
+		if(project.isDefault())
+		{
+			return;
+		}
 		startupManager.registerPostStartupActivity(uiAccess -> projectOpened());
 	}
 
