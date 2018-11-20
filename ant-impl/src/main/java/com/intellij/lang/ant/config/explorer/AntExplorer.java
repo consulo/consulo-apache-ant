@@ -44,7 +44,6 @@ import com.intellij.icons.AllIcons;
 import com.intellij.ide.CommonActionsManager;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.TreeExpander;
-import com.intellij.ide.actions.ContextHelpAction;
 import com.intellij.ide.dnd.FileCopyPasteUtil;
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.lang.ant.AntBundle;
@@ -58,15 +57,12 @@ import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.AntNoFileException;
 import com.intellij.lang.ant.config.ExecutionEvent;
 import com.intellij.lang.ant.config.actions.AntBuildFilePropertiesAction;
-import consulo.apache.ant.config.actions.AntGroupManagerActionGroup;
 import com.intellij.lang.ant.config.actions.RemoveBuildFileAction;
-import consulo.apache.ant.config.actions.RemoveGroupsAction;
 import com.intellij.lang.ant.config.execution.ExecutionHandler;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
 import com.intellij.lang.ant.config.impl.ExecuteAfterCompilationEvent;
 import com.intellij.lang.ant.config.impl.ExecuteBeforeCompilationEvent;
 import com.intellij.lang.ant.config.impl.ExecuteCompositeTargetEvent;
-import com.intellij.lang.ant.config.impl.HelpID;
 import com.intellij.lang.ant.config.impl.MetaTarget;
 import com.intellij.lang.ant.config.impl.configuration.BuildFilePropertiesPanel;
 import com.intellij.openapi.Disposable;
@@ -101,6 +97,8 @@ import com.intellij.util.ui.tree.TreeUtil;
 import com.intellij.util.xml.DomEventListener;
 import com.intellij.util.xml.DomManager;
 import com.intellij.util.xml.events.DomEvent;
+import consulo.apache.ant.config.actions.AntGroupManagerActionGroup;
+import consulo.apache.ant.config.actions.RemoveGroupsAction;
 
 public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, Disposable {
   private Project myProject;
@@ -231,8 +229,6 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
     action = CommonActionsManager.getInstance().createCollapseAllAction(myTreeExpander, this);
     action.getTemplatePresentation().setDescription(AntBundle.message("ant.explorer.collapse.all.nodes.action.description"));
     group.add(action);
-    group.addSeparator();
-    group.add(new ContextHelpAction(HelpID.ANT));
 
     final ActionToolbar actionToolBar = ActionManager.getInstance().createActionToolbar(ActionPlaces.ANT_EXPLORER_TOOLBAR, group, true);
     final JPanel buttonsPanel = new JPanel(new BorderLayout());
@@ -487,9 +483,6 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
       if (file.isValid()) {
         return new OpenFileDescriptor(myProject, file);
       }
-    }
-    else if (PlatformDataKeys.HELP_ID == dataId) {
-      return HelpID.ANT;
     }
     else if (PlatformDataKeys.TREE_EXPANDER == dataId) {
       return myProject != null? myTreeExpander : null;

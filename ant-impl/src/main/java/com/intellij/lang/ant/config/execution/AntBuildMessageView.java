@@ -34,8 +34,6 @@ import com.intellij.execution.testframework.Printer;
 import com.intellij.ide.CommonActionsManager;
 import com.intellij.ide.OccurenceNavigator;
 import com.intellij.ide.TreeExpander;
-import com.intellij.ide.actions.CloseTabToolbarAction;
-import com.intellij.ide.actions.ContextHelpAction;
 import com.intellij.ide.actions.NextOccurenceToolbarAction;
 import com.intellij.ide.actions.PreviousOccurenceToolbarAction;
 import com.intellij.lang.ant.AntBundle;
@@ -47,13 +45,11 @@ import com.intellij.lang.ant.config.actions.RunAction;
 import com.intellij.lang.ant.config.actions.StopAction;
 import com.intellij.lang.ant.config.actions.VerboseAction;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
-import com.intellij.lang.ant.config.impl.HelpID;
 import com.intellij.lang.ant.segments.OutputPacketProcessor;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.ActionToolbar;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonShortcuts;
 import com.intellij.openapi.actionSystem.DataProvider;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -370,10 +366,8 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
     leftActionGroup.add(runAction);
     leftActionGroup.add(new PauseOutputAction(this));
     leftActionGroup.add(new StopAction(this));
-    leftActionGroup.add(new CloseAction());
     leftActionGroup.add(new PreviousOccurenceToolbarAction(this));
     leftActionGroup.add(new NextOccurenceToolbarAction(this));
-    leftActionGroup.add(new ContextHelpAction(HelpID.ANT));
 
     DefaultActionGroup rightActionGroup = new DefaultActionGroup();
     rightActionGroup.add(new ChangeViewAction(this));
@@ -390,13 +384,6 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
 
     return toolbarPanel;
   }
-
-  public final class CloseAction extends CloseTabToolbarAction {
-    public void actionPerformed(AnActionEvent e) {
-      close();
-    }
-  }
-
 
   private synchronized void addCommand(LogCommand command) {
     if (!myAlarm.isDisposed()) {
@@ -483,10 +470,7 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
   public Object getData(Key<?> dataId) {
     Object data = myCurrentView.getData(dataId);
     if (data != null) return data;
-    if (PlatformDataKeys.HELP_ID == dataId) {
-      return HelpID.ANT;
-    }
-    else if (PlatformDataKeys.TREE_EXPANDER == dataId) {
+    if (PlatformDataKeys.TREE_EXPANDER == dataId) {
       return myTreeExpander;
     }
     return null;
