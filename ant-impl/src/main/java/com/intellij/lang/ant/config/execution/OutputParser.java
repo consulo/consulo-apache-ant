@@ -38,7 +38,7 @@ import consulo.apache.ant.rt.AntLoggerConstants;
 
 //import com.intellij.compiler.impl.javaCompiler.jikes.JikesOutputParser;
 
-public class OutputParser{
+public class OutputParser {
 
   @NonNls private static final String JAVAC = "javac";
   @NonNls private static final String ECHO = "echo";

@@ -26,8 +26,6 @@ import com.intellij.concurrency.JobScheduler;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.junit.JUnitProcessHandler;
-import com.intellij.execution.junit2.segments.OutputPacketProcessor;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
@@ -39,6 +37,7 @@ import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildListener;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
+import com.intellij.lang.ant.segments.OutputPacketProcessor;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
@@ -112,7 +111,7 @@ public final class ExecutionHandler {
     }
 
     final boolean startInBackground = buildFile.isRunInBackground();
-    
+
     new Task.Backgroundable(buildFile.getProject(), AntBundle.message("ant.build.progress.dialog.title"), true) {
 
       public boolean shouldStartInBackground() {
@@ -140,9 +139,9 @@ public final class ExecutionHandler {
 
     final long startTime = System.currentTimeMillis();
     LocalHistory.getInstance().putSystemLabel(project, AntBundle.message("ant.build.local.history.label", buildFile.getName()));
-    final JUnitProcessHandler handler;
+    final AntProcessHandler handler;
     try {
-      handler = JUnitProcessHandler.runCommandLine(commandLine);
+      handler = AntProcessHandler.runCommandLine(commandLine);
     }
     catch (final ExecutionException e) {
       ApplicationManager.getApplication().invokeLater(new Runnable() {
@@ -159,7 +158,7 @@ public final class ExecutionHandler {
   }
 
   private static void processRunningAnt(final ProgressIndicator progress,
-                                        final JUnitProcessHandler handler,
+                                        final AntProcessHandler handler,
                                         final AntBuildMessageView errorView,
                                         final AntBuildFile buildFile,
                                         final long startTime,

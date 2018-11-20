@@ -17,23 +17,24 @@ package com.intellij.lang.ant.config.execution;
 
 import java.io.IOException;
 
-import com.intellij.execution.junit.JUnitProcessHandler;
-import com.intellij.execution.junit2.segments.DeferredActionsQueue;
-import com.intellij.execution.junit2.segments.DeferredActionsQueueImpl;
-import com.intellij.execution.junit2.segments.InputConsumer;
-import com.intellij.execution.junit2.segments.OutputPacketProcessor;
-import com.intellij.execution.junit2.segments.SegmentReader;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.testframework.Printable;
 import com.intellij.execution.ui.ConsoleViewContentType;
 import com.intellij.lang.ant.config.AntBuildFile;
+import com.intellij.lang.ant.segments.DeferredActionsQueue;
+import com.intellij.lang.ant.segments.DeferredActionsQueueImpl;
+import com.intellij.lang.ant.segments.InputConsumer;
+import com.intellij.lang.ant.segments.OutputPacketProcessor;
+import com.intellij.lang.ant.segments.SegmentReader;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ex.MessagesEx;
+import com.intellij.rt.ant.execution.PacketProcessor;
 import consulo.apache.ant.rt.AntLoggerConstants;
 
-final class OutputParser2 extends OutputParser implements InputConsumer, OutputPacketProcessor {
+final class OutputParser2 extends OutputParser implements PacketProcessor, InputConsumer, OutputPacketProcessor
+{
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.OutputParser2");
   private int myLastPacketIndex = -1;
 
@@ -90,7 +91,7 @@ final class OutputParser2 extends OutputParser implements InputConsumer, OutputP
   }
 
   public static OutputParser attachParser(final Project myProject,
-                                          JUnitProcessHandler handler,
+										  AntProcessHandler handler,
                                           final AntBuildMessageView errorView,
                                           final ProgressIndicator progress,
                                           final AntBuildFile buildFile) {

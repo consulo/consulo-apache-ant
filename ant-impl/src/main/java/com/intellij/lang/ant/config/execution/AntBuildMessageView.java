@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.jetbrains.annotations.NonNls;
-import com.intellij.execution.junit2.segments.OutputPacketProcessor;
 import com.intellij.execution.testframework.Printable;
 import com.intellij.execution.testframework.Printer;
 import com.intellij.ide.CommonActionsManager;
@@ -49,6 +48,7 @@ import com.intellij.lang.ant.config.actions.StopAction;
 import com.intellij.lang.ant.config.actions.VerboseAction;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.HelpID;
+import com.intellij.lang.ant.segments.OutputPacketProcessor;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPlaces;
