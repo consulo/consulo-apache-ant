@@ -15,22 +15,6 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.swing.SwingUtilities;
-
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.execution.configurations.ConfigurationFactory;
@@ -60,11 +44,7 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.startup.StartupManager;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.ModificationTracker;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.util.WriteExternalException;
+import com.intellij.openapi.util.*;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
@@ -75,13 +55,20 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.util.EventDispatcher;
-import com.intellij.util.StringSetSpinAllocator;
 import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ValueProperty;
 import com.intellij.util.containers.HashMap;
 import consulo.apache.ant.util.AntJavaSdkUtil;
 import consulo.application.AccessRule;
+import gnu.trove.THashSet;
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.swing.*;
+import java.util.*;
 
 @State(name = "AntConfiguration", storages = @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml"))
 public class AntConfigurationImpl extends AntConfigurationBase implements PersistentStateComponent<Element>, ModificationTracker
@@ -744,21 +731,14 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 			{
 				actionManager.unregisterAction(oldId);
 			}
-			final Set<String> registeredIds = StringSetSpinAllocator.alloc();
-			try
+			final Set<String> registeredIds = new THashSet<>();
+			for(Pair<String, AnAction> pair : actionList)
 			{
-				for(Pair<String, AnAction> pair : actionList)
+				if(!registeredIds.contains(pair.first))
 				{
-					if(!registeredIds.contains(pair.first))
-					{
-						registeredIds.add(pair.first);
-						actionManager.registerAction(pair.first, pair.second);
-					}
+					registeredIds.add(pair.first);
+					actionManager.registerAction(pair.first, pair.second);
 				}
-			}
-			finally
-			{
-				StringSetSpinAllocator.dispose(registeredIds);
 			}
 		}
 	}
