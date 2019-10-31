@@ -15,34 +15,9 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.TableCellEditor;
-
-import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFileBase;
-import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
-import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
-import com.intellij.lang.ant.config.impl.AntReference;
-import com.intellij.lang.ant.config.impl.BuildFileProperty;
-import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
-import com.intellij.lang.ant.config.impl.TargetFilter;
+import com.intellij.lang.ant.config.impl.*;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.JavaSdk;
@@ -53,18 +28,23 @@ import com.intellij.openapi.ui.ComponentWithBrowseButton;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.Disposer;
-import com.intellij.ui.AnActionButton;
-import com.intellij.ui.AnActionButtonRunnable;
-import com.intellij.ui.ComboboxWithBrowseButton;
-import com.intellij.ui.RawCommandLineEditor;
-import com.intellij.ui.SimpleColoredComponent;
-import com.intellij.ui.TabbedPaneWrapper;
-import com.intellij.ui.ToolbarDecorator;
+import com.intellij.ui.*;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.containers.Convertor;
 import com.intellij.util.ui.ColumnInfo;
 import com.intellij.util.ui.ListTableModel;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.swing.*;
+import javax.swing.table.TableCellEditor;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 public class BuildFilePropertiesPanel
 {
@@ -558,7 +538,7 @@ public class BuildFilePropertiesPanel
 			};
 
 			UIPropertyBinding.Composite binding = getBinding();
-			binding.bindString(myAntCommandLine.getTextField(), AntBuildFileImpl.ANT_COMMAND_LINE_PARAMETERS);
+			binding.bindString(myAntCommandLine, AntBuildFileImpl.ANT_COMMAND_LINE_PARAMETERS);
 			binding.bindString(myJDKs.getComboBox(), AntBuildFileImpl.CUSTOM_JDK_NAME);
 			binding.addBinding(new RunWithAntBinding(myUseDefaultAnt, myUseCastomAnt, myAnts, myAntGlobalConfiguration));
 		}
