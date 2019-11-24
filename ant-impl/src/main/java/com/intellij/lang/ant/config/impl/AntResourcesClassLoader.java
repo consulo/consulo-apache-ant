@@ -15,14 +15,13 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import com.intellij.openapi.progress.ProgressManager;
+import consulo.util.nodep.classloader.UrlClassLoader;
 import gnu.trove.THashSet;
 
 import java.net.URL;
 import java.util.List;
 import java.util.Set;
-
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.util.lang.UrlClassLoader;
 
 /**
  * @author Eugene Zhuravlev
