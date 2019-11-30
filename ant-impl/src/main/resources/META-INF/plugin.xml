@@ -1,4 +1,4 @@
-<idea-plugin>
+<consulo-plugin>
 	<id>consulo.apache.ant</id>
 	<name>Apache Ant</name>
 	<version>SNAPSHOT</version>
@@ -96,5 +96,5 @@
 			<keyboard-shortcut first-keystroke="control shift F10" keymap="$default"/>
 		</action>
 	</actions>
-</idea-plugin>
+</consulo-plugin>
 
