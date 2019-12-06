@@ -17,12 +17,12 @@ package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.config.AntConfigurationBase;
-import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.xml.*;
+import consulo.util.dataholder.Key;
 
 import java.util.Collections;
 import java.util.Iterator;

@@ -15,18 +15,9 @@
  */
 package com.intellij.lang.ant.dom;
 
-import java.io.File;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.*;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import consulo.apache.ant.ApacheAntClasses;
 import com.intellij.lang.ant.AntIntrospector;
 import com.intellij.lang.ant.ReflectedProject;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.Pair;
 import com.intellij.pom.PomTarget;
 import com.intellij.psi.CommonClassNames;
@@ -34,20 +25,17 @@ import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.psi.xml.XmlAttribute;
 import com.intellij.psi.xml.XmlElement;
 import com.intellij.psi.xml.XmlTag;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.Converter;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.DummyEvaluatedXmlName;
-import com.intellij.util.xml.EvaluatedXmlName;
-import com.intellij.util.xml.GenericAttributeValue;
-import com.intellij.util.xml.XmlName;
-import com.intellij.util.xml.reflect.CustomDomChildrenDescription;
-import com.intellij.util.xml.reflect.DomAttributeChildDescription;
-import com.intellij.util.xml.reflect.DomExtender;
-import com.intellij.util.xml.reflect.DomExtension;
-import com.intellij.util.xml.reflect.DomExtensionsRegistrar;
-import com.intellij.util.xml.reflect.DomGenericInfo;
+import com.intellij.util.xml.*;
+import com.intellij.util.xml.reflect.*;
+import consulo.apache.ant.ApacheAntClasses;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * @author Eugene Zhuravlev

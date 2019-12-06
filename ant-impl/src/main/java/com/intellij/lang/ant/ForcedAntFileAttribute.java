@@ -15,16 +15,16 @@
  */
 package com.intellij.lang.ant;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-
 import com.intellij.buildfiles.ForcedBuildFileAttribute;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.newvfs.FileAttribute;
 import com.intellij.openapi.vfs.newvfs.NewVirtualFile;
+import consulo.util.dataholder.Key;
+
+import java.io.DataInputStream;
+import java.io.IOException;
 
 /**
  * @author Eugene Zhuravlev

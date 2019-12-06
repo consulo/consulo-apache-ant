@@ -15,12 +15,6 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import java.io.File;
-import java.io.OutputStream;
-
-import javax.annotation.Nullable;
-import javax.swing.JComponent;
-
 import com.intellij.execution.filters.Filter;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;
 import com.intellij.execution.filters.TextConsoleBuilder;
@@ -30,9 +24,14 @@ import com.intellij.execution.process.ProcessOutputTypes;
 import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nullable;
+import javax.swing.*;
+import java.io.File;
+import java.io.OutputStream;
 
 public final class PlainTextView implements AntOutputView
 {

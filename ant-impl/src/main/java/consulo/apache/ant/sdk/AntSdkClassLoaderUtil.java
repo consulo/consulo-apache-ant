@@ -1,11 +1,11 @@
 package consulo.apache.ant.sdk;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.lang.ant.config.impl.AntInstallationClassLoaderHolder;
 import com.intellij.lang.ant.config.impl.ClassLoaderHolder;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.util.Key;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL

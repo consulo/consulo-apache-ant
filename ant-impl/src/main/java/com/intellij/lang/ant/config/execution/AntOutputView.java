@@ -15,9 +15,10 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import consulo.util.dataholder.Key;
+
 import javax.swing.*;
 
-import com.intellij.openapi.util.Key;
 
 public interface AntOutputView {
   Object addMessage(AntMessage message);
