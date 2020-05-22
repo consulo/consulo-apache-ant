@@ -15,32 +15,46 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Factory;
-import com.intellij.openapi.util.JDOMExternalizable;
-import com.intellij.ui.*;
-import com.intellij.ui.table.BaseTableView;
-import com.intellij.util.config.AbstractProperty;
-import com.intellij.util.config.ListProperty;
-import com.intellij.util.config.StorageProperty;
-import com.intellij.util.ui.ColumnInfo;
-import com.intellij.util.ui.ListTableModel;
-
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.text.JTextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.text.JTextComponent;
+
+import com.intellij.openapi.util.Condition;
+import com.intellij.openapi.util.Factory;
+import com.intellij.openapi.util.JDOMExternalizable;
+import com.intellij.ui.DocumentAdapter;
+import com.intellij.ui.ListScrollingUtil;
+import com.intellij.ui.RawCommandLineEditor;
+import com.intellij.ui.SortedListModel;
+import com.intellij.ui.TableUtil;
+import com.intellij.ui.table.BaseTableView;
+import com.intellij.util.config.AbstractProperty;
+import com.intellij.util.config.ListProperty;
+import com.intellij.util.config.StorageProperty;
+import com.intellij.util.ui.ColumnInfo;
+import com.intellij.util.ui.ListTableModel;
+import consulo.disposer.Disposable;
 
 public abstract class UIPropertyBinding
 {
