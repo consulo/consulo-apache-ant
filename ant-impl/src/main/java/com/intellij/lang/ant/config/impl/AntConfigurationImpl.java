@@ -1035,7 +1035,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 			return;
 		}
 		final RunManagerImpl runManager = (RunManagerImpl) RunManagerEx.getInstanceEx(project);
-		final ConfigurationType type = runManager.getConfigurationType(configType);
+		final ConfigurationType type = findConfigurationType(configType);
 		if(type == null)
 		{
 			return;
@@ -1072,6 +1072,19 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 				}
 			}
 		}
+	}
+
+	@Nullable
+	private static ConfigurationType findConfigurationType(String name)
+	{
+		for(ConfigurationType type : ConfigurationType.CONFIGURATION_TYPE_EP.getExtensionList())
+		{
+			if(name.equals(type.getId()))
+			{
+				return type;
+			}
+		}
+		return null;
 	}
 
 	private static void queueLater(final Task task)
