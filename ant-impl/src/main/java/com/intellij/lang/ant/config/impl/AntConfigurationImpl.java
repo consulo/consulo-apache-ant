@@ -19,6 +19,7 @@ import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.execution.RunManagerEx;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
+import com.intellij.execution.configurations.ConfigurationTypeUtil;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.impl.RunManagerImpl;
 import com.intellij.lang.ant.AntBundle;
@@ -1035,7 +1036,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 			return;
 		}
 		final RunManagerImpl runManager = (RunManagerImpl) RunManagerEx.getInstanceEx(project);
-		final ConfigurationType type = findConfigurationType(configType);
+		final ConfigurationType type = ConfigurationTypeUtil.findConfigurationType(configType);
 		if(type == null)
 		{
 			return;
@@ -1072,19 +1073,6 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 				}
 			}
 		}
-	}
-
-	@Nullable
-	private static ConfigurationType findConfigurationType(String name)
-	{
-		for(ConfigurationType type : ConfigurationType.CONFIGURATION_TYPE_EP.getExtensionList())
-		{
-			if(name.equals(type.getId()))
-			{
-				return type;
-			}
-		}
-		return null;
 	}
 
 	private static void queueLater(final Task task)
