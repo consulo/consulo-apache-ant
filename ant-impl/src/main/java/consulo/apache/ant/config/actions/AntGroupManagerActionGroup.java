@@ -51,7 +51,7 @@ public class AntGroupManagerActionGroup extends ActionGroup {
     myGroup = group;
     myTree = tree;
     if(myGroup != null) {
-      getTemplatePresentation().setIcon(TargetAWT.to(ApacheAntIcons.AntGroup));
+      getTemplatePresentation().setIcon(ApacheAntIcons.AntGroup);
     }
     myDefaultActions = new AnAction[] {new CreateNewGroupAction(group, tree), new MoveToThisGroupAction(tree, group)};
   }
