@@ -26,7 +26,7 @@ public final class VerboseAction extends ToggleAction {
   private final AntBuildMessageView myAntBuildMessageView;
 
   public VerboseAction(AntBuildMessageView antBuildMessageView) {
-    super(AntBundle.message("ant.verbose.show.all.messages.action.name"), AntBundle.message("ant.verbose.show.all.messages.action.description"), TargetAWT.to(ApacheAntIcons.Verbose));
+    super(AntBundle.message("ant.verbose.show.all.messages.action.name"), AntBundle.message("ant.verbose.show.all.messages.action.description"), ApacheAntIcons.Verbose);
     myAntBuildMessageView = antBuildMessageView;
   }
 
