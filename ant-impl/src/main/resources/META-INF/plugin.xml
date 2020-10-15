@@ -67,7 +67,7 @@
 		<typeName className="com.intellij.lang.ant.dom.AntDomTarget" name="target"/>
 		<typeName className="com.intellij.lang.ant.dom.AntDomAntCallParam" name="antcall parameter"/>
 
-		<toolWindow anchor="right" icon="/icons/toolWindowAnt.png" id="Apache Ant"
+		<toolWindow anchor="right" icon="consulo.apache.ant.impl.ApacheAntImplIconGroup@toolwindowant" id="Apache Ant"
 					factoryClass="consulo.apache.ant.toolWindow.AntBuildToolWindowFactory" requireModuleExtensions="java"/>
 
 		<projectService serviceImplementation="com.intellij.lang.ant.config.impl.AntToolwindowRegistrar" lazy="false" />

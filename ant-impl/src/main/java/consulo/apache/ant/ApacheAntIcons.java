@@ -1,20 +1,22 @@
 package consulo.apache.ant;
 
-import com.intellij.openapi.util.IconLoader;
+import consulo.annotation.DeprecationInfo;
+import consulo.apache.ant.impl.icon.ApacheAntImplIconGroup;
 import consulo.ui.image.Image;
 
-// Generated Consulo DevKit plugin 
+@Deprecated
+@DeprecationInfo("Use ApacheAntImplIconGroup")
 public interface ApacheAntIcons
 {
-	Image AntBuildXml = IconLoader.getIcon("/icons/antBuildXml.png");  // 16x16
-	Image AntGroup = IconLoader.getIcon("/icons/antGroup.png");  // 16x16
-	Image AntInstallation = IconLoader.getIcon("/icons/antInstallation.png");  // 16x16
-	Image ChangeView = IconLoader.getIcon("/icons/changeView.png");  // 16x16
-	Image Message = IconLoader.getIcon("/icons/message.png");  // 16x16
-	Image MetaTarget = IconLoader.getIcon("/icons/metaTarget.png");  // 16x16
-	Image Properties = IconLoader.getIcon("/icons/properties.png");  // 16x16
-	Image Target = IconLoader.getIcon("/icons/target.png");  // 16x16
-	Image Task = IconLoader.getIcon("/icons/task.png");  // 16x16
-	Image ToolWindowAnt = IconLoader.getIcon("/icons/toolWindowAnt.png");  // 13x13
-	Image Verbose = IconLoader.getIcon("/icons/verbose.png");  // 16x16
+	Image AntBuildXml = ApacheAntImplIconGroup.antBuildXml();
+	Image AntGroup = ApacheAntImplIconGroup.antGroup();
+	Image AntInstallation = ApacheAntImplIconGroup.antInstallation();
+	Image ChangeView = ApacheAntImplIconGroup.changeView();
+	Image Message = ApacheAntImplIconGroup.message();
+	Image MetaTarget = ApacheAntImplIconGroup.metaTarget();
+	Image Properties = ApacheAntImplIconGroup.properties();
+	Image Target = ApacheAntImplIconGroup.target();
+	Image Task = ApacheAntImplIconGroup.task();
+	Image ToolWindowAnt = ApacheAntImplIconGroup.toolWindowAnt();
+	Image Verbose = ApacheAntImplIconGroup.verbose();
 }

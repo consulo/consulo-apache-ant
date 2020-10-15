@@ -15,17 +15,6 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JList;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.text.BadLocationException;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.macro.MacrosDialog;
 import com.intellij.lang.ant.AntBundle;
@@ -38,14 +27,20 @@ import com.intellij.openapi.roots.ui.OrderEntryAppearanceService;
 import com.intellij.openapi.ui.FixedSizeButton;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.ColoredListCellRenderer;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.IconUtil;
-import com.intellij.util.PlatformIcons;
 import com.intellij.util.ui.AbstractTableCellEditor;
 import com.intellij.util.ui.CellEditorComponentWithBrowseButton;
 import consulo.awt.TargetAWT;
 import consulo.bundle.SdkUtil;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AntUIUtil
 {
@@ -103,14 +98,14 @@ public class AntUIUtil
 		}
 		else
 		{
-			component.setIcon(PlatformIcons.INVALID_ENTRY_ICON);
+			component.setIcon(AllIcons.Nodes.PpInvalid);
 			component.append(antReference.getName(), SimpleTextAttributes.ERROR_ATTRIBUTES);
 		}
 	}
 
 	public static void customizeAnt(Sdk sdk, SimpleColoredComponent component)
 	{
-		component.setIcon(TargetAWT.to(SdkUtil.getIcon(sdk)));
+		component.setIcon(SdkUtil.getIcon(sdk));
 		String name = sdk.getName();
 		component.append(name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
 		String versionString = sdk.getVersionString();
@@ -138,10 +133,10 @@ public class AntUIUtil
 		public PropertyValueCellEditor()
 		{
 			myComponent = new CellEditorComponentWithBrowseButton<JTextField>(new TextFieldWithBrowseButton(), this);
-			getChildComponent().setBorder(BorderFactory.createLineBorder(Color.black));
+			getChildComponent().setBorder(BorderFactory.createLineBorder(JBColor.black));
 
 			FixedSizeButton button = myComponent.getComponentWithButton().getButton();
-			button.setIcon(IconUtil.getAddIcon());
+			button.setIcon(TargetAWT.to(IconUtil.getAddIcon()));
 			button.setToolTipText(AntBundle.message("ant.property.value.editor.insert.macro.tooltip.text"));
 			button.addActionListener(new ActionListener()
 			{
@@ -225,7 +220,7 @@ public class AntUIUtil
 				}
 				else
 				{
-					setIcon(PlatformIcons.INVALID_ENTRY_ICON);
+					setIcon(AllIcons.Nodes.PpInvalid);
 					append("Sdk not set", SimpleTextAttributes.ERROR_ATTRIBUTES);
 				}
 			}

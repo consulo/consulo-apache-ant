@@ -15,19 +15,9 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.util.ArrayList;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.execution.RunManagerEx;
 import com.intellij.ide.util.treeView.NodeDescriptor;
-import com.intellij.lang.ant.config.AntBuildFile;
-import com.intellij.lang.ant.config.AntBuildModelBase;
-import com.intellij.lang.ant.config.AntBuildTargetBase;
-import com.intellij.lang.ant.config.AntConfigurationBase;
-import com.intellij.lang.ant.config.ExecutionEvent;
+import com.intellij.lang.ant.config.*;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTask;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTaskProvider;
 import com.intellij.lang.ant.config.impl.ExecuteCompositeTargetEvent;
@@ -48,7 +38,10 @@ import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.ui.UIUtil;
 import consulo.apache.ant.ApacheAntIcons;
-import consulo.awt.TargetAWT;
+
+import javax.annotation.Nonnull;
+import java.awt.*;
+import java.util.ArrayList;
 
 final class AntTargetNodeDescriptor extends AntNodeDescriptor {
   private static final TextAttributes ourPostfixAttributes = new TextAttributes(new JBColor(new Color(128, 0, 0), JBColor.RED), null, null, EffectType.BOXED, Font.PLAIN);
@@ -147,7 +140,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
 
   public void customize(@Nonnull SimpleColoredComponent component) {
     getHighlightedText().customize(component);
-    component.setIcon(TargetAWT.to(getIcon()));
+    component.setIcon(getIcon());
     String toolTipText = getTarget().getNotEmptyDescription();
     component.setToolTipText(toolTipText);
   }

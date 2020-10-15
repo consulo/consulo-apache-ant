@@ -32,7 +32,7 @@ public abstract class AntNodeDescriptor extends NodeDescriptor implements CellAp
   public abstract boolean isAutoExpand();
 
   public void customize(@Nonnull SimpleColoredComponent component) {
-    component.setIcon(TargetAWT.to(getIcon()));
+    component.setIcon(getIcon());
     component.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
   }
 

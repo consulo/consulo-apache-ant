@@ -59,6 +59,6 @@ public final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor
   @Override
   public void customize(@Nonnull SimpleColoredComponent component) {
     component.append(toString(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
-    component.setIcon(TargetAWT.to(getIcon()));
+    component.setIcon(getIcon());
   }
 }
