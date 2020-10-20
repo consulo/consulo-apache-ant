@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.actions.TargetActionStub;
@@ -37,7 +37,7 @@ public class AntToolwindowRegistrar implements Disposable
 {
 	private final Project myProject;
 
-	@Inject
+	@jakarta.inject.Inject
 	public AntToolwindowRegistrar(Project project, StartupManager startupManager)
 	{
 		myProject = project;
