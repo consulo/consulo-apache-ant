@@ -15,8 +15,6 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.ide.util.treeView.AbstractTreeStructure;
 import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.AntBundle;
@@ -27,12 +25,13 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.ActionCallback;
 import com.intellij.psi.PsiDocumentManager;
-import com.intellij.ui.JBColor;
 import consulo.apache.ant.config.AntBuildFileGroup;
 import consulo.apache.ant.config.explorer.AntBuildGroupNodeDescriptor;
 import consulo.apache.ant.config.explorer.AntModuleInfoNodeDescriptor;
 import consulo.apache.ant.config.explorer.AntTreeView;
+import consulo.ui.style.StandardColors;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 final class AntExplorerTreeStructure extends AbstractTreeStructure {
@@ -167,7 +166,7 @@ final class AntExplorerTreeStructure extends AbstractTreeStructure {
     public TextInfoNodeDescriptor(Project project, NodeDescriptor parentDescriptor, String text) {
       super(project, parentDescriptor);
       myName = text;
-      myColor = JBColor.blue;
+      myColor = StandardColors.BLUE;
     }
 
     @Override

@@ -33,18 +33,21 @@ import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.openapi.roots.ui.util.CompositeAppearance;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.ui.UIUtil;
 import consulo.apache.ant.ApacheAntIcons;
+import consulo.awt.TargetAWT;
+import consulo.ui.color.RGBColor;
+import consulo.ui.ex.util.LightDarkColorValue;
+import consulo.ui.style.StandardColors;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 
 final class AntTargetNodeDescriptor extends AntNodeDescriptor {
-  private static final TextAttributes ourPostfixAttributes = new TextAttributes(new JBColor(new Color(128, 0, 0), JBColor.RED), null, null, EffectType.BOXED, Font.PLAIN);
+  private static final TextAttributes ourPostfixAttributes = new TextAttributes(new LightDarkColorValue(new RGBColor(128, 0, 0), StandardColors.RED), null, null, EffectType.BOXED, Font.PLAIN);
 
   private final AntBuildTargetBase myTarget;
   private CompositeAppearance myHighlightedText;
@@ -73,7 +76,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
 
     final AntBuildFile buildFile = isMeta ? ((MetaTarget)myTarget).getBuildFile() : myTarget.getModel().getBuildFile();
     final Color color = buildFile.isTargetVisible(myTarget) ? UIUtil.getLabelForeground() : UIUtil.getLabelDisabledForeground();
-    TextAttributes nameAttributes = new TextAttributes(color, null, null, EffectType.BOXED, myTarget.isDefault() ? Font.BOLD : Font.PLAIN);
+    TextAttributes nameAttributes = new TextAttributes(TargetAWT.from(color), null, null, EffectType.BOXED, myTarget.isDefault() ? Font.BOLD : Font.PLAIN);
 
     myHighlightedText.getEnding().addText(myTarget.getDisplayName(), nameAttributes);
 
