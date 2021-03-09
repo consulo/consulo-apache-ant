@@ -59,7 +59,7 @@ import com.intellij.util.EventDispatcher;
 import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ValueProperty;
-import com.intellij.util.containers.HashMap;
+import java.util.HashMap;
 import consulo.apache.ant.util.AntJavaSdkUtil;
 import consulo.application.AccessRule;
 import gnu.trove.THashSet;

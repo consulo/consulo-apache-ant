@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.openapi.util.Pair;
-import com.intellij.util.containers.HashMap;
+import java.util.HashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

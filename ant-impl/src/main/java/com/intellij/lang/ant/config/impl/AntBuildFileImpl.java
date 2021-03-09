@@ -58,7 +58,7 @@ import com.intellij.util.config.IntProperty;
 import com.intellij.util.config.ListProperty;
 import com.intellij.util.config.StringProperty;
 import com.intellij.util.config.ValueProperty;
-import com.intellij.util.containers.HashMap;
+import java.util.HashMap;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.vfs.util.ArchiveVfsUtil;
 
