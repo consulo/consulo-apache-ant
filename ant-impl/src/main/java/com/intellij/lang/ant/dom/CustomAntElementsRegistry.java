@@ -39,7 +39,6 @@ import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.LocalTimeCounter;
 import com.intellij.util.xml.XmlName;
 import consulo.util.dataholder.Key;
-import gnu.trove.THashMap;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
@@ -67,10 +66,10 @@ public class CustomAntElementsRegistry {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.dom.CustomAntElementsRegistry");
   private static final Key<CustomAntElementsRegistry> REGISTRY_KEY = Key.create("_custom_element_registry_");
 
-  private final Map<XmlName, ClassProvider> myCustomElements = new THashMap<XmlName, ClassProvider>();
-  private final Map<AntDomNamedElement, String> myTypeDefErrors = new THashMap<AntDomNamedElement, String>();
-  private final Map<XmlName, AntDomNamedElement> myDeclarations = new THashMap<XmlName, AntDomNamedElement>();
-  private final Map<String, ClassLoader> myNamedLoaders = new THashMap<String, ClassLoader>();
+  private final Map<XmlName, ClassProvider> myCustomElements = new HashMap<XmlName, ClassProvider>();
+  private final Map<AntDomNamedElement, String> myTypeDefErrors = new HashMap<AntDomNamedElement, String>();
+  private final Map<XmlName, AntDomNamedElement> myDeclarations = new HashMap<XmlName, AntDomNamedElement>();
+  private final Map<String, ClassLoader> myNamedLoaders = new HashMap<String, ClassLoader>();
 
   private CustomAntElementsRegistry(final AntDomProject antProject) {
     antProject.accept(new CustomTagDefinitionFinder(antProject));

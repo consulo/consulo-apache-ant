@@ -59,10 +59,8 @@ import com.intellij.util.EventDispatcher;
 import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ValueProperty;
-import java.util.HashMap;
 import consulo.apache.ant.util.AntJavaSdkUtil;
 import consulo.application.AccessRule;
-import gnu.trove.THashSet;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 
@@ -732,7 +730,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
 			{
 				actionManager.unregisterAction(oldId);
 			}
-			final Set<String> registeredIds = new THashSet<>();
+			final Set<String> registeredIds = new HashSet<>();
 			for(Pair<String, AnAction> pair : actionList)
 			{
 				if(!registeredIds.contains(pair.first))

@@ -15,12 +15,12 @@
  */
 package com.intellij.lang.ant.segments;
 
-import gnu.trove.TIntArrayList;
+import consulo.util.collection.primitive.ints.IntList;
+import consulo.util.collection.primitive.ints.IntLists;
+import org.jetbrains.annotations.NonNls;
 
 import java.io.IOException;
 import java.io.Reader;
-
-import org.jetbrains.annotations.NonNls;
 
 /**
  * @author dyoma
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NonNls;
 public class PushReader
 {
 	private final Reader mySource;
-	private final TIntArrayList myReadAhead = new TIntArrayList();
+	private final IntList myReadAhead = IntLists.newArrayList();
 	@NonNls
 	protected static final String INTERNAL_ERROR_UNEXPECTED_END_OF_PIPE = "Unexpected end of pipe";
 
@@ -39,7 +39,7 @@ public class PushReader
 
 	public int next() throws IOException
 	{
-		return myReadAhead.isEmpty() ? mySource.read() : myReadAhead.remove(myReadAhead.size() - 1);
+		return myReadAhead.isEmpty() ? mySource.read() : myReadAhead.removeByIndex(myReadAhead.size() - 1);
 	}
 
 	public void pushBack(final char[] chars)
@@ -71,7 +71,7 @@ public class PushReader
 		final char[] chars = new char[charCount];
 		int offset = 0;
 		for(; offset < chars.length && offset < myReadAhead.size(); offset++)
-			chars[offset] = (char) myReadAhead.remove(myReadAhead.size() - 1);
+			chars[offset] = (char) myReadAhead.removeByIndex(myReadAhead.size() - 1);
 
 		while(offset < chars.length)
 		{

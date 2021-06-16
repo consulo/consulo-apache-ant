@@ -20,11 +20,11 @@ import com.intellij.lang.ant.config.impl.MetaTarget;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
-import gnu.trove.THashSet;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -81,7 +81,7 @@ public final class AntBuildActionGroup extends ActionGroup implements DumbAware
 			group.add(subgroup);
 		}
 
-		final Set<String> addedTargetNames = new THashSet<>();
+		final Set<String> addedTargetNames = new HashSet<>();
 		addGroupOfTargets(buildFile, model.getFilteredTargets(), addedTargetNames, group);
 		addGroupOfTargets(buildFile, antConfiguration.getMetaTargets(buildFile), addedTargetNames, group);
 	}

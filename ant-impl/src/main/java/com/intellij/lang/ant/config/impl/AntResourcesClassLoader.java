@@ -17,9 +17,9 @@ package com.intellij.lang.ant.config.impl;
 
 import com.intellij.openapi.progress.ProgressManager;
 import consulo.util.nodep.classloader.UrlClassLoader;
-import gnu.trove.THashSet;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public class AntResourcesClassLoader extends UrlClassLoader
 {
-	private final Set<String> myMisses = new THashSet<String>();
+	private final Set<String> myMisses = new HashSet<String>();
 
 	public AntResourcesClassLoader(final List<URL> urls, final ClassLoader parentLoader, final boolean canLockJars, final boolean canUseCache)
 	{

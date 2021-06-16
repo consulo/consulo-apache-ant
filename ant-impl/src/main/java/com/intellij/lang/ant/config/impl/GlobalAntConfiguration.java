@@ -15,23 +15,10 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
 import com.intellij.ide.macro.MacroManager;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntConfigurationBase;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.components.StoragePathMacros;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -40,8 +27,15 @@ import com.intellij.util.config.AbstractProperty;
 import com.intellij.util.config.ExternalizablePropertyContainer;
 import com.intellij.util.config.StorageProperty;
 import com.intellij.util.config.ValueProperty;
-import com.intellij.util.containers.hash.LinkedHashMap;
 import consulo.apache.ant.sdk.AntSdkType;
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @State(name = "GlobalAntConfiguration", storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/ant.xml"))
 public class GlobalAntConfiguration implements PersistentStateComponent<Element>
