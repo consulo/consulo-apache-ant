@@ -5,6 +5,9 @@
 	<description>Editing, maintaining and running ANT build scripts</description>
 	<vendor>JetBrains</vendor>
 	<category>Build</category>
+	<tags>
+		<tag>build.framework</tag>
+	</tags>
 
 	<resource-bundle>messages.AntActionsBundle</resource-bundle>
 	<depends>com.intellij.properties</depends>
