@@ -15,9 +15,6 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.MultilineTreeCellRenderer;
@@ -25,6 +22,8 @@ import com.intellij.ui.SideBorder;
 import consulo.apache.ant.ApacheAntIcons;
 import consulo.awt.TargetAWT;
 import consulo.ui.image.Image;
+
+import javax.swing.*;
 
 final class MessageTreeRenderer extends MultilineTreeCellRenderer {
 
@@ -69,7 +68,7 @@ final class MessageTreeRenderer extends MultilineTreeCellRenderer {
           icon = AllIcons.General.Warning;
         }
         else {
-          icon = ApacheAntIcons.Message;
+          icon = AllIcons.General.Information;
         }
       }
       else if (type == AntBuildMessageView.MessageType.ERROR) {

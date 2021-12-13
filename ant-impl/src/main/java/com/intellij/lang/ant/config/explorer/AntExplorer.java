@@ -206,6 +206,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
     group.add(action);
 
     final ActionToolbar actionToolBar = ActionManager.getInstance().createActionToolbar(ActionPlaces.ANT_EXPLORER_TOOLBAR, group, true);
+    actionToolBar.setTargetComponent(this);
     final JPanel buttonsPanel = new JPanel(new BorderLayout());
     buttonsPanel.add(actionToolBar.getComponent(), BorderLayout.CENTER);
     return buttonsPanel;

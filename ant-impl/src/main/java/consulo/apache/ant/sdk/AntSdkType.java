@@ -15,14 +15,6 @@
  */
 package consulo.apache.ant.sdk;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
@@ -36,6 +28,13 @@ import consulo.roots.types.BinariesOrderRootType;
 import consulo.ui.image.Image;
 import consulo.vfs.util.ArchiveVfsUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author VISTALL
  * @since 15:52/19.05.13
@@ -45,7 +44,7 @@ public class AntSdkType extends SdkType
 	@Nonnull
 	public static AntSdkType getInstance()
 	{
-		return EP_NAME.findExtension(AntSdkType.class);
+		return EP_NAME.findExtensionOrFail(AntSdkType.class);
 	}
 
 	public AntSdkType()
@@ -106,13 +105,6 @@ public class AntSdkType extends SdkType
 	public Image getIcon()
 	{
 		return ApacheAntIcons.AntInstallation;
-	}
-
-	@Nullable
-	@Override
-	public Image getGroupIcon()
-	{
-		return ApacheAntIcons.AntGroup;
 	}
 
 	@Override
