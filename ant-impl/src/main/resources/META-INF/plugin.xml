@@ -1,4 +1,4 @@
-<consulo-plugin>
+<consulo-plugin url="https://github.com/consulo/consulo-apache-ant">
 	<id>consulo.apache.ant</id>
 	<name>Apache Ant</name>
 	<version>SNAPSHOT</version>
