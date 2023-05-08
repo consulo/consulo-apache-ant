@@ -15,14 +15,15 @@
  */
 package com.intellij.rt.ant.execution;
 
+import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 
 public final class AntMain2 {
+  // original out
+  public static final PrintStream OUT = System.out;
 
   public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-    IdeaAntLogger2.guardStreams();
-    
-    // as we build classpath ourselves, and ensure all libraries are added to classpath, 
+    // as we build classpath ourselves, and ensure all libraries are added to classpath,
     // preferred way for us to run ant will be using the traditional ant entry point, via the "Main" class 
     try {
       final Class antMain = Class.forName("org.apache.tools.ant.Main");

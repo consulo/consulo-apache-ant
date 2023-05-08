@@ -59,8 +59,7 @@ public class RunTargetAction extends AnAction {
     if (antTarget == null) return;
 
     ExecutionHandler.runBuild(
-      antTarget.first, new String[] {antTarget.second.getName().getValue() },
-      null,
+      antTarget.first, new String[]{antTarget.second.getName().getValue()},
       e.getDataContext(),
       Collections.<BuildFileProperty>emptyList(),
       AntBuildListener.NULL);
@@ -77,7 +76,8 @@ public class RunTargetAction extends AnAction {
     if (antTarget == null) {
       presentation.setEnabled(false);
       presentation.setText(AntActionsBundle.message("action.RunTargetAction.text", ""));
-    } else {
+    }
+    else {
       presentation.setEnabled(true);
       presentation.setText(AntActionsBundle.message("action.RunTargetAction.text", "'" + antTarget.second.getName().getValue() + "'"));
     }

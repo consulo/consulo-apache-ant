@@ -98,7 +98,7 @@ public class MetaTarget implements AntBuildTargetBase {
   }
 
   public void run(DataContext dataContext, List<BuildFileProperty> additionalProperties, AntBuildListener buildListener) {
-    ExecutionHandler.runBuild(myBuildFile, myTargets, null, dataContext, additionalProperties, buildListener);
+    ExecutionHandler.runBuild(myBuildFile, myTargets, dataContext, additionalProperties, buildListener);
   }
 
   @Nullable

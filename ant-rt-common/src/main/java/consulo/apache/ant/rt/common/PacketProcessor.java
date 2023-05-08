@@ -15,7 +15,6 @@
  */
 package consulo.apache.ant.rt.common;
 
-public interface PacketProcessor
-{
-	void processPacket(String packet);
+public interface PacketProcessor {
+  void processPacket(String packet);
 }

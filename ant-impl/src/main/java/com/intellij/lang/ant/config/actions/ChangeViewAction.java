@@ -16,15 +16,15 @@
 package com.intellij.lang.ant.config.actions;
 
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.config.execution.AntBuildMessageView;
+import com.intellij.lang.ant.config.execution.OldAntBuildMessageView;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.platform.base.icon.PlatformIconGroup;
 
 public final class ChangeViewAction extends AnAction {
-  private final AntBuildMessageView myAntBuildMessageView;
+  private final OldAntBuildMessageView myAntBuildMessageView;
 
-  public ChangeViewAction(AntBuildMessageView antBuildMessageView) {
+  public ChangeViewAction(OldAntBuildMessageView antBuildMessageView) {
     super(AntBundle.message("ant.view.toggle.tree.text.action.name"),null, PlatformIconGroup.actionsChangeview());
     myAntBuildMessageView = antBuildMessageView;
   }

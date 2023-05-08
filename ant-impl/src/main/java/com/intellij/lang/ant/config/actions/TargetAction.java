@@ -62,7 +62,8 @@ public final class TargetAction extends DumbAwareAction {
       final String name = buildFile.getPresentableName();
       if (name != null && myBuildName.equals(name)) {
         String[] targets = myTargets.length == 1 && DEFAULT_TARGET_NAME.equals(myTargets[0]) ? ArrayUtil.EMPTY_STRING_ARRAY : myTargets;
-        ExecutionHandler.runBuild((AntBuildFileBase)buildFile, targets, null, dataContext, Collections.<BuildFileProperty>emptyList(), AntBuildListener.NULL);
+        ExecutionHandler.runBuild((AntBuildFileBase)buildFile, targets,
+                                  dataContext, Collections.<BuildFileProperty>emptyList(), AntBuildListener.NULL);
         return;
       }
     }

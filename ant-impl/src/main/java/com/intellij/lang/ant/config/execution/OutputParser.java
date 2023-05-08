@@ -18,6 +18,7 @@ package com.intellij.lang.ant.config.execution;
 import com.intellij.java.compiler.impl.javaCompiler.FileObject;
 import com.intellij.java.compiler.impl.javaCompiler.javac.JavacOutputParser;
 import com.intellij.lang.ant.AntBundle;
+import consulo.apache.ant.execution.OutputWatcher;
 import consulo.apache.ant.rt.common.AntLoggerConstants;
 import consulo.application.ApplicationManager;
 import consulo.application.progress.ProgressIndicator;
@@ -36,14 +37,14 @@ import java.util.List;
 
 //import com.intellij.compiler.impl.javaCompiler.jikes.JikesOutputParser;
 
-public class OutputParser {
+public class OutputParser implements OutputWatcher {
 
   @NonNls private static final String JAVAC = "javac";
   @NonNls private static final String ECHO = "echo";
 
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.OutputParser");
   private final Project myProject;
-  private final AntBuildMessageView myMessageView;
+  private final OldAntBuildMessageView myMessageView;
   private final WeakReference<ProgressIndicator> myProgress;
   private final String myBuildName;
   private final BaseProcessHandler<?> myProcessHandler;
@@ -55,7 +56,7 @@ public class OutputParser {
 
   public OutputParser(Project project,
                       BaseProcessHandler<?> processHandler,
-                      AntBuildMessageView errorsView,
+                      OldAntBuildMessageView errorsView,
                       ProgressIndicator progress,
                       String buildName) {
     myProject = project;
@@ -66,10 +67,12 @@ public class OutputParser {
     myMessageView.setParsingThread(this);
   }
 
+  @Override
   public final void stopProcess() {
     myProcessHandler.destroyProcess();
   }
 
+  @Override
   public boolean isTerminateInvoked() {
     return myProcessHandler.isProcessTerminating();
   }
@@ -82,12 +85,19 @@ public class OutputParser {
     return myProcessHandler;
   }
 
+  @Override
   public final boolean isStopped() {
     return isStopped;
   }
 
+  @Override
   public final void setStopped(boolean stopped) {
     isStopped = stopped;
+  }
+
+  @Override
+  public int getErrorsCount() {
+    return 0;
   }
 
   private void setProgressStatistics(String s) {
@@ -145,7 +155,7 @@ public class OutputParser {
 
     if (AntLoggerConstants.MESSAGE == tagName) {
       if (myIsEcho) {
-        myMessageView.outputMessage(tagValue, AntBuildMessageView.PRIORITY_VERBOSE);
+        myMessageView.outputMessage(tagValue, OldAntBuildMessageView.PRIORITY_VERBOSE);
       }
       else {
         myMessageView.outputMessage(tagValue, priority);
@@ -219,7 +229,7 @@ public class OutputParser {
     return -1;
   }
 
-  private static void processJavacMessages(final List<String> javacMessages, final AntBuildMessageView messageView, Project project) {
+  private static void processJavacMessages(final List<String> javacMessages, final OldAntBuildMessageView messageView, Project project) {
     if (javacMessages == null) return;
 
     boolean isJikes = false;
@@ -242,6 +252,7 @@ public class OutputParser {
     com.intellij.java.compiler.impl.OutputParser.Callback callback = new com.intellij.java.compiler.impl.OutputParser.Callback() {
       private int myIndex = -1;
 
+      @Override
       @Nullable
       public String getCurrentLine() {
         if (javacMessages == null || myIndex >= javacMessages.size()) {
@@ -250,6 +261,7 @@ public class OutputParser {
         return javacMessages.get(myIndex);
       }
 
+      @Override
       public String getNextLine() {
         final int size = javacMessages.size();
         final int next = Math.min(myIndex + 1, javacMessages.size());
@@ -265,6 +277,7 @@ public class OutputParser {
         myIndex--;
       }
 
+      @Override
       public void message(final CompilerMessageCategory category,
                           final String message,
                           final String url,
@@ -277,6 +290,7 @@ public class OutputParser {
           strings[idx] = tokenizer.nextToken();
         }
         ApplicationManager.getApplication().runReadAction(new Runnable() {
+          @Override
           public void run() {
             VirtualFile file = url == null ? null : VirtualFileManager.getInstance().findFileByUrl(url);
             messageView.outputJavacMessage(convertCategory(category), strings, file, url, lineNum, columnNum);
@@ -284,12 +298,15 @@ public class OutputParser {
         });
       }
 
+      @Override
       public void setProgressText(String text) {
       }
 
+      @Override
       public void fileProcessed(String path) {
       }
 
+      @Override
       public void fileGenerated(FileObject path) {
       }
     };
@@ -305,11 +322,11 @@ public class OutputParser {
     }
   }
 
-  private static AntBuildMessageView.MessageType convertCategory(consulo.compiler.CompilerMessageCategory category) {
+  private static OldAntBuildMessageView.MessageType convertCategory(consulo.compiler.CompilerMessageCategory category) {
     if (consulo.compiler.CompilerMessageCategory.ERROR.equals(category)) {
-      return AntBuildMessageView.MessageType.ERROR;
+      return OldAntBuildMessageView.MessageType.ERROR;
     }
-    return AntBuildMessageView.MessageType.MESSAGE;
+    return OldAntBuildMessageView.MessageType.MESSAGE;
   }
 
 }

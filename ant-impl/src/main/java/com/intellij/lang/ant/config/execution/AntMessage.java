@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public final class AntMessage {
-  private final AntBuildMessageView.MessageType myType;
+  private final OldAntBuildMessageView.MessageType myType;
   private final int myPriority;
   private final String myText;
   private final String[] myTextLines;
@@ -30,7 +30,7 @@ public final class AntMessage {
   private final int myLine;
   private final int myColumn;
 
-  public AntMessage(AntBuildMessageView.MessageType type,
+  public AntMessage(OldAntBuildMessageView.MessageType type,
                     int priority,
                     String text,
                     consulo.virtualFileSystem.VirtualFile file,
@@ -50,7 +50,7 @@ public final class AntMessage {
     myTextLines = ArrayUtil.toStringArray(lines);
   }
 
-  public AntMessage(AntBuildMessageView.MessageType type,
+  public AntMessage(OldAntBuildMessageView.MessageType type,
                     int priority,
                     String[] lines,
                     consulo.virtualFileSystem.VirtualFile file,
@@ -70,7 +70,7 @@ public final class AntMessage {
     myText = builder.toString();
   }
 
-  public AntBuildMessageView.MessageType getType() {
+  public OldAntBuildMessageView.MessageType getType() {
     return myType;
   }
 

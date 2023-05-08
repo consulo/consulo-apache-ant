@@ -8,6 +8,8 @@ open module consulo.apache.ant {
 
   requires consulo.util.nodep;
 
+  requires build.serviceMessages;
+
   requires com.intellij.xml;
   requires consulo.java;
   requires com.intellij.properties;

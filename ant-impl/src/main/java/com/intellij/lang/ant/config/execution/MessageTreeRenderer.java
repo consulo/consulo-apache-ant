@@ -53,25 +53,25 @@ final class MessageTreeRenderer extends MultilineTreeCellRenderer {
 
     if (value instanceof MessageNode) {
       MessageNode node = (MessageNode)value;
-      AntBuildMessageView.MessageType type = node.getType();
-      if (type == AntBuildMessageView.MessageType.BUILD) {
+      OldAntBuildMessageView.MessageType type = node.getType();
+      if (type == OldAntBuildMessageView.MessageType.BUILD) {
         icon = ApacheAntIcons.AntInstallation;
       }
-      else if (type == AntBuildMessageView.MessageType.TARGET) {
+      else if (type == OldAntBuildMessageView.MessageType.TARGET) {
         icon = ApacheAntIcons.Target;
       }
-      else if (type == AntBuildMessageView.MessageType.TASK) {
+      else if (type == OldAntBuildMessageView.MessageType.TASK) {
         icon = ApacheAntIcons.Task;
       }
-      else if (type == AntBuildMessageView.MessageType.MESSAGE) {
-        if (node.getPriority() == AntBuildMessageView.PRIORITY_WARN) {
+      else if (type == OldAntBuildMessageView.MessageType.MESSAGE) {
+        if (node.getPriority() == OldAntBuildMessageView.PRIORITY_WARN) {
           icon = AllIcons.General.Warning;
         }
         else {
           icon = AllIcons.General.Information;
         }
       }
-      else if (type == AntBuildMessageView.MessageType.ERROR) {
+      else if (type == OldAntBuildMessageView.MessageType.ERROR) {
         icon = AllIcons.General.Error;
       }
     }

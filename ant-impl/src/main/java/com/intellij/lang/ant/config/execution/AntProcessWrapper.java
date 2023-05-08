@@ -32,16 +32,6 @@ public class AntProcessWrapper {
 
   private AntProcessWrapper(@Nonnull GeneralCommandLine commandLine) throws ExecutionException {
     myProcessHandler = ProcessHandlerBuilder.create(commandLine).killable().colored().build();
-
-//    myOut = new Extractor(getProcess().getInputStream(), commandLine.getCharset());
-//    myErr = new Extractor(getProcess().getErrorStream(), commandLine.getCharset());
-//    addProcessListener(new ProcessAdapter() {
-//      @Override
-//      public void processTerminated(@NotNull ProcessEvent event) {
-//        Disposer.dispose(myOut);
-//        Disposer.dispose(myErr);
-//      }
-//    });
   }
 
   public void waitFor() {

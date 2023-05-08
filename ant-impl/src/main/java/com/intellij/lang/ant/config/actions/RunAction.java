@@ -16,36 +16,35 @@
 package com.intellij.lang.ant.config.actions;
 
 import com.intellij.lang.ant.AntBundle;
+import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildListener;
-import com.intellij.lang.ant.config.execution.AntBuildMessageView;
 import com.intellij.lang.ant.config.execution.ExecutionHandler;
-import com.intellij.lang.ant.config.impl.BuildFileProperty;
 import consulo.application.AllIcons;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.Presentation;
 
-import java.util.Collections;
+import java.util.List;
 
-public final class RunAction extends AnAction
-{
-  private final AntBuildMessageView myAntBuildMessageView;
+public final class RunAction extends AnAction {
+  private final AntBuildFileBase myBuildFile;
+  private final String[] myTargets;
 
-  public RunAction(AntBuildMessageView antBuildMessageView) {
+  public RunAction(AntBuildFileBase buildFile, String[] targets) {
     super(AntBundle.message("rerun.ant.action.name"), null, AllIcons.Actions.Rerun);
-    myAntBuildMessageView = antBuildMessageView;
+    myBuildFile = buildFile;
+    myTargets = targets;
   }
 
   public void actionPerformed(AnActionEvent e) {
     ExecutionHandler.runBuild(
-      myAntBuildMessageView.getBuildFile(),
-      myAntBuildMessageView.getTargets(),
-      myAntBuildMessageView,
-      e.getDataContext(), Collections.<BuildFileProperty>emptyList(), AntBuildListener.NULL);
+      myBuildFile,
+      myTargets,
+      e.getDataContext(), List.of(), AntBuildListener.NULL);
   }
 
-  public void update(AnActionEvent event){
+  public void update(AnActionEvent event) {
     Presentation presentation = event.getPresentation();
-    presentation.setEnabled(myAntBuildMessageView.isStopped());
+    presentation.setEnabled(true);
   }
 }

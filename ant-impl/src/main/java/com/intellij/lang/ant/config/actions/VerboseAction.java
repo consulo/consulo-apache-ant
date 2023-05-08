@@ -17,15 +17,15 @@ package com.intellij.lang.ant.config.actions;
 
 import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.config.execution.AntBuildMessageView;
+import com.intellij.lang.ant.config.execution.OldAntBuildMessageView;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.ToggleAction;
 
 public final class VerboseAction extends ToggleAction
 {
-  private final AntBuildMessageView myAntBuildMessageView;
+  private final OldAntBuildMessageView myAntBuildMessageView;
 
-  public VerboseAction(AntBuildMessageView antBuildMessageView) {
+  public VerboseAction(OldAntBuildMessageView antBuildMessageView) {
     super(AntBundle.message("ant.verbose.show.all.messages.action.name"), AntBundle.message("ant.verbose.show.all.messages.action.description"), ApacheAntIcons.Verbose);
     myAntBuildMessageView = antBuildMessageView;
   }

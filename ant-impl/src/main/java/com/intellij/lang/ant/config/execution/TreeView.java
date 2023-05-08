@@ -131,9 +131,9 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
           return null;
         }
         MessageNode messageNode = (MessageNode)node;
-        AntBuildMessageView.MessageType type = messageNode.getType();
+        OldAntBuildMessageView.MessageType type = messageNode.getType();
 
-        if (type != AntBuildMessageView.MessageType.MESSAGE && type != AntBuildMessageView.MessageType.ERROR) {
+        if (type != OldAntBuildMessageView.MessageType.MESSAGE && type != OldAntBuildMessageView.MessageType.ERROR) {
           return null;
         }
 
@@ -389,13 +389,13 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
       if (isValid(item.getFile())) {
         return OpenFileDescriptorFactory.getInstance(myProject).builder(item.getFile()).offset(item.getOffset()).build();
       }
-      if (item.getType() == AntBuildMessageView.MessageType.TARGET) {
+      if (item.getType() == OldAntBuildMessageView.MessageType.TARGET) {
         final OpenFileDescriptor descriptor = getDescriptorForTargetNode(item);
         if (descriptor != null && isValid(descriptor.getFile())) {
           return descriptor;
         }
       }
-      if (item.getType() == AntBuildMessageView.MessageType.TASK) {
+      if (item.getType() == OldAntBuildMessageView.MessageType.TASK) {
         final OpenFileDescriptor descriptor = getDescriptorForTaskNode(item);
         if (descriptor != null && isValid(descriptor.getFile())) {
           return descriptor;
@@ -421,7 +421,7 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
     final TreeNode parentNode = node.getParent();
     if (!(parentNode instanceof MessageNode)) return null;
     final MessageNode messageNode = (MessageNode)parentNode;
-    if (messageNode.getType() != AntBuildMessageView.MessageType.TARGET) return null;
+    if (messageNode.getType() != OldAntBuildMessageView.MessageType.TARGET) return null;
     final BuildTask task = ((AntBuildModelBase)myBuildFile.getModel()).findTask(messageNode.getText()[0], taskName);
     return (task == null) ? null : task.getOpenFileDescriptor();
   }
@@ -466,8 +466,8 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
   private static TreePath getFirstErrorPath(TreePath treePath) {
     TreeNode treeNode = (TreeNode)treePath.getLastPathComponent();
     if (treeNode instanceof MessageNode) {
-      AntBuildMessageView.MessageType type = ((MessageNode)treeNode).getType();
-      if (type == AntBuildMessageView.MessageType.ERROR) {
+      OldAntBuildMessageView.MessageType type = ((MessageNode)treeNode).getType();
+      if (type == OldAntBuildMessageView.MessageType.ERROR) {
         return treePath;
       }
     }
@@ -512,11 +512,11 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
     for (Object o : paths) {
       if (o instanceof MessageNode) {
         MessageNode messageNode = (MessageNode)o;
-        AntBuildMessageView.MessageType type = messageNode.getType();
-        if (type == AntBuildMessageView.MessageType.TARGET) {
+        OldAntBuildMessageView.MessageType type = messageNode.getType();
+        if (type == OldAntBuildMessageView.MessageType.TARGET) {
           selection.mySelectedTarget = messageNode.getText()[0];
         }
-        else if (type == AntBuildMessageView.MessageType.TASK) {
+        else if (type == OldAntBuildMessageView.MessageType.TASK) {
           selection.mySelectedTask = messageNode.getText()[0];
         }
       }

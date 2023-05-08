@@ -188,6 +188,6 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
     }
 
     String[] targets = isDefault() ? ArrayUtil.EMPTY_STRING_ARRAY : new String[]{getName()};
-    ExecutionHandler.runBuild((AntBuildFileBase)buildFile, targets, null, dataContext, additionalProperties, buildListener);
+    ExecutionHandler.runBuild((AntBuildFileBase)buildFile, targets, dataContext, additionalProperties, buildListener);
   }
 }

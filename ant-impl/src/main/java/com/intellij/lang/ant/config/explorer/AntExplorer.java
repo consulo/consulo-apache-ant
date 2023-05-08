@@ -293,7 +293,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
     if (buildFile != null) {
       final TreePath[] paths = myTree.getSelectionPaths();
       final String[] targets = getTargetNamesFromPaths(paths);
-      ExecutionHandler.runBuild(buildFile, targets, null, dataContext, Collections.<BuildFileProperty>emptyList(), AntBuildListener.NULL);
+      ExecutionHandler.runBuild(buildFile, targets, dataContext, Collections.<BuildFileProperty>emptyList(), AntBuildListener.NULL);
     }
   }
 

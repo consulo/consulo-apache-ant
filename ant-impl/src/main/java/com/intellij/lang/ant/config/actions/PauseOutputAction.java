@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.config.actions;
 
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.config.execution.AntBuildMessageView;
+import com.intellij.lang.ant.config.execution.OldAntBuildMessageView;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.Presentation;
 import consulo.ui.ex.action.ToggleAction;
@@ -24,9 +24,9 @@ import consulo.application.AllIcons;
 
 public final class PauseOutputAction extends ToggleAction
 {
-  private final AntBuildMessageView myAntBuildMessageView;
+  private final OldAntBuildMessageView myAntBuildMessageView;
 
-  public PauseOutputAction(AntBuildMessageView antBuildMessageView) {
+  public PauseOutputAction(OldAntBuildMessageView antBuildMessageView) {
     super(AntBundle.message("ant.view.pause.output.action.name"),null, AllIcons.Actions.Pause);
     myAntBuildMessageView = antBuildMessageView;
   }

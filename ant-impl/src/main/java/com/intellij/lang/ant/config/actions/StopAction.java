@@ -17,15 +17,15 @@ package com.intellij.lang.ant.config.actions;
 
 import consulo.application.AllIcons;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.config.execution.AntBuildMessageView;
+import com.intellij.lang.ant.config.execution.OldAntBuildMessageView;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.Presentation;
 import consulo.ui.ex.action.AnActionEvent;
 
 public final class StopAction extends AnAction {
-  private final AntBuildMessageView myAntBuildMessageView;
+  private final OldAntBuildMessageView myAntBuildMessageView;
 
-  public StopAction(AntBuildMessageView antBuildMessageView) {
+  public StopAction(OldAntBuildMessageView antBuildMessageView) {
     super(AntBundle.message("stop.ant.action.name"),null, AllIcons.Actions.Suspend);
     myAntBuildMessageView = antBuildMessageView;
   }

@@ -39,6 +39,7 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.io.ClassPathUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFilePathUtil;
+import jetbrains.buildServer.messages.serviceMessages.ServiceMessage;
 import org.jetbrains.annotations.NonNls;
 
 import java.io.File;
@@ -136,6 +137,7 @@ public class AntCommandLineBuilder {
     // hardcoded since it's not loaded by classloader
     myCommandLine.getClassPath().add(new File(pluginPath, "ant-rt.jar"));
     myCommandLine.getClassPath().add(ClassPathUtil.getJarPathForClass(AntLoggerConstants.class));
+    myCommandLine.getClassPath().add(ClassPathUtil.getJarPathForClass(ServiceMessage.class));
 
     final SdkTypeId sdkType = jdk.getSdkType();
     if (sdkType instanceof JavaSdkType) {
@@ -165,7 +167,8 @@ public class AntCommandLineBuilder {
     }
 
     if (!(programParameters.getList().contains(LOGFILE_SHORT_PARAMETER) || programParameters.getList().contains(LOGFILE_PARAMETER))) {
-      programParameters.add("-logger", "com.intellij.rt.ant.execution.IdeaAntLogger2");
+      //programParameters.add("-logger", "com.intellij.rt.ant.execution.IdeaAntLogger2");
+      programParameters.add("-logger", "consulo.apache.ant.rt.ConsuloAntLogger");
     }
     if (!programParameters.getList().contains(INPUT_HANDLER_PARAMETER)) {
       programParameters.add(INPUT_HANDLER_PARAMETER, "com.intellij.rt.ant.execution.IdeaInputHandler");

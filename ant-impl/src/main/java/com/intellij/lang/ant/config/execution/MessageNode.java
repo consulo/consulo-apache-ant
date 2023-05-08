@@ -78,7 +78,7 @@ final class MessageNode extends DefaultMutableTreeNode {
     return myRangeMarker.getStartOffset();
   }
 
-  public AntBuildMessageView.MessageType getType() {
+  public OldAntBuildMessageView.MessageType getType() {
     return myMessage.getType();
   }
 
@@ -91,14 +91,14 @@ final class MessageNode extends DefaultMutableTreeNode {
 
   @Nullable
   public String getTypeString() {
-    AntBuildMessageView.MessageType type = myMessage.getType();
-    if (type == AntBuildMessageView.MessageType.BUILD) {
+    OldAntBuildMessageView.MessageType type = myMessage.getType();
+    if (type == OldAntBuildMessageView.MessageType.BUILD) {
       return AntBundle.message("ant.build.message.node.prefix.text");
     }
-    else if (type == AntBuildMessageView.MessageType.TARGET) {
+    else if (type == OldAntBuildMessageView.MessageType.TARGET) {
       return AntBundle.message("ant.target.message.node.prefix.text");
     }
-    else if (type == AntBuildMessageView.MessageType.TASK) {
+    else if (type == OldAntBuildMessageView.MessageType.TASK) {
       return AntBundle.message("ant.task.message.node.prefix.text");
     }
     return "";
