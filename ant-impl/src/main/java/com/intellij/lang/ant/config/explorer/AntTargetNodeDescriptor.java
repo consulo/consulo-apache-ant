@@ -15,32 +15,32 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import com.intellij.execution.RunManagerEx;
-import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.*;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTask;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTaskProvider;
 import com.intellij.lang.ant.config.impl.ExecuteCompositeTargetEvent;
 import com.intellij.lang.ant.config.impl.MetaTarget;
-import com.intellij.openapi.actionSystem.Shortcut;
-import com.intellij.openapi.editor.markup.EffectType;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.keymap.Keymap;
-import com.intellij.openapi.keymap.KeymapManager;
-import com.intellij.openapi.keymap.KeymapUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ui.CellAppearanceEx;
-import com.intellij.openapi.roots.ui.util.CompositeAppearance;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.SimpleColoredComponent;
-import com.intellij.ui.SimpleTextAttributes;
-import com.intellij.util.ui.UIUtil;
 import consulo.apache.ant.ApacheAntIcons;
-import consulo.awt.TargetAWT;
+import consulo.colorScheme.EffectType;
+import consulo.colorScheme.TextAttributes;
+import consulo.execution.RunManager;
+import consulo.ide.impl.idea.openapi.roots.ui.util.CompositeAppearance;
+import consulo.ide.ui.CellAppearanceEx;
+import consulo.project.Project;
 import consulo.ui.color.RGBColor;
-import consulo.ui.ex.util.LightDarkColorValue;
+import consulo.ui.ex.ColoredTextContainer;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ui.ex.action.Shortcut;
+import consulo.ui.ex.awt.UIUtil;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
+import consulo.ui.ex.keymap.Keymap;
+import consulo.ui.ex.keymap.KeymapManager;
+import consulo.ui.ex.keymap.util.KeymapUtil;
+import consulo.ui.ex.tree.NodeDescriptor;
 import consulo.ui.style.StandardColors;
+import consulo.ui.util.LightDarkColorValue;
+import consulo.util.lang.Comparing;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -98,7 +98,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
         myHighlightedText.getEnding().addText(" (" + presentableName + ')', ourPostfixAttributes);
       }
     }
-    final RunManagerEx runManager = RunManagerEx.getInstanceEx(myProject);
+    final RunManager runManager = RunManager.getInstance(myProject);
     final VirtualFile vFile = buildFile.getVirtualFile();
     if (vFile != null) {
       for (AntBeforeRunTask task : runManager.getBeforeRunTasks(AntBeforeRunTaskProvider.ID)) {
@@ -141,7 +141,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
     return false;
   }
 
-  public void customize(@Nonnull SimpleColoredComponent component) {
+  public void customize(@Nonnull ColoredTextContainer component) {
     getHighlightedText().customize(component);
     component.setIcon(getIcon());
     String toolTipText = getTarget().getNotEmptyDescription();

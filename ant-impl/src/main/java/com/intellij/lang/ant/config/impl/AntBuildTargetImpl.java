@@ -22,19 +22,20 @@ import com.intellij.lang.ant.dom.AntDomElement;
 import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.lang.ant.dom.AntDomRecursiveVisitor;
 import com.intellij.lang.ant.dom.AntDomTarget;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.StringBuilderSpinAllocator;
-import com.intellij.util.xml.DomTarget;
-import javax.annotation.Nullable;
+import consulo.dataContext.DataContext;
+import consulo.ide.impl.idea.util.StringBuilderSpinAllocator;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.navigation.OpenFileDescriptor;
+import consulo.navigation.OpenFileDescriptorFactory;
+import consulo.project.Project;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.ref.Ref;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.util.xml.DomTarget;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class AntBuildTargetImpl implements AntBuildTargetBase {
@@ -49,7 +50,11 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
   private final Project myProject;
   private final int myTextOffset;
 
-  public AntBuildTargetImpl(final AntDomTarget target, final AntBuildModelBase buildModel, final VirtualFile sourceFile, final boolean isImported, final boolean isDefault) {
+  public AntBuildTargetImpl(final AntDomTarget target,
+                            final AntBuildModelBase buildModel,
+                            final consulo.virtualFileSystem.VirtualFile sourceFile,
+                            final boolean isImported,
+                            final boolean isDefault) {
     myModel = buildModel;
     myFile = sourceFile;
     myIsDefault = isDefault;
@@ -69,7 +74,7 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
     else {
       myTextOffset = target.getXmlTag().getTextOffset();
     }
-    
+
     final String desc = target.getDescription().getRawText();
     myDescription = (desc != null && desc.trim().length() > 0) ? desc : null;
   }
@@ -109,7 +114,7 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
     return myIsDefault;
   }
 
-  public VirtualFile getContainingFile() {
+  public consulo.virtualFileSystem.VirtualFile getContainingFile() {
     return myFile;
   }
 
@@ -123,7 +128,7 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
     if (modelName == null || modelName.length() == 0) {
       return null;
     }
-    final StringBuilder name = StringBuilderSpinAllocator.alloc();
+    final StringBuilder name = consulo.ide.impl.idea.util.StringBuilderSpinAllocator.alloc();
     try {
       name.append(AntConfiguration.getActionIdPrefix(myModel.getBuildFile().getProject()));
       name.append("_");
@@ -167,7 +172,7 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
   }
 
   public OpenFileDescriptor getOpenFileDescriptor() {
-    return (myFile == null) ? null : new OpenFileDescriptor(myProject, myFile, myTextOffset);
+    return (myFile == null) ? null : OpenFileDescriptorFactory.getInstance(myProject).builder(myFile).offset(myTextOffset).build();
   }
 
   public void run(DataContext dataContext, List<BuildFileProperty> additionalProperties, AntBuildListener buildListener) {

@@ -15,28 +15,29 @@
  */
 package com.intellij.lang.ant.refactoring;
 
-import java.util.Collection;
+import com.intellij.lang.ant.dom.AntDomFileDescription;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.dumb.IndexNotReadyException;
+import consulo.codeEditor.Editor;
+import consulo.dataContext.DataContext;
+import consulo.language.editor.LangDataKeys;
+import consulo.language.editor.TargetElementUtil;
+import consulo.language.editor.refactoring.rename.PsiElementRenameHandler;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiReference;
+import consulo.project.Project;
+import consulo.xml.psi.xml.XmlFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.intellij.lang.ant.dom.AntDomFileDescription;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.LangDataKeys;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.IndexNotReadyException;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.refactoring.rename.PsiElementRenameHandler;
-import com.intellij.util.containers.ContainerUtil;
-import consulo.codeInsight.TargetElementUtil;
+import java.util.Collection;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: Mar 19, 2007
  */
+@ExtensionImpl
 public final class AntRenameHandler extends PsiElementRenameHandler {
   
   public boolean isAvailableOnDataContext(final DataContext dataContext) {
@@ -56,7 +57,7 @@ public final class AntRenameHandler extends PsiElementRenameHandler {
   }
 
   @Nullable 
-  private static PsiElement[] getElements(DataContext dataContext) {
+  private static consulo.language.psi.PsiElement[] getElements(DataContext dataContext) {
     final PsiFile psiFile = dataContext.getData(LangDataKeys.PSI_FILE);
     if (!(psiFile instanceof XmlFile && AntDomFileDescription.isAntFile((XmlFile)psiFile))) {
       return null;
@@ -71,12 +72,12 @@ public final class AntRenameHandler extends PsiElementRenameHandler {
   @Nullable
   private static PsiElement[] getPsiElementsIn(final Editor editor, final PsiFile psiFile) {
     try {
-      final PsiReference reference = TargetElementUtil.findReference(editor, editor.getCaretModel().getOffset());
+      final PsiReference reference = consulo.language.editor.TargetElementUtil.findReference(editor, editor.getCaretModel().getOffset());
       if (reference == null) {
         return null;
       }
       final Collection<PsiElement> candidates = TargetElementUtil.getTargetCandidates(reference);
-      return ContainerUtil.toArray(candidates, new PsiElement[candidates.size()]);
+      return candidates.toArray(new PsiElement[candidates.size()]);
     }
     catch (IndexNotReadyException e) {
       return null;

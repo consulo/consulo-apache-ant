@@ -15,22 +15,24 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import com.intellij.execution.BeforeRunTaskProvider;
-import com.intellij.execution.configurations.RunConfiguration;
-import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.AntConfiguration;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.apache.ant.ApacheAntIcons;
+import consulo.dataContext.DataContext;
+import consulo.execution.BeforeRunTaskProvider;
+import consulo.execution.configuration.RunConfiguration;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.image.Image;
 import consulo.util.concurrent.AsyncResult;
 import consulo.util.dataholder.Key;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,136 +40,114 @@ import javax.annotation.Nullable;
 /**
  * @author Vladislav.Kaznacheev
  */
-public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRunTask>
-{
-	public static final Key<AntBeforeRunTask> ID = Key.create("AntTarget");
-	private final Project myProject;
+@ExtensionImpl
+public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRunTask> {
+  public static final Key<AntBeforeRunTask> ID = Key.create("AntTarget");
+  private final Project myProject;
 
-	public AntBeforeRunTaskProvider(Project project)
-	{
-		myProject = project;
-	}
+  @Inject
+  public AntBeforeRunTaskProvider(Project project) {
+    myProject = project;
+  }
 
-	public Key<AntBeforeRunTask> getId()
-	{
-		return ID;
-	}
+  public Key<AntBeforeRunTask> getId() {
+    return ID;
+  }
 
-	@Override
-	public String getName()
-	{
-		return AntBundle.message("ant.target.before.run.description.empty");
-	}
+  @Override
+  public String getName() {
+    return AntBundle.message("ant.target.before.run.description.empty");
+  }
 
-	@Override
-	public Image getIcon()
-	{
-		return ApacheAntIcons.Target;
-	}
+  @Override
+  public Image getIcon() {
+    return ApacheAntIcons.Target;
+  }
 
-	@Override
-	public Image getTaskIcon(AntBeforeRunTask task)
-	{
-		AntBuildTarget antTarget = findTargetToExecute(task);
-		return antTarget instanceof MetaTarget ? ApacheAntIcons.MetaTarget : ApacheAntIcons.Target;
-	}
+  @Override
+  public Image getTaskIcon(AntBeforeRunTask task) {
+    AntBuildTarget antTarget = findTargetToExecute(task);
+    return antTarget instanceof MetaTarget ? ApacheAntIcons.MetaTarget : ApacheAntIcons.Target;
+  }
 
-	@Override
-	public String getDescription(AntBeforeRunTask task)
-	{
-		final String targetName = task.getTargetName();
-		if(targetName == null)
-		{
-			return AntBundle.message("ant.target.before.run.description.empty");
-		}
-		return AntBundle.message("ant.target.before.run.description", targetName);
-	}
+  @Override
+  public String getDescription(AntBeforeRunTask task) {
+    final String targetName = task.getTargetName();
+    if (targetName == null) {
+      return AntBundle.message("ant.target.before.run.description.empty");
+    }
+    return AntBundle.message("ant.target.before.run.description", targetName);
+  }
 
-	public boolean isConfigurable()
-	{
-		return true;
-	}
+  public boolean isConfigurable() {
+    return true;
+  }
 
-	@RequiredUIAccess
-	@Nonnull
-	public AsyncResult<Void> configureTask(RunConfiguration runConfiguration, AntBeforeRunTask task)
-	{
-		AntBuildTarget buildTarget = findTargetToExecute(task);
-		final TargetChooserDialog dlg = new TargetChooserDialog(myProject, buildTarget);
-		AsyncResult<Void> result = dlg.showAsync();
-		result.doWhenDone(() -> {
-			task.setTargetName(null);
-			task.setAntFileUrl(null);
-			AntBuildTarget target = dlg.getSelectedTarget();
-			if(target != null)
-			{
-				final VirtualFile vFile = target.getModel().getBuildFile().getVirtualFile();
-				if(vFile != null)
-				{
-					task.setAntFileUrl(vFile.getUrl());
-					task.setTargetName(target.getName());
-				}
-			}
-		});
+  @RequiredUIAccess
+  @Nonnull
+  public AsyncResult<Void> configureTask(RunConfiguration runConfiguration, AntBeforeRunTask task) {
+    AntBuildTarget buildTarget = findTargetToExecute(task);
+    final TargetChooserDialog dlg = new TargetChooserDialog(myProject, buildTarget);
+    AsyncResult<Void> result = dlg.showAsync();
+    result.doWhenDone(() -> {
+      task.setTargetName(null);
+      task.setAntFileUrl(null);
+      AntBuildTarget target = dlg.getSelectedTarget();
+      if (target != null) {
+        final VirtualFile vFile = target.getModel().getBuildFile().getVirtualFile();
+        if (vFile != null) {
+          task.setAntFileUrl(vFile.getUrl());
+          task.setTargetName(target.getName());
+        }
+      }
+    });
 
-		return result;
-	}
+    return result;
+  }
 
-	public AntBeforeRunTask createTask(RunConfiguration runConfiguration)
-	{
-		return new AntBeforeRunTask();
-	}
+  public AntBeforeRunTask createTask(RunConfiguration runConfiguration) {
+    return new AntBeforeRunTask();
+  }
 
-	@Override
-	public boolean canExecuteTask(RunConfiguration configuration, AntBeforeRunTask task)
-	{
-		return findTargetToExecute(task) != null;
-	}
+  @Override
+  public boolean canExecuteTask(RunConfiguration configuration, AntBeforeRunTask task) {
+    return findTargetToExecute(task) != null;
+  }
 
-	public boolean executeTask(DataContext context, RunConfiguration configuration, ExecutionEnvironment env, AntBeforeRunTask task)
-	{
-		final AntBuildTarget target = findTargetToExecute(task);
-		if(target != null)
-		{
-			return AntConfigurationImpl.executeTargetSynchronously(context, target);
-		}
-		return true;
-	}
+  public boolean executeTask(DataContext context, RunConfiguration configuration, ExecutionEnvironment env, AntBeforeRunTask task) {
+    final AntBuildTarget target = findTargetToExecute(task);
+    if (target != null) {
+      return AntConfigurationImpl.executeTargetSynchronously(context, target);
+    }
+    return true;
+  }
 
-	@Nullable
-	private AntBuildTarget findTargetToExecute(AntBeforeRunTask task)
-	{
-		final String fileUrl = task.getAntFileUrl();
-		final String targetName = task.getTargetName();
-		if(fileUrl == null || targetName == null)
-		{
-			return null;
-		}
-		final VirtualFile vFile = VirtualFileManager.getInstance().findFileByUrl(fileUrl);
-		if(vFile == null)
-		{
-			return null;
-		}
-		final AntConfigurationImpl antConfiguration = (AntConfigurationImpl) AntConfiguration.getInstance(myProject);
-		for(AntBuildFile buildFile : antConfiguration.getBuildFiles())
-		{
-			if(vFile.equals(buildFile.getVirtualFile()))
-			{
-				final AntBuildTarget target = buildFile.getModel().findTarget(targetName);
-				if(target != null)
-				{
-					return target;
-				}
-				for(AntBuildTarget metaTarget : antConfiguration.getMetaTargets(buildFile))
-				{
-					if(targetName.equals(metaTarget.getName()))
-					{
-						return metaTarget;
-					}
-				}
-				return null;
-			}
-		}
-		return null;
-	}
+  @Nullable
+  private AntBuildTarget findTargetToExecute(AntBeforeRunTask task) {
+    final String fileUrl = task.getAntFileUrl();
+    final String targetName = task.getTargetName();
+    if (fileUrl == null || targetName == null) {
+      return null;
+    }
+    final VirtualFile vFile = VirtualFileManager.getInstance().findFileByUrl(fileUrl);
+    if (vFile == null) {
+      return null;
+    }
+    final AntConfigurationImpl antConfiguration = (AntConfigurationImpl)AntConfiguration.getInstance(myProject);
+    for (AntBuildFile buildFile : antConfiguration.getBuildFiles()) {
+      if (vFile.equals(buildFile.getVirtualFile())) {
+        final AntBuildTarget target = buildFile.getModel().findTarget(targetName);
+        if (target != null) {
+          return target;
+        }
+        for (AntBuildTarget metaTarget : antConfiguration.getMetaTargets(buildFile)) {
+          if (targetName.equals(metaTarget.getName())) {
+            return metaTarget;
+          }
+        }
+        return null;
+      }
+    }
+    return null;
+  }
 }

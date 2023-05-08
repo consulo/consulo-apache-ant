@@ -15,15 +15,15 @@
  */
 package com.intellij.lang.ant.validation;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProject;
-import com.intellij.util.xml.highlighting.BasicDomElementsInspection;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.xml.util.xml.highlighting.BasicDomElementsInspection;
 import org.jetbrains.annotations.Nls;
 
-public abstract class AntInspection extends BasicDomElementsInspection<AntDomProject> {
+import javax.annotation.Nonnull;
+
+public abstract class AntInspection extends BasicDomElementsInspection<AntDomProject, Object> {
 
   protected AntInspection() {
     super(AntDomProject.class);

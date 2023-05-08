@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.util.Pair;
+import consulo.util.lang.Pair;
 import java.util.HashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

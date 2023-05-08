@@ -7,15 +7,14 @@ import consulo.ui.image.Image;
 
 @Deprecated
 @DeprecationInfo("Use ApacheAntImplIconGroup")
-public interface ApacheAntIcons
-{
-	Image AntBuildXml = ApacheAntImplIconGroup.antBuildXml();
-	Image AntGroup = PlatformIconGroup.nodesFolder();
-	Image AntInstallation = ApacheAntImplIconGroup.antInstallation();
-	Image MetaTarget = ApacheAntImplIconGroup.metaTarget();
-	Image Properties = PlatformIconGroup.actionsProperties();
-	Image Target = ApacheAntImplIconGroup.target();
-	Image Task = ApacheAntImplIconGroup.task();
-	Image ToolWindowAnt = ApacheAntImplIconGroup.toolWindowAnt();
-	Image Verbose = ApacheAntImplIconGroup.verbose();
+public interface ApacheAntIcons {
+  Image AntBuildXml = ApacheAntImplIconGroup.antbuildxml();
+  Image AntGroup = PlatformIconGroup.nodesFolder();
+  Image AntInstallation = ApacheAntImplIconGroup.antinstallation();
+  Image MetaTarget = ApacheAntImplIconGroup.metatarget();
+  Image Properties = PlatformIconGroup.actionsProperties();
+  Image Target = ApacheAntImplIconGroup.target();
+  Image Task = ApacheAntImplIconGroup.task();
+  Image ToolWindowAnt = ApacheAntImplIconGroup.toolwindowant();
+  Image Verbose = ApacheAntImplIconGroup.verbose();
 }

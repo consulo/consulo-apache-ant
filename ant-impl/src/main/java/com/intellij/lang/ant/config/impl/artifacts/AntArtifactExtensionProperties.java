@@ -16,9 +16,9 @@
 package com.intellij.lang.ant.config.impl.artifacts;
 
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
-import com.intellij.util.xmlb.annotations.AbstractCollection;
-import com.intellij.util.xmlb.annotations.Attribute;
-import com.intellij.util.xmlb.annotations.Tag;
+import consulo.util.xml.serializer.annotation.Attribute;
+import consulo.util.xml.serializer.annotation.Tag;
+import consulo.util.xml.serializer.annotation.AbstractCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class AntArtifactExtensionProperties {
   @Attribute("enabled")
   public boolean myEnabled;
 
-  @Tag("build-properties")
+  @consulo.util.xml.serializer.annotation.Tag("build-properties")
   @AbstractCollection(surroundWithTag = false)
   public List<BuildFileProperty> myUserProperties = new ArrayList<BuildFileProperty>();
 }

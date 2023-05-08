@@ -16,14 +16,15 @@
 package com.intellij.lang.ant.config.execution;
 
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.RangeMarker;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
+import consulo.application.ApplicationManager;
+import consulo.document.Document;
+import consulo.document.RangeMarker;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nullable;
 
 import javax.swing.tree.DefaultMutableTreeNode;

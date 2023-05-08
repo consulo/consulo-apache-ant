@@ -15,165 +15,139 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
+import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
+import com.intellij.lang.ant.config.impl.AntReference;
+import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
+import consulo.component.util.config.AbstractProperty;
+import consulo.ui.ex.awt.ComboboxWithBrowseButton;
+
+import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.function.Function;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JComponent;
-import javax.swing.JRadioButton;
+public class RunWithAntBinding extends UIPropertyBinding {
+  private final ArrayList<JComponent> myComponents = new ArrayList<>();
+  private final JRadioButton myUseDefaultAnt;
+  private final ComboboxWithBrowseButton myAnts;
+  private final ChooseAndEditComboBoxController<AntReference, AntReference> myAntsController;
+  private final GlobalAntConfiguration myAntConfiguration;
+  private boolean myEnabled = true;
+  private boolean myLoadingValues = false;
+  private JRadioButton myUseCustomAnt;
 
-import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
-import com.intellij.lang.ant.config.impl.AntReference;
-import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.ui.SingleSdkEditor;
-import com.intellij.ui.ComboboxWithBrowseButton;
-import com.intellij.util.config.AbstractProperty;
-import com.intellij.util.containers.ConvertingIterator;
+  public RunWithAntBinding(JRadioButton useDefaultAnt, JRadioButton useCastomAnt, ComboboxWithBrowseButton ants) {
+    this(useDefaultAnt, useCastomAnt, ants, GlobalAntConfiguration.getInstance());
+  }
 
-public class RunWithAntBinding extends UIPropertyBinding
-{
-	private final ArrayList<JComponent> myComponents = new ArrayList<JComponent>();
-	private final JRadioButton myUseDefaultAnt;
-	private final ComboboxWithBrowseButton myAnts;
-	private final ChooseAndEditComboBoxController<AntReference, AntReference> myAntsController;
-	private final GlobalAntConfiguration myAntConfiguration;
-	private boolean myEnabled = true;
-	private boolean myLoadingValues = false;
-	private JRadioButton myUseCustomAnt;
+  RunWithAntBinding(JRadioButton useDefaultAnt,
+                    JRadioButton useCustomAnt,
+                    ComboboxWithBrowseButton ants,
+                    final GlobalAntConfiguration antConfiguration) {
+    myAntConfiguration = antConfiguration;
+    myComponents.add(useDefaultAnt);
+    myUseCustomAnt = useCustomAnt;
+    myComponents.add(myUseCustomAnt);
+    myAnts = ants;
+    myUseDefaultAnt = useDefaultAnt;
+    ButtonGroup group = new ButtonGroup();
+    group.add(useDefaultAnt);
+    group.add(myUseCustomAnt);
 
-	public RunWithAntBinding(JRadioButton useDefaultAnt, JRadioButton useCastomAnt, ComboboxWithBrowseButton ants)
-	{
-		this(useDefaultAnt, useCastomAnt, ants, GlobalAntConfiguration.getInstance());
-	}
+    myUseCustomAnt.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        updateEnableCombobox();
+        if (myUseCustomAnt.isSelected() && !myLoadingValues) {
+          myAnts.getComboBox().requestFocusInWindow();
+        }
+      }
+    });
 
-	RunWithAntBinding(JRadioButton useDefaultAnt,
-			JRadioButton useCustomAnt,
-			ComboboxWithBrowseButton ants,
-			final GlobalAntConfiguration antConfiguration)
-	{
-		myAntConfiguration = antConfiguration;
-		myComponents.add(useDefaultAnt);
-		myUseCustomAnt = useCustomAnt;
-		myComponents.add(myUseCustomAnt);
-		myAnts = ants;
-		myUseDefaultAnt = useDefaultAnt;
-		ButtonGroup group = new ButtonGroup();
-		group.add(useDefaultAnt);
-		group.add(myUseCustomAnt);
+    myAntsController = new ChooseAndEditComboBoxController<>(myAnts, Function.identity(), AntReference.COMPARATOR) {
+      @Override
+      public Iterator<AntReference> getAllListItems() {
+        return antConfiguration.getConfiguredAnts().keySet().iterator();
+      }
 
-		myUseCustomAnt.addItemListener(new ItemListener()
-		{
-			@Override
-			public void itemStateChanged(ItemEvent e)
-			{
-				updateEnableCombobox();
-				if(myUseCustomAnt.isSelected() && !myLoadingValues)
-				{
-					myAnts.getComboBox().requestFocusInWindow();
-				}
-			}
-		});
+      @Override
+      public AntReference openConfigureDialog(AntReference reference, JComponent parent) {
+//        Sdk sdk = myAntConfiguration.getConfiguredAnts().get(reference);
+//        SingleSdkEditor editor = new SingleSdkEditor(sdk, parent);
+//        editor.show();
+//
+//        Sdk selectedSdk = editor.getSelectedSdk();
+//        if (selectedSdk != null) {
+//          if (selectedSdk.isPredefined()) {
+//            return AntReference.BUNDLED_ANT;
+//          }
+//          return new AntReference.BindedReference(sdk);
+//        }
+//        else {
+//          return AntReference.BUNDLED_ANT;
+//        }
+        // TODO
+        return AntReference.BUNDLED_ANT;
+      }
+    };
+    myAntsController.setRenderer(new AntUIUtil.AntReferenceRenderer(myAntConfiguration));
+  }
 
-		myAntsController = new ChooseAndEditComboBoxController<AntReference, AntReference>(myAnts, new ConvertingIterator.IdConvertor<AntReference>
-				(), AntReference.COMPARATOR)
-		{
-			@Override
-			public Iterator<AntReference> getAllListItems()
-			{
-				return antConfiguration.getConfiguredAnts().keySet().iterator();
-			}
+  @Override
+  public void addAllPropertiesTo(Collection<AbstractProperty> properties) {
+    properties.add(AntBuildFileImpl.ANT_REFERENCE);
+  }
 
-			@Override
-			public AntReference openConfigureDialog(AntReference reference, JComponent parent)
-			{
-				Sdk sdk = myAntConfiguration.getConfiguredAnts().get(reference);
-				SingleSdkEditor editor = new SingleSdkEditor(sdk, parent);
-				editor.show();
+  @Override
+  public void apply(AbstractProperty.AbstractPropertyContainer container) {
+    AntReference antReference = myUseDefaultAnt.isSelected() ? AntReference.PROJECT_DEFAULT : myAntsController.getSelectedItem();
+    AntBuildFileImpl.ANT_REFERENCE.set(container, antReference);
+  }
 
-				Sdk selectedSdk = editor.getSelectedSdk();
-				if(selectedSdk != null)
-				{
-					if(selectedSdk.isPredefined())
-					{
-						return AntReference.BUNDLED_ANT;
-					}
-					return new AntReference.BindedReference(sdk);
-				}
-				else
-				{
-					return AntReference.BUNDLED_ANT;
-				}
-			}
-		};
-		myAntsController.setRenderer(new AntUIUtil.AntReferenceRenderer(myAntConfiguration));
-	}
+  @Override
+  public void beDisabled() {
+    myEnabled = false;
+    updateEnabled();
+  }
 
-	@Override
-	public void addAllPropertiesTo(Collection<AbstractProperty> properties)
-	{
-		properties.add(AntBuildFileImpl.ANT_REFERENCE);
-	}
+  @Override
+  public void beEnabled() {
+    myEnabled = true;
+    updateEnabled();
+  }
 
-	@Override
-	public void apply(AbstractProperty.AbstractPropertyContainer container)
-	{
-		AntReference antReference = myUseDefaultAnt.isSelected() ? AntReference.PROJECT_DEFAULT : myAntsController.getSelectedItem();
-		AntBuildFileImpl.ANT_REFERENCE.set(container, antReference);
-	}
+  @Override
+  public void loadValues(AbstractProperty.AbstractPropertyContainer container) {
+    myLoadingValues = true;
+    AntReference antReference = AntBuildFileImpl.ANT_REFERENCE.get(container);
+    boolean isDefault = AntReference.PROJECT_DEFAULT == antReference;
+    myUseDefaultAnt.setSelected(isDefault);
+    myUseCustomAnt.setSelected(!isDefault);
+    AntReference selection = isDefault ? null : antReference;
+    myAntsController.resetList(selection);
+    updateEnableCombobox();
+    myLoadingValues = false;
+  }
 
-	@Override
-	public void beDisabled()
-	{
-		myEnabled = false;
-		updateEnabled();
-	}
+  private void updateEnabled() {
+    for (JComponent component : myComponents) {
+      component.setEnabled(myEnabled);
+    }
+    updateEnableCombobox();
+  }
 
-	@Override
-	public void beEnabled()
-	{
-		myEnabled = true;
-		updateEnabled();
-	}
-
-	@Override
-	public void loadValues(AbstractProperty.AbstractPropertyContainer container)
-	{
-		myLoadingValues = true;
-		AntReference antReference = AntBuildFileImpl.ANT_REFERENCE.get(container);
-		boolean isDefault = AntReference.PROJECT_DEFAULT == antReference;
-		myUseDefaultAnt.setSelected(isDefault);
-		myUseCustomAnt.setSelected(!isDefault);
-		AntReference selection = isDefault ? null : antReference;
-		myAntsController.resetList(selection);
-		updateEnableCombobox();
-		myLoadingValues = false;
-	}
-
-	private void updateEnabled()
-	{
-		for(JComponent component : myComponents)
-		{
-			component.setEnabled(myEnabled);
-		}
-		updateEnableCombobox();
-	}
-
-	private void updateEnableCombobox()
-	{
-		boolean enabled = myEnabled && myUseCustomAnt.isSelected();
-		myAnts.setEnabled(enabled);
-		if(!enabled)
-		{
-			myAnts.getComboBox().setSelectedItem(null);
-		}
-		if(!enabled || myLoadingValues)
-		{
-			return;
-		}
-		myAntsController.resetList(AntReference.BUNDLED_ANT);
-	}
+  private void updateEnableCombobox() {
+    boolean enabled = myEnabled && myUseCustomAnt.isSelected();
+    myAnts.setEnabled(enabled);
+    if (!enabled) {
+      myAnts.getComboBox().setSelectedItem(null);
+    }
+    if (!enabled || myLoadingValues) {
+      return;
+    }
+    myAntsController.resetList(AntReference.BUNDLED_ANT);
+  }
 }

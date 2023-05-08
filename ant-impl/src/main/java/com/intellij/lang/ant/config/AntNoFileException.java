@@ -17,17 +17,17 @@
 package com.intellij.lang.ant.config;
 
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.virtualFileSystem.VirtualFile;
 
 public class AntNoFileException extends Exception {
-  private final VirtualFile myFile;
+  private final consulo.virtualFileSystem.VirtualFile myFile;
 
   public AntNoFileException(final String message, final VirtualFile file) {
     super(AntBundle.message("cant.add.file.error.message", file.getPresentableUrl(), message));
     myFile = file;
   }
 
-  public VirtualFile getFile() {
+  public consulo.virtualFileSystem.VirtualFile getFile() {
     return myFile;
   }
 }

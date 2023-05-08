@@ -16,16 +16,19 @@
 package com.intellij.lang.ant.validation;
 
 import com.intellij.lang.ant.dom.AntDomFileDescription;
-import com.intellij.openapi.editor.HectorComponentPanel;
-import com.intellij.openapi.editor.HectorComponentPanelsProvider;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.xml.XmlFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.HectorComponentPanel;
+import consulo.language.editor.HectorComponentPanelsProvider;
+import consulo.language.psi.PsiFile;
+import consulo.xml.psi.xml.XmlFile;
+
 import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: May 12, 2008
  */
+@ExtensionImpl
 public class AntHectorPanelProvider implements HectorComponentPanelsProvider{
   public HectorComponentPanel createConfigurable(@Nonnull final PsiFile file) {
     if (file instanceof XmlFile && AntDomFileDescription.isAntFile(((XmlFile)file))) {

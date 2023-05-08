@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.SubTag;
-import com.intellij.util.xml.SubTagList;
+import consulo.xml.util.xml.SubTag;
+import consulo.xml.util.xml.SubTagList;
 
 import java.util.List;
 

@@ -15,15 +15,17 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.AbstractDomDeclarationSearcher;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.GenericDomValue;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.xml.util.xml.AbstractDomDeclarationSearcher;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.DomTarget;
+import consulo.xml.util.xml.GenericDomValue;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: Jun 24, 2010
+ * Date: Jun 24, 2010
  */
+@ExtensionImpl
 public class AntDomDeclarationSearcher extends AbstractDomDeclarationSearcher {
 
   protected DomTarget createDomTarget(DomElement parent, DomElement nameElement) {

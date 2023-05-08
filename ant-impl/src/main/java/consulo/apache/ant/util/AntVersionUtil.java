@@ -15,75 +15,58 @@
  */
 package consulo.apache.ant.util;
 
+import consulo.logging.Logger;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.archive.ArchiveVfsUtil;
+
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
-
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import consulo.vfs.util.ArchiveVfsUtil;
 
 /**
  * @author VISTALL
  * @since 17:43/19.05.13
  */
-public class AntVersionUtil
-{
-	private static final Logger LOGGER = Logger.getInstance(AntVersionUtil.class);
+public class AntVersionUtil {
+  private static final Logger LOGGER = Logger.getInstance(AntVersionUtil.class);
 
-	@NonNls
-	public static final String VERSION_RESOURCE = "org/apache/tools/ant/version.txt";
-	@NonNls
-	private static final String PROPERTY_VERSION = "VERSION";
+  public static final String VERSION_RESOURCE = "org/apache/tools/ant/version.txt";
+  private static final String PROPERTY_VERSION = "VERSION";
 
-	@Nullable
-	public static String getVersion(String path)
-	{
-		File file = new File(path, "lib/ant.jar");
-		if(file.exists())
-		{
-			try
-			{
-				final Properties properties = loadProperties(file);
-				return properties.getProperty(PROPERTY_VERSION);
-			}
-			catch(IOException e)
-			{
-				if(ApplicationManager.getApplication().isInternal())
-				{
-					LOGGER.warn(e);
-				}
-			}
-		}
-		return null;
-	}
+  @Nullable
+  public static String getVersion(String path) {
+    File file = new File(path, "lib/ant.jar");
+    if (file.exists()) {
+      try {
+        final Properties properties = loadProperties(file);
+        return properties.getProperty(PROPERTY_VERSION);
+      }
+      catch (IOException e) {
+        LOGGER.warn(e);
+      }
+    }
+    return null;
+  }
 
-	public static Properties loadProperties(File antJar) throws IOException
-	{
-		Properties properties = new Properties();
+  public static Properties loadProperties(File antJar) throws IOException {
+    Properties properties = new Properties();
 
-		VirtualFile fileByIoFile = LocalFileSystem.getInstance().findFileByIoFile(antJar);
-		if(fileByIoFile == null)
-		{
-			return properties;
-		}
-		VirtualFile archiveRootForLocalFile = ArchiveVfsUtil.getArchiveRootForLocalFile(fileByIoFile);
-		if(archiveRootForLocalFile == null)
-		{
-			return properties;
-		}
-		VirtualFile fileByRelativePath = archiveRootForLocalFile.findFileByRelativePath(VERSION_RESOURCE);
-		if(fileByRelativePath == null)
-		{
-			return null;
-		}
-		properties.load(fileByRelativePath.getInputStream());
+    consulo.virtualFileSystem.VirtualFile fileByIoFile = LocalFileSystem.getInstance().findFileByIoFile(antJar);
+    if (fileByIoFile == null) {
+      return properties;
+    }
+    consulo.virtualFileSystem.VirtualFile archiveRootForLocalFile = ArchiveVfsUtil.getArchiveRootForLocalFile(fileByIoFile);
+    if (archiveRootForLocalFile == null) {
+      return properties;
+    }
+    VirtualFile fileByRelativePath = archiveRootForLocalFile.findFileByRelativePath(VERSION_RESOURCE);
+    if (fileByRelativePath == null) {
+      return null;
+    }
+    properties.load(fileByRelativePath.getInputStream());
 
-		return properties;
-	}
+    return properties;
+  }
 }

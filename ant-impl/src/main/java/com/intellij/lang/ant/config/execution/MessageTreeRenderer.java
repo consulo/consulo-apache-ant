@@ -15,12 +15,12 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.ui.IdeBorderFactory;
-import com.intellij.ui.MultilineTreeCellRenderer;
-import com.intellij.ui.SideBorder;
 import consulo.apache.ant.ApacheAntIcons;
-import consulo.awt.TargetAWT;
+import consulo.application.AllIcons;
+import consulo.ide.impl.idea.ui.MultilineTreeCellRenderer;
+import consulo.ui.ex.awt.IdeBorderFactory;
+import consulo.ui.ex.awt.SideBorder;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 import consulo.ui.image.Image;
 
 import javax.swing.*;

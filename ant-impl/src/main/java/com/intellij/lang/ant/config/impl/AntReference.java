@@ -15,18 +15,18 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import java.util.Comparator;
-
+import com.intellij.lang.ant.AntBundle;
+import consulo.component.util.config.AbstractProperty;
+import consulo.component.util.config.Externalizer;
+import consulo.content.bundle.Sdk;
+import consulo.execution.CantRunException;
+import consulo.logging.Logger;
+import consulo.util.lang.Comparing;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nullable;
-import com.intellij.execution.CantRunException;
-import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.util.config.AbstractProperty;
-import com.intellij.util.config.Externalizer;
+import java.util.Comparator;
 
 public abstract class AntReference {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntReference");
@@ -140,8 +140,8 @@ public abstract class AntReference {
   }
 
   public static Sdk findNotNullAnt(AbstractProperty<AntReference> property,
-                                               AbstractProperty.AbstractPropertyContainer container,
-                                               GlobalAntConfiguration antConfiguration) throws CantRunException {
+														  AbstractProperty.AbstractPropertyContainer container,
+														  GlobalAntConfiguration antConfiguration) throws CantRunException {
     AntReference antReference = property.get(container);
     if (antReference == PROJECT_DEFAULT) antReference = AntConfigurationImpl.DEFAULT_ANT.get(container);
     if (antReference == null) throw new CantRunException(AntBundle.message("cant.run.ant.no.ant.configured.error.message"));

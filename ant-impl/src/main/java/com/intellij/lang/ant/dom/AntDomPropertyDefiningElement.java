@@ -15,17 +15,14 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.pom.references.PomService;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.GenericAttributeValue;
-import javax.annotation.Nonnull;
+import consulo.language.pom.PomService;
+import consulo.language.psi.PsiElement;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.util.xml.DomTarget;
+import consulo.xml.util.xml.GenericAttributeValue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import javax.annotation.Nonnull;
+import java.util.*;
 
 /**
  * @author Eugene Zhuravlev
@@ -55,7 +52,7 @@ public abstract class AntDomPropertyDefiningElement extends AntDomElement implem
         continue;
       }
       final DomTarget domTarget = DomTarget.getTarget(this, value);
-      return domTarget != null? PomService.convertToPsi(domTarget) : null;
+      return domTarget != null? consulo.language.pom.PomService.convertToPsi(domTarget) : null;
     }
     
     for (String propName : getImplicitPropertyNames()) {

@@ -22,9 +22,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import org.jetbrains.annotations.NotNull;
-import com.intellij.rt.ant.execution.Packet;
-import com.intellij.rt.ant.execution.PacketProcessor;
-import com.intellij.rt.ant.execution.SegmentedStream;
+import consulo.apache.ant.rt.common.Packet;
+import consulo.apache.ant.rt.common.PacketProcessor;
+import consulo.apache.ant.rt.common.SegmentedStream;
 
 public class SegmentedInputStream extends InputStream
 {

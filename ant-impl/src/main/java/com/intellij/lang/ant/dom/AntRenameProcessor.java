@@ -15,27 +15,29 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.util.Trinity;
-import com.intellij.pom.PomTarget;
-import com.intellij.pom.PomTargetPsiElement;
-import com.intellij.psi.PsiElement;
-import com.intellij.refactoring.rename.RenamePsiElementProcessor;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomTarget;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.refactoring.rename.RenamePsiElementProcessor;
+import consulo.language.pom.PomTarget;
+import consulo.language.pom.PomTargetPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.Trinity;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.DomTarget;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: Aug 11, 2010
+ * Date: Aug 11, 2010
  */
-public class AntRenameProcessor extends RenamePsiElementProcessor{
+@ExtensionImpl
+public class AntRenameProcessor extends RenamePsiElementProcessor {
 
-  public void prepareRenaming(PsiElement element, String newName, Map<PsiElement, String> allRenames) {
+  public void prepareRenaming(PsiElement element, String newName, Map<consulo.language.psi.PsiElement, String> allRenames) {
     final AntDomElement antElement = convertToAntDomElement(element);
     String propName = null;
     if (antElement instanceof AntDomProperty) {
@@ -46,12 +48,13 @@ public class AntRenameProcessor extends RenamePsiElementProcessor{
     }
     if (propName != null) {
       final AntDomProject contextProject = antElement.getContextAntProject();
-      final List<PsiElement> additional = AntCallParamsFinder.resolve(contextProject, propName);
-      for (PsiElement psiElement : additional) {
+      final List<consulo.language.psi.PsiElement> additional = AntCallParamsFinder.resolve(contextProject, propName);
+      for (consulo.language.psi.PsiElement psiElement : additional) {
         allRenames.put(psiElement, newName);
       }
       if (antElement instanceof AntDomAntCallParam) {
-        final Trinity<PsiElement, Collection<String>, PropertiesProvider> result = PropertyResolver.resolve(contextProject, propName, null);
+        final Trinity<consulo.language.psi.PsiElement, Collection<String>, PropertiesProvider> result =
+          PropertyResolver.resolve(contextProject, propName, null);
         if (result.getFirst() != null) {
           allRenames.put(result.getFirst(), newName);
         }
@@ -59,17 +62,17 @@ public class AntRenameProcessor extends RenamePsiElementProcessor{
     }
   }
 
-  public boolean canProcessElement(@Nonnull PsiElement element) {
+  public boolean canProcessElement(@Nonnull consulo.language.psi.PsiElement element) {
     final AntDomElement antElement = convertToAntDomElement(element);
     if (antElement instanceof AntDomProperty || antElement instanceof AntDomAntCallParam) {
       return true;
     }
     return false;
   }
-  
-  @Nullable 
-  private static AntDomElement convertToAntDomElement(PsiElement element) {
-    if (element instanceof PomTargetPsiElement) {
+
+  @Nullable
+  private static AntDomElement convertToAntDomElement(consulo.language.psi.PsiElement element) {
+    if (element instanceof consulo.language.pom.PomTargetPsiElement) {
       final PomTarget target = ((PomTargetPsiElement)element).getTarget();
       if (target instanceof DomTarget) {
         final DomElement domElement = ((DomTarget)target).getDomElement();

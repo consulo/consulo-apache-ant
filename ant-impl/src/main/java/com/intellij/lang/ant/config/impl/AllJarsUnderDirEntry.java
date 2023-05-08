@@ -15,33 +15,28 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import consulo.application.AllIcons;
+import consulo.fileChooser.FileChooserDescriptorFactory;
+import consulo.ide.impl.idea.openapi.roots.ui.ModifiableCellAppearanceEx;
+import consulo.ide.ui.CellAppearanceEx;
+import consulo.ide.ui.FileAppearanceService;
+import consulo.util.collection.ContainerUtil;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
-
-import javax.swing.JComponent;
-
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
-import com.intellij.openapi.roots.ui.CellAppearanceEx;
-import com.intellij.openapi.roots.ui.FileAppearanceService;
-import com.intellij.openapi.roots.ui.ModifiableCellAppearanceEx;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.Function;
-import com.intellij.util.containers.ContainerUtil;
+import java.util.function.Function;
 
 public class AllJarsUnderDirEntry implements AntClasspathEntry {
   @NonNls private static final String JAR_SUFFIX = ".jar";
 
-  private static final Function<VirtualFile, AntClasspathEntry> CREATE_FROM_VIRTUAL_FILE = new Function<VirtualFile, AntClasspathEntry>() {
-    public AntClasspathEntry fun(VirtualFile file) {
-      return fromVirtualFile(file);
-    }
-  };
+  private static final Function<VirtualFile, AntClasspathEntry> CREATE_FROM_VIRTUAL_FILE = file -> fromVirtualFile(file);
 
   @NonNls static final String DIR = "dir";
 

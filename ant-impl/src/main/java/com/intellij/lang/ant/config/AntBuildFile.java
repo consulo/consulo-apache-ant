@@ -16,9 +16,10 @@
 
 package com.intellij.lang.ant.config;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.xml.XmlFile;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.psi.xml.XmlFile;
+
 import javax.annotation.Nullable;
 
 public interface AntBuildFile {

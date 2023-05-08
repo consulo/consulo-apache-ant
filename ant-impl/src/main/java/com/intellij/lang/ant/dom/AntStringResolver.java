@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.util.xml.DomElement;
+import consulo.language.psi.PsiElement;
+import consulo.xml.util.xml.DomElement;
 import consulo.util.dataholder.Key;
 
 import javax.annotation.Nonnull;

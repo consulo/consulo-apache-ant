@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.ant.config;
 
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.WriteExternalException;
-import com.intellij.util.config.AbstractProperty;
+import consulo.util.xml.serializer.WriteExternalException;
+import consulo.component.util.config.AbstractProperty;
+import consulo.util.xml.serializer.InvalidDataException;
 import org.jdom.Element;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,7 +51,7 @@ public interface AntBuildFileBase extends AntBuildFile {
 
   void readWorkspaceProperties(final Element element) throws InvalidDataException;
 
-  void writeWorkspaceProperties(final Element element) throws WriteExternalException;
+  void writeWorkspaceProperties(final Element element) throws consulo.util.xml.serializer.WriteExternalException;
 
   void readProperties(final Element element) throws InvalidDataException;
 

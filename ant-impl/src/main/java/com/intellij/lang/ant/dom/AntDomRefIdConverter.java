@@ -17,16 +17,16 @@ package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.AntSupport;
-import com.intellij.openapi.util.Ref;
-import com.intellij.pom.references.PomService;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.xml.*;
+import consulo.language.pom.PomService;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.lang.ref.Ref;
+import consulo.xml.util.xml.*;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Eugene Zhuravlev
  *         Date: Apr 16, 2010
  */
-public class AntDomRefIdConverter extends Converter<AntDomElement> implements CustomReferenceConverter<AntDomElement>{
+public class AntDomRefIdConverter extends Converter<AntDomElement> implements CustomReferenceConverter<AntDomElement> {
 
   public AntDomElement fromString(@Nullable @NonNls String s, ConvertContext context) {
     if (s != null) {
@@ -51,7 +51,7 @@ public class AntDomRefIdConverter extends Converter<AntDomElement> implements Cu
   }
 
   @Nonnull
-  public PsiReference[] createReferences(final GenericDomValue<AntDomElement> genericDomValue, final PsiElement element, ConvertContext context) {
+  public consulo.language.psi.PsiReference[] createReferences(final GenericDomValue<AntDomElement> genericDomValue, final consulo.language.psi.PsiElement element, ConvertContext context) {
     final AntDomElement invocationElement = AntSupport.getInvocationAntDomElement(context);
     return new PsiReference[] {new AntDomReferenceBase(element, true) {
       public PsiElement resolve() {

@@ -15,27 +15,24 @@
  */
 package consulo.apache.ant.config.actions;
 
+import com.intellij.lang.ant.AntBundle;
+import com.intellij.lang.ant.config.explorer.AntBuildFileNodeDescriptor;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.config.AntBuildFileGroup;
+import consulo.apache.ant.config.AntBuildFileGroupManager;
+import consulo.project.Project;
+import consulo.ui.ex.action.ActionGroup;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnSeparator;
+import consulo.ui.ex.awt.tree.Tree;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Nullable;
-import javax.swing.tree.DefaultMutableTreeNode;
-
-import javax.annotation.Nonnull;
-
-import consulo.apache.ant.ApacheAntIcons;
-import com.intellij.lang.ant.AntBundle;
-import consulo.apache.ant.config.AntBuildFileGroup;
-import consulo.apache.ant.config.AntBuildFileGroupManager;
-import com.intellij.lang.ant.config.explorer.AntBuildFileNodeDescriptor;
-import com.intellij.openapi.actionSystem.ActionGroup;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.AnSeparator;
-import com.intellij.openapi.project.Project;
-import com.intellij.ui.treeStructure.Tree;
-import consulo.awt.TargetAWT;
 
 /**
  * @author VISTALL
@@ -59,7 +56,7 @@ public class AntGroupManagerActionGroup extends ActionGroup {
   @Nonnull
   @Override
   public AnAction[] getChildren(@Nullable AnActionEvent e) {
-    Project project = e.getProject();
+    Project project = e.getData(Project.KEY);
     if(project == null) {
       return AnAction.EMPTY_ARRAY;
     }

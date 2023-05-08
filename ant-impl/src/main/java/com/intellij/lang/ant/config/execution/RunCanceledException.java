@@ -15,11 +15,12 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import com.intellij.execution.CantRunException;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
+import consulo.ui.ex.awt.Messages;
+import consulo.execution.CantRunException;
+import consulo.project.Project;
 
-public class RunCanceledException extends CantRunException {
+public class RunCanceledException extends CantRunException
+{
   public RunCanceledException(String message) {
     super(message);
   }

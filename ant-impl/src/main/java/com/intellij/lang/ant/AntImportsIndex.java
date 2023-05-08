@@ -15,40 +15,41 @@
  */
 package com.intellij.lang.ant;
 
-import java.util.HashMap;
-import java.util.Map;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.index.io.DataIndexer;
+import consulo.index.io.EnumeratorIntegerDescriptor;
+import consulo.index.io.ID;
+import consulo.index.io.KeyDescriptor;
+import consulo.language.psi.stub.FileBasedIndex;
+import consulo.language.psi.stub.FileContent;
+import consulo.language.psi.stub.ScalarIndexExtension;
+import consulo.project.Project;
+import consulo.util.io.Readers;
+import consulo.util.xml.fastReader.NanoXmlUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.ide.highlighter.XmlFileType;
 
 import javax.annotation.Nonnull;
-
-import com.intellij.ide.highlighter.XmlFileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.indexing.DataIndexer;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileContent;
-import com.intellij.util.indexing.ID;
-import com.intellij.util.indexing.ScalarIndexExtension;
-import com.intellij.util.io.EnumeratorIntegerDescriptor;
-import com.intellij.util.io.KeyDescriptor;
-import com.intellij.util.text.CharArrayUtil;
-import com.intellij.util.xml.NanoXmlUtil;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: Apr 28, 2008
  */
+@ExtensionImpl
 public class AntImportsIndex extends ScalarIndexExtension<Integer>{
-  public static final ID<Integer, Void> INDEX_NAME = ID.create("ant-imports");
+  public static final consulo.index.io.ID<Integer, Void> INDEX_NAME = ID.create("ant-imports");
   private static final int VERSION = 5;
   public static final Integer ANT_FILES_WITH_IMPORTS_KEY = new Integer(0);
   
-  private static final DataIndexer<Integer,Void,FileContent> DATA_INDEXER = new DataIndexer<Integer, Void, FileContent>() {
+  private static final DataIndexer<Integer,Void,FileContent> DATA_INDEXER = new consulo.index.io.DataIndexer<Integer, Void, consulo.language.psi.stub.FileContent>() {
     @Override
     @Nonnull
     public Map<Integer, Void> map(final FileContent inputData) {
       final Map<Integer, Void> map = new HashMap<Integer, Void>();
 
-      NanoXmlUtil.parse(CharArrayUtil.readerFromCharSequence(inputData.getContentAsText()), new NanoXmlUtil.IXMLBuilderAdapter() {
+      NanoXmlUtil.parse(Readers.readerFromCharSequence(inputData.getContentAsText()), new consulo.util.xml.fastReader.NanoXmlUtil.IXMLBuilderAdapter() {
         private boolean isFirstElement = true;
         @Override
         public void startElement(final String elemName, final String nsPrefix, final String nsURI, final String systemID, final int lineNr) throws Exception {
@@ -101,13 +102,13 @@ public class AntImportsIndex extends ScalarIndexExtension<Integer>{
 
   @Override
   @Nonnull
-  public ID<Integer, Void> getName() {
+  public consulo.index.io.ID<Integer, Void> getName() {
     return INDEX_NAME;
   }
 
   @Override
   @Nonnull
-  public DataIndexer<Integer, Void, FileContent> getIndexer() {
+  public consulo.index.io.DataIndexer<Integer, Void, FileContent> getIndexer() {
     return DATA_INDEXER;
   }
 

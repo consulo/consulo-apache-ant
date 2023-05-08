@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.DomFileDescription;
+import consulo.xml.util.xml.DomFileDescription;
 
 /**
  * @author Eugene Zhuravlev
@@ -25,9 +25,5 @@ public class AntFileDescription<T extends AntDomElement> extends DomFileDescript
 
   public AntFileDescription(final Class<T> rootElementClass, final String rootTagName) {
     super(rootElementClass, rootTagName);
-  }
-
-  protected void initializeFileDescription() {
-    registerReferenceInjector(new AntReferenceInjector());
   }
 }

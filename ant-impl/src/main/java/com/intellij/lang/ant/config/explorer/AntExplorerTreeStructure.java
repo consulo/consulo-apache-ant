@@ -15,27 +15,27 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import com.intellij.ide.util.treeView.AbstractTreeStructure;
-import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.*;
 import com.intellij.lang.ant.config.impl.MetaTarget;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.ActionCallback;
-import com.intellij.psi.PsiDocumentManager;
 import consulo.apache.ant.config.AntBuildFileGroup;
 import consulo.apache.ant.config.explorer.AntBuildGroupNodeDescriptor;
 import consulo.apache.ant.config.explorer.AntModuleInfoNodeDescriptor;
 import consulo.apache.ant.config.explorer.AntTreeView;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.ui.ex.tree.AbstractTreeStructure;
+import consulo.ui.ex.tree.NodeDescriptor;
 import consulo.ui.style.StandardColors;
+import consulo.util.concurrent.ActionCallback;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 final class AntExplorerTreeStructure extends AbstractTreeStructure {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.explorer.AntExplorerTreeStructure");
+  private static final Logger LOG = Logger.getInstance(AntExplorerTreeStructure.class);
   private final Project myProject;
   private final Object myRoot = new Object();
   private boolean myFilteredTargets = false;
@@ -56,27 +56,27 @@ final class AntExplorerTreeStructure extends AbstractTreeStructure {
     if (element == myRoot) {
       return new RootNodeDescriptor(myProject, parentDescriptor);
     }
-    
+
     if (element instanceof String) {
       return new TextInfoNodeDescriptor(myProject, parentDescriptor, (String)element);
     }
 
-    if(element instanceof Module) {
-      return new AntModuleInfoNodeDescriptor(myProject, parentDescriptor, (Module) element);
+    if (element instanceof Module) {
+      return new AntModuleInfoNodeDescriptor(myProject, parentDescriptor, (Module)element);
     }
-    
+
     if (element instanceof AntBuildFileBase) {
       return new AntBuildFileNodeDescriptor(myProject, parentDescriptor, (AntBuildFileBase)element);
     }
-    
+
     if (element instanceof AntBuildTargetBase) {
       return new AntTargetNodeDescriptor(myProject, parentDescriptor, (AntBuildTargetBase)element);
     }
 
-    if(element instanceof AntBuildFileGroup) {
-      return new AntBuildGroupNodeDescriptor(myProject, parentDescriptor, (AntBuildFileGroup) element);
+    if (element instanceof AntBuildFileGroup) {
+      return new AntBuildGroupNodeDescriptor(myProject, parentDescriptor, (AntBuildFileGroup)element);
     }
-    
+
     LOG.error("Unknown element for this tree structure " + element);
     return null;
   }
@@ -86,7 +86,7 @@ final class AntExplorerTreeStructure extends AbstractTreeStructure {
     final AntConfiguration configuration = AntConfiguration.getInstance(myProject);
     if (element == myRoot) {
       if (!configuration.isInitialized()) {
-        return new Object[] {AntBundle.message("loading.ant.config.progress")};
+        return new Object[]{AntBundle.message("loading.ant.config.progress")};
       }
       return myTreeView.getRootChildren(myProject);
     }
@@ -103,17 +103,17 @@ final class AntExplorerTreeStructure extends AbstractTreeStructure {
       }
       return ((AntBuildTarget)element).getModel().getBuildFile();
     }
-    
+
     if (element instanceof AntBuildFile) {
       return myRoot;
     }
-    
+
     return null;
   }
 
   @Override
   public void commit() {
-    PsiDocumentManager.getInstance(myProject).commitAllDocuments();
+    consulo.language.psi.PsiDocumentManager.getInstance(myProject).commitAllDocuments();
   }
 
   @Override
@@ -124,7 +124,7 @@ final class AntExplorerTreeStructure extends AbstractTreeStructure {
   @Nonnull
   @Override
   public ActionCallback asyncCommit() {
-    return asyncCommitDocuments(myProject);
+    return PsiDocumentManager.asyncCommitDocuments(myProject);
   }
 
   @Override

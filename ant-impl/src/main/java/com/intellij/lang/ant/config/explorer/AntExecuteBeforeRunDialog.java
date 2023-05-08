@@ -15,16 +15,17 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import com.intellij.execution.impl.BaseExecuteBeforeRunDialog;
+import consulo.ide.impl.idea.execution.impl.BaseExecuteBeforeRunDialog;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTask;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTaskProvider;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.project.Project;
 import consulo.util.dataholder.Key;
+import consulo.virtualFileSystem.VirtualFile;
 
-public final class AntExecuteBeforeRunDialog extends BaseExecuteBeforeRunDialog<AntBeforeRunTask> {
+public final class AntExecuteBeforeRunDialog extends BaseExecuteBeforeRunDialog<AntBeforeRunTask>
+{
   private final AntBuildTarget myTarget;
 
   public AntExecuteBeforeRunDialog(final Project project, final AntBuildTarget target) {

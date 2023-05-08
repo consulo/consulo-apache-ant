@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant;
 
+import consulo.component.util.localize.AbstractBundle;
 import org.jetbrains.annotations.PropertyKey;
-import com.intellij.AbstractBundle;
 
 public class AntBundle extends AbstractBundle
 {

@@ -16,13 +16,13 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntFilesProvider;
-import com.intellij.util.PathUtil;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.GenericAttributeValue;
+import consulo.util.io.PathUtil;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.GenericAttributeValue;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;

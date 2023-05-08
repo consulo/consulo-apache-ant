@@ -15,42 +15,41 @@
  */
 package consulo.apache.ant.config.impl.group;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jdom.Element;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntConfigurationBase;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.components.StoragePathMacros;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.xml.XmlFile;
+import consulo.annotation.component.ServiceImpl;
 import consulo.apache.ant.config.AntBuildFileGroup;
 import consulo.apache.ant.config.AntBuildFileGroupManager;
+import consulo.component.persist.*;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.xml.psi.xml.XmlFile;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import org.jdom.Element;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * @author VISTALL
  * @since 12:27/09.03.13
  */
-@State(name = "AntBuildFileGroupManager", storages =  @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/ant.xml"))
+@State(name = "AntBuildFileGroupManager", storages = @Storage("ant.xml"))
+@ServiceImpl
+@Singleton
 public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager implements PersistentStateComponent<Element> {
   private final Map<AntBuildFileGroup, List<VirtualFile>> myFileGroupList = new HashMap<AntBuildFileGroup, List<VirtualFile>>();
   private final List<AntBuildFileGroup> myGroups = new ArrayList<AntBuildFileGroup>();
 
   private final Project myProject;
 
+  @Inject
   public AntBuildFileGroupManagerImpl(Project project) {
     myProject = project;
   }
@@ -71,7 +70,7 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
 
   @Override
   public void moveToGroup(@Nonnull AntBuildFile file, @Nullable AntBuildFileGroup group) {
-    for (Map.Entry<AntBuildFileGroup, List<VirtualFile>> entry : myFileGroupList.entrySet()) {
+    for (Map.Entry<AntBuildFileGroup, List<consulo.virtualFileSystem.VirtualFile>> entry : myFileGroupList.entrySet()) {
       if (entry.getValue().contains(file.getVirtualFile())) {
         entry.getValue().remove(file.getVirtualFile());
         break;
@@ -81,7 +80,7 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
     if (group == null) {
       return;
     }
-    List<VirtualFile> virtualFiles = myFileGroupList.get(group);
+    List<consulo.virtualFileSystem.VirtualFile> virtualFiles = myFileGroupList.get(group);
     if (virtualFiles == null) {
       myFileGroupList.put(group, virtualFiles = new ArrayList<VirtualFile>());
     }
@@ -96,8 +95,8 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
     }
     List<AntBuildFile> files = new ArrayList<AntBuildFile>();
     final AntConfigurationBase antConfiguration = AntConfigurationBase.getInstance(myProject);
-    final PsiManager manager = PsiManager.getInstance(myProject);
-    for (VirtualFile virtualFile : virtualFiles) {
+    final PsiManager manager = consulo.language.psi.PsiManager.getInstance(myProject);
+    for (consulo.virtualFileSystem.VirtualFile virtualFile : virtualFiles) {
       final PsiFile file = manager.findFile(virtualFile);
       if (!(file instanceof XmlFile)) {
         continue;
@@ -120,7 +119,7 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
 
   @Override
   public AntBuildFileGroup findGroup(@Nonnull AntBuildFile buildFile) {
-    for (Map.Entry<AntBuildFileGroup, List<VirtualFile>> entry : myFileGroupList.entrySet()) {
+    for (Map.Entry<AntBuildFileGroup, List<consulo.virtualFileSystem.VirtualFile>> entry : myFileGroupList.entrySet()) {
       if (entry.getValue().contains(buildFile.getVirtualFile())) {
         return entry.getKey();
       }
@@ -134,7 +133,7 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
     myGroups.remove(buildGroup);
 
     final AntBuildFileGroup parent = buildGroup.getParent();
-    if(parent != null) {
+    if (parent != null) {
       ((AntBuildFileGroupImpl)parent).getChildrenAsList().remove(buildGroup);
     }
 
@@ -191,11 +190,11 @@ public class AntBuildFileGroupManagerImpl extends AntBuildFileGroupManager imple
         readElement(newChildGroup, element);
       }
       else if (elementName.equals("file")) {
-        VirtualFile virtualFile = vfManager.findFileByUrl(element.getText());
+        consulo.virtualFileSystem.VirtualFile virtualFile = vfManager.findFileByUrl(element.getText());
         if (virtualFile != null) {
-          List<VirtualFile> virtualFiles = myFileGroupList.get(newChildGroup);
+          List<consulo.virtualFileSystem.VirtualFile> virtualFiles = myFileGroupList.get(newChildGroup);
           if (virtualFiles == null) {
-            myFileGroupList.put(newChildGroup, virtualFiles = new ArrayList<VirtualFile>());
+            myFileGroupList.put(newChildGroup, virtualFiles = new ArrayList<consulo.virtualFileSystem.VirtualFile>());
           }
           virtualFiles.add(virtualFile);
         }

@@ -15,23 +15,26 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
+import consulo.ide.ui.CellAppearanceEx;
+import consulo.project.Project;
+import consulo.ui.ex.ColoredTextContainer;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ui.ex.tree.NodeDescriptor;
+
 import javax.annotation.Nonnull;
 
-import com.intellij.ide.util.treeView.NodeDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ui.CellAppearanceEx;
-import com.intellij.ui.SimpleColoredComponent;
-import com.intellij.ui.SimpleTextAttributes;
-import consulo.awt.TargetAWT;
-
 public abstract class AntNodeDescriptor extends NodeDescriptor implements CellAppearanceEx {
+  protected final Project myProject;
+
   public AntNodeDescriptor(Project project, NodeDescriptor parentDescriptor) {
-    super(project, parentDescriptor);
+    super(parentDescriptor);
+    myProject = project;
   }
 
   public abstract boolean isAutoExpand();
 
-  public void customize(@Nonnull SimpleColoredComponent component) {
+  @Override
+  public void customize(@Nonnull ColoredTextContainer component) {
     component.setIcon(getIcon());
     component.append(toString(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
   }

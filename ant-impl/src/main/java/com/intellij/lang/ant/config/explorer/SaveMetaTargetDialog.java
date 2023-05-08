@@ -19,12 +19,13 @@ import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.impl.ExecuteCompositeTargetEvent;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.ui.ListUtil;
-import com.intellij.ui.ScrollPaneFactory;
-import com.intellij.ui.components.JBList;
-import com.intellij.util.ArrayUtil;
+import consulo.ui.ex.awt.DialogWrapper;
+import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.util.ListUtil;
+import consulo.ui.ex.awt.ScrollPaneFactory;
+import consulo.ui.ex.awt.JBList;
+import consulo.util.collection.ArrayUtil;
+
 import javax.annotation.Nonnull;
 
 import javax.swing.*;

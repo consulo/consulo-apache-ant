@@ -15,19 +15,19 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.quickfix.AntChangeContextLocalFix;
 import com.intellij.lang.ant.validation.AntInspection;
-import com.intellij.psi.PsiPolyVariantReference;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomUtil;
-import com.intellij.util.xml.GenericDomValue;
-import com.intellij.util.xml.highlighting.DomElementAnnotationHolder;
-import com.intellij.util.xml.highlighting.DomHighlightingHelper;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.psi.PsiPolyVariantReference;
+import consulo.language.psi.PsiReference;
+import consulo.util.collection.ContainerUtil;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.DomUtil;
+import consulo.xml.util.xml.GenericDomValue;
+import consulo.xml.util.xml.highlighting.DomElementAnnotationHolder;
+import consulo.xml.util.xml.highlighting.DomHighlightingHelper;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
@@ -89,7 +89,7 @@ public class AntResolveInspection extends AntInspection {
       return;
     }
     Set<PsiReference> processed = null;
-    for (final PsiReference ref : xmlElement.getReferences()) {
+    for (final consulo.language.psi.PsiReference ref : xmlElement.getReferences()) {
       if (!(ref instanceof AntDomReference)) {
         continue;
       }
@@ -114,11 +114,11 @@ public class AntResolveInspection extends AntInspection {
     }
   }
 
-  private static boolean isResolvable(PsiReference ref) {
+  private static boolean isResolvable(consulo.language.psi.PsiReference ref) {
     if (ref.resolve() != null) {
       return true;
     }
-    if (ref instanceof PsiPolyVariantReference) {
+    if (ref instanceof consulo.language.psi.PsiPolyVariantReference) {
       return ((PsiPolyVariantReference)ref).multiResolve(false).length > 0;
     }
     return false;

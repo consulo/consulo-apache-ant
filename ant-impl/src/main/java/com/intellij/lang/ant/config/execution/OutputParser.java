@@ -15,26 +15,24 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import com.intellij.java.compiler.impl.javaCompiler.FileObject;
+import com.intellij.java.compiler.impl.javaCompiler.javac.JavacOutputParser;
+import com.intellij.lang.ant.AntBundle;
+import consulo.apache.ant.rt.common.AntLoggerConstants;
+import consulo.application.ApplicationManager;
+import consulo.application.progress.ProgressIndicator;
+import consulo.compiler.CompilerMessageCategory;
+import consulo.logging.Logger;
+import consulo.process.local.BaseProcessHandler;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.compiler.impl.javaCompiler.FileObject;
-import com.intellij.compiler.impl.javaCompiler.javac.JavacOutputParser;
-import com.intellij.execution.process.OSProcessHandler;
-import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.compiler.CompilerMessageCategory;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.text.StringTokenizer;
-import consulo.apache.ant.rt.AntLoggerConstants;
 
 //import com.intellij.compiler.impl.javaCompiler.jikes.JikesOutputParser;
 
@@ -48,7 +46,7 @@ public class OutputParser {
   private final AntBuildMessageView myMessageView;
   private final WeakReference<ProgressIndicator> myProgress;
   private final String myBuildName;
-  private final OSProcessHandler myProcessHandler;
+  private final BaseProcessHandler<?> myProcessHandler;
   private boolean isStopped;
   private List<String> myJavacMessages;
   private boolean myFirstLineProcessed;
@@ -56,7 +54,7 @@ public class OutputParser {
   private boolean myIsEcho;
 
   public OutputParser(Project project,
-                      OSProcessHandler processHandler,
+                      BaseProcessHandler<?> processHandler,
                       AntBuildMessageView errorsView,
                       ProgressIndicator progress,
                       String buildName) {
@@ -80,7 +78,7 @@ public class OutputParser {
     return myProject;
   }
 
-  protected OSProcessHandler getProcessHandler() {
+  protected BaseProcessHandler<?> getProcessHandler() {
     return myProcessHandler;
   }
 
@@ -232,7 +230,7 @@ public class OutputParser {
       }
     }
 
-    com.intellij.compiler.OutputParser outputParser;
+    com.intellij.java.compiler.impl.OutputParser outputParser;
     if (isJikes) {
       outputParser = null;
     //  outputParser = new JikesOutputParser(project);
@@ -241,7 +239,7 @@ public class OutputParser {
       outputParser = new JavacOutputParser(project);
     }
 
-    com.intellij.compiler.OutputParser.Callback callback = new com.intellij.compiler.OutputParser.Callback() {
+    com.intellij.java.compiler.impl.OutputParser.Callback callback = new com.intellij.java.compiler.impl.OutputParser.Callback() {
       private int myIndex = -1;
 
       @Nullable
@@ -272,7 +270,7 @@ public class OutputParser {
                           final String url,
                           final int lineNum,
                           final int columnNum) {
-        StringTokenizer tokenizer = new StringTokenizer(message, "\n", false);
+        consulo.util.lang.text.StringTokenizer tokenizer = new consulo.util.lang.text.StringTokenizer(message, "\n", false);
         final String[] strings = new String[tokenizer.countTokens()];
         //noinspection ForLoopThatDoesntUseLoopVariable
         for (int idx = 0; tokenizer.hasMoreTokens(); idx++) {
@@ -307,8 +305,8 @@ public class OutputParser {
     }
   }
 
-  private static AntBuildMessageView.MessageType convertCategory(CompilerMessageCategory category) {
-    if (CompilerMessageCategory.ERROR.equals(category)) {
+  private static AntBuildMessageView.MessageType convertCategory(consulo.compiler.CompilerMessageCategory category) {
+    if (consulo.compiler.CompilerMessageCategory.ERROR.equals(category)) {
       return AntBuildMessageView.MessageType.ERROR;
     }
     return AntBuildMessageView.MessageType.MESSAGE;

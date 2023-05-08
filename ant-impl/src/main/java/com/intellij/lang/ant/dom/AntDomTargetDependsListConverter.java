@@ -15,22 +15,18 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.ElementManipulators;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.xml.XmlAttribute;
-import com.intellij.psi.xml.XmlAttributeValue;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.util.text.StringTokenizer;
-import com.intellij.util.xml.ConvertContext;
-import com.intellij.util.xml.Converter;
-import com.intellij.util.xml.CustomReferenceConverter;
-import com.intellij.util.xml.GenericDomValue;
+import consulo.document.util.TextRange;
+import consulo.language.psi.ElementManipulators;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.xml.psi.xml.XmlAttribute;
+import consulo.xml.psi.xml.XmlAttributeValue;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.util.xml.*;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +52,7 @@ public class AntDomTargetDependsListConverter extends Converter<TargetResolver.R
     }
     else {
       refs = new ArrayList<String>();
-      final StringTokenizer tokenizer = new StringTokenizer(s, ",", false);
+      final consulo.util.lang.text.StringTokenizer tokenizer = new consulo.util.lang.text.StringTokenizer(s, ",", false);
       while (tokenizer.hasMoreTokens()) {
         final String ref = tokenizer.nextToken();
         refs.add(ref.trim());
@@ -73,10 +69,10 @@ public class AntDomTargetDependsListConverter extends Converter<TargetResolver.R
   }
 
   @Nonnull
-  public PsiReference[] createReferences(GenericDomValue<TargetResolver.Result> value, PsiElement element, ConvertContext context) {
+  public consulo.language.psi.PsiReference[] createReferences(GenericDomValue<TargetResolver.Result> value, PsiElement element, ConvertContext context) {
     final XmlElement xmlElement = value.getXmlElement();
     if (!(xmlElement instanceof XmlAttribute)) {
-      return PsiReference.EMPTY_ARRAY;
+      return consulo.language.psi.PsiReference.EMPTY_ARRAY;
     }
     final XmlAttributeValue valueElement = ((XmlAttribute)xmlElement).getValueElement();
     if (valueElement == null) {
@@ -84,12 +80,12 @@ public class AntDomTargetDependsListConverter extends Converter<TargetResolver.R
     }
     final String refsString = value.getStringValue();
     if (refsString == null) {
-      return PsiReference.EMPTY_ARRAY;
+      return consulo.language.psi.PsiReference.EMPTY_ARRAY;
     }
-    final List<PsiReference> refs = new ArrayList<PsiReference>();
+    final List<PsiReference> refs = new ArrayList<consulo.language.psi.PsiReference>();
     final AntDomTargetReference.ReferenceGroup group = new AntDomTargetReference.ReferenceGroup();
     final TextRange wholeStringRange = ElementManipulators.getValueTextRange(valueElement);
-    final StringTokenizer tokenizer = new StringTokenizer(refsString, ",", false);
+    final consulo.util.lang.text.StringTokenizer tokenizer = new consulo.util.lang.text.StringTokenizer(refsString, ",", false);
     while (tokenizer.hasMoreTokens()) {
       final String token = tokenizer.nextToken();
       int tokenStartOffset = tokenizer.getCurrentPosition() - token.length();
@@ -106,7 +102,7 @@ public class AntDomTargetDependsListConverter extends Converter<TargetResolver.R
       }
       refs.add(new AntDomTargetReference(element, TextRange.from(wholeStringRange.getStartOffset() + tokenStartOffset, ref.length()), group));
     }
-    return refs.toArray(new PsiReference[refs.size()]);
+    return refs.toArray(new consulo.language.psi.PsiReference[refs.size()]);
   }
 
 }

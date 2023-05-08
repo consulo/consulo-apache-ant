@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.Converter;
-import com.intellij.util.xml.GenericDomValue;
-import com.intellij.util.xml.WrappingConverter;
+import consulo.xml.util.xml.Converter;
+import consulo.xml.util.xml.GenericDomValue;
+import consulo.xml.util.xml.WrappingConverter;
 import javax.annotation.Nonnull;
 
 import java.io.File;

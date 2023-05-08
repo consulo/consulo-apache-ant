@@ -19,18 +19,18 @@ package com.intellij.lang.ant.config.actions;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.AntConfigurationListener;
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Disposer;
+import consulo.disposer.Disposable;
+import consulo.disposer.Disposer;
+import consulo.project.Project;
+import consulo.ui.ex.action.ActionManager;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: Oct 3, 2007
+ * Date: Oct 3, 2007
  */
 public class TargetActionStub extends AnAction implements Disposable {
   private final String myActionId;
@@ -62,7 +62,9 @@ public class TargetActionStub extends AnAction implements Disposable {
         }
 
         public void buildFileChanged(final AntBuildFile buildFile) {/*empty*/}
+
         public void buildFileAdded(final AntBuildFile buildFile) {/*empty*/}
+
         public void buildFileRemoved(final AntBuildFile buildFile) {/*empty*/}
       };
       config.addAntConfigurationListener(listener);
@@ -73,7 +75,7 @@ public class TargetActionStub extends AnAction implements Disposable {
       dispose();
     }
   }
-  
+
   private void invokeAction(final AnActionEvent e) {
     final AnAction action = ActionManager.getInstance().getAction(myActionId);
     if (action == null || action instanceof TargetActionStub) {
@@ -89,7 +91,7 @@ public class TargetActionStub extends AnAction implements Disposable {
       action.actionPerformed(e);
     }
   }
-  
+
   private static class ListenerRemover implements Disposable {
     private AntConfiguration myConfig;
     private AntConfigurationListener myListener;

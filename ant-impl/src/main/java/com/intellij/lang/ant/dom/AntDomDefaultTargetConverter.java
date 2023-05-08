@@ -16,15 +16,16 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntSupport;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.PsiReference;
-import com.intellij.util.xml.ConvertContext;
-import com.intellij.util.xml.Converter;
-import com.intellij.util.xml.CustomReferenceConverter;
-import com.intellij.util.xml.GenericDomValue;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.language.psi.PsiReference;
+import consulo.xml.util.xml.ConvertContext;
+import consulo.xml.util.xml.Converter;
+import consulo.xml.util.xml.CustomReferenceConverter;
+import consulo.xml.util.xml.GenericDomValue;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -32,11 +33,11 @@ import javax.annotation.Nullable;
  * @author Eugene Zhuravlev
  *         Date: Apr 16, 2010
  */
-public class AntDomDefaultTargetConverter extends Converter<TargetResolver.Result> implements CustomReferenceConverter<TargetResolver.Result>{
+public class AntDomDefaultTargetConverter extends Converter<TargetResolver.Result> implements CustomReferenceConverter<TargetResolver.Result> {
 
   @Nonnull
   public PsiReference[] createReferences(final GenericDomValue<TargetResolver.Result> value, PsiElement element, ConvertContext context) {
-    return new PsiReference[] {new AntDomTargetReference(element)};
+    return new consulo.language.psi.PsiReference[] {new AntDomTargetReference(element)};
   }
 
   @Nullable
@@ -48,7 +49,7 @@ public class AntDomDefaultTargetConverter extends Converter<TargetResolver.Resul
       final AntDomAnt antDomAnt = element.getParentOfType(AntDomAnt.class, false);
       if (antDomAnt != null) {
         final PsiFileSystemItem antFile = antDomAnt.getAntFilePath().getValue();
-        projectToSearchFrom = antFile instanceof PsiFile? AntSupport.getAntDomProjectForceAntFile((PsiFile)antFile) : null; 
+        projectToSearchFrom = antFile instanceof PsiFile? AntSupport.getAntDomProjectForceAntFile((consulo.language.psi.PsiFile)antFile) : null;
       }
       else {
         projectToSearchFrom = project.getContextAntProject();

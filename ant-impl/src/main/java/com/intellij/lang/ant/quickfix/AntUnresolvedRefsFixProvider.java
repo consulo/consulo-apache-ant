@@ -15,18 +15,20 @@
  */
 package com.intellij.lang.ant.quickfix;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.daemon.QuickFixActionRegistrar;
-import com.intellij.codeInsight.quickfix.UnresolvedReferenceQuickFixProvider;
 import com.intellij.lang.ant.dom.AntDomReference;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.source.xml.TagNameReference;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.intention.QuickFixActionRegistrar;
+import consulo.language.editor.intention.UnresolvedReferenceQuickFixProvider;
+import consulo.language.psi.PsiReference;
+import consulo.xml.psi.impl.source.xml.TagNameReference;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: 6/23/12
  */
+@ExtensionImpl
 public class AntUnresolvedRefsFixProvider extends UnresolvedReferenceQuickFixProvider<PsiReference> {
 
   public void registerFixes(PsiReference ref, QuickFixActionRegistrar registrar) {
@@ -37,6 +39,6 @@ public class AntUnresolvedRefsFixProvider extends UnresolvedReferenceQuickFixPro
 
   @Nonnull
   public Class<PsiReference> getReferenceClass() {
-    return PsiReference.class;
+    return consulo.language.psi.PsiReference.class;
   }
 }

@@ -15,9 +15,10 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.util.Trinity;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.xml.DomElement;
+import consulo.language.psi.PsiElement;
+import consulo.xml.util.xml.DomElement;
+import consulo.util.lang.Trinity;
+
 import javax.annotation.Nonnull;
 
 import java.util.*;
@@ -53,9 +54,9 @@ public class PropertyResolver extends PropertyProviderFinder {
   }
 
   @Nonnull
-  public Trinity<PsiElement, Collection<String>, PropertiesProvider> getResult() {
+  public consulo.util.lang.Trinity<PsiElement, Collection<String>, PropertiesProvider> getResult() {
     final PsiElement element = myResult != null ? myResult.getNavigationElement(myPropertyName) : null;
-    return new Trinity<PsiElement, Collection<String>, PropertiesProvider>(element, Collections.unmodifiableSet(myVariants), myResult);
+    return new consulo.util.lang.Trinity<PsiElement, Collection<String>, PropertiesProvider>(element, Collections.unmodifiableSet(myVariants), myResult);
   }
 
   @Override

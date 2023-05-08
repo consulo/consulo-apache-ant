@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.XmlName;
+import consulo.xml.util.xml.XmlName;
 import javax.annotation.Nullable;
 
 /**

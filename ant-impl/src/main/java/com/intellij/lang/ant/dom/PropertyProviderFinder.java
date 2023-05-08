@@ -16,14 +16,13 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntSupport;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Pair;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.xml.XmlFile;
-import java.util.HashMap;
-import com.intellij.util.xml.DomElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileSystemItem;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.Pair;
+import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.util.xml.DomElement;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

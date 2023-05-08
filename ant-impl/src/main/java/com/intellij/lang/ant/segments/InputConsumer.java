@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.segments;
 
-import com.intellij.execution.ui.ConsoleViewContentType;
+import consulo.execution.ui.console.ConsoleViewContentType;
 
 public interface InputConsumer
 {

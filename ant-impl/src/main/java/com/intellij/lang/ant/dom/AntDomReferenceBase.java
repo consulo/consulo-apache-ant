@@ -18,14 +18,14 @@ package com.intellij.lang.ant.dom;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.intellij.openapi.util.TextRange;
-import com.intellij.pom.PomTarget;
-import com.intellij.pom.PomTargetPsiElement;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReferenceBase;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.DomUtil;
+import consulo.document.util.TextRange;
+import consulo.language.pom.PomTarget;
+import consulo.language.pom.PomTargetPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.DomTarget;
+import consulo.xml.util.xml.DomUtil;
+import consulo.language.psi.PsiReferenceBase;
 
 /**
  * @author Eugene Zhuravlev
@@ -37,15 +37,15 @@ public abstract class AntDomReferenceBase extends PsiReferenceBase<PsiElement> i
     super(element, range, soft);
   }
 
-  protected AntDomReferenceBase(PsiElement element, TextRange range) {
+  protected AntDomReferenceBase(consulo.language.psi.PsiElement element, TextRange range) {
     super(element, range);
   }
 
-  protected AntDomReferenceBase(PsiElement element, boolean soft) {
+  protected AntDomReferenceBase(consulo.language.psi.PsiElement element, boolean soft) {
     super(element, soft);
   }
 
-  protected AntDomReferenceBase(@Nonnull PsiElement element) {
+  protected AntDomReferenceBase(@Nonnull consulo.language.psi.PsiElement element) {
     super(element);
   }
 
@@ -58,7 +58,7 @@ public abstract class AntDomReferenceBase extends PsiReferenceBase<PsiElement> i
   }
   
   @Nullable
-  public static DomElement toDomElement(PsiElement resolve) {
+  public static DomElement toDomElement(consulo.language.psi.PsiElement resolve) {
     if (resolve instanceof PomTargetPsiElement) {
       final PomTarget target = ((PomTargetPsiElement)resolve).getTarget();
       if(target instanceof DomTarget) {

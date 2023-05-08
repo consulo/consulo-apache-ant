@@ -15,20 +15,21 @@
  */
 package com.intellij.lang.ant.dom;
 
+import com.intellij.java.language.psi.CommonClassNames;
 import com.intellij.lang.ant.AntIntrospector;
 import com.intellij.lang.ant.ReflectedProject;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.Pair;
-import com.intellij.pom.PomTarget;
-import com.intellij.psi.CommonClassNames;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.xml.XmlAttribute;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.util.xml.*;
-import com.intellij.util.xml.reflect.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.apache.ant.ApacheAntClasses;
+import consulo.language.pom.PomTarget;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.logging.Logger;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.Pair;
+import consulo.xml.psi.xml.XmlAttribute;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.util.xml.*;
+import consulo.xml.util.xml.reflect.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,14 +40,16 @@ import java.util.*;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: Apr 9, 2010
+ * Date: Apr 9, 2010
  */
-public class AntDomExtender extends DomExtender<AntDomElement>{
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.dom.AntDomExtender");
-  
+@ExtensionImpl
+public class AntDomExtender extends DomExtender<AntDomElement> {
+  private static final Logger LOG = Logger.getInstance(AntDomExtender.class);
+
   private static final Key<Class> ELEMENT_IMPL_CLASS_KEY = Key.create("_element_impl_class_");
   private static final Key<Boolean> IS_TASK_CONTAINER = Key.create("_task_container_");
   private static final Map<String, Class<? extends AntDomElement>> TAG_MAPPING = new HashMap<String, Class<? extends AntDomElement>>();
+
   static {
     TAG_MAPPING.put("property", AntDomProperty.class);
     TAG_MAPPING.put("dirname", AntDomDirname.class);
@@ -83,11 +86,17 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
     TAG_MAPPING.put("input", AntDomInputTask.class);
   }
 
+  @Nonnull
+  @Override
+  public Class<AntDomElement> getElementClass() {
+    return AntDomElement.class;
+  }
+
   public void registerExtensions(@Nonnull final AntDomElement antDomElement, @Nonnull DomExtensionsRegistrar registrar) {
     final XmlElement xmlElement = antDomElement.getXmlElement();
     if (xmlElement instanceof XmlTag) {
       final XmlTag xmlTag = (XmlTag)xmlElement;
-      final String tagName = xmlTag.getName(); 
+      final String tagName = xmlTag.getName();
 
       final AntDomProject antProject = antDomElement.getAntProject();
       if (antProject == null) {
@@ -100,7 +109,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
 
       final DomGenericInfo genericInfo = antDomElement.getGenericInfo();
       AntIntrospector classBasedIntrospector = null;
-      final Hashtable<String,Class> coreTaskDefs = reflected.getTaskDefinitions();
+      final Hashtable<String, Class> coreTaskDefs = reflected.getTaskDefinitions();
       final Hashtable<String, Class> coreTypeDefs = reflected.getDataTypeDefinitions();
       final boolean isCustom = antDomElement instanceof AntDomCustomElement;
       if ("project".equals(tagName)) {
@@ -121,13 +130,13 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
           Class elemType = antDomElement.getChildDescription().getUserData(ELEMENT_IMPL_CLASS_KEY);
 
           if (elemType == null) {
-            if (coreTaskDefs != null){
+            if (coreTaskDefs != null) {
               elemType = coreTaskDefs.get(tagName);
             }
           }
 
           if (elemType == null) {
-            if (coreTypeDefs != null){
+            if (coreTypeDefs != null) {
               elemType = coreTypeDefs.get(tagName);
             }
           }
@@ -148,17 +157,18 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
           if (declaringElement instanceof AntDomMacroDef) {
             parentIntrospector = new MacrodefIntrospectorAdapter((AntDomMacroDef)declaringElement);
           }
-          else if (declaringElement instanceof AntDomMacrodefElement){
-            parentIntrospector = new MacrodefElementOccurrenceIntrospectorAdapter((AntDomMacrodefElement)declaringElement)/*ContainerElementIntrospector.INSTANCE*/;
+          else if (declaringElement instanceof AntDomMacrodefElement) {
+            parentIntrospector =
+              new MacrodefElementOccurrenceIntrospectorAdapter((AntDomMacrodefElement)declaringElement)/*ContainerElementIntrospector.INSTANCE*/;
           }
           else if (declaringElement instanceof AntDomScriptDef) {
             parentIntrospector = new ScriptdefIntrospectorAdapter((AntDomScriptDef)declaringElement);
           }
         }
       }
-      
+
       if (parentIntrospector != null) {
-        
+
         defineAttributes(xmlTag, registrar, genericInfo, parentIntrospector);
 
         if ("project".equals(tagName) || parentIntrospector.isContainer()) { // can contain any task or/and type definition
@@ -195,11 +205,11 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
             final DomExtension extension = registerChild(registrar, genericInfo, nestedElementName);
             if (extension != null) {
               Class type = parentIntrospector.getNestedElementType(nestedElementName);
-              if (type != null && CommonClassNames.JAVA_LANG_OBJECT.equals(type.getName())) { 
+              if (type != null && CommonClassNames.JAVA_LANG_OBJECT.equals(type.getName())) {
                 type = null; // hack to support badly written tasks 
               }
               if (type == null) {
-                if (coreTypeDefs != null){
+                if (coreTypeDefs != null) {
                   type = coreTypeDefs.get(nestedElementName);
                 }
               }
@@ -224,7 +234,10 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
     }
   }
 
-  private static void defineAttributes(XmlTag xmlTag, DomExtensionsRegistrar registrar, DomGenericInfo genericInfo, AbstractIntrospector parentIntrospector) {
+  private static void defineAttributes(XmlTag xmlTag,
+                                       DomExtensionsRegistrar registrar,
+                                       DomGenericInfo genericInfo,
+                                       AbstractIntrospector parentIntrospector) {
     final Map<String, Pair<Type, Class>> registeredAttribs = getStaticallyRegisteredAttributes(genericInfo);
     // define attributes discovered by introspector and not yet defined statically
     final Iterator<String> introspectedAttributes = parentIntrospector.getAttributesIterator();
@@ -233,7 +246,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
       if (genericInfo.getAttributeChildDescription(attribName) == null) { // if not defined yet 
         final String _attribName = attribName.toLowerCase(Locale.US);
         final Pair<Type, Class> types = registeredAttribs.get(_attribName);
-        Type type = types != null? types.getFirst() : null;
+        Type type = types != null ? types.getFirst() : null;
         Class converterClass = types != null ? types.getSecond() : null;
         if (type == null) {
           type = String.class; // use String by default
@@ -244,7 +257,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
               type = PsiFileSystemItem.class;
               converterClass = AntPathConverter.class;
             }
-            else if (Boolean.class.isAssignableFrom(attributeType)){
+            else if (Boolean.class.isAssignableFrom(attributeType)) {
               type = Boolean.class;
               converterClass = AntBooleanConverter.class;
             }
@@ -253,9 +266,9 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
             }
           }
         }
-        
+
         LOG.assertTrue(type != null);
-        
+
         registerAttribute(registrar, attribName, type, converterClass);
         if (types == null) { // augment the map if this was a newly added attribute
           registeredAttribs.put(_attribName, new Pair<Type, Class>(type, converterClass));
@@ -275,7 +288,10 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
     }
   }
 
-  private static void registerAttribute(DomExtensionsRegistrar registrar, String attribName, final @Nonnull Type attributeType, final @Nullable Class converterType) {
+  private static void registerAttribute(DomExtensionsRegistrar registrar,
+                                        String attribName,
+                                        final @Nonnull Type attributeType,
+                                        final @Nullable Class converterType) {
     final DomExtension extension = registrar.registerGenericAttributeValueChildExtension(new XmlName(attribName), attributeType);
     if (converterType != null) {
       try {
@@ -366,7 +382,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
       final Set<EvaluatedXmlName> result = new HashSet<EvaluatedXmlName>();
       for (XmlName variant : registry.getCompletionVariants(element)) {
         final String ns = variant.getNamespaceKey();
-        result.add(new DummyEvaluatedXmlName(variant, ns != null? ns : ""));
+        result.add(new DummyEvaluatedXmlName(variant, ns != null ? ns : ""));
       }
       return result;
     }
@@ -378,13 +394,13 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
     }
 
     @Nullable
-    public PomTarget findDeclaration(@Nonnull DomElement child) {
+    public consulo.language.pom.PomTarget findDeclaration(@Nonnull DomElement child) {
       XmlName name = new XmlName(child.getXmlElementName(), child.getXmlElementNamespace());
       return doFindDeclaration(child.getParent(), name);
     }
 
     @Nullable
-    private static PomTarget doFindDeclaration(DomElement parent, XmlName xmlName) {
+    private static consulo.language.pom.PomTarget doFindDeclaration(DomElement parent, XmlName xmlName) {
       if (!(parent instanceof AntDomElement)) {
         return null;
       }
@@ -415,15 +431,15 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
       return target;
     }
   }
-  
+
   private static abstract class AbstractIntrospector {
     @Nonnull
     public Iterator<String> getAttributesIterator() {
       return Collections.<String>emptyList().iterator();
     }
-    
+
     @Nonnull
-    public Iterator<String> getNestedElementsIterator(){
+    public Iterator<String> getNestedElementsIterator() {
       return Collections.<String>emptyList().iterator();
     }
 
@@ -439,7 +455,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
       return null;
     }
   }
-  
+
   private static class ClassIntrospectorAdapter extends AbstractIntrospector {
 
     private final AntIntrospector myIntrospector;
@@ -454,8 +470,8 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
 
     public ClassIntrospectorAdapter(AntIntrospector introspector, Map<String, Class> coreTaskDefs, Map<String, Class> coreTypeDefs) {
       myIntrospector = introspector;
-      myCoreTaskDefs = coreTaskDefs != null? coreTaskDefs : Collections.<String, Class>emptyMap();
-      myCoreTypeDefs = coreTypeDefs != null? coreTypeDefs : Collections.<String, Class>emptyMap();
+      myCoreTaskDefs = coreTaskDefs != null ? coreTaskDefs : Collections.<String, Class>emptyMap();
+      myCoreTypeDefs = coreTypeDefs != null ? coreTypeDefs : Collections.<String, Class>emptyMap();
     }
 
     @Nonnull
@@ -494,7 +510,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
         myNestedElements.add(elemName);
         myNestedElementTypes.put(elemName, myIntrospector.getElementType(elemName));
       }
-      
+
       final Set<String> extensionPointTypes = myIntrospector.getExtensionPointTypes();
       for (String extPoint : extensionPointTypes) {
         processEntries(extPoint, myCoreTaskDefs);
@@ -513,7 +529,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
       }
     }
   }
-  
+
   private static class MacrodefIntrospectorAdapter extends AbstractIntrospector {
     private final AntDomMacroDef myMacrodef;
 
@@ -587,7 +603,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
           continue;
         }
         final Set<String> set = new HashSet<String>();
-        for (Iterator<String> it = context.getNestedElementsIterator();it.hasNext();) {
+        for (Iterator<String> it = context.getNestedElementsIterator(); it.hasNext(); ) {
           final String name = it.next();
           set.add(name);
         }
@@ -642,7 +658,7 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
     private ScriptdefIntrospectorAdapter(AntDomScriptDef scriptDef) {
       myScriptDef = scriptDef;
     }
-    
+
     @Nonnull
     public Iterator<String> getAttributesIterator() {
       final List<AntDomScriptdefAttribute> macrodefAttributes = myScriptDef.getScriptdefAttributes();
@@ -655,19 +671,20 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
       }
       return attribs.iterator();
     }
-    
+
     public boolean isContainer() {
       return false;
     }
   }
-  
-  private static class ContainerElementIntrospector extends AbstractIntrospector{
+
+  private static class ContainerElementIntrospector extends AbstractIntrospector {
     public static final ContainerElementIntrospector INSTANCE = new ContainerElementIntrospector();
+
     public boolean isContainer() {
       return true;
     }
   }
-  
+
   private static class EnumerationToIteratorAdapter<T> implements Iterator<T> {
 
     private final Enumeration<T> myEnum;
@@ -688,5 +705,5 @@ public class AntDomExtender extends DomExtender<AntDomElement>{
       throw new UnsupportedOperationException("remove is not supported");
     }
   }
-  
+
 }

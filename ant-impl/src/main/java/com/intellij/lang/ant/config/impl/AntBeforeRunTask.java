@@ -15,18 +15,19 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import com.intellij.execution.BeforeRunTask;
+import consulo.execution.BeforeRunTask;
 import com.intellij.lang.ant.config.AntBuildTarget;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.ide.impl.idea.openapi.util.io.FileUtil;
+import consulo.util.lang.Comparing;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: May 18, 2009
  */
-public class AntBeforeRunTask extends BeforeRunTask<AntBeforeRunTask>{
+public class AntBeforeRunTask extends BeforeRunTask<AntBeforeRunTask>
+{
   private String myTargetName;
   private String myAntFileUrl;
 

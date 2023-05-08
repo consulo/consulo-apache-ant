@@ -16,9 +16,8 @@
 package com.intellij.lang.ant.segments;
 
 
-public interface DeferredActionsQueue
-{
-	void addLast(Runnable runnable);
+public interface DeferredActionsQueue {
+  void addLast(Runnable runnable);
 
-	void setDispactchListener(DispatchListener listener);
+  void setDispactchListener(DispatchListener listener);
 }

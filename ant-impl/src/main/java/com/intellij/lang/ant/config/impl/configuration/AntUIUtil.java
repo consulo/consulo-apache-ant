@@ -15,26 +15,25 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.macro.MacrosDialog;
+import consulo.application.AllIcons;
+import consulo.content.bundle.SdkUtil;
+import consulo.ide.impl.idea.ide.macro.MacrosDialog;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.impl.AntClasspathEntry;
 import com.intellij.lang.ant.config.impl.AntReference;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.ui.OrderEntryAppearanceService;
-import com.intellij.openapi.ui.FixedSizeButton;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import com.intellij.ui.ColoredListCellRenderer;
-import com.intellij.ui.JBColor;
-import com.intellij.ui.SimpleColoredComponent;
-import com.intellij.ui.SimpleTextAttributes;
-import com.intellij.util.IconUtil;
-import com.intellij.util.ui.AbstractTableCellEditor;
-import com.intellij.util.ui.CellEditorComponentWithBrowseButton;
-import consulo.awt.TargetAWT;
-import consulo.bundle.SdkUtil;
+import consulo.logging.Logger;
+import consulo.content.bundle.Sdk;
+import consulo.ide.ui.OrderEntryAppearanceService;
+import consulo.ui.ex.awt.*;
+import consulo.ui.ex.awt.ColoredListCellRenderer;
+import consulo.ui.ex.JBColor;
+import consulo.ui.ex.awt.SimpleColoredComponent;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ide.impl.idea.util.IconUtil;
+import consulo.ui.ex.awt.CellEditorComponentWithBrowseButton;
+import consulo.ui.ex.awt.FixedSizeButton;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -107,7 +106,7 @@ public class AntUIUtil
 	{
 		component.setIcon(SdkUtil.getIcon(sdk));
 		String name = sdk.getName();
-		component.append(name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
+		component.append(name, consulo.ui.ex.SimpleTextAttributes.REGULAR_ATTRIBUTES);
 		String versionString = sdk.getVersionString();
 		if(name.indexOf(versionString) == -1)
 		{
@@ -128,7 +127,7 @@ public class AntUIUtil
 
 	public static class PropertyValueCellEditor extends AbstractTableCellEditor
 	{
-		private final CellEditorComponentWithBrowseButton<JTextField> myComponent;
+		private final consulo.ui.ex.awt.CellEditorComponentWithBrowseButton<JTextField> myComponent;
 
 		public PropertyValueCellEditor()
 		{
@@ -216,12 +215,12 @@ public class AntUIUtil
 				{
 					setIcon(AllIcons.General.Jdk);
 					append("Auto-Selected: " + myAutoSelectSdkName,
-							SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
+							consulo.ui.ex.SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
 				}
 				else
 				{
 					setIcon(AllIcons.Nodes.PpInvalid);
-					append("Sdk not set", SimpleTextAttributes.ERROR_ATTRIBUTES);
+					append("Sdk not set", consulo.ui.ex.SimpleTextAttributes.ERROR_ATTRIBUTES);
 				}
 			}
 			else

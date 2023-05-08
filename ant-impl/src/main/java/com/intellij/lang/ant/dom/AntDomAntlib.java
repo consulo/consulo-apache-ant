@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.SubTagList;
+import consulo.xml.util.xml.SubTagList;
 import javax.annotation.Nullable;
 
 import java.util.List;

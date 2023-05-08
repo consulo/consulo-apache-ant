@@ -18,23 +18,22 @@ package com.intellij.lang.ant.config.impl;
 import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.config.*;
 import com.intellij.lang.ant.dom.*;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.impl.PsiCachedValueImpl;
-import com.intellij.psi.util.CachedValue;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.PsiUtilCore;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nullable;
+import consulo.application.ApplicationManager;
+import consulo.application.util.CachedValue;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.CachedValuesManager;
+import consulo.application.util.function.Computable;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.language.psi.PsiUtilCore;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.Pair;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.psi.xml.XmlFile;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class AntBuildModelImpl implements AntBuildModelBase {
@@ -45,14 +44,12 @@ public class AntBuildModelImpl implements AntBuildModelBase {
   public AntBuildModelImpl(final AntBuildFile buildFile) {
     myFile = buildFile;
     final Project project = myFile.getProject();
-    
-    myTargets = new PsiCachedValueImpl<List<AntBuildTargetBase>>(PsiManager.getInstance(project), new CachedValueProvider<List<AntBuildTargetBase>>() {
-      public Result<List<AntBuildTargetBase>> compute() {
-        final Pair<List<AntBuildTargetBase>, Collection<PsiFile>> result = getTargetListImpl(AntBuildModelImpl.this);
-        final Collection<PsiFile> deps = result.getSecond();
-        return Result.create(result.getFirst(), PsiUtilCore.toPsiFileArray(deps));
-      }
-    });    
+
+    myTargets = CachedValuesManager.getManager(project).createCachedValue(() -> {
+      final Pair<List<AntBuildTargetBase>, Collection<PsiFile>> result = getTargetListImpl(AntBuildModelImpl.this);
+      final Collection<PsiFile> deps = result.getSecond();
+      return CachedValueProvider.Result.create(result.getFirst(), PsiUtilCore.toPsiFileArray(deps));
+    });
   }
 
   @Nullable
@@ -67,7 +64,7 @@ public class AntBuildModelImpl implements AntBuildModelBase {
   @Nullable
   public String getName() {
     final AntDomProject project = getAntProject();
-    return project != null? project.getName().getRawText() : null;
+    return project != null ? project.getName().getRawText() : null;
   }
 
   public AntBuildTarget[] getTargets() {
@@ -153,7 +150,7 @@ public class AntBuildModelImpl implements AntBuildModelBase {
   private static Pair<List<AntBuildTargetBase>, Collection<PsiFile>> getTargetListImpl(final AntBuildModelBase model) {
     final List<AntBuildTargetBase> list = new ArrayList<AntBuildTargetBase>();
     final Set<PsiFile> dependencies = new HashSet<PsiFile>();
-    
+
     final AntDomProject project = model.getAntProject();
     if (project != null) {
       final AntBuildFile buildFile = model.getBuildFile();
@@ -161,13 +158,16 @@ public class AntBuildModelImpl implements AntBuildModelBase {
       if (xmlFile != null) {
         dependencies.add(xmlFile);
       }
-      final VirtualFile sourceFile = buildFile.getVirtualFile();
+      final consulo.virtualFileSystem.VirtualFile sourceFile = buildFile.getVirtualFile();
       new Object() {
         private boolean myIsImported = false;
-        private final Set<VirtualFile> myProcessed = new HashSet<VirtualFile>();
+        private final Set<consulo.virtualFileSystem.VirtualFile> myProcessed = new HashSet<VirtualFile>();
         private AntDomTarget myDefaultTarget = null;
-                
-        private void fillTargets(List<AntBuildTargetBase> list, AntBuildModelBase model, AntDomProject project, VirtualFile sourceFile) {
+
+        private void fillTargets(List<AntBuildTargetBase> list,
+                                 AntBuildModelBase model,
+                                 AntDomProject project,
+                                 consulo.virtualFileSystem.VirtualFile sourceFile) {
           if (myProcessed.contains(sourceFile)) {
             return;
           }
@@ -175,21 +175,22 @@ public class AntBuildModelImpl implements AntBuildModelBase {
           if (!myIsImported) {
             final TargetResolver.Result result = project.getDefaultTarget().getValue();
             if (result != null) {
-              final Pair<AntDomTarget,String> targetWithName = result.getResolvedTarget(project.getDefaultTarget().getRawText());
-              myDefaultTarget = targetWithName != null? targetWithName.getFirst() : null;
+              final Pair<AntDomTarget, String> targetWithName = result.getResolvedTarget(project.getDefaultTarget().getRawText());
+              myDefaultTarget = targetWithName != null ? targetWithName.getFirst() : null;
             }
           }
           for (final AntDomTarget target : project.getDeclaredTargets()) {
             list.add(new AntBuildTargetImpl(target, model, sourceFile, myIsImported, target.equals(myDefaultTarget)));
           }
-          
+
           myIsImported = true;
-          
-          final Iterable<AntDomIncludingDirective> allIncludes = ContainerUtil.concat((Iterable<AntDomImport>)project.getDeclaredImports(), (Iterable<? extends AntDomInclude>)project.getDeclaredIncludes());
+
+          final Iterable<AntDomIncludingDirective> allIncludes = ContainerUtil.concat((Iterable<AntDomImport>)project.getDeclaredImports(),
+                                                                                      (Iterable<? extends AntDomInclude>)project.getDeclaredIncludes());
           for (AntDomIncludingDirective incl : allIncludes) {
             final PsiFileSystemItem includedFile = incl.getFile().getValue();
             if (includedFile instanceof PsiFile) {
-              final AntDomProject includedProject = AntSupport.getAntDomProject((PsiFile)includedFile);
+              final AntDomProject includedProject = AntSupport.getAntDomProject((consulo.language.psi.PsiFile)includedFile);
               if (includedProject != null) {
                 final PsiFile included = includedFile.getContainingFile().getOriginalFile();
                 dependencies.add(included);
@@ -198,7 +199,7 @@ public class AntBuildModelImpl implements AntBuildModelBase {
             }
 
           }
-    
+
         }
       }.fillTargets(list, model, project, sourceFile);
     }

@@ -15,7 +15,6 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.lang.ant.AntFilesProvider;
 import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.ReflectedProject;
@@ -23,22 +22,23 @@ import com.intellij.lang.ant.config.impl.AntResourcesClassLoader;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileFactory;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.util.LocalTimeCounter;
-import com.intellij.util.xml.XmlName;
+import consulo.language.file.LanguageFileType;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileFactory;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.logging.Logger;
+import consulo.project.Project;
 import consulo.util.dataholder.Key;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.LocalTimeCounter;
+import consulo.util.lang.Pair;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.ide.highlighter.XmlFileType;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.util.xml.XmlName;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
@@ -275,8 +275,8 @@ public class CustomAntElementsRegistry {
     finally {
       stream.close();
     }
-    final PsiFileFactory factory = PsiFileFactory.getInstance(project);
-    return factory.createFileFromText("_ant_dummy__." + fileType.getDefaultExtension(), fileType, builder, LocalTimeCounter.currentTime(), false, false);
+    final PsiFileFactory factory = consulo.language.psi.PsiFileFactory.getInstance(project);
+    return factory.createFileFromText("_ant_dummy__." + fileType.getDefaultExtension(), fileType, builder, consulo.util.lang.LocalTimeCounter.currentTime(), false, false);
   }
 
   private void addCustomDefinition(@Nonnull AntDomNamedElement declaringTag, String customTagName, String nsUri, ClassProvider classProvider) {
@@ -286,7 +286,7 @@ public class CustomAntElementsRegistry {
   }
 
   private static PsiFile createDummyFile(@NonNls final String name, final LanguageFileType type, final CharSequence str, Project project) {
-    return PsiFileFactory.getInstance(project).createFileFromText(name, type, str, LocalTimeCounter.currentTime(), false, false);
+    return consulo.language.psi.PsiFileFactory.getInstance(project).createFileFromText(name, type, str, LocalTimeCounter.currentTime(), false, false);
   }
 
   private static boolean isXmlFormat(AntDomTypeDef typedef, @Nonnull final String resourceOrFileName) {
@@ -367,7 +367,7 @@ public class CustomAntElementsRegistry {
 
   private static URL toLocalURL(final File file) throws MalformedURLException {
     String path = FileUtil.toSystemIndependentName(file.getPath());
-    if (!(StringUtil.endsWithIgnoreCase(path, ".jar") || StringUtil.endsWithIgnoreCase(path, ".zip")) && file.isDirectory()) {
+    if (!(consulo.util.lang.StringUtil.endsWithIgnoreCase(path, ".jar") || consulo.util.lang.StringUtil.endsWithIgnoreCase(path, ".zip")) && file.isDirectory()) {
       if (!path.endsWith("/")) {
         path = path + "/";
       }

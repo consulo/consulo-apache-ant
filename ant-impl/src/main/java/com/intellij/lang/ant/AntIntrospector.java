@@ -31,8 +31,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nullable;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.util.concurrency.AppExecutorUtil;
+import consulo.logging.Logger;
+import consulo.application.util.concurrent.AppExecutorUtil;
 import consulo.apache.ant.ApacheAntClasses;
 
 /**

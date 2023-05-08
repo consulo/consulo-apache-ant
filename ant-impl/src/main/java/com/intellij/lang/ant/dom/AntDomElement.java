@@ -17,12 +17,12 @@ package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.config.AntConfigurationBase;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.util.xml.*;
+import consulo.language.psi.PsiFile;
 import consulo.util.dataholder.Key;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.util.xml.*;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -123,7 +123,7 @@ public abstract class AntDomElement implements DomElement {
         }
         while (!(myUnprocessedElement instanceof AntDomElement));
       }
-      
+
       public void remove() {
         throw new UnsupportedOperationException("remove");
       }
@@ -137,7 +137,7 @@ public abstract class AntDomElement implements DomElement {
   public final boolean isDataType() {
     return Role.DATA_TYPE.equals(getChildDescription().getUserData(ROLE));
   }
-  
+
   public String toString() {
     final XmlTag tag = getXmlTag();
     if (tag == null) {

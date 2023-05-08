@@ -15,10 +15,10 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.GenericAttributeValue;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.Convert;
+import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.language.psi.PsiFileSystemItem;
 
 /**
  * @author Eugene Zhuravlev
@@ -27,7 +27,7 @@ import com.intellij.util.xml.GenericAttributeValue;
 public abstract class AntDomBasenameTask extends AntDomPropertyDefiningTask {
   @Attribute("file")
   @Convert(value = AntPathConverter.class)
-  public abstract GenericAttributeValue<PsiFileSystemItem> getFile();
+  public abstract GenericAttributeValue<consulo.language.psi.PsiFileSystemItem> getFile();
 
   @Attribute("suffix")
   public abstract GenericAttributeValue<String> getSuffix();

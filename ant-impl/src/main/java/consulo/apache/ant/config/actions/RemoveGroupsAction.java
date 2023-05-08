@@ -15,17 +15,18 @@
  */
 package consulo.apache.ant.config.actions;
 
-import java.util.List;
-
-import com.intellij.ide.util.treeView.AbstractTreeBuilder;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.IconUtil;
-import com.intellij.util.ui.tree.TreeUtil;
 import consulo.apache.ant.config.AntBuildFileGroupManager;
 import consulo.apache.ant.config.explorer.AntBuildGroupNodeDescriptor;
+import consulo.platform.base.icon.PlatformIconGroup;
+import consulo.project.Project;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.awt.tree.AbstractTreeBuilder;
+import consulo.ui.ex.awt.tree.Tree;
+import consulo.ui.ex.awt.tree.TreeUtil;
+
+import java.util.List;
 
 /**
  * @author VISTALL
@@ -35,7 +36,7 @@ public class RemoveGroupsAction extends AnAction {
   private final Tree myTree;
 
   public RemoveGroupsAction(Tree tree) {
-    super(AntBundle.message("remove.groups.name"), AntBundle.message("remove.groups.name"), IconUtil.getRemoveIcon());
+    super(AntBundle.message("remove.groups.name"), AntBundle.message("remove.groups.name"), PlatformIconGroup.generalRemove());
     myTree = tree;
   }
 
@@ -44,17 +45,17 @@ public class RemoveGroupsAction extends AnAction {
     final List<AntBuildGroupNodeDescriptor> groupNodeDescriptors =
       TreeUtil.collectSelectedObjectsOfType(myTree, AntBuildGroupNodeDescriptor.class);
 
-    if(groupNodeDescriptors.isEmpty()) {
+    if (groupNodeDescriptors.isEmpty()) {
       return;
     }
 
-    final AntBuildFileGroupManager groupManager = AntBuildFileGroupManager.getInstance(e.getProject());
+    final AntBuildFileGroupManager groupManager = AntBuildFileGroupManager.getInstance(e.getData(Project.KEY));
     for (AntBuildGroupNodeDescriptor descriptor : groupNodeDescriptors) {
       groupManager.removeGroup(descriptor.getElement());
     }
 
     final AbstractTreeBuilder builder = AbstractTreeBuilder.getBuilderFor(myTree);
-    if(builder != null) {
+    if (builder != null) {
       builder.queueUpdate();
     }
   }

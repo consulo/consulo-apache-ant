@@ -15,31 +15,28 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import java.io.File;
-import java.util.List;
-
-import javax.swing.JComponent;
-
+import consulo.fileChooser.FileChooserDescriptor;
+import consulo.ide.ui.CellAppearanceEx;
+import consulo.ide.ui.FileAppearanceService;
+import consulo.util.xml.serializer.InvalidDataException;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFilePathUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import com.intellij.openapi.fileChooser.FileChooserDescriptor;
-import com.intellij.openapi.roots.ui.CellAppearanceEx;
-import com.intellij.openapi.roots.ui.FileAppearanceService;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.Function;
-import com.intellij.util.PathUtil;
+
+import javax.swing.*;
+import java.io.File;
+import java.util.List;
+import java.util.function.Function;
 
 public class SinglePathEntry implements AntClasspathEntry {
-  private static final Function<VirtualFile, AntClasspathEntry> CREATE_FROM_VIRTUAL_FILE = new Function<VirtualFile, AntClasspathEntry>() {
-    public AntClasspathEntry fun(VirtualFile singlePathEntry) {
-      return fromVirtualFile(singlePathEntry);
-    }
-  };
+  private static final Function<VirtualFile, AntClasspathEntry> CREATE_FROM_VIRTUAL_FILE =
+    singlePathEntry -> fromVirtualFile(singlePathEntry);
 
-  @NonNls static final String PATH = "path";
+  @NonNls
+  static final String PATH = "path";
 
   private File myFile;
 
@@ -53,7 +50,7 @@ public class SinglePathEntry implements AntClasspathEntry {
 
   public void readExternal(final Element element) throws InvalidDataException {
     String value = element.getAttributeValue(PATH);
-    myFile = new File(PathUtil.toPresentableUrl(value));
+    myFile = new File(VirtualFilePathUtil.toPresentableUrl(value));
   }
 
   public void writeExternal(final Element element) {

@@ -15,13 +15,14 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import javax.annotation.Nullable;
-
 import com.intellij.lang.ant.config.AntBuildTargetBase;
 import com.intellij.lang.ant.dom.AntDomElement;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.xml.DomTarget;
+import consulo.navigation.OpenFileDescriptor;
+import consulo.navigation.OpenFileDescriptorFactory;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.util.xml.DomTarget;
+
+import javax.annotation.Nullable;
 
 public final class BuildTask {
   public static final BuildTask[] EMPTY_ARRAY = new BuildTask[0];
@@ -48,6 +49,6 @@ public final class BuildTask {
   @Nullable
   public OpenFileDescriptor getOpenFileDescriptor() {
     final VirtualFile vFile = myTarget.getContainingFile();
-    return vFile != null? new OpenFileDescriptor(myTarget.getProject(), vFile, myOffset) : null;
+    return vFile != null ? OpenFileDescriptorFactory.getInstance(myTarget.getProject()).builder(vFile).offset(myOffset).build() : null;
   }
 }

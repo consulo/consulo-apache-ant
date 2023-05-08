@@ -15,23 +15,27 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import consulo.util.collection.ArrayUtil;
+import consulo.virtualFileSystem.VirtualFile;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.StringBuilderSpinAllocator;
 
 public final class AntMessage {
   private final AntBuildMessageView.MessageType myType;
   private final int myPriority;
   private final String myText;
   private final String[] myTextLines;
-  private final VirtualFile myFile;
+  private final consulo.virtualFileSystem.VirtualFile myFile;
   private final int myLine;
   private final int myColumn;
 
-  public AntMessage(AntBuildMessageView.MessageType type, int priority, String text, VirtualFile file, int line, int column) {
+  public AntMessage(AntBuildMessageView.MessageType type,
+                    int priority,
+                    String text,
+                    consulo.virtualFileSystem.VirtualFile file,
+                    int line,
+                    int column) {
     myType = type;
     myPriority = priority;
     myFile = file;
@@ -46,24 +50,24 @@ public final class AntMessage {
     myTextLines = ArrayUtil.toStringArray(lines);
   }
 
-  public AntMessage(AntBuildMessageView.MessageType type, int priority, String[] lines, VirtualFile file, int line, int column) {
+  public AntMessage(AntBuildMessageView.MessageType type,
+                    int priority,
+                    String[] lines,
+                    consulo.virtualFileSystem.VirtualFile file,
+                    int line,
+                    int column) {
     myType = type;
     myPriority = priority;
     myFile = file;
     myLine = line;
     myColumn = column;
     myTextLines = lines;
-    final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-    try {
-      for (final String aLine : lines) {
-        builder.append(aLine);
-        builder.append('\n');
-      }
-      myText = builder.toString();
+    final StringBuilder builder = new StringBuilder();
+    for (final String aLine : lines) {
+      builder.append(aLine);
+      builder.append('\n');
     }
-    finally {
-      StringBuilderSpinAllocator.dispose(builder);
-    }
+    myText = builder.toString();
   }
 
   public AntBuildMessageView.MessageType getType() {

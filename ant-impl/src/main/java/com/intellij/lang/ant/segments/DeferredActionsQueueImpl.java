@@ -17,7 +17,7 @@ package com.intellij.lang.ant.segments;
 
 import java.awt.EventQueue;
 
-import com.intellij.openapi.diagnostic.Logger;
+import consulo.logging.Logger;
 
 public class DeferredActionsQueueImpl implements DeferredActionsQueue
 {

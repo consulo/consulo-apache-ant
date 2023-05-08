@@ -21,16 +21,16 @@ import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
-import com.intellij.openapi.compiler.CompileContext;
-import com.intellij.openapi.compiler.CompilerMessageCategory;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.packaging.artifacts.Artifact;
-import com.intellij.packaging.artifacts.ArtifactProperties;
-import com.intellij.packaging.ui.ArtifactEditorContext;
-import com.intellij.packaging.ui.ArtifactPropertiesEditor;
+import consulo.compiler.CompilerMessageCategory;
+import consulo.compiler.artifact.ArtifactProperties;
+import consulo.compiler.artifact.ui.ArtifactEditorContext;
+import consulo.compiler.artifact.ui.ArtifactPropertiesEditor;
+import consulo.dataContext.DataContext;
+import consulo.ide.impl.idea.openapi.actionSystem.impl.SimpleDataContext;
+import consulo.compiler.CompileContext;
+import consulo.compiler.artifact.Artifact;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,7 +41,8 @@ import java.util.List;
 /**
 * @author nik
 */
-public class AntArtifactProperties extends ArtifactProperties<AntArtifactExtensionProperties> {
+public class AntArtifactProperties extends ArtifactProperties<AntArtifactExtensionProperties>
+{
   @NonNls
   public static final String ARTIFACT_OUTPUT_PATH_PROPERTY = "artifact.output.path";
 
@@ -61,20 +62,20 @@ public class AntArtifactProperties extends ArtifactProperties<AntArtifactExtensi
   }
 
   @Override
-  public void onBuildStarted(@Nonnull Artifact artifact, @Nonnull CompileContext compileContext) {
+  public void onBuildStarted(@Nonnull consulo.compiler.artifact.Artifact artifact, @Nonnull consulo.compiler.CompileContext compileContext) {
     if (!myPostProcessing) {
       runAntTarget(compileContext, artifact);
     }
   }
 
   @Override
-  public void onBuildFinished(@Nonnull Artifact artifact, @Nonnull final CompileContext compileContext) {
+  public void onBuildFinished(@Nonnull consulo.compiler.artifact.Artifact artifact, @Nonnull final CompileContext compileContext) {
     if (myPostProcessing) {
       runAntTarget(compileContext, artifact);
     }
   }
 
-  private void runAntTarget(CompileContext compileContext, final Artifact artifact) {
+  private void runAntTarget(CompileContext compileContext, final consulo.compiler.artifact.Artifact artifact) {
     if (myExtensionProperties.myEnabled) {
       final Project project = compileContext.getProject();
       final AntBuildTarget target = findTarget(AntConfiguration.getInstance(project));

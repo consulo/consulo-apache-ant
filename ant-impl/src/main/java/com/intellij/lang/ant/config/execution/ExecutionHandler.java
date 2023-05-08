@@ -15,50 +15,45 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.concurrency.JobScheduler;
-import com.intellij.execution.CantRunException;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.OSProcessHandler;
-import com.intellij.execution.process.ProcessAdapter;
-import com.intellij.execution.process.ProcessEvent;
-import com.intellij.execution.util.ExecutionErrorDialog;
-import com.intellij.history.LocalHistory;
-import com.intellij.ide.macro.Macro;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildListener;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
-import com.intellij.lang.ant.segments.OutputPacketProcessor;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.progress.ProcessCanceledException;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.Task;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.encoding.EncodingProjectManager;
-import com.intellij.openapi.wm.StatusBar;
-import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowId;
-import com.intellij.openapi.wm.ToolWindowManager;
-import com.intellij.openapi.wm.WindowManager;
+import consulo.application.ApplicationManager;
+import consulo.application.progress.ProgressIndicator;
+import consulo.application.progress.Task;
+import consulo.application.util.concurrent.AppExecutorUtil;
+import consulo.component.ProcessCanceledException;
+import consulo.dataContext.DataContext;
+import consulo.document.FileDocumentManager;
+import consulo.execution.CantRunException;
+import consulo.ide.impl.idea.execution.util.ExecutionErrorDialog;
+import consulo.localHistory.LocalHistory;
+import consulo.logging.Logger;
+import consulo.pathMacro.Macro;
+import consulo.process.ExecutionException;
+import consulo.process.ProcessHandler;
+import consulo.process.cmd.GeneralCommandLine;
+import consulo.process.event.ProcessEvent;
+import consulo.process.event.ProcessListener;
+import consulo.project.Project;
+import consulo.project.ui.wm.StatusBar;
+import consulo.project.ui.wm.WindowManager;
+import consulo.virtualFileSystem.encoding.EncodingProjectManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public final class ExecutionHandler {
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.ExecutionHandler");
 
-  @NonNls public static final String PARSER_JAR = "xerces1.jar";
+  @NonNls
+  public static final String PARSER_JAR = "xerces1.jar";
 
   private ExecutionHandler() {
   }
@@ -79,7 +74,7 @@ public final class ExecutionHandler {
       Project project = buildFile.getProject();
 
       try {
-        builder.setBuildFile(buildFile.getAllOptions(), VfsUtil.virtualToIoFile(buildFile.getVirtualFile()));
+        builder.setBuildFile(buildFile.getAllOptions(), VirtualFileUtil.virtualToIoFile(buildFile.getVirtualFile()));
         builder.calculateProperties(dataContext, additionalProperties);
         builder.addTargets(targets);
 
@@ -139,9 +134,9 @@ public final class ExecutionHandler {
 
     final long startTime = System.currentTimeMillis();
     LocalHistory.getInstance().putSystemLabel(project, AntBundle.message("ant.build.local.history.label", buildFile.getName()));
-    final AntProcessHandler handler;
+    final AntProcessWrapper handler;
     try {
-      handler = AntProcessHandler.runCommandLine(commandLine);
+      handler = AntProcessWrapper.runCommandLine(commandLine);
     }
     catch (final ExecutionException e) {
       ApplicationManager.getApplication().invokeLater(new Runnable() {
@@ -158,7 +153,7 @@ public final class ExecutionHandler {
   }
 
   private static void processRunningAnt(final ProgressIndicator progress,
-                                        final AntProcessHandler handler,
+                                        final AntProcessWrapper wrapper,
                                         final AntBuildMessageView errorView,
                                         final AntBuildFile buildFile,
                                         final long startTime,
@@ -169,41 +164,43 @@ public final class ExecutionHandler {
       statusbar.setInfo(AntBundle.message("ant.build.started.status.message"));
     }
 
-    final CheckCancelTask checkCancelTask = new CheckCancelTask(progress, handler);
+    final CheckCancelTask checkCancelTask = new CheckCancelTask(progress, wrapper.getProcessHandler());
     checkCancelTask.start(0);
 
-    final OutputParser parser = OutputParser2.attachParser(project, handler, errorView, progress, buildFile);
+    final OutputParser parser = OutputParser2.attachParser(project, wrapper, errorView, progress, buildFile);
 
-    handler.addProcessListener(new ProcessAdapter() {
+    wrapper.addProcessListener(new ProcessListener() {
       public void processTerminated(ProcessEvent event) {
         final long buildTime = System.currentTimeMillis() - startTime;
         checkCancelTask.cancel();
         parser.setStopped(true);
-        final OutputPacketProcessor dispatcher = handler.getErr().getEventsDispatcher();
-        errorView.buildFinished(progress != null && progress.isCanceled(), buildTime, antBuildListener, dispatcher);
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-          public void run() {
-            if (project.isDisposed()) {
-              return;
-            }
-            errorView.removeProgressPanel();
-            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(ToolWindowId.MESSAGES_WINDOW);
-            if (toolWindow != null) { // can be null if project is closed
-              toolWindow.activate(null, false);
-            }
-          }
-        }, ModalityState.NON_MODAL);
+
+        //TODO
+//        final OutputPacketProcessor dispatcher = wrapper.getErr().getEventsDispatcher();
+//        errorView.buildFinished(progress != null && progress.isCanceled(), buildTime, antBuildListener, dispatcher);
+//        ApplicationManager.getApplication().invokeLater(new Runnable() {
+//          public void run() {
+//            if (project.isDisposed()) {
+//              return;
+//            }
+//            errorView.removeProgressPanel();
+//            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(ToolWindowId.MESSAGES_WINDOW);
+//            if (toolWindow != null) { // can be null if project is closed
+//              toolWindow.activate(null, false);
+//            }
+//          }
+//        }, Application.get().getNoneModalityState());
       }
     });
-    handler.startNotify();
+    wrapper.startNotify();
   }
 
   static final class CheckCancelTask implements Runnable {
     private final ProgressIndicator myProgressIndicator;
-    private final OSProcessHandler myProcessHandler;
+    private final ProcessHandler myProcessHandler;
     private volatile boolean myCanceled;
 
-    public CheckCancelTask(ProgressIndicator progressIndicator, OSProcessHandler process) {
+    public CheckCancelTask(ProgressIndicator progressIndicator, ProcessHandler process) {
       myProgressIndicator = progressIndicator;
       myProcessHandler = process;
     }
@@ -225,7 +222,7 @@ public final class ExecutionHandler {
     }
 
     public void start(final long delay) {
-      JobScheduler.getScheduler().schedule(this, delay, TimeUnit.MILLISECONDS);
+      AppExecutorUtil.getAppScheduledExecutorService().schedule(this, delay, TimeUnit.MILLISECONDS);
     }
   }
 

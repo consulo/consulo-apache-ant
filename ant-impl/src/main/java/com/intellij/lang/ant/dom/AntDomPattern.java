@@ -15,11 +15,11 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.util.xml.reflect.DomAttributeChildDescription;
+import consulo.util.io.FileUtil;
+import consulo.xml.util.xml.reflect.DomAttributeChildDescription;
 import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nullable;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

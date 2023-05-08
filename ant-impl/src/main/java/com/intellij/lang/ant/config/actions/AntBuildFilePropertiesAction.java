@@ -15,21 +15,20 @@
  */
 package com.intellij.lang.ant.config.actions;
 
-import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.explorer.AntExplorer;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonShortcuts;
-import com.intellij.openapi.actionSystem.Presentation;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.CommonShortcuts;
+import consulo.ui.ex.action.Presentation;
 
 public final class AntBuildFilePropertiesAction extends AnAction {
   private final AntExplorer myAntExplorer;
 
   public AntBuildFilePropertiesAction(AntExplorer antExplorer) {
     super(AntBundle.message("build.file.properties.action.name"),
-          AntBundle.message("build.file.properties.action.description"),
-			ApacheAntIcons.Properties);
+          AntBundle.message("build.file.properties.action.description"), ApacheAntIcons.Properties);
     myAntExplorer = antExplorer;
     registerCustomShortcutSet(CommonShortcuts.ALT_ENTER, myAntExplorer);
   }

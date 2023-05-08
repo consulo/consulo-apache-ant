@@ -16,8 +16,8 @@
 package com.intellij.lang.ant.config.impl;
 
 import com.intellij.lang.ant.config.AntBuildTarget;
-import com.intellij.openapi.util.JDOMExternalizable;
-import com.intellij.openapi.util.WriteExternalException;
+import consulo.util.xml.serializer.JDOMExternalizable;
+import consulo.util.xml.serializer.WriteExternalException;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 
@@ -56,7 +56,7 @@ public final class TargetFilter implements JDOMExternalizable {
     final String targetName = getTargetName();
     if (targetName == null) {
       // incomplete tag
-      throw new WriteExternalException();
+      throw new consulo.util.xml.serializer.WriteExternalException();
     }
     element.setAttribute(FILTER_TARGET_NAME, targetName);
     element.setAttribute(FILTER_IS_VISIBLE, Boolean.valueOf(isVisible()).toString());

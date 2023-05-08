@@ -19,22 +19,26 @@ import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.AntNoFileException;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.wm.ToolWindowId;
-import com.intellij.openapi.wm.ToolWindowManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.xml.XmlDocument;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlTag;
+import consulo.language.editor.PlatformDataKeys;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.project.ui.wm.ToolWindowId;
+import consulo.project.ui.wm.ToolWindowManager;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.Presentation;
+import consulo.ui.ex.awt.Messages;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.psi.xml.XmlDocument;
+import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.psi.xml.XmlTag;
 
-public class AddAntBuildFile extends AnAction {
+public class AddAntBuildFile extends AnAction
+{
   public void actionPerformed(AnActionEvent e) {
-    Project project = e.getProject();
-    VirtualFile file = e.getData(PlatformDataKeys.VIRTUAL_FILE);
+    Project project = e.getData(Project.KEY);
+    consulo.virtualFileSystem.VirtualFile file = e.getData(PlatformDataKeys.VIRTUAL_FILE);
     AntConfiguration antConfiguration = AntConfiguration.getInstance(project);
     try {
       antConfiguration.addBuildFile(file);
@@ -52,7 +56,7 @@ public class AddAntBuildFile extends AnAction {
 
   public void update(AnActionEvent e) {
     final Presentation presentation = e.getPresentation();
-    final Project project = e.getProject();
+    Project project = e.getData(Project.KEY);
     if (project == null) {
       disable(presentation);
       return;

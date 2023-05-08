@@ -15,10 +15,9 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import com.intellij.ui.ComboboxWithBrowseButton;
-import com.intellij.ui.SortedComboBoxModel;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.Convertor;
+import consulo.ui.ex.awt.ComboboxWithBrowseButton;
+import consulo.ui.ex.awt.SortedComboBoxModel;
+import consulo.util.collection.ContainerUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,14 +26,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Function;
 
 public abstract class ChooseAndEditComboBoxController<Item, Ref> {
   private final ComboboxWithBrowseButton myCombobox;
-  private final Convertor<Item, Ref> myToString;
+  private final Function<Item, Ref> myToString;
   private final Map<Ref, Item> myItems = new HashMap<Ref, Item>();
 
   public ChooseAndEditComboBoxController(ComboboxWithBrowseButton combobox,
-                                         Convertor<Item, Ref> toRef,
+                                         Function<Item, Ref> toRef,
                                          Comparator<Ref> comparator) {
     myCombobox = combobox;
     myToString = toRef;
@@ -52,7 +52,7 @@ public abstract class ChooseAndEditComboBoxController<Item, Ref> {
     myItems.putAll(ContainerUtil.newMapFromValues(getAllListItems(), myToString));
     SortedComboBoxModel<Ref> model = getModel();
     model.setAll(myItems.keySet());
-    if (selection != null) model.setSelectedItem(myToString.convert(selection));
+    if (selection != null) model.setSelectedItem(myToString.apply(selection));
     else model.setSelectedItem(selectedItem);
   }
 

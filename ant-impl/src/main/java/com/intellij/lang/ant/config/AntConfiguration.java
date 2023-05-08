@@ -16,13 +16,16 @@
 
 package com.intellij.lang.ant.config;
 
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.dataContext.DataContext;
+import consulo.ide.ServiceManager;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nullable;
 
+@ServiceAPI(ComponentScope.PROJECT)
 public abstract class AntConfiguration {
 
   private final Project myProject;

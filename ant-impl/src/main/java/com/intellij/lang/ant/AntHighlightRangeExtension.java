@@ -15,13 +15,15 @@
  */
 package com.intellij.lang.ant;
 
-import com.intellij.codeInsight.daemon.impl.HighlightRangeExtension;
-import com.intellij.psi.PsiFile;
 import com.intellij.xml.util.XmlUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.HighlightRangeExtension;
+import consulo.language.psi.PsiFile;
 
 /**
  * @author yole
  */
+@ExtensionImpl
 public class AntHighlightRangeExtension implements HighlightRangeExtension {
 
   public boolean isForceHighlightParents(final PsiFile file) {

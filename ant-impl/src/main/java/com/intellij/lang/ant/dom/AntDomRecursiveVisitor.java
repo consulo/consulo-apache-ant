@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomElementVisitor;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.DomElementVisitor;
 
 import java.util.Iterator;
 
@@ -24,7 +24,7 @@ import java.util.Iterator;
  * @author Eugene Zhuravlev
  *         Date: Apr 22, 2010
  */
-public class AntDomRecursiveVisitor implements DomElementVisitor{
+public class AntDomRecursiveVisitor implements DomElementVisitor {
   public void visitDomElement(DomElement element) {
   }
 

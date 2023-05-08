@@ -15,12 +15,12 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.ConvertContext;
-import com.intellij.util.xml.GenericAttributeValue;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.Convert;
+import consulo.xml.util.xml.ConvertContext;
+import consulo.xml.util.xml.GenericAttributeValue;
 
 /**
  * @author Eugene Zhuravlev
@@ -35,7 +35,7 @@ public abstract class AntDomAnt extends AntDomElement {
 
   @Attribute("dir")
   @Convert(value = AntPathConverter.class)
-  public abstract GenericAttributeValue<PsiFileSystemItem> getAntFileDir();
+  public abstract GenericAttributeValue<consulo.language.psi.PsiFileSystemItem> getAntFileDir();
 
   @Attribute("target")
   @Convert(value = AntDomDefaultTargetConverter.class)
@@ -43,7 +43,7 @@ public abstract class AntDomAnt extends AntDomElement {
 
   @Attribute("output")
   @Convert(value = AntPathConverter.class)
-  public abstract GenericAttributeValue<PsiFileSystemItem> getOutputtFileName();
+  public abstract GenericAttributeValue<consulo.language.psi.PsiFileSystemItem> getOutputtFileName();
 
   @Attribute("inheritall")
   @Convert(value = AntBooleanConverterDefaultTrue.class)
@@ -65,7 +65,7 @@ public abstract class AntDomAnt extends AntDomElement {
     protected String getPathResolveRoot(ConvertContext context, AntDomProject antProject) {
       final AntDomAnt antElement = context.getInvocationElement().getParentOfType(AntDomAnt.class, false);
       if (antElement != null) {
-        PsiFileSystemItem dir = antElement.getAntFileDir().getValue();
+        consulo.language.psi.PsiFileSystemItem dir = antElement.getAntFileDir().getValue();
         if (dir == null) {
           if (antElement.isInheritAllProperties().getValue()) {
             dir = antProject.getProjectBasedir();

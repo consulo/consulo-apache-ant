@@ -15,17 +15,21 @@
  */
 package consulo.apache.ant.config;
 
+import com.intellij.lang.ant.config.AntBuildFile;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.ide.ServiceManager;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.intellij.lang.ant.config.AntBuildFile;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.project.Project;
 
 /**
  * @author VISTALL
  * @since 12:26/09.03.13
  */
+@ServiceAPI(ComponentScope.PROJECT)
 public abstract class AntBuildFileGroupManager {
   public static AntBuildFileGroupManager getInstance(final Project project) {
     return ServiceManager.getService(project, AntBuildFileGroupManager.class);

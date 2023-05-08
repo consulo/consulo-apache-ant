@@ -15,19 +15,20 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.codeInsight.lookup.AutoCompletionPolicy;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import consulo.document.util.TextRange;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.pom.references.PomService;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.DomUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.resolve.ResolveCache;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.DomTarget;
+import consulo.xml.util.xml.DomUtil;
+import consulo.language.editor.completion.AutoCompletionPolicy;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.pom.PomService;
+import consulo.language.psi.PsiReference;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -65,14 +66,14 @@ public class AntDomMacrodefAttributeReference extends AntDomReferenceBase{
           variants.add(element);
         }
       }
-      return ContainerUtil.toArray(variants, new Object[variants.size()]);
+      return variants.toArray(new Object[variants.size()]);
     }
     return EMPTY_ARRAY;
   }
 
   @Nullable
   private AntDomMacroDef getParentMacrodef() {
-    final PsiElement element = getElement();
+    final consulo.language.psi.PsiElement element = getElement();
     if (element == null) {
       return null;
     }
@@ -87,8 +88,8 @@ public class AntDomMacrodefAttributeReference extends AntDomReferenceBase{
     
     static final MyResolver INSTANCE = new MyResolver();
     
-    public PsiElement resolve(@Nonnull PsiReference psiReference, boolean incompleteCode) {
-      final PsiElement element = psiReference.getElement();
+    public consulo.language.psi.PsiElement resolve(@Nonnull PsiReference psiReference, boolean incompleteCode) {
+      final consulo.language.psi.PsiElement element = psiReference.getElement();
       if (element == null) {
         return null;
       }

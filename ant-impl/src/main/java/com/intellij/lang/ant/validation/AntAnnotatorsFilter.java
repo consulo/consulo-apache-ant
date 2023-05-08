@@ -15,21 +15,23 @@
  */
 package com.intellij.lang.ant.validation;
 
-import com.intellij.lang.ExternalAnnotatorsFilter;
-import com.intellij.lang.annotation.ExternalAnnotator;
 import com.intellij.lang.ant.dom.AntDomFileDescription;
-import com.intellij.lang.xml.XMLExternalAnnotator;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.xml.XmlFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.annotation.ExternalAnnotator;
+import consulo.language.editor.annotation.ExternalAnnotatorsFilter;
+import consulo.language.psi.PsiFile;
+import consulo.xml.lang.base.XMLBasedExternalAnnotator;
+import consulo.xml.psi.xml.XmlFile;
 
 /**
  * @author Dmitry Avdeev
  */
+@ExtensionImpl
 public class AntAnnotatorsFilter implements ExternalAnnotatorsFilter {
   @Override
   public boolean isProhibited(ExternalAnnotator annotator, PsiFile file) {
-    return annotator instanceof XMLExternalAnnotator &&
-           file instanceof XmlFile &&
-           AntDomFileDescription.isAntFile((XmlFile)file);
+    return annotator instanceof XMLBasedExternalAnnotator &&
+      file instanceof XmlFile &&
+      AntDomFileDescription.isAntFile((XmlFile)file);
   }
 }

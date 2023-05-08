@@ -22,37 +22,34 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import java.awt.BorderLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
-
-import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nullable;
-import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.AntConfiguration;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.ui.ColoredTreeCellRenderer;
-import com.intellij.ui.DoubleClickListener;
-import com.intellij.ui.ScrollPaneFactory;
-import com.intellij.ui.SimpleTextAttributes;
-import com.intellij.ui.TreeSpeedSearch;
-import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.containers.Convertor;
-import com.intellij.util.ui.tree.TreeUtil;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.project.Project;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ui.ex.awt.DialogWrapper;
+import consulo.ui.ex.awt.ScrollPaneFactory;
+import consulo.ui.ex.awt.event.DoubleClickListener;
+import consulo.ui.ex.awt.speedSearch.TreeSpeedSearch;
+import consulo.ui.ex.awt.tree.ColoredTreeCellRenderer;
+import consulo.ui.ex.awt.tree.Tree;
+import consulo.ui.ex.awt.tree.TreeUtil;
+import consulo.util.lang.Comparing;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nullable;
+import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.function.Function;
 
 public class TargetChooserDialog extends DialogWrapper {
   private final Project myProject;
@@ -118,8 +115,8 @@ public class TargetChooserDialog extends DialogWrapper {
     tree.setShowsRootHandles(true);
     tree.setLineStyleAngled();
     TreeUtil.installActions(tree);
-    new TreeSpeedSearch(tree, new Convertor<TreePath, String>() {
-      public String convert(final TreePath path) {
+    new TreeSpeedSearch(tree, new Function<TreePath, String>() {
+      public String apply(final TreePath path) {
         final Object userObject = ((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
         if (userObject instanceof AntTargetNodeDescriptor) {
           final AntBuildTarget target = ((AntTargetNodeDescriptor)userObject).getAntTarget();
@@ -196,7 +193,8 @@ public class TargetChooserDialog extends DialogWrapper {
     }
   }
 
-  private static class MyTreeCellRenderer extends ColoredTreeCellRenderer {
+  private static class MyTreeCellRenderer extends ColoredTreeCellRenderer
+  {
     public void customizeCellRenderer(JTree tree,
                                       Object value,
                                       boolean selected,
@@ -214,7 +212,7 @@ public class TargetChooserDialog extends DialogWrapper {
           final AntTargetNodeDescriptor descriptor = (AntTargetNodeDescriptor)userObject;
           final AntBuildTarget antTarget = descriptor.getAntTarget();
           final String antTargetName = antTarget.getName();
-          append(antTargetName, SimpleTextAttributes.REGULAR_ATTRIBUTES);
+          append(antTargetName, consulo.ui.ex.SimpleTextAttributes.REGULAR_ATTRIBUTES);
           boolean isMeta = antTarget instanceof MetaTarget;
           setIcon(isMeta ? ApacheAntIcons.MetaTarget : ApacheAntIcons.Target);
         }

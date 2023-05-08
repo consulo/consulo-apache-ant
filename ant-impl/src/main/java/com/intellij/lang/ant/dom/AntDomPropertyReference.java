@@ -15,24 +15,21 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.codeInsight.lookup.AutoCompletionPolicy;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.Trinity;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiPolyVariantReferenceBase;
-import com.intellij.psi.ResolveResult;
-import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.psi.xml.XmlAttributeValue;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.xml.DomElement;
+import consulo.document.util.TextRange;
+import consulo.language.editor.completion.AutoCompletionPolicy;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.psi.*;
+import consulo.language.psi.resolve.ResolveCache;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Trinity;
+import consulo.xml.psi.xml.XmlAttributeValue;
+import consulo.xml.util.xml.DomElement;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -67,7 +64,7 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
   }
 
   @Nullable
-  public PsiElement resolve() {
+  public consulo.language.psi.PsiElement resolve() {
     final ResolveResult res = doResolve();
     return res != null ? res.getElement() : null;
   }
@@ -80,7 +77,7 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
   
   @Nonnull
   public ResolveResult[] multiResolve(boolean incompleteCode) {
-    PsiElement element = getElement();
+    consulo.language.psi.PsiElement element = getElement();
     PsiFile file = element.getContainingFile();
     return ResolveCache.getInstance(file.getProject()).resolveWithCaching(this, MyResolver.INSTANCE, false, incompleteCode,file);
   }
@@ -103,10 +100,10 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
     return EMPTY_ARRAY;
   }
 
-  public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
+  public consulo.language.psi.PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
     final MyResolveResult resolveResult = doResolve();
     if (resolveResult != null) {
-      final PsiElement resolve = resolveResult.getElement();
+      final consulo.language.psi.PsiElement resolve = resolveResult.getElement();
       final PropertiesProvider provider = resolveResult.getProvider();
       final String refText = getCanonicalText();
       if (provider instanceof AntDomProject) {
@@ -146,7 +143,7 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
     return super.handleElementRename(newElementName);
   }
 
-  public boolean isReferenceTo(PsiElement element) {
+  public boolean isReferenceTo(consulo.language.psi.PsiElement element) {
     // optimization to exclude obvious variants
     final DomElement domElement = AntDomReferenceBase.toDomElement(element);
     if (domElement instanceof AntDomProperty) {
@@ -162,9 +159,10 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
     return super.isReferenceTo(element);
   }
 
-  private static class MyResolveResult implements ResolveResult {
+  private static class MyResolveResult implements consulo.language.psi.ResolveResult
+  {
 
-    private final PsiElement myElement;
+    private final consulo.language.psi.PsiElement myElement;
     private final PropertiesProvider myProvider;
 
     public MyResolveResult(final PsiElement element, PropertiesProvider provider) {
@@ -172,7 +170,7 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
       myProvider = provider;
     }
 
-    public PsiElement getElement() {
+    public consulo.language.psi.PsiElement getElement() {
       return myElement;
     }
 
@@ -186,7 +184,7 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
     }
   }
 
-  private static class MyResolver implements ResolveCache.PolyVariantResolver<AntDomPropertyReference> {
+  private static class MyResolver implements consulo.language.psi.resolve.ResolveCache.PolyVariantResolver<AntDomPropertyReference> {
     static final MyResolver INSTANCE = new MyResolver();
     
     @Nonnull
@@ -196,7 +194,7 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
       if (project != null) {
         final AntDomProject contextAntProject = project.getContextAntProject();
         final String propertyName = antDomPropertyReference.getCanonicalText();
-        final Trinity<PsiElement,Collection<String>,PropertiesProvider> resolved = 
+        final Trinity<consulo.language.psi.PsiElement,Collection<String>,PropertiesProvider> resolved =
           PropertyResolver.resolve(contextAntProject, propertyName, antDomPropertyReference.myInvocationContextElement);
         final PsiElement mainDeclaration = resolved.getFirst();
     
@@ -209,7 +207,7 @@ public class AntDomPropertyReference extends PsiPolyVariantReferenceBase<PsiElem
           result.add(new MyResolveResult(param, null));
         }
       }
-      return ContainerUtil.toArray(result, new ResolveResult[result.size()]);
+      return result.toArray(new ResolveResult[result.size()]);
     }
   }
 }

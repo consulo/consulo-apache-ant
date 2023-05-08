@@ -17,9 +17,9 @@ package com.intellij.lang.ant.config;
 
 import javax.annotation.Nullable;
 import com.intellij.lang.ant.config.impl.BuildTask;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.navigation.OpenFileDescriptor;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 
 public interface AntBuildTargetBase extends AntBuildTarget {
   AntBuildTarget[] EMPTY_ARRAY = new AntBuildTarget[0];

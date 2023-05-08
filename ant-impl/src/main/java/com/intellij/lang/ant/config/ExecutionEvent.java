@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.config;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.InvalidDataException;
+import consulo.project.Project;
+import consulo.util.xml.serializer.InvalidDataException;
 import org.jdom.Element;
 
 public abstract class ExecutionEvent {
@@ -24,7 +24,8 @@ public abstract class ExecutionEvent {
 
   public abstract String getPresentableName();
 
-  public void readExternal(Element element, Project project) throws InvalidDataException{
+  public void readExternal(Element element, Project project) throws InvalidDataException
+  {
   }
 
   public String writeExternal(Element element, Project project) {

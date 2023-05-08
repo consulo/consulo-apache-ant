@@ -25,10 +25,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.intellij.lang.ant.AntFilesProvider;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.GenericAttributeValue;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.Convert;
+import consulo.xml.util.xml.GenericAttributeValue;
 
 /**
  * @author Eugene Zhuravlev

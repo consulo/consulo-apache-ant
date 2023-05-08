@@ -18,13 +18,12 @@ package com.intellij.lang.ant.config.impl;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.*;
 import com.intellij.lang.ant.config.execution.ExecutionHandler;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.StringBuilderSpinAllocator;
-import javax.annotation.Nullable;
+import consulo.dataContext.DataContext;
+import consulo.navigation.OpenFileDescriptor;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,18 +74,13 @@ public class MetaTarget implements AntBuildTargetBase {
     if (modelName == null || modelName.length() == 0) {
       return null;
     }
-    final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-    try {
-      builder.append(AntConfiguration.getActionIdPrefix(myBuildFile.getProject()));
-      builder.append("_");
-      builder.append(modelName);
-      builder.append('_');
-      builder.append(getName());
-      return builder.toString();
-    }
-    finally {
-      StringBuilderSpinAllocator.dispose(builder);
-    }
+    final StringBuilder builder = new StringBuilder();
+    builder.append(AntConfiguration.getActionIdPrefix(myBuildFile.getProject()));
+    builder.append("_");
+    builder.append(modelName);
+    builder.append('_');
+    builder.append(getName());
+    return builder.toString();
   }
 
   public AntBuildModelBase getModel() {

@@ -15,12 +15,12 @@
  */
 package com.intellij.lang.ant;
 
-import com.intellij.buildfiles.ForcedBuildFileAttribute;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.newvfs.FileAttribute;
-import com.intellij.openapi.vfs.newvfs.NewVirtualFile;
+import consulo.ide.impl.idea.buildfiles.ForcedBuildFileAttribute;
+import consulo.logging.Logger;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.FileAttribute;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.NewVirtualFile;
 import consulo.util.dataholder.Key;
 
 import java.io.DataInputStream;
@@ -30,7 +30,8 @@ import java.io.IOException;
  * @author Eugene Zhuravlev
  *         Date: Apr 30, 2008
  */
-public class ForcedAntFileAttribute extends FileAttribute {
+public class ForcedAntFileAttribute extends FileAttribute
+{
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.ForcedAntFileAttribute");
 
   private static final String ANT_ID = "ant";
@@ -42,13 +43,13 @@ public class ForcedAntFileAttribute extends FileAttribute {
     super("_forced_ant_attribute_", 1, true);
   }
 
-  public static boolean isAntFile(VirtualFile file) {
-    String id = ForcedBuildFileAttribute.getFrameworkIdOfBuildFile(file);
-    return ANT_ID.equals(id) || (StringUtil.isEmpty(id) && isAntFileOld(file));
+  public static boolean isAntFile(consulo.virtualFileSystem.VirtualFile file) {
+    String id = consulo.ide.impl.idea.buildfiles.ForcedBuildFileAttribute.getFrameworkIdOfBuildFile(file);
+    return ANT_ID.equals(id) || (consulo.util.lang.StringUtil.isEmpty(id) && isAntFileOld(file));
   }
 
-  public static boolean mayBeAntFile(VirtualFile file) {
-    String id = ForcedBuildFileAttribute.getFrameworkIdOfBuildFile(file);
+  public static boolean mayBeAntFile(consulo.virtualFileSystem.VirtualFile file) {
+    String id = consulo.ide.impl.idea.buildfiles.ForcedBuildFileAttribute.getFrameworkIdOfBuildFile(file);
     return StringUtil.isEmpty(id) || ANT_ID.equals(id);
   }
 
@@ -74,6 +75,6 @@ public class ForcedAntFileAttribute extends FileAttribute {
   }
 
   public static void forceAntFile(VirtualFile file, boolean value) {
-    ForcedBuildFileAttribute.forceFileToFramework(file, ANT_ID, value);
+    consulo.ide.impl.idea.buildfiles.ForcedBuildFileAttribute.forceFileToFramework(file, ANT_ID, value);
   }
 }

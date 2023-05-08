@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.rt.ant.execution;
+package consulo.apache.ant.rt.common;
+
+import consulo.apache.ant.rt.common.PacketWriter;
+import consulo.apache.ant.rt.common.SegmentedStream;
 
 public class Packet extends PacketWriter
 {

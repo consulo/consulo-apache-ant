@@ -17,8 +17,8 @@ package com.intellij.lang.ant.segments;
 
 import java.util.ArrayList;
 
-import com.intellij.rt.ant.execution.PoolOfDelimiters;
-import com.intellij.util.ArrayUtil;
+import consulo.apache.ant.rt.common.PoolOfDelimiters;
+import consulo.util.collection.ArrayUtil;
 
 public class SegmentReader
 {

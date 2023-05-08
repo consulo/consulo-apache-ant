@@ -15,23 +15,23 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import com.intellij.lang.ant.AntBundle;
+import com.intellij.lang.ant.segments.SegmentReader;
+import consulo.process.local.BaseProcessHandler;
+import consulo.project.Project;
+import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.MessagesEx;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-
-import com.intellij.execution.process.OSProcessHandler;
-import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.segments.SegmentReader;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.ex.MessagesEx;
 
 class InputRequestHandler {
 
   private InputRequestHandler() {
   }
 
-  public static void processInput(Project project, SegmentReader reader, OSProcessHandler handler) throws IOException {
+  public static void processInput(Project project, SegmentReader reader, BaseProcessHandler<?> handler) throws IOException {
     String input = askUser(reader, project);
     Charset charset = handler.getCharset();
     OutputStream outputStream = handler.getProcessInput();

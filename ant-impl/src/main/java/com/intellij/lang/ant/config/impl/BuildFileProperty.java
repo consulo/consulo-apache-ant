@@ -15,15 +15,16 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import consulo.util.xml.serializer.JDOMExternalizable;
+import consulo.util.xml.serializer.annotation.Tag;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.JDOMExternalizable;
-import com.intellij.util.xmlb.annotations.Attribute;
-import com.intellij.util.xmlb.annotations.Tag;
+import consulo.util.lang.Comparing;
+import consulo.util.xml.serializer.annotation.Attribute;
 
 @Tag("build-property")
-public final class BuildFileProperty implements JDOMExternalizable {
+public final class BuildFileProperty implements JDOMExternalizable
+{
   @NonNls private static final String NAME = "name";
   @NonNls private static final String VALUE = "value";
   private String myPropertyName;

@@ -15,13 +15,13 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.util.config.AbstractProperty;
-import com.intellij.util.config.ExternalizablePropertyContainer;
+import consulo.application.ApplicationManager;
+import consulo.component.util.config.AbstractProperty;
+import consulo.component.util.config.ExternalizablePropertyContainer;
+import consulo.logging.Logger;
 
 public class CompositePropertyContainer extends AbstractProperty.AbstractPropertyContainer {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.CompositePropertyContainer");
+  private static final Logger LOG = Logger.getInstance(CompositePropertyContainer.class);
   private final AbstractProperty.AbstractPropertyContainer[] myContainers;
 
   public CompositePropertyContainer(AbstractProperty.AbstractPropertyContainer[] containers) {

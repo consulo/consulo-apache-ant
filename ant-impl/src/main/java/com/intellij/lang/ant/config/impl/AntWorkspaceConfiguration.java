@@ -18,40 +18,53 @@ package com.intellij.lang.ant.config.impl;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntConfiguration;
-import com.intellij.openapi.components.*;
-import com.intellij.openapi.components.StoragePathMacros;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.DefaultJDOMExternalizer;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.WriteExternalException;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.component.persist.PersistentStateComponent;
+import consulo.component.persist.State;
+import consulo.component.persist.Storage;
+import consulo.component.persist.StoragePathMacros;
+import consulo.ide.ServiceManager;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.util.lang.Comparing;
+import consulo.util.xml.serializer.DefaultJDOMExternalizer;
+import consulo.util.xml.serializer.InvalidDataException;
+import consulo.util.xml.serializer.WriteExternalException;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.Nullable;
-
 @State(
-  name="antWorkspaceConfiguration",
-  storages= {
+  name = "antWorkspaceConfiguration",
+  storages = {
     @Storage(
       file = StoragePathMacros.WORKSPACE_FILE
     )}
 )
+@ServiceAPI(ComponentScope.PROJECT)
+@ServiceImpl
+@Singleton
 public class AntWorkspaceConfiguration implements PersistentStateComponent<Element> {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntWorkspaceConfiguration");
+  private static final Logger LOG = Logger.getInstance(AntWorkspaceConfiguration.class);
   private final Project myProject;
-  @NonNls private static final String BUILD_FILE = "buildFile";
-  @NonNls private static final String URL = "url";
+  @NonNls
+  private static final String BUILD_FILE = "buildFile";
+  @NonNls
+  private static final String URL = "url";
   private final AtomicReference<Element> myProperties = new AtomicReference<Element>(null);
 
   public boolean IS_AUTOSCROLL_TO_SOURCE;
   public boolean FILTER_TARGETS;
   public boolean MODULE_GROUPING;
 
+  @Inject
   public AntWorkspaceConfiguration(Project project) {
     myProject = project;
   }
@@ -62,7 +75,7 @@ public class AntWorkspaceConfiguration implements PersistentStateComponent<Eleme
       writeExternal(e);
       return e;
     }
-    catch (WriteExternalException e1) {
+    catch (consulo.util.xml.serializer.WriteExternalException e1) {
       LOG.error(e1);
       return null;
     }

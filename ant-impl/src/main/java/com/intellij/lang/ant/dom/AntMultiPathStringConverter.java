@@ -15,28 +15,23 @@
  */
 package com.intellij.lang.ant.dom;
 
+import consulo.apache.ant.util.PathTokenizer;
+import consulo.application.util.function.Computable;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.util.collection.ContainerUtil;
+import consulo.xml.util.xml.*;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
-import consulo.apache.ant.util.PathTokenizer;
-import com.intellij.openapi.util.Computable;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.xml.ConvertContext;
-import com.intellij.util.xml.Converter;
-import com.intellij.util.xml.CustomReferenceConverter;
-import com.intellij.util.xml.GenericAttributeValue;
-import com.intellij.util.xml.GenericDomValue;
-
 /**
  * @author Eugene Zhuravlev
- *         Date: May 25, 2010
+ * Date: May 25, 2010
  */
 public class AntMultiPathStringConverter extends Converter<List<File>> implements CustomReferenceConverter<List<File>> {
 
@@ -58,9 +53,10 @@ public class AntMultiPathStringConverter extends Converter<List<File>> implement
         if (basedirComputable == null) {
           basedirComputable = new Computable<String>() {
             final String myBaseDir;
+
             {
               final AntDomProject antProject = getEffectiveAntProject(attribValue);
-              myBaseDir = antProject != null? antProject.getProjectBasedirPath() : null;
+              myBaseDir = antProject != null ? antProject.getProjectBasedirPath() : null;
             }
 
             public String compute() {
@@ -96,15 +92,17 @@ public class AntMultiPathStringConverter extends Converter<List<File>> implement
   }
 
   @Nonnull
-  public PsiReference[] createReferences(GenericDomValue<List<File>> genericDomValue, PsiElement element, ConvertContext context) {
+  public consulo.language.psi.PsiReference[] createReferences(GenericDomValue<List<File>> genericDomValue,
+                                                              PsiElement element,
+                                                              ConvertContext context) {
     final GenericAttributeValue attributeValue = (GenericAttributeValue)genericDomValue;
 
     final String cpString = genericDomValue.getRawText();
     if (cpString == null || cpString.length() == 0) {
-      return PsiReference.EMPTY_ARRAY;
+      return consulo.language.psi.PsiReference.EMPTY_ARRAY;
     }
 
-    final List<PsiReference> result = new ArrayList<PsiReference>();
+    final List<consulo.language.psi.PsiReference> result = new ArrayList<consulo.language.psi.PsiReference>();
     final PathTokenizer pathTokenizer = new PathTokenizer(cpString);
     int searchFromIndex = 0;
     while (pathTokenizer.hasMoreTokens()) {

@@ -15,17 +15,17 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import com.intellij.ide.util.treeView.*;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.AntConfigurationListener;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.util.ProgressIndicatorBase;
-import com.intellij.openapi.progress.util.ProgressIndicatorUtils;
-import com.intellij.openapi.project.Project;
-import com.intellij.util.ui.tree.TreeUtil;
-import javax.annotation.Nonnull;
+import consulo.project.Project;
+import consulo.ui.ex.awt.tree.AbstractTreeBuilder;
+import consulo.ui.ex.awt.tree.AbstractTreeUi;
+import consulo.ui.ex.awt.tree.TreeBuilderUtil;
+import consulo.ui.ex.awt.tree.TreeUtil;
+import consulo.ui.ex.tree.IndexComparator;
+import consulo.ui.ex.tree.NodeDescriptor;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
@@ -61,14 +61,14 @@ final class AntExplorerTreeBuilder extends AbstractTreeBuilder {
       config.removeAntConfigurationListener(myAntBuildListener);
       myConfig = null;
     }
-    
+
     final ExpandedStateUpdater expansionListener = myExpansionListener;
     final JTree tree = getTree();
     if (expansionListener != null && tree != null) {
       tree.removeTreeExpansionListener(expansionListener);
       myExpansionListener = null;
     }
-    
+
     super.dispose();
   }
 
@@ -90,10 +90,10 @@ final class AntExplorerTreeBuilder extends AbstractTreeBuilder {
     queueUpdate();
   }
 
-  @Nonnull
-  protected ProgressIndicator createProgressIndicator() {
-    return ProgressIndicatorUtils.forceWriteActionPriority(new ProgressIndicatorBase(), this);
-  }
+//  @Nonnull
+//  protected ProgressIndicator createProgressIndicator() {
+//    return ProgressIndicatorUtils.forceWriteActionPriority(new ProgressIndicatorBase(), this);
+//  }
 
   private final class ConfigurationListener implements AntConfigurationListener {
     public void configurationLoaded() {

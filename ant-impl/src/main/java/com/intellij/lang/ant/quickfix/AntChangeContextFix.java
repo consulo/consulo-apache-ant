@@ -15,19 +15,20 @@
  */
 package com.intellij.lang.ant.quickfix;
 
-import com.intellij.codeInsight.daemon.impl.HectorComponent;
-import com.intellij.codeInsight.intention.impl.BaseIntentionAction;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.IncorrectOperationException;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.EditorPopupHelper;
+import consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent;
+import consulo.language.editor.intention.BaseIntentionAction;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: May 12, 2008
+ * Date: May 12, 2008
  */
 public class AntChangeContextFix extends BaseIntentionAction {
   public AntChangeContextFix() {
@@ -54,15 +55,12 @@ public class AntChangeContextFix extends BaseIntentionAction {
     return true;
   }
 
-  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file) throws IncorrectOperationException {
-    final HectorComponent component = new HectorComponent(file);
+  public void invoke(@Nonnull final Project project,
+                     final Editor editor,
+                     final consulo.language.psi.PsiFile file) throws IncorrectOperationException {
+    final consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent component = new HectorComponent(file);
     //final JComponent focusComponent = findComponentToFocus(component);
-    component.showComponent(JBPopupFactory.getInstance().guessBestPopupLocation(editor));
-    //SwingUtilities.invokeLater(new Runnable() {
-    //  public void run() {
-    //    (focusComponent != null? focusComponent : component).requestFocus();
-    //  }
-    //});
+    component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
   }
 
   //@Nullable

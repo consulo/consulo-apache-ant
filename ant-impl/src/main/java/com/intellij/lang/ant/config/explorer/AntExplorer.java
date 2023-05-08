@@ -15,14 +15,6 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import com.intellij.execution.RunManagerAdapter;
-import com.intellij.execution.RunManagerEx;
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.CommonActionsManager;
-import com.intellij.ide.DataManager;
-import com.intellij.ide.TreeExpander;
-import com.intellij.ide.dnd.FileCopyPasteUtil;
-import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.*;
 import com.intellij.lang.ant.config.actions.AntBuildFilePropertiesAction;
@@ -30,35 +22,48 @@ import com.intellij.lang.ant.config.actions.RemoveBuildFileAction;
 import com.intellij.lang.ant.config.execution.ExecutionHandler;
 import com.intellij.lang.ant.config.impl.*;
 import com.intellij.lang.ant.config.impl.configuration.BuildFilePropertiesPanel;
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.fileChooser.FileChooser;
-import com.intellij.openapi.fileChooser.FileChooserDescriptor;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.keymap.Keymap;
-import com.intellij.openapi.keymap.KeymapManagerListener;
-import com.intellij.openapi.keymap.ex.KeymapManagerEx;
-import com.intellij.openapi.keymap.impl.ui.EditKeymapsDialog;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.SimpleToolWindowPanel;
-import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.*;
-import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IconUtil;
-import com.intellij.util.StringBuilderSpinAllocator;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.ui.tree.TreeUtil;
-import com.intellij.util.xml.DomEventListener;
-import com.intellij.util.xml.DomManager;
-import com.intellij.util.xml.events.DomEvent;
 import consulo.apache.ant.config.actions.AntGroupManagerActionGroup;
 import consulo.apache.ant.config.actions.RemoveGroupsAction;
+import consulo.application.AllIcons;
+import consulo.application.ApplicationManager;
+import consulo.dataContext.DataContext;
+import consulo.dataContext.DataManager;
+import consulo.dataContext.DataProvider;
+import consulo.disposer.Disposable;
+import consulo.disposer.Disposer;
+import consulo.execution.event.RunManagerListener;
+import consulo.fileChooser.FileChooserDescriptor;
+import consulo.fileChooser.IdeaFileChooser;
+import consulo.ide.impl.idea.ide.dnd.FileCopyPasteUtil;
+import consulo.language.editor.PlatformDataKeys;
+import consulo.navigation.OpenFileDescriptor;
+import consulo.navigation.OpenFileDescriptorFactory;
+import consulo.platform.base.icon.PlatformIconGroup;
+import consulo.project.Project;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ui.ex.TreeExpander;
+import consulo.ui.ex.action.*;
+import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.PopupHandler;
+import consulo.ui.ex.awt.ScrollPaneFactory;
+import consulo.ui.ex.awt.SimpleToolWindowPanel;
+import consulo.ui.ex.awt.event.DoubleClickListener;
+import consulo.ui.ex.awt.speedSearch.TreeSpeedSearch;
+import consulo.ui.ex.awt.tree.ColoredTreeCellRenderer;
+import consulo.ui.ex.awt.tree.Tree;
+import consulo.ui.ex.awt.tree.TreeUtil;
+import consulo.ui.ex.keymap.Keymap;
+import consulo.ui.ex.keymap.KeymapManager;
+import consulo.ui.ex.keymap.event.KeymapManagerListener;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
 import consulo.util.dataholder.Key;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+import consulo.xml.ide.highlighter.XmlFileType;
+import consulo.xml.util.xml.DomEventListener;
+import consulo.xml.util.xml.DomManager;
+import consulo.xml.util.xml.events.DomEvent;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nullable;
@@ -156,7 +161,9 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
         myBuilder.queueUpdate();
       }
     }, this);
-    RunManagerEx.getInstanceEx(myProject).addRunManagerListener(new RunManagerAdapter() {
+
+    myProject.getMessageBus().connect().subscribe(RunManagerListener.class, new RunManagerListener() {
+      @Override
       public void beforeRunTasksChanged() {
         myBuilder.queueUpdate();
       }
@@ -216,7 +223,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
     final FileChooserDescriptor descriptor = createXmlDescriptor();
     descriptor.setTitle(AntBundle.message("select.ant.build.file.dialog.title"));
     descriptor.setDescription(AntBundle.message("select.ant.build.file.dialog.description"));
-    final VirtualFile[] files = FileChooser.chooseFiles(descriptor, myProject, null);
+    final VirtualFile[] files = IdeaFileChooser.chooseFiles(descriptor, myProject, null);
     addBuildFile(files);
   }
 
@@ -230,8 +237,8 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
         if (antConfiguration == null) {
           return;
         }
-        final List<VirtualFile> ignoredFiles = new ArrayList<VirtualFile>();
-        for (VirtualFile file : files) {
+        final List<VirtualFile> ignoredFiles = new ArrayList<consulo.virtualFileSystem.VirtualFile>();
+        for (consulo.virtualFileSystem.VirtualFile file : files) {
           try {
             antConfiguration.addBuildFile(file);
           }
@@ -241,19 +248,14 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
         }
         if (ignoredFiles.size() != 0) {
           String messageText;
-          final StringBuilder message = StringBuilderSpinAllocator.alloc();
-          try {
-            String separator = "";
-            for (final VirtualFile virtualFile : ignoredFiles) {
-              message.append(separator);
-              message.append(virtualFile.getPresentableUrl());
-              separator = "\n";
-            }
-            messageText = message.toString();
+          final StringBuilder message = new StringBuilder();
+          String separator = "";
+          for (final consulo.virtualFileSystem.VirtualFile virtualFile : ignoredFiles) {
+            message.append(separator);
+            message.append(virtualFile.getPresentableUrl());
+            separator = "\n";
           }
-          finally {
-            StringBuilderSpinAllocator.dispose(message);
-          }
+          messageText = message.toString();
           Messages.showWarningDialog(myProject, messageText, AntBundle.message("cannot.add.ant.files.dialog.title"));
         }
       }
@@ -314,7 +316,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
       if (userObject instanceof AntTargetNodeDescriptor) {
         buildFileNodeDescriptor = (AntBuildFileNodeDescriptor)((DefaultMutableTreeNode)node.getParent()).getUserObject();
       }
-      else if (userObject instanceof AntBuildFileNodeDescriptor){
+      else if (userObject instanceof AntBuildFileNodeDescriptor) {
         buildFileNodeDescriptor = (AntBuildFileNodeDescriptor)userObject;
       }
       else {
@@ -336,7 +338,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
       }
       final AntBuildTarget target = ((AntTargetNodeDescriptor)userObject).getTarget();
       if (target instanceof MetaTarget) {
-        ContainerUtil.addAll(targets, ((MetaTarget)target).getTargetNames());
+        consulo.util.collection.ContainerUtil.addAll(targets, ((MetaTarget)target).getTargetNames());
       }
       else {
         targets.add(target.getName());
@@ -360,7 +362,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
   }
 
   public boolean isBuildFileSelected() {
-    if( myProject == null) return false;
+    if (myProject == null) return false;
     final AntBuildFileBase file = getCurrentBuildFile();
     return file != null && file.exists();
   }
@@ -457,11 +459,11 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
         }
       }
       if (file.isValid()) {
-        return new OpenFileDescriptor(myProject, file);
+        return OpenFileDescriptorFactory.getInstance(myProject).builder(file).build();
       }
     }
     else if (PlatformDataKeys.TREE_EXPANDER == dataId) {
-      return myProject != null? myTreeExpander : null;
+      return myProject != null ? myTreeExpander : null;
     }
     else if (PlatformDataKeys.VIRTUAL_FILE_ARRAY == dataId) {
       final TreePath[] paths = myTree.getSelectionPaths();
@@ -490,14 +492,14 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
       if (result.size() == 0) {
         return null;
       }
-      return VfsUtil.toVirtualFileArray(result);
+      return VirtualFileUtil.toVirtualFileArray(result);
     }
     return super.getData(dataId);
   }
 
   public static FileChooserDescriptor createXmlDescriptor() {
-    return new FileChooserDescriptor(true, false, false, false, false, true){
-      public boolean isFileVisible(VirtualFile file, boolean showHiddenFiles) {
+    return new FileChooserDescriptor(true, false, false, false, false, true) {
+      public boolean isFileVisible(consulo.virtualFileSystem.VirtualFile file, boolean showHiddenFiles) {
         boolean b = super.isFileVisible(file, showHiddenFiles);
         if (!file.isDirectory()) {
           b &= XmlFileType.INSTANCE.equals(file.getFileType());
@@ -528,7 +530,9 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
 
   private final class AddAction extends AnAction {
     public AddAction() {
-      super(AntBundle.message("add.ant.file.action.name"), AntBundle.message("add.ant.file.action.description"), IconUtil.getAddIcon());
+      super(AntBundle.message("add.ant.file.action.name"),
+            AntBundle.message("add.ant.file.action.description"),
+            PlatformIconGroup.generalAdd());
     }
 
     public void actionPerformed(AnActionEvent e) {
@@ -538,8 +542,9 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
 
   private final class RemoveAction extends AnAction {
     public RemoveAction() {
-      super(AntBundle.message("remove.ant.file.action.name"), AntBundle.message("remove.ant.file.action.description"),
-            IconUtil.getRemoveIcon());
+      super(AntBundle.message("remove.ant.file.action.name"),
+            AntBundle.message("remove.ant.file.action.description"),
+            PlatformIconGroup.generalRemove());
     }
 
     public void actionPerformed(AnActionEvent e) {
@@ -570,7 +575,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
       else {
         final TreePath[] paths = myTree.getSelectionPaths();
         if (paths != null && paths.length == 1 &&
-            ((DefaultMutableTreeNode)paths[0].getLastPathComponent()).getUserObject() instanceof AntBuildFileNodeDescriptor) {
+          ((DefaultMutableTreeNode)paths[0].getLastPathComponent()).getUserObject() instanceof AntBuildFileNodeDescriptor) {
           presentation.setText(AntBundle.message("run.ant.build.action.name"));
         }
         else {
@@ -605,7 +610,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
 
   private final class ShowModuleGrouping extends ToggleAction {
     public ShowModuleGrouping() {
-      super("Module grouping", "Module grouping",AllIcons.ObjectBrowser.ShowModules);
+      super("Module grouping", "Module grouping", AllIcons.ObjectBrowser.ShowModules);
     }
 
     public boolean isSelected(AnActionEvent event) {
@@ -680,7 +685,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
 
     public CreateMetaTargetAction() {
       super(AntBundle.message("ant.create.meta.target.action.name"), AntBundle.message("ant.create.meta.target.action.description"), null
-/*IconLoader.getIcon("/actions/execute.png")*/);
+        /*IconLoader.getIcon("/actions/execute.png")*/);
     }
 
     public void actionPerformed(AnActionEvent e) {
@@ -707,11 +712,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
     public RemoveMetaTargetsOrBuildFileAction() {
       super(AntBundle.message("remove.meta.targets.action.name"), AntBundle.message("remove.meta.targets.action.description"), null);
       registerCustomShortcutSet(new CustomShortcutSet(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)), myTree);
-      Disposer.register(AntExplorer.this, new Disposable() {
-        public void dispose() {
-          RemoveMetaTargetsOrBuildFileAction.this.unregisterCustomShortcutSet(myTree);
-        }
-      });
+      Disposer.register(AntExplorer.this, () -> RemoveMetaTargetsOrBuildFileAction.this.unregisterCustomShortcutSet(myTree));
       myTree.registerKeyboardAction(new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
           doAction();
@@ -814,7 +815,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
     }
 
     public void actionPerformed(AnActionEvent e) {
-      new EditKeymapsDialog(myProject, myActionId).show();
+      new consulo.ide.impl.idea.openapi.keymap.impl.ui.EditKeymapsDialog(myProject, myActionId).show();
     }
 
     public void update(AnActionEvent e) {
@@ -826,7 +827,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
     private Keymap myCurrentKeymap = null;
 
     public KeymapListener() {
-      final KeymapManagerEx keymapManager = KeymapManagerEx.getInstanceEx();
+      final KeymapManager keymapManager = KeymapManager.getInstance();
       final Keymap activeKeymap = keymapManager.getActiveKeymap();
       listenTo(activeKeymap);
       keymapManager.addKeymapManagerListener(this);
@@ -857,7 +858,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
 
     public void stopListen() {
       listenTo(null);
-      KeymapManagerEx.getInstanceEx().removeKeymapManagerListener(this);
+      KeymapManager.getInstance().removeKeymapManagerListener(this);
     }
   }
 
@@ -881,12 +882,12 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
       List<VirtualFile> virtualFileList = new ArrayList<VirtualFile>();
       final List<File> fileList = FileCopyPasteUtil.getFileList(support.getTransferable());
       if (fileList != null) {
-        for (File file : fileList ) {
-          ContainerUtil.addIfNotNull(virtualFileList, VfsUtil.findFileByIoFile(file, true));
+        for (File file : fileList) {
+          ContainerUtil.addIfNotNull(virtualFileList, VirtualFileUtil.findFileByIoFile(file, true));
         }
       }
 
-      return VfsUtil.toVirtualFileArray(virtualFileList);
+      return VirtualFileUtil.toVirtualFileArray(virtualFileList);
     }
   }
 }

@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config.impl.artifacts;
 
-import com.intellij.util.config.AbstractProperty;
+import consulo.component.util.config.AbstractProperty;
 
 /**
  * @author nik

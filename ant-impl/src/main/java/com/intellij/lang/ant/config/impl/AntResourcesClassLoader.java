@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import com.intellij.openapi.progress.ProgressManager;
+import consulo.application.progress.ProgressManager;
 import consulo.util.nodep.classloader.UrlClassLoader;
 
 import java.net.URL;
@@ -25,44 +25,38 @@ import java.util.Set;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: Oct 21, 2008
+ * Date: Oct 21, 2008
  */
-public class AntResourcesClassLoader extends UrlClassLoader
-{
-	private final Set<String> myMisses = new HashSet<String>();
+public class AntResourcesClassLoader extends UrlClassLoader {
+  private final Set<String> myMisses = new HashSet<String>();
 
-	public AntResourcesClassLoader(final List<URL> urls, final ClassLoader parentLoader, final boolean canLockJars, final boolean canUseCache)
-	{
-		super(build().urls(urls).parent(parentLoader).allowLock(canLockJars).useCache(canUseCache).noPreload());
-	}
+  public AntResourcesClassLoader(final List<URL> urls,
+                                 final ClassLoader parentLoader,
+                                 final boolean canLockJars,
+                                 final boolean canUseCache) {
+    super(build().urls(urls).parent(parentLoader).allowLock(canLockJars).useCache(canUseCache).noPreload());
+  }
 
-	protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException
-	{
-		if(myMisses.contains(name))
-		{
-			throw new ClassNotFoundException(name)
-			{
-				@Override
-				public synchronized Throwable fillInStackTrace()
-				{
-					return this;
-				}
-			};
-		}
-		return super.loadClass(name, resolve);
-	}
+  protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
+    if (myMisses.contains(name)) {
+      throw new ClassNotFoundException(name) {
+        @Override
+        public synchronized Throwable fillInStackTrace() {
+          return this;
+        }
+      };
+    }
+    return super.loadClass(name, resolve);
+  }
 
-	protected Class findClass(final String name) throws ClassNotFoundException
-	{
-		ProgressManager.checkCanceled();
-		try
-		{
-			return super.findClass(name);
-		}
-		catch(ClassNotFoundException e)
-		{
-			myMisses.add(name);
-			throw e;
-		}
-	}
+  protected Class findClass(final String name) throws ClassNotFoundException {
+    ProgressManager.checkCanceled();
+    try {
+      return super.findClass(name);
+    }
+    catch (ClassNotFoundException e) {
+      myMisses.add(name);
+      throw e;
+    }
+  }
 }

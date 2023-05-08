@@ -18,10 +18,10 @@ package com.intellij.lang.ant.dom;
 import java.util.List;
 
 import consulo.apache.ant.ApacheAntClasses;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.GenericAttributeValue;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.Convert;
+import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.language.psi.PsiFileSystemItem;
 
 /**
  * @author Eugene Zhuravlev
@@ -34,7 +34,7 @@ public abstract class AntDomTypeDef extends AntDomCustomClasspathComponent{
 
   @Attribute("file")
   @Convert(value = AntPathConverter.class)
-  public abstract GenericAttributeValue<PsiFileSystemItem> getFile();
+  public abstract GenericAttributeValue<consulo.language.psi.PsiFileSystemItem> getFile();
 
   @Attribute("resource")
   @Convert(value = AntPathConverter.class)

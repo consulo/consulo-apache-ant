@@ -15,23 +15,23 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildModelBase;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ui.util.CompositeAppearance;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.ui.SimpleColoredComponent;
-import com.intellij.ui.SimpleTextAttributes;
 import consulo.apache.ant.ApacheAntIcons;
+import consulo.ide.impl.idea.openapi.roots.ui.util.CompositeAppearance;
+import consulo.project.Project;
+import consulo.ui.ex.ColoredTextContainer;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ui.ex.tree.NodeDescriptor;
+import consulo.util.lang.Comparing;
+
+import javax.annotation.Nonnull;
 
 public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
 
   private final AntBuildFileBase myBuildFile;
-  private CompositeAppearance myAppearance;
+  private consulo.ide.impl.idea.openapi.roots.ui.util.CompositeAppearance myAppearance;
 
   public AntBuildFileNodeDescriptor(Project project, NodeDescriptor parentDescriptor, AntBuildFileBase buildFile) {
     super(project, parentDescriptor);
@@ -50,7 +50,7 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
     setIcon(ApacheAntIcons.AntInstallation);
 
     CompositeAppearance oldAppearance = myAppearance;
-    myAppearance = new CompositeAppearance();
+    myAppearance = new consulo.ide.impl.idea.openapi.roots.ui.util.CompositeAppearance();
     myAppearance.getEnding().addText(myBuildFile.getPresentableName(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
     myAppearance.setIcon(getIcon());
     final AntBuildModelBase buildModel = myBuildFile.getModelIfRegistered();
@@ -61,7 +61,7 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
     return !Comparing.equal(myAppearance, oldAppearance);
   }
 
-  public void customize(@Nonnull SimpleColoredComponent component) {
+  public void customize(@Nonnull ColoredTextContainer component) {
     if (myAppearance != null) {
       myAppearance.customize(component);
     }

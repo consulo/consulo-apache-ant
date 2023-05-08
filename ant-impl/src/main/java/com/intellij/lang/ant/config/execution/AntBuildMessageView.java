@@ -15,40 +15,50 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import com.intellij.execution.testframework.Printable;
-import com.intellij.execution.testframework.Printer;
-import com.intellij.ide.CommonActionsManager;
-import com.intellij.ide.OccurenceNavigator;
-import com.intellij.ide.TreeExpander;
-import com.intellij.ide.actions.NextOccurenceToolbarAction;
-import com.intellij.ide.actions.PreviousOccurenceToolbarAction;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildListener;
 import com.intellij.lang.ant.config.actions.*;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.segments.OutputPacketProcessor;
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.project.ProjectManagerListener;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.Clock;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.wm.*;
-import com.intellij.openapi.wm.ex.IdeFocusTraversalPolicy;
-import com.intellij.problems.WolfTheProblemSolver;
-import com.intellij.ui.content.*;
-import com.intellij.util.Alarm;
-import com.intellij.util.text.DateFormatUtil;
+import consulo.application.ApplicationManager;
+import consulo.application.util.DateFormatUtil;
+import consulo.application.util.function.Computable;
+import consulo.dataContext.DataProvider;
+import consulo.disposer.Disposable;
+import consulo.disposer.Disposer;
+import consulo.execution.test.Printable;
+import consulo.execution.test.Printer;
+import consulo.ide.impl.idea.ide.actions.NextOccurenceToolbarAction;
+import consulo.ide.impl.idea.ide.actions.PreviousOccurenceToolbarAction;
+import consulo.language.editor.PlatformDataKeys;
+import consulo.language.editor.wolfAnalyzer.WolfTheProblemSolver;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.project.ProjectManager;
+import consulo.project.event.ProjectManagerListener;
+import consulo.project.ui.view.MessageView;
+import consulo.project.ui.wm.StatusBar;
+import consulo.project.ui.wm.ToolWindowId;
+import consulo.project.ui.wm.ToolWindowManager;
+import consulo.project.ui.wm.WindowManager;
+import consulo.ui.ex.OccurenceNavigator;
+import consulo.ui.ex.TreeExpander;
+import consulo.ui.ex.action.*;
+import consulo.ui.ex.awt.IdeFocusTraversalPolicy;
+import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.util.Alarm;
+import consulo.ui.ex.content.Content;
+import consulo.ui.ex.content.ContentFactory;
+import consulo.ui.ex.content.ContentManager;
+import consulo.ui.ex.content.event.ContentManagerAdapter;
+import consulo.ui.ex.content.event.ContentManagerEvent;
+import consulo.ui.ex.toolWindow.ToolWindow;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.Clock;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
@@ -59,7 +69,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public final class AntBuildMessageView extends JPanel implements DataProvider, OccurenceNavigator {
+public final class AntBuildMessageView extends JPanel implements DataProvider, OccurenceNavigator
+{
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.AntBuildMessageView");
 
   public enum MessageType {
@@ -232,7 +243,7 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
 
     // check if there are running instances of the same build file
 
-    MessageView ijMessageView = MessageView.SERVICE.getInstance(project);
+    MessageView ijMessageView = consulo.project.ui.view.MessageView.SERVICE.getInstance(project);
     Content[] contents = ijMessageView.getContentManager().getContents();
     for (Content content : contents) {
       if (content.isPinned()) {
@@ -271,7 +282,7 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
     String contentName = buildFile.getPresentableName();
     contentName = BUILD_CONTENT_NAME + " (" + contentName + ")";
 
-    final Content content = ContentFactory.SERVICE.getInstance().createContent(messageView.getComponent(), contentName, true);
+    final Content content = ContentFactory.getInstance().createContent(messageView.getComponent(), contentName, true);
     content.putUserData(KEY, messageView);
     ijMessageView.getContentManager().addContent(content);
     ijMessageView.getContentManager().setSelectedContent(content);
@@ -324,7 +335,7 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
   }
 
   private void close() {
-    MessageView messageView = MessageView.SERVICE.getInstance(myProject);
+    consulo.project.ui.view.MessageView messageView = consulo.project.ui.view.MessageView.SERVICE.getInstance(myProject);
     Content[] contents = messageView.getContentManager().getContents();
     for (Content content : contents) {
       if (content.getComponent() == this) {
@@ -526,7 +537,8 @@ public final class AntBuildMessageView extends JPanel implements DataProvider, O
     myTreeView.expandAll();
   }
 
-  private static final class CloseListener extends ContentManagerAdapter implements ProjectManagerListener {
+  private static final class CloseListener extends ContentManagerAdapter implements ProjectManagerListener
+  {
     private Content myContent;
     private boolean myCloseAllowed = false;
     private final ContentManager myContentManager;

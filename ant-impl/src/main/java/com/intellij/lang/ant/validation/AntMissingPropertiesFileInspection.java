@@ -20,10 +20,10 @@ import javax.annotation.Nonnull;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProperty;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.highlighting.DomElementAnnotationHolder;
-import com.intellij.util.xml.highlighting.DomHighlightingHelper;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.highlighting.DomElementAnnotationHolder;
+import consulo.xml.util.xml.highlighting.DomHighlightingHelper;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 

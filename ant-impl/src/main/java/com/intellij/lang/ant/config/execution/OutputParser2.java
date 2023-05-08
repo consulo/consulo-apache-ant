@@ -15,31 +15,26 @@
  */
 package com.intellij.lang.ant.config.execution;
 
+import com.intellij.lang.ant.config.AntBuildFile;
+import com.intellij.lang.ant.segments.*;
+import consulo.apache.ant.rt.common.PacketProcessor;
+import consulo.apache.ant.rt.common.AntLoggerConstants;
+import consulo.application.progress.ProgressIndicator;
+import consulo.execution.test.Printable;
+import consulo.execution.ui.console.ConsoleViewContentType;
+import consulo.logging.Logger;
+import consulo.process.local.BaseProcessHandler;
+import consulo.project.Project;
+import consulo.ui.ex.awt.MessagesEx;
+
 import java.io.IOException;
 
-import com.intellij.execution.process.OSProcessHandler;
-import com.intellij.execution.testframework.Printable;
-import com.intellij.execution.ui.ConsoleViewContentType;
-import com.intellij.lang.ant.config.AntBuildFile;
-import com.intellij.lang.ant.segments.DeferredActionsQueue;
-import com.intellij.lang.ant.segments.DeferredActionsQueueImpl;
-import com.intellij.lang.ant.segments.InputConsumer;
-import com.intellij.lang.ant.segments.OutputPacketProcessor;
-import com.intellij.lang.ant.segments.SegmentReader;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.ex.MessagesEx;
-import com.intellij.rt.ant.execution.PacketProcessor;
-import consulo.apache.ant.rt.AntLoggerConstants;
-
-final class OutputParser2 extends OutputParser implements PacketProcessor, InputConsumer, OutputPacketProcessor
-{
+final class OutputParser2 extends OutputParser implements PacketProcessor, InputConsumer, OutputPacketProcessor {
   private static final Logger LOG = Logger.getInstance("#com.intellij.ant.execution.OutputParser2");
   private int myLastPacketIndex = -1;
 
   private OutputParser2(Project project,
-                        OSProcessHandler processHandler,
+                        BaseProcessHandler<?> processHandler,
                         AntBuildMessageView errorsView,
                         ProgressIndicator progress,
                         String buildName) {
@@ -91,13 +86,17 @@ final class OutputParser2 extends OutputParser implements PacketProcessor, Input
   }
 
   public static OutputParser attachParser(final Project myProject,
-										  AntProcessHandler handler,
+                                          AntProcessWrapper handler,
                                           final AntBuildMessageView errorView,
                                           final ProgressIndicator progress,
                                           final AntBuildFile buildFile) {
-    final OutputParser2 parser = new OutputParser2(myProject, handler, errorView, progress, buildFile.getName());
+    final OutputParser2 parser = new OutputParser2(myProject,
+                                                   (BaseProcessHandler<?>)handler.getProcessHandler(),
+                                                   errorView,
+                                                   progress,
+                                                   buildFile.getName());
     final DeferredActionsQueue queue = new DeferredActionsQueueImpl();
-    handler.getErr().setPacketDispatcher(parser, queue);
+    //TODO handler.getErr().setPacketDispatcher(parser, queue);
     return parser;
   }
 }

@@ -15,84 +15,75 @@
  */
 package com.intellij.lang.ant.doc;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.ant.AntFilesProvider;
 import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.dom.AntDomElement;
 import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.lang.ant.dom.AntDomTarget;
-import com.intellij.lang.documentation.DocumentationProvider;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.pom.PomTarget;
-import com.intellij.pom.PomTargetPsiElement;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.util.StringBuilderSpinAllocator;
-import com.intellij.util.io.URLUtil;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.reflect.DomChildrenDescription;
-import consulo.fileTypes.ZipArchiveFileType;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.content.bundle.Sdk;
+import consulo.language.Language;
+import consulo.language.editor.documentation.LanguageDocumentationProvider;
+import consulo.language.pom.PomTarget;
+import consulo.language.pom.PomTargetPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.logging.Logger;
+import consulo.util.io.FileUtil;
+import consulo.util.io.URLUtil;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.archive.ZipArchiveFileType;
+import consulo.xml.lang.xml.XMLLanguage;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.util.xml.DomElement;
+import consulo.xml.util.xml.DomTarget;
+import consulo.xml.util.xml.reflect.DomChildrenDescription;
+import org.jetbrains.annotations.NonNls;
 
-public class AntDomDocumentationProvider implements DocumentationProvider {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.doc.AntDomDocumentationProvider");
-  
-  public String generateDoc(PsiElement element, PsiElement originalElement) {
+@ExtensionImpl
+public class AntDomDocumentationProvider implements LanguageDocumentationProvider {
+
+  private static final Logger LOG = Logger.getInstance(AntDomDocumentationProvider.class);
+
+  public String generateDoc(consulo.language.psi.PsiElement element, PsiElement originalElement) {
     final String mainDoc = getMainDocumentation(originalElement);
     final String additionalDoc = getAdditionalDocumentation(originalElement);
     if (mainDoc == null && additionalDoc == null) {
       return null;
     }
-    final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-    try {
-      if (additionalDoc != null) {
-        builder.append(additionalDoc);
-      }
-      if (mainDoc != null) {
-        builder.append(mainDoc);
-      }
-      return builder.toString();
+    final StringBuilder builder = new StringBuilder();
+    if (additionalDoc != null) {
+      builder.append(additionalDoc);
     }
-    finally {
-      StringBuilderSpinAllocator.dispose(builder);
+    if (mainDoc != null) {
+      builder.append(mainDoc);
     }
+    return builder.toString();
   }
 
   @Nullable
-  private static String getMainDocumentation(PsiElement elem) {
+  private static String getMainDocumentation(consulo.language.psi.PsiElement elem) {
     final VirtualFile helpFile = getHelpFile(elem);
     if (helpFile != null) {
-      try {
-        return VfsUtil.loadText(helpFile);
-      }
-      catch (IOException ignored) {
-      }
+      return helpFile.loadText().toString();
     }
     return null;
   }
-  
+
   @Nullable
-  private static String getAdditionalDocumentation(PsiElement elem) {
+  private static String getAdditionalDocumentation(consulo.language.psi.PsiElement elem) {
     final XmlTag xmlTag = PsiTreeUtil.getParentOfType(elem, XmlTag.class);
     if (xmlTag == null) {
       return null;
@@ -101,32 +92,27 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     if (antElement instanceof AntFilesProvider) {
       final List<File> list = ((AntFilesProvider)antElement).getFiles(new HashSet<AntFilesProvider>());
       if (list.size() > 0) {
-        final @NonNls StringBuilder builder = StringBuilderSpinAllocator.alloc();
-        try {
-          final XmlTag tag = antElement.getXmlTag();
-          if (tag != null) {
-            builder.append("<b>");
-            builder.append(tag.getName());
-            builder.append(":</b>");
-          }
-          for (File file : list) {
-            if (builder.length() > 0) {
-              builder.append("<br>");
-            }
-            builder.append(file.getPath());
-          }
-          return builder.toString();
+        final @NonNls StringBuilder builder = new StringBuilder();
+        final XmlTag tag = antElement.getXmlTag();
+        if (tag != null) {
+          builder.append("<b>");
+          builder.append(tag.getName());
+          builder.append(":</b>");
         }
-        finally {
-          StringBuilderSpinAllocator.dispose(builder);
+        for (File file : list) {
+          if (builder.length() > 0) {
+            builder.append("<br>");
+          }
+          builder.append(file.getPath());
         }
+        return builder.toString();
       }
     }
     return null;
   }
-  
+
   @Nullable
-  private static VirtualFile getHelpFile(final PsiElement element) {
+  private static consulo.virtualFileSystem.VirtualFile getHelpFile(final consulo.language.psi.PsiElement element) {
     final XmlTag xmlTag = PsiTreeUtil.getParentOfType(element, XmlTag.class);
     if (xmlTag == null) {
       return null;
@@ -148,7 +134,7 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     if (antHomeDir == null) {
       return null;
     }
-    
+
     @NonNls String path = antHomeDir + "/docs/manual";
     String url;
     if (new File(path).exists()) {
@@ -157,7 +143,8 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     else {
       path = antHomeDir + "/docs.zip";
       if (new File(path).exists()) {
-        url = VirtualFileManager.constructUrl(ZipArchiveFileType.PROTOCOL, FileUtil.toSystemIndependentName(path) + URLUtil.ARCHIVE_SEPARATOR + "docs/manual");
+        url = consulo.virtualFileSystem.VirtualFileManager.constructUrl(ZipArchiveFileType.PROTOCOL,
+                                                                        FileUtil.toSystemIndependentName(path) + URLUtil.ARCHIVE_SEPARATOR + "docs/manual");
       }
       else {
         return null;
@@ -168,16 +155,17 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     if (documentationRoot == null) {
       return null;
     }
-    
+
     return getHelpFile(antElement, documentationRoot);
   }
-  
-  public static final String[] DOC_FOLDER_NAMES = new String[] {
+
+  public static final String[] DOC_FOLDER_NAMES = new String[]{
     "Tasks", "Types", "CoreTasks", "OptionalTasks", "CoreTypes", "OptionalTypes"
   };
 
   @Nullable
-  private static VirtualFile getHelpFile(AntDomElement antElement, final VirtualFile documentationRoot) {
+  private static consulo.virtualFileSystem.VirtualFile getHelpFile(AntDomElement antElement,
+                                                                   final consulo.virtualFileSystem.VirtualFile documentationRoot) {
     final XmlTag xmlTag = antElement.getXmlTag();
     if (xmlTag == null) {
       return null;
@@ -185,14 +173,15 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     @NonNls final String helpFileShortName = "/" + xmlTag.getName() + ".html";
 
     for (String folderName : DOC_FOLDER_NAMES) {
-      final VirtualFile candidateHelpFile = documentationRoot.findFileByRelativePath(folderName + helpFileShortName);
+      final consulo.virtualFileSystem.VirtualFile candidateHelpFile =
+        documentationRoot.findFileByRelativePath(folderName + helpFileShortName);
       if (candidateHelpFile != null) {
         return candidateHelpFile;
       }
     }
 
-    if(antElement instanceof AntDomTarget|| antElement instanceof AntDomProject) {
-      final VirtualFile candidateHelpFile = documentationRoot.findFileByRelativePath("using.html");
+    if (antElement instanceof AntDomTarget || antElement instanceof AntDomProject) {
+      final consulo.virtualFileSystem.VirtualFile candidateHelpFile = documentationRoot.findFileByRelativePath("using.html");
       if (candidateHelpFile != null) {
         return candidateHelpFile;
       }
@@ -212,25 +201,20 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
           final String description = antTarget.getDescription().getRawText();
           if (description != null && description.length() > 0) {
             final String targetName = antTarget.getName().getRawText();
-            final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-            try {
-              builder.append("Target");
-              if (targetName != null) {
-                builder.append(" \"").append(targetName).append("\"");
-              }
-              final XmlElement xmlElement = antTarget.getXmlElement();
-              if (xmlElement != null) {
-                final PsiFile containingFile = xmlElement.getContainingFile();
-                if (containingFile != null) {
-                  final String fileName = containingFile.getName();
-                  builder.append(" [").append(fileName).append("]");
-                }
-              }
-              return builder.append(" ").append(description).toString();
+            final StringBuilder builder = new StringBuilder();
+            builder.append("Target");
+            if (targetName != null) {
+              builder.append(" \"").append(targetName).append("\"");
             }
-            finally {
-              StringBuilderSpinAllocator.dispose(builder);
+            final XmlElement xmlElement = antTarget.getXmlElement();
+            if (xmlElement != null) {
+              final PsiFile containingFile = xmlElement.getContainingFile();
+              if (containingFile != null) {
+                final String fileName = containingFile.getName();
+                builder.append(" [").append(fileName).append("]");
+              }
             }
+            return builder.append(" ").append(description).toString();
           }
         }
       }
@@ -247,20 +231,15 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
           final String elemName = description.getName();
           if (elemName != null) {
             final AntDomElement.Role role = description.getUserData(AntDomElement.ROLE);
-            final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-            try {
-              if (role == AntDomElement.Role.TASK) {
-                builder.append("Task ");
-              }
-              else if (role == AntDomElement.Role.DATA_TYPE) {
-                builder.append("Data structure ");
-              }
-              builder.append(elemName);
-              return builder.toString();
+            final StringBuilder builder = new StringBuilder();
+            if (role == AntDomElement.Role.TASK) {
+              builder.append("Task ");
             }
-            finally {
-              StringBuilderSpinAllocator.dispose(builder);
+            else if (role == AntDomElement.Role.DATA_TYPE) {
+              builder.append("Data structure ");
             }
+            builder.append(elemName);
+            return builder.toString();
           }
         }
       }
@@ -268,19 +247,17 @@ public class AntDomDocumentationProvider implements DocumentationProvider {
     return null;
   }
 
-  public List<String> getUrlFor(PsiElement element, PsiElement originalElement) {
-    final VirtualFile helpFile = getHelpFile(originalElement);
+  public List<String> getUrlFor(PsiElement element, consulo.language.psi.PsiElement originalElement) {
+    final consulo.virtualFileSystem.VirtualFile helpFile = getHelpFile(originalElement);
     if (helpFile == null || !(helpFile.getFileSystem() instanceof LocalFileSystem)) {
       return null;
     }
     return Collections.singletonList(helpFile.getUrl());
   }
 
-  public PsiElement getDocumentationElementForLookupItem(PsiManager psiManager, Object object, PsiElement element) {
-    return null;
-  }
-
-  public PsiElement getDocumentationElementForLink(PsiManager psiManager, String link, PsiElement context) {
-    return null;
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return XMLLanguage.INSTANCE;
   }
 }

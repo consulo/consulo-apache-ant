@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.GenericAttributeValue;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.GenericAttributeValue;
 
 import java.util.Collections;
 import java.util.List;

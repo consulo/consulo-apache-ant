@@ -26,14 +26,14 @@ import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildModel;
 import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.AntConfiguration;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.ArrayUtil;
+import consulo.module.Module;
+import consulo.module.ModuleManager;
+import consulo.language.util.ModuleUtilCore;
+import consulo.project.Project;
+import consulo.util.collection.ArrayUtil;
 import consulo.apache.ant.config.AntBuildFileGroup;
 import consulo.apache.ant.config.AntBuildFileGroupManager;
+import consulo.virtualFileSystem.VirtualFile;
 
 /**
  * @author VISTALL
@@ -146,6 +146,6 @@ public enum AntTreeView {
       return targets.toArray(new AntBuildTarget[targets.size()]);
     }
 
-    return ArrayUtil.EMPTY_OBJECT_ARRAY;
+    return consulo.util.collection.ArrayUtil.EMPTY_OBJECT_ARRAY;
   }
 }

@@ -24,7 +24,7 @@
               <text resource-bundle="messages/AntBundle" key="run.execution.tab.run.under.jdk.label"/>
             </properties>
           </component>
-          <component id="d2390" class="com.intellij.ui.ComboboxWithBrowseButton" binding="myJDKs">
+          <component id="d2390" class="consulo.ui.ex.awt.ComboboxWithBrowseButton" binding="myJDKs">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -43,7 +43,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="3d591" class="com.intellij.ui.RawCommandLineEditor" binding="myAntCommandLine">
+              <component id="3d591" class="consulo.execution.ui.awt.RawCommandLineEditor" binding="myAntCommandLine">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -59,7 +59,7 @@
                   <text resource-bundle="messages/AntBundle" key="run.execution.tab.ant.command.line.label"/>
                 </properties>
               </component>
-              <component id="5da4a" class="com.intellij.ui.components.JBLabel">
+              <component id="5da4a" class="consulo.ui.ex.awt.JBLabel">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
                 </constraints>
@@ -103,7 +103,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="b934a" class="com.intellij.ui.SimpleColoredComponent" binding="myDefaultAnt">
+                  <component id="b934a" class="consulo.ui.ex.awt.SimpleColoredComponent" binding="myDefaultAnt">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -119,7 +119,7 @@
                   <text resource-bundle="messages/AntBundle" key="run.execution.tab.use.custom.ant.radio"/>
                 </properties>
               </component>
-              <component id="a12d2" class="com.intellij.ui.ComboboxWithBrowseButton" binding="myAnts">
+              <component id="a12d2" class="consulo.ui.ex.awt.ComboboxWithBrowseButton" binding="myAnts">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

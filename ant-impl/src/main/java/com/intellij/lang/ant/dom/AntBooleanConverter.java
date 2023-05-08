@@ -15,12 +15,12 @@
  */
 package com.intellij.lang.ant.dom;
 
-import javax.annotation.Nullable;
-
-import com.intellij.util.xml.ConvertContext;
-import com.intellij.util.xml.Converter;
-import com.intellij.util.xml.GenericAttributeValue;
+import consulo.xml.util.xml.ConvertContext;
+import consulo.xml.util.xml.Converter;
+import consulo.xml.util.xml.GenericAttributeValue;
 import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nullable;
 
 /**
  * @author Eugene Zhuravlev

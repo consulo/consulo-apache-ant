@@ -15,20 +15,19 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import java.io.File;
+import com.intellij.java.language.psi.JavaPsiFacade;
+import com.intellij.java.language.psi.PsiClass;
+import consulo.application.ApplicationManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.JavaPsiFacade;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.GlobalSearchScope;
+import java.io.File;
 
 final class HyperlinkUtil {
   @NonNls public static final String AT_ATR = "at";
@@ -37,13 +36,13 @@ final class HyperlinkUtil {
   }
 
   static final class PlaceInfo {
-    private final VirtualFile myFile;
+    private final consulo.virtualFileSystem.VirtualFile myFile;
     private final int myLine;
     private final int myColumn;
     private final int myLinkStartIndex;
     private final int myLinkEndIndex;
 
-    public PlaceInfo(VirtualFile file, int line, int column, int linkStartIndex, int linkEndIndex) {
+    public PlaceInfo(consulo.virtualFileSystem.VirtualFile file, int line, int column, int linkStartIndex, int linkEndIndex) {
       myFile = file;
       myLine = line;
       myColumn = column;
@@ -107,9 +106,10 @@ final class HyperlinkUtil {
     ApplicationManager.getApplication().runReadAction(
       new Runnable(){
         public void run(){
-          PsiClass aClass = JavaPsiFacade.getInstance(project).findClass(className, GlobalSearchScope.allScope(project));
+          PsiClass
+            aClass = JavaPsiFacade.getInstance(project).findClass(className, consulo.language.psi.scope.GlobalSearchScope.allScope(project));
           if (aClass == null) return;
-          PsiFile file = aClass.getContainingFile();
+          consulo.language.psi.PsiFile file = aClass.getContainingFile();
           String fileName1 = fileName.replace(File.separatorChar, '/');
           int slashIndex = fileName1.lastIndexOf('/');
           String shortFileName = slashIndex < 0 ? fileName : fileName.substring(slashIndex + 1);
@@ -151,9 +151,9 @@ final class HyperlinkUtil {
     if (endIndex < startIndex) return null;
     final String possibleTestClassName = message.substring(startIndex, endIndex);
 
-    final PsiFile[] psiFile = new PsiFile[1];
+    final consulo.language.psi.PsiFile[] psiFile = new consulo.language.psi.PsiFile[1];
 
-    final PsiManager psiManager = PsiManager.getInstance(project);
+    final PsiManager psiManager = consulo.language.psi.PsiManager.getInstance(project);
     ApplicationManager.getApplication().runReadAction(new Runnable() {
       public void run() {
         PsiClass psiClass =

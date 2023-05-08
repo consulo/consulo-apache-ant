@@ -16,9 +16,10 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
+import consulo.document.util.TextRange;
+import consulo.language.psi.path.FileReference;
+import consulo.util.io.FileUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

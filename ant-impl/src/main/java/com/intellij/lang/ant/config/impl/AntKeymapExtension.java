@@ -15,47 +15,49 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntConfiguration;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.keymap.KeyMapBundle;
-import com.intellij.openapi.keymap.KeymapExtension;
-import com.intellij.openapi.keymap.KeymapGroup;
-import com.intellij.openapi.keymap.KeymapGroupFactory;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.apache.ant.ApacheAntIcons;
+import consulo.application.ApplicationManager;
+import consulo.component.ComponentManager;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.ui.ex.action.ActionManager;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.keymap.KeyMapBundle;
+import consulo.ui.ex.keymap.KeymapExtension;
+import consulo.ui.ex.keymap.KeymapGroup;
+import consulo.ui.ex.keymap.KeymapGroupFactory;
+
+import java.util.Arrays;
 import java.util.HashMap;
-import consulo.awt.TargetAWT;
+import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * @author Vladislav.Kaznacheev
  */
-class AntKeymapExtension implements KeymapExtension {
+@ExtensionImpl
+public class AntKeymapExtension implements KeymapExtension {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntProjectKeymap");
 
-  public KeymapGroup createGroup(final Condition<AnAction> filtered, Project project) {
+  public KeymapGroup createGroup(final Predicate<AnAction> filtered, ComponentManager project) {
     final Map<AntBuildFile, KeymapGroup> buildFileToGroup = new HashMap<AntBuildFile, KeymapGroup>();
     final KeymapGroup result =
       KeymapGroupFactory.getInstance().createGroup(KeyMapBundle.message("ant.targets.group.title"), ApacheAntIcons.AntGroup);
 
-    final ActionManagerEx actionManager = ActionManagerEx.getInstanceEx();
+    final ActionManager actionManager = ActionManager.getInstance();
     final String[] ids =
-      actionManager.getActionIds(project != null ? AntConfiguration.getActionIdPrefix(project) : AntConfiguration.ACTION_ID_PREFIX);
+      actionManager.getActionIds(project != null ? AntConfiguration.getActionIdPrefix((Project)project) : AntConfiguration.ACTION_ID_PREFIX);
     Arrays.sort(ids);
 
     if (project != null) {
-      final AntConfiguration antConfiguration = AntConfiguration.getInstance(project);
+      final AntConfiguration antConfiguration = AntConfiguration.getInstance((Project)project);
       ApplicationManager.getApplication().runReadAction(new Runnable() {
         public void run() {
           for (final String id : ids) {
-            if (filtered != null && !filtered.value(actionManager.getActionOrStub(id))) {
+            if (filtered != null && !filtered.test(actionManager.getActionOrStub(id))) {
               continue;
             }
             final AntBuildFile buildFile = antConfiguration.findBuildFileByActionId(id);

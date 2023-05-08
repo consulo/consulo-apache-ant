@@ -15,15 +15,15 @@
  */
 package com.intellij.lang.ant.config;
 
-import java.util.List;
+import consulo.component.util.config.ExternalizablePropertyContainer;
+import consulo.content.bundle.Sdk;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.xml.psi.xml.XmlFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.util.config.ExternalizablePropertyContainer;
+import java.util.List;
 
 public abstract class AntConfigurationBase extends AntConfiguration {
 
@@ -80,12 +80,12 @@ public abstract class AntConfigurationBase extends AntConfiguration {
 
   @Nullable
   public abstract XmlFile getContextFile(@Nullable XmlFile file);
-  
+
   @Nullable
   public abstract XmlFile getEffectiveContextFile(@Nullable XmlFile file);
 
   @Nullable
   public abstract AntBuildFileBase getAntBuildFile(@Nonnull PsiFile file);
-  
+
   public abstract AntBuildFileBase[] getBuildFiles();
 }

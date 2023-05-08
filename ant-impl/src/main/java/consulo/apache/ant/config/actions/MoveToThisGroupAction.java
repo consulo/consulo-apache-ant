@@ -15,17 +15,18 @@
  */
 package consulo.apache.ant.config.actions;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-
-import com.intellij.ide.util.treeView.AbstractTreeBuilder;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
-import consulo.apache.ant.config.AntBuildFileGroupManager;
 import com.intellij.lang.ant.config.explorer.AntBuildFileNodeDescriptor;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.ui.treeStructure.Tree;
 import consulo.apache.ant.config.AntBuildFileGroup;
+import consulo.apache.ant.config.AntBuildFileGroupManager;
+import consulo.project.Project;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.awt.tree.AbstractTreeBuilder;
+import consulo.ui.ex.awt.tree.Tree;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * @author VISTALL
@@ -45,21 +46,21 @@ public class MoveToThisGroupAction extends AnAction {
   public void actionPerformed(AnActionEvent e) {
     final AntBuildFile buildFile = findBuildFile(myTree);
 
-    AntBuildFileGroupManager.getInstance(e.getProject()).moveToGroup(buildFile, myGroup);
+    AntBuildFileGroupManager.getInstance(e.getData(Project.KEY)).moveToGroup(buildFile, myGroup);
     final AbstractTreeBuilder builder = AbstractTreeBuilder.getBuilderFor(myTree);
-    if(builder != null) {
+    if (builder != null) {
       builder.queueUpdate();
     }
   }
 
   public static AntBuildFile findBuildFile(Tree tree) {
     final Object lastSelectedPathComponent = tree.getLastSelectedPathComponent();
-    if(lastSelectedPathComponent == null || !(lastSelectedPathComponent instanceof DefaultMutableTreeNode)) {
+    if (lastSelectedPathComponent == null || !(lastSelectedPathComponent instanceof DefaultMutableTreeNode)) {
       return null;
     }
 
     final Object userObject = ((DefaultMutableTreeNode)lastSelectedPathComponent).getUserObject();
-    if(!(userObject instanceof AntBuildFileNodeDescriptor)) {
+    if (!(userObject instanceof AntBuildFileNodeDescriptor)) {
       return null;
     }
 

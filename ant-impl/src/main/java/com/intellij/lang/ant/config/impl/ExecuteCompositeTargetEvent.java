@@ -16,10 +16,9 @@
 package com.intellij.lang.ant.config.impl;
 
 import com.intellij.lang.ant.config.ExecutionEvent;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.StringBuilderSpinAllocator;
+import consulo.project.Project;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.xml.serializer.InvalidDataException;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 
@@ -28,11 +27,13 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public final class ExecuteCompositeTargetEvent extends ExecutionEvent {
-  @NonNls public static final String TYPE_ID = "compositeTask";
+  @NonNls
+  public static final String TYPE_ID = "compositeTask";
   private final String myCompositeName;
   private String myPresentableName;
   private final String[] myTargetNames;
-  @NonNls public static final String PRESENTABLE_NAME = "presentableName";
+  @NonNls
+  public static final String PRESENTABLE_NAME = "presentableName";
 
 
   public ExecuteCompositeTargetEvent(final String compositeName) throws WrongNameFormatException {
@@ -51,21 +52,16 @@ public final class ExecuteCompositeTargetEvent extends ExecutionEvent {
 
   public ExecuteCompositeTargetEvent(String[] targetNames) {
     myTargetNames = targetNames;
-    final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-    try {
-      builder.append("[");
-      for (int idx = 0; idx < targetNames.length; idx++) {
-        if (idx > 0) {
-          builder.append(",");
-        }
-        builder.append(targetNames[idx]);
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[");
+    for (int idx = 0; idx < targetNames.length; idx++) {
+      if (idx > 0) {
+        builder.append(",");
       }
-      builder.append("]");
-      myCompositeName = builder.toString();
+      builder.append(targetNames[idx]);
     }
-    finally {
-      StringBuilderSpinAllocator.dispose(builder);
-    }
+    builder.append("]");
+    myCompositeName = builder.toString();
     myPresentableName = myCompositeName;
   }
 

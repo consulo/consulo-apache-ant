@@ -21,20 +21,18 @@ import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
 import com.intellij.lang.ant.config.impl.TargetChooserDialog;
 import com.intellij.lang.ant.config.impl.configuration.UIPropertyBinding;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.ui.FixedSizeButton;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.packaging.ui.ArtifactEditorContext;
-import com.intellij.packaging.ui.ArtifactPropertiesEditor;
-import com.intellij.ui.*;
-import com.intellij.ui.table.JBTable;
-import com.intellij.util.config.ListProperty;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.ui.ColumnInfo;
-import com.intellij.util.ui.ListTableModel;
-import com.intellij.util.ui.UIUtil;
+import consulo.compiler.artifact.ui.ArtifactEditorContext;
+import consulo.compiler.artifact.ui.ArtifactPropertiesEditor;
+import consulo.component.util.config.ListProperty;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.awt.*;
+import consulo.ui.ex.awt.table.JBTable;
+import consulo.ui.ex.awt.table.ListTableModel;
+import consulo.ui.ex.awt.util.TableUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.function.Condition;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +47,7 @@ import java.util.List;
 public class AntArtifactPropertiesEditor extends ArtifactPropertiesEditor {
   private static final ListProperty<BuildFileProperty> ANT_PROPERTIES = ListProperty.create("ant-properties");
   private static final ColumnInfo<BuildFileProperty, String> NAME_COLUMN =
-    new ColumnInfo<BuildFileProperty, String>(AntBundle.message("edit.ant.properties.name.column.name")) {
+    new consulo.ui.ex.awt.ColumnInfo<BuildFileProperty, String>(AntBundle.message("edit.ant.properties.name.column.name")) {
       public String valueOf(BuildFileProperty buildFileProperty) {
         return buildFileProperty.getPropertyName();
       }
@@ -76,7 +74,7 @@ public class AntArtifactPropertiesEditor extends ArtifactPropertiesEditor {
         buildFileProperty.setPropertyValue(value);
       }
     };
-  private static final ColumnInfo[] PROPERTY_COLUMNS = new ColumnInfo[]{NAME_COLUMN, VALUE_COLUMN};
+  private static final ColumnInfo[] PROPERTY_COLUMNS = new consulo.ui.ex.awt.ColumnInfo[]{NAME_COLUMN, VALUE_COLUMN};
   private static final Condition<BuildFileProperty> USER_PROPERTY_CONDITION = new Condition<BuildFileProperty>() {
     @Override
     public boolean value(BuildFileProperty property) {
@@ -95,7 +93,9 @@ public class AntArtifactPropertiesEditor extends ArtifactPropertiesEditor {
   private UIPropertyBinding.TableListBinding<BuildFileProperty> myBinding;
   protected SinglePropertyContainer<ListProperty> myContainer;
 
-  public AntArtifactPropertiesEditor(AntArtifactProperties properties, ArtifactEditorContext context, boolean postProcessing) {
+  public AntArtifactPropertiesEditor(AntArtifactProperties properties,
+                                     consulo.compiler.artifact.ui.ArtifactEditorContext context,
+                                     boolean postProcessing) {
     myProperties = properties;
     myContext = context;
     myPostProcessing = postProcessing;
@@ -119,32 +119,33 @@ public class AntArtifactPropertiesEditor extends ArtifactPropertiesEditor {
     myBinding = binding.bindList(myPropertiesTable, PROPERTY_COLUMNS, ANT_PROPERTIES);
     myPropertiesPanel.add(
       ToolbarDecorator.createDecorator(myPropertiesTable)
-        .setAddAction(new AnActionButtonRunnable() {
-          @Override
-          public void run(AnActionButton button) {
-            ListTableModel<BuildFileProperty> model = (ListTableModel<BuildFileProperty>)myPropertiesTable.getModel();
-            if (myPropertiesTable.isEditing() && !myPropertiesTable.getCellEditor().stopCellEditing()) {
-              return;
-            }
-            BuildFileProperty item = new BuildFileProperty();
-            ArrayList<BuildFileProperty> items = new ArrayList<BuildFileProperty>(model.getItems());
-            items.add(item);
-            model.setItems(items);
-            int newIndex = model.indexOf(item);
-            ListSelectionModel selectionModel = myPropertiesTable.getSelectionModel();
-            selectionModel.clearSelection();
-            selectionModel.setSelectionInterval(newIndex, newIndex);
-            ColumnInfo[] columns = model.getColumnInfos();
-            for (int i = 0; i < columns.length; i++) {
-              ColumnInfo column = columns[i];
-              if (column.isCellEditable(item)) {
-                myPropertiesTable.requestFocusInWindow();
-                myPropertiesTable.editCellAt(newIndex, i);
-                break;
-              }
-            }
-          }
-        }).setRemoveAction(new AnActionButtonRunnable() {
+                      .setAddAction(new AnActionButtonRunnable() {
+                        @Override
+                        public void run(AnActionButton button) {
+                          consulo.ui.ex.awt.table.ListTableModel<BuildFileProperty> model =
+                            (ListTableModel<BuildFileProperty>)myPropertiesTable.getModel();
+                          if (myPropertiesTable.isEditing() && !myPropertiesTable.getCellEditor().stopCellEditing()) {
+                            return;
+                          }
+                          BuildFileProperty item = new BuildFileProperty();
+                          ArrayList<BuildFileProperty> items = new ArrayList<BuildFileProperty>(model.getItems());
+                          items.add(item);
+                          model.setItems(items);
+                          int newIndex = model.indexOf(item);
+                          ListSelectionModel selectionModel = myPropertiesTable.getSelectionModel();
+                          selectionModel.clearSelection();
+                          selectionModel.setSelectionInterval(newIndex, newIndex);
+                          ColumnInfo[] columns = model.getColumnInfos();
+                          for (int i = 0; i < columns.length; i++) {
+                            consulo.ui.ex.awt.ColumnInfo column = columns[i];
+                            if (column.isCellEditable(item)) {
+                              myPropertiesTable.requestFocusInWindow();
+                              myPropertiesTable.editCellAt(newIndex, i);
+                              break;
+                            }
+                          }
+                        }
+                      }).setRemoveAction(new AnActionButtonRunnable() {
         @Override
         public void run(AnActionButton button) {
           TableUtil.removeSelectedItems(myPropertiesTable);
@@ -153,7 +154,7 @@ public class AntArtifactPropertiesEditor extends ArtifactPropertiesEditor {
         @Override
         public boolean isEnabled(AnActionEvent e) {
           final ListSelectionModel selectionModel = myPropertiesTable.getSelectionModel();
-          ListTableModel<BuildFileProperty> model = (ListTableModel<BuildFileProperty>)myPropertiesTable.getModel();
+          consulo.ui.ex.awt.table.ListTableModel<BuildFileProperty> model = (ListTableModel<BuildFileProperty>)myPropertiesTable.getModel();
           boolean enable = false;
           if (!selectionModel.isSelectionEmpty()) {
             enable = true;
@@ -196,7 +197,7 @@ public class AntArtifactPropertiesEditor extends ArtifactPropertiesEditor {
   public void apply() {
     myProperties.setEnabled(myRunTargetCheckBox.isSelected());
     if (myTarget != null) {
-      final VirtualFile file = myTarget.getModel().getBuildFile().getVirtualFile();
+      final consulo.virtualFileSystem.VirtualFile file = myTarget.getModel().getBuildFile().getVirtualFile();
       if (file != null) {
         myProperties.setFileUrl(file.getUrl());
         myProperties.setTargetName(myTarget.getName());

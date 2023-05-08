@@ -15,18 +15,19 @@
  */
 package consulo.apache.ant.config.actions;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.util.treeView.AbstractTreeBuilder;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
 import consulo.apache.ant.config.AntBuildFileGroup;
 import consulo.apache.ant.config.AntBuildFileGroupManager;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.ui.InputValidator;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.treeStructure.Tree;
+import consulo.application.AllIcons;
+import consulo.project.Project;
+import consulo.ui.ex.InputValidator;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.tree.AbstractTreeBuilder;
+import consulo.ui.ex.awt.tree.Tree;
+import consulo.util.lang.StringUtil;
 
 /**
  * @author VISTALL
@@ -45,9 +46,10 @@ public class CreateNewGroupAction extends AnAction {
 
   @Override
   public void actionPerformed(AnActionEvent e) {
-    final AntBuildFileGroupManager groupManager = AntBuildFileGroupManager.getInstance(e.getProject());
+    Project project = e.getData(Project.KEY);
+    final AntBuildFileGroupManager groupManager = AntBuildFileGroupManager.getInstance(project);
 
-    String text = Messages.showInputDialog(e.getProject(), "Name: ", "Enter Group Name", null, null, new InputValidator() {
+    String text = Messages.showInputDialog(project, "Name: ", "Enter Group Name", null, null, new InputValidator() {
       @Override
       public boolean checkInput(String inputString) {
         if(inputString.isEmpty()) {

@@ -15,16 +15,15 @@
  */
 package consulo.apache.ant.config.explorer;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.explorer.AntNodeDescriptor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.ui.SimpleColoredComponent;
-import com.intellij.ui.SimpleTextAttributes;
-import consulo.awt.TargetAWT;
+import consulo.application.AllIcons;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.ui.ex.ColoredTextContainer;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ui.ex.tree.NodeDescriptor;
+
+import javax.annotation.Nonnull;
 
 /**
 * @author VISTALL
@@ -57,7 +56,7 @@ public final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor
   }
 
   @Override
-  public void customize(@Nonnull SimpleColoredComponent component) {
+  public void customize(@Nonnull ColoredTextContainer component) {
     component.append(toString(), SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES);
     component.setIcon(getIcon());
   }

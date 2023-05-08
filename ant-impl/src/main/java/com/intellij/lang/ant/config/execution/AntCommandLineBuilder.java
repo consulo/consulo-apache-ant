@@ -15,224 +15,193 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.execution.CantRunException;
-import com.intellij.execution.configurations.ParametersList;
-import com.intellij.ide.macro.Macro;
-import com.intellij.ide.macro.MacroManager;
-import com.intellij.ide.plugins.PluginManager;
+import com.intellij.java.language.impl.projectRoots.ex.JavaSdkUtil;
+import com.intellij.java.language.projectRoots.JavaSdkType;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.projectRoots.JavaSdkType;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.SdkTypeId;
-import com.intellij.openapi.projectRoots.ex.JavaSdkUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.PathUtil;
-import com.intellij.util.config.AbstractProperty;
-import com.intellij.util.containers.ContainerUtil;
-import consulo.apache.ant.rt.AntLoggerConstants;
+import consulo.apache.ant.rt.common.AntLoggerConstants;
+import consulo.component.util.config.AbstractProperty;
+import consulo.container.plugin.PluginManager;
+import consulo.content.base.BinariesOrderRootType;
+import consulo.content.bundle.Sdk;
+import consulo.content.bundle.SdkTypeId;
+import consulo.dataContext.DataContext;
+import consulo.execution.CantRunException;
 import consulo.java.execution.configurations.OwnJavaParameters;
-import consulo.roots.types.BinariesOrderRootType;
+import consulo.pathMacro.Macro;
+import consulo.pathMacro.MacroManager;
+import consulo.process.cmd.ParametersList;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.io.ClassPathUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFilePathUtil;
+import org.jetbrains.annotations.NonNls;
 
-public class AntCommandLineBuilder
-{
-	private final List<String> myTargets = new ArrayList<String>();
-	private final OwnJavaParameters myCommandLine = new OwnJavaParameters();
-	private String myBuildFilePath;
-	private List<BuildFileProperty> myProperties;
-	private boolean myDone = false;
-	@NonNls
-	private final List<String> myExpandedProperties = new ArrayList<String>();
-	@NonNls
-	private static final String INPUT_HANDLER_PARAMETER = "-inputhandler";
-	@NonNls
-	private static final String LOGFILE_PARAMETER = "-logfile";
-	@NonNls
-	private static final String LOGFILE_SHORT_PARAMETER = "-l";
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-	public void calculateProperties(final DataContext dataContext,
-			List<BuildFileProperty> additionalProperties) throws Macro.ExecutionCancelledException
-	{
-		for(BuildFileProperty property : myProperties)
-		{
-			expandProperty(dataContext, property);
-		}
-		for(BuildFileProperty property : additionalProperties)
-		{
-			expandProperty(dataContext, property);
-		}
-	}
+public class AntCommandLineBuilder {
+  private final List<String> myTargets = new ArrayList<String>();
+  private final OwnJavaParameters myCommandLine = new OwnJavaParameters();
+  private String myBuildFilePath;
+  private List<BuildFileProperty> myProperties;
+  private boolean myDone = false;
+  @NonNls
+  private final List<String> myExpandedProperties = new ArrayList<String>();
+  @NonNls
+  private static final String INPUT_HANDLER_PARAMETER = "-inputhandler";
+  @NonNls
+  private static final String LOGFILE_PARAMETER = "-logfile";
+  @NonNls
+  private static final String LOGFILE_SHORT_PARAMETER = "-l";
 
-	private void expandProperty(DataContext dataContext, BuildFileProperty property) throws Macro.ExecutionCancelledException
-	{
-		String value = property.getPropertyValue();
-		final MacroManager macroManager = GlobalAntConfiguration.getMacroManager();
-		value = macroManager.expandMacrosInString(value, true, dataContext);
-		value = macroManager.expandMacrosInString(value, false, dataContext);
-		myExpandedProperties.add("-D" + property.getPropertyName() + "=" + value);
-	}
+  public void calculateProperties(final DataContext dataContext,
+                                  List<BuildFileProperty> additionalProperties) throws Macro.ExecutionCancelledException {
+    for (BuildFileProperty property : myProperties) {
+      expandProperty(dataContext, property);
+    }
+    for (BuildFileProperty property : additionalProperties) {
+      expandProperty(dataContext, property);
+    }
+  }
 
-	public void addTarget(String targetName)
-	{
-		myTargets.add(targetName);
-	}
+  private void expandProperty(DataContext dataContext, BuildFileProperty property) throws Macro.ExecutionCancelledException {
+    String value = property.getPropertyValue();
+    final MacroManager macroManager = GlobalAntConfiguration.getMacroManager();
+    value = macroManager.expandMacrosInString(value, true, dataContext);
+    value = macroManager.expandMacrosInString(value, false, dataContext);
+    myExpandedProperties.add("-D" + property.getPropertyName() + "=" + value);
+  }
 
-	public void setBuildFile(AbstractProperty.AbstractPropertyContainer container, File buildFile) throws CantRunException
-	{
-		String jdkName = AntBuildFileImpl.CUSTOM_JDK_NAME.get(container);
-		Sdk jdk;
-		if(jdkName != null && jdkName.length() > 0)
-		{
-			jdk = GlobalAntConfiguration.findJdk(jdkName);
-		}
-		else
-		{
-			jdkName = AntConfigurationImpl.DEFAULT_JDK_NAME.get(container);
-			if(jdkName == null || jdkName.length() == 0)
-			{
-				throw new CantRunException(AntBundle.message("project.jdk.not.specified.error.message"));
-			}
-			jdk = GlobalAntConfiguration.findJdk(jdkName);
-		}
-		if(jdk == null)
-		{
-			throw new CantRunException(AntBundle.message("jdk.with.name.not.configured.error.message", jdkName));
-		}
-		VirtualFile homeDirectory = jdk.getHomeDirectory();
-		if(homeDirectory == null)
-		{
-			throw new CantRunException(AntBundle.message("jdk.with.name.bad.configured.error.message", jdkName));
-		}
-		myCommandLine.setJdk(jdk);
+  public void addTarget(String targetName) {
+    myTargets.add(targetName);
+  }
 
-		final ParametersList vmParametersList = myCommandLine.getVMParametersList();
-		vmParametersList.add("-Xmx" + AntBuildFileImpl.MAX_HEAP_SIZE.get(container) + "m");
-		vmParametersList.add("-Xss" + AntBuildFileImpl.MAX_STACK_SIZE.get(container) + "m");
+  public void setBuildFile(AbstractProperty.AbstractPropertyContainer container, File buildFile) throws CantRunException {
+    String jdkName = AntBuildFileImpl.CUSTOM_JDK_NAME.get(container);
+    Sdk jdk;
+    if (jdkName != null && jdkName.length() > 0) {
+      jdk = GlobalAntConfiguration.findJdk(jdkName);
+    }
+    else {
+      jdkName = AntConfigurationImpl.DEFAULT_JDK_NAME.get(container);
+      if (jdkName == null || jdkName.length() == 0) {
+        throw new CantRunException(AntBundle.message("project.jdk.not.specified.error.message"));
+      }
+      jdk = GlobalAntConfiguration.findJdk(jdkName);
+    }
+    if (jdk == null) {
+      throw new CantRunException(AntBundle.message("jdk.with.name.not.configured.error.message", jdkName));
+    }
+    VirtualFile homeDirectory = jdk.getHomeDirectory();
+    if (homeDirectory == null) {
+      throw new CantRunException(AntBundle.message("jdk.with.name.bad.configured.error.message", jdkName));
+    }
+    myCommandLine.setJdk(jdk);
 
-		final Sdk antInstallation = AntBuildFileImpl.ANT_INSTALLATION.get(container);
-		if(antInstallation == null)
-		{
-			throw new CantRunException(AntBundle.message("ant.installation.not.configured.error.message"));
-		}
+    final ParametersList vmParametersList = myCommandLine.getVMParametersList();
+    vmParametersList.add("-Xmx" + AntBuildFileImpl.MAX_HEAP_SIZE.get(container) + "m");
+    vmParametersList.add("-Xss" + AntBuildFileImpl.MAX_STACK_SIZE.get(container) + "m");
 
-		final String antHome = antInstallation.getHomePath();
-		vmParametersList.add("-Dant.home=" + antHome);
-		final String libraryDir = antHome + (antHome.endsWith("/") || antHome.endsWith(File.separator) ? "" : File.separator) + "lib";
-		vmParametersList.add("-Dant.library.dir=" + libraryDir);
+    final Sdk antInstallation = AntBuildFileImpl.ANT_INSTALLATION.get(container);
+    if (antInstallation == null) {
+      throw new CantRunException(AntBundle.message("ant.installation.not.configured.error.message"));
+    }
 
-		String[] urls = jdk.getRootProvider().getUrls(BinariesOrderRootType.getInstance());
-		final String jdkHome = homeDirectory.getPath().replace('/', File.separatorChar);
-		@NonNls final String pathToJre = jdkHome + File.separator + "jre" + File.separator;
-		for(String url : urls)
-		{
-			final String path = PathUtil.toPresentableUrl(url);
-			if(!path.startsWith(pathToJre))
-			{
-				myCommandLine.getClassPath().add(path);
-			}
-		}
+    final String antHome = antInstallation.getHomePath();
+    vmParametersList.add("-Dant.home=" + antHome);
+    final String libraryDir = antHome + (antHome.endsWith("/") || antHome.endsWith(File.separator) ? "" : File.separator) + "lib";
+    vmParametersList.add("-Dant.library.dir=" + libraryDir);
 
-		myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.ALL_CLASS_PATH.get(container));
+    String[] urls = jdk.getRootProvider().getUrls(BinariesOrderRootType.getInstance());
+    final String jdkHome = homeDirectory.getPath().replace('/', File.separatorChar);
+    @NonNls final String pathToJre = jdkHome + File.separator + "jre" + File.separator;
+    for (String url : urls) {
+      final String path = VirtualFilePathUtil.toPresentableUrl(url);
+      if (!path.startsWith(pathToJre)) {
+        myCommandLine.getClassPath().add(path);
+      }
+    }
 
-		File pluginPath = PluginManager.getPluginPath(AntCommandLineBuilder.class);
+    myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.ALL_CLASS_PATH.get(container));
 
-		myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.getUserHomeLibraries());
-		// hardcoded since it's not loaded by classloader
-		myCommandLine.getClassPath().add(new File(pluginPath, "ant-rt.jar"));
-		myCommandLine.getClassPath().add(PathUtil.getJarPathForClass(AntLoggerConstants.class));
+    File pluginPath = PluginManager.getPluginPath(AntCommandLineBuilder.class);
 
-		final SdkTypeId sdkType = jdk.getSdkType();
-		if(sdkType instanceof JavaSdkType)
-		{
-			final String toolsJar = ((JavaSdkType) sdkType).getToolsPath(jdk);
-			if(toolsJar != null)
-			{
-				myCommandLine.getClassPath().add(toolsJar);
-			}
-		}
-		JavaSdkUtil.addRtJar(myCommandLine.getClassPath());
+    myCommandLine.getClassPath().addAllFiles(AntBuildFileImpl.getUserHomeLibraries());
+    // hardcoded since it's not loaded by classloader
+    myCommandLine.getClassPath().add(new File(pluginPath, "ant-rt.jar"));
+    myCommandLine.getClassPath().add(ClassPathUtil.getJarPathForClass(AntLoggerConstants.class));
 
-		myCommandLine.setMainClass("com.intellij.rt.ant.execution.AntMain2");
-		final ParametersList programParameters = myCommandLine.getProgramParametersList();
+    final SdkTypeId sdkType = jdk.getSdkType();
+    if (sdkType instanceof JavaSdkType) {
+      final String toolsJar = ((JavaSdkType)sdkType).getToolsPath(jdk);
+      if (toolsJar != null) {
+        myCommandLine.getClassPath().add(toolsJar);
+      }
+    }
+    JavaSdkUtil.addRtJar(myCommandLine.getClassPath());
 
-		final String additionalParams = AntBuildFileImpl.ANT_COMMAND_LINE_PARAMETERS.get(container);
-		if(additionalParams != null)
-		{
-			for(String param : ParametersList.parse(additionalParams))
-			{
-				if(param.startsWith("-J"))
-				{
-					final String cutParam = param.substring("-J".length());
-					if(cutParam.length() > 0)
-					{
-						vmParametersList.add(cutParam);
-					}
-				}
-				else
-				{
-					programParameters.add(param);
-				}
-			}
-		}
+    myCommandLine.setMainClass("com.intellij.rt.ant.execution.AntMain2");
+    final ParametersList programParameters = myCommandLine.getProgramParametersList();
 
-		if(!(programParameters.getList().contains(LOGFILE_SHORT_PARAMETER) || programParameters.getList().contains(LOGFILE_PARAMETER)))
-		{
-			programParameters.add("-logger", "com.intellij.rt.ant.execution.IdeaAntLogger2");
-		}
-		if(!programParameters.getList().contains(INPUT_HANDLER_PARAMETER))
-		{
-			programParameters.add(INPUT_HANDLER_PARAMETER, "com.intellij.rt.ant.execution.IdeaInputHandler");
-		}
+    final String additionalParams = AntBuildFileImpl.ANT_COMMAND_LINE_PARAMETERS.get(container);
+    if (additionalParams != null) {
+      for (String param : ParametersList.parse(additionalParams)) {
+        if (param.startsWith("-J")) {
+          final String cutParam = param.substring("-J".length());
+          if (cutParam.length() > 0) {
+            vmParametersList.add(cutParam);
+          }
+        }
+        else {
+          programParameters.add(param);
+        }
+      }
+    }
 
-		myProperties = AntBuildFileImpl.ANT_PROPERTIES.get(container);
+    if (!(programParameters.getList().contains(LOGFILE_SHORT_PARAMETER) || programParameters.getList().contains(LOGFILE_PARAMETER))) {
+      programParameters.add("-logger", "com.intellij.rt.ant.execution.IdeaAntLogger2");
+    }
+    if (!programParameters.getList().contains(INPUT_HANDLER_PARAMETER)) {
+      programParameters.add(INPUT_HANDLER_PARAMETER, "com.intellij.rt.ant.execution.IdeaInputHandler");
+    }
 
-		myBuildFilePath = buildFile.getAbsolutePath();
-		myCommandLine.setWorkingDirectory(buildFile.getParent());
-	}
+    myProperties = AntBuildFileImpl.ANT_PROPERTIES.get(container);
 
-	public OwnJavaParameters getJavaParameters()
-	{
-		if(myDone)
-		{
-			return myCommandLine;
-		}
-		ParametersList programParameters = myCommandLine.getProgramParametersList();
-		for(final String property : myExpandedProperties)
-		{
-			if(property != null)
-			{
-				programParameters.add(property);
-			}
-		}
-		programParameters.add("-buildfile", myBuildFilePath);
-		for(final String target : myTargets)
-		{
-			if(target != null)
-			{
-				programParameters.add(target);
-			}
-		}
-		myDone = true;
-		return myCommandLine;
-	}
+    myBuildFilePath = buildFile.getAbsolutePath();
+    myCommandLine.setWorkingDirectory(buildFile.getParent());
+  }
 
-	public void addTargets(String[] targets)
-	{
-		ContainerUtil.addAll(myTargets, targets);
-	}
+  public OwnJavaParameters getJavaParameters() {
+    if (myDone) {
+      return myCommandLine;
+    }
+    ParametersList programParameters = myCommandLine.getProgramParametersList();
+    for (final String property : myExpandedProperties) {
+      if (property != null) {
+        programParameters.add(property);
+      }
+    }
+    programParameters.add("-buildfile", myBuildFilePath);
+    for (final String target : myTargets) {
+      if (target != null) {
+        programParameters.add(target);
+      }
+    }
+    myDone = true;
+    return myCommandLine;
+  }
 
-	public String[] getTargets()
-	{
-		return ArrayUtil.toStringArray(myTargets);
-	}
+  public void addTargets(String[] targets) {
+    ContainerUtil.addAll(myTargets, targets);
+  }
+
+  public String[] getTargets() {
+    return ArrayUtil.toStringArray(myTargets);
+  }
 }

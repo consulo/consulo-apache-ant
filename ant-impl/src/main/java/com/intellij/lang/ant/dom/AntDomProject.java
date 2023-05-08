@@ -15,61 +15,46 @@
  */
 package com.intellij.lang.ant.dom;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
-import consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
-import consulo.apache.ant.util.AntJavaSdkUtil;
 import com.intellij.lang.ant.ReflectedProject;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.impl.AntBuildFileImpl;
 import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.SdkTable;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.pom.references.PomService;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.psi.xml.XmlTag;
-import java.util.HashMap;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.DefinesXml;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.GenericAttributeValue;
-import com.intellij.util.xml.SubTagList;
+import consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
+import consulo.apache.ant.util.AntJavaSdkUtil;
+import consulo.application.util.SystemInfo;
+import consulo.content.bundle.Sdk;
+import consulo.content.bundle.SdkTable;
+import consulo.language.pom.PomService;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.logging.Logger;
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.util.xml.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: Apr 6, 2010
+ * Date: Apr 6, 2010
  */
 @SuppressWarnings({"AbstractClassNeverImplemented"})
 @DefinesXml
 public abstract class AntDomProject extends AntDomNamedElement implements PropertiesProvider {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.dom.AntDomProject");
+  private static final Logger LOG = Logger.getInstance(AntDomProject.class);
 
-  @NonNls public static final String DEFAULT_ENVIRONMENT_PREFIX = "env.";
+  public static final String DEFAULT_ENVIRONMENT_PREFIX = "env.";
 
   private volatile ClassLoader myClassLoader;
   private volatile Map<String, String> myProperties;
-
 
   @Attribute("default")
   @Convert(value = AntDomDefaultTargetConverter.class)
@@ -80,17 +65,17 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
   public abstract GenericAttributeValue<PsiFileSystemItem> getBasedir();
 
   @Nullable
-  public final PsiFileSystemItem getProjectBasedir() {
-    final PsiFileSystemItem basedir = getBasedir().getValue();
+  public final consulo.language.psi.PsiFileSystemItem getProjectBasedir() {
+    final consulo.language.psi.PsiFileSystemItem basedir = getBasedir().getValue();
     if (basedir != null) {
       return basedir;
     }
     final XmlTag tag = getXmlTag();
-    final VirtualFile containingFile = tag.getContainingFile().getOriginalFile().getVirtualFile();
+    final consulo.virtualFileSystem.VirtualFile containingFile = tag.getContainingFile().getOriginalFile().getVirtualFile();
     if (containingFile == null) {
       return null;
     }
-    final VirtualFile parent = containingFile.getParent();
+    final consulo.virtualFileSystem.VirtualFile parent = containingFile.getParent();
     if (parent == null) {
       return null;
     }
@@ -128,12 +113,12 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
 
   @Nullable
   public final String getContainingFileDir() {
-    final VirtualFile containingFile = getXmlTag().getContainingFile().getOriginalFile().getVirtualFile();
+    final consulo.virtualFileSystem.VirtualFile containingFile = getXmlTag().getContainingFile().getOriginalFile().getVirtualFile();
     if (containingFile == null) {
       return null;
     }
     final VirtualFile parent = containingFile.getParent();
-    return parent != null? parent.getPath() : null;
+    return parent != null ? parent.getPath() : null;
   }
 
   @SubTagList("target")
@@ -160,8 +145,9 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
     ClassLoader loader = myClassLoader;
     if (loader == null) {
       final XmlTag tag = getXmlTag();
-      final PsiFile containingFile = tag.getContainingFile();
-      final AntBuildFileImpl buildFile = (AntBuildFileImpl)AntConfigurationBase.getInstance(containingFile.getProject()).getAntBuildFile(containingFile);
+      final consulo.language.psi.PsiFile containingFile = tag.getContainingFile();
+      final AntBuildFileImpl buildFile =
+        (AntBuildFileImpl)AntConfigurationBase.getInstance(containingFile.getProject()).getAntBuildFile(containingFile);
       if (buildFile != null) {
         loader = buildFile.getClassLoader();
       }
@@ -176,7 +162,7 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
 
   public Sdk getAntInstallation() {
     final AntConfigurationBase configuration = AntConfigurationBase.getInstance(getXmlTag().getProject());
-	  Sdk antInstallation = null;
+    Sdk antInstallation = null;
     if (configuration != null) {
       antInstallation = configuration.getProjectDefaultAnt();
     }
@@ -191,7 +177,8 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
   public final Sdk getTargetJdk() {
     final XmlTag tag = getXmlTag();
     final PsiFile containingFile = tag.getContainingFile();
-    final AntBuildFileImpl buildFile = (AntBuildFileImpl)AntConfigurationBase.getInstance(containingFile.getProject()).getAntBuildFile(containingFile);
+    final AntBuildFileImpl buildFile =
+      (AntBuildFileImpl)AntConfigurationBase.getInstance(containingFile.getProject()).getAntBuildFile(containingFile);
     if (buildFile != null) {
       String jdkName = AntBuildFileImpl.CUSTOM_JDK_NAME.get(buildFile.getAllOptions());
       if (jdkName == null || jdkName.length() == 0) {
@@ -222,7 +209,7 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
       return nameElementPsi;
     }
     final XmlElement xmlElement = getXmlElement();
-    return xmlElement != null? xmlElement.getNavigationElement() : null;
+    return xmlElement != null ? xmlElement.getNavigationElement() : null;
   }
 
   private Map<String, String> getProperties() {
@@ -230,9 +217,10 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
     if (properties == null) {
       final ReflectedProject reflected = ReflectedProject.getProject(getClassLoader());
       Map<String, String> externals = Collections.emptyMap();
-      final PsiFile containingFile = getXmlTag().getContainingFile();
+      final consulo.language.psi.PsiFile containingFile = getXmlTag().getContainingFile();
       if (containingFile != null) {
-        final AntBuildFileImpl buildFile = (AntBuildFileImpl)AntConfigurationBase.getInstance(containingFile.getProject()).getAntBuildFile(containingFile);
+        final AntBuildFileImpl buildFile =
+          (AntBuildFileImpl)AntConfigurationBase.getInstance(containingFile.getProject()).getAntBuildFile(containingFile);
         if (buildFile != null) {
           externals = buildFile.getExternalProperties();
         }
@@ -297,10 +285,10 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
     appendProperty(destination, "ant.project.name", (projectName == null) ? "" : projectName);
 
     final Sdk jdkToRunWith = getTargetJdk();
-    final String version = jdkToRunWith != null? jdkToRunWith.getVersionString() : null;
-    appendProperty(destination, "ant.java.version", version != null? version : SystemInfo.JAVA_VERSION);
-    
-    final VirtualFile containingFile = getXmlTag().getContainingFile().getOriginalFile().getVirtualFile();
+    final String version = jdkToRunWith != null ? jdkToRunWith.getVersionString() : null;
+    appendProperty(destination, "ant.java.version", version != null ? version : SystemInfo.JAVA_VERSION);
+
+    final consulo.virtualFileSystem.VirtualFile containingFile = getXmlTag().getContainingFile().getOriginalFile().getVirtualFile();
     if (containingFile != null) {
       final String antFilePath = containingFile.getPath();
       appendProperty(destination, "ant.file", antFilePath);

@@ -15,18 +15,17 @@
  */
 package consulo.apache.ant.config.explorer;
 
-import com.intellij.ide.util.treeView.NodeDescriptor;
 import com.intellij.lang.ant.config.explorer.AntNodeDescriptor;
-import com.intellij.openapi.project.Project;
 import consulo.apache.ant.ApacheAntIcons;
 import consulo.apache.ant.config.AntBuildFileGroup;
+import consulo.project.Project;
+import consulo.ui.ex.tree.NodeDescriptor;
 
 /**
  * @author VISTALL
  * @since 11:52/09.03.13
  */
-public class AntBuildGroupNodeDescriptor extends AntNodeDescriptor
-{
+public class AntBuildGroupNodeDescriptor extends AntNodeDescriptor {
   private final AntBuildFileGroup myGroup;
 
   public AntBuildGroupNodeDescriptor(Project project, NodeDescriptor parentDescriptor, AntBuildFileGroup group) {

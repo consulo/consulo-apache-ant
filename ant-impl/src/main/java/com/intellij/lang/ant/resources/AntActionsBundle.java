@@ -19,9 +19,9 @@ import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.ResourceBundle;
 
+import consulo.application.CommonBundle;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
-import com.intellij.CommonBundle;
 
 public final class AntActionsBundle {
   private static Reference<ResourceBundle> ourBundle;

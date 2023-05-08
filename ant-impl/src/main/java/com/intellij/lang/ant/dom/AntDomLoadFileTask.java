@@ -15,16 +15,13 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.GenericAttributeValue;
-
-import java.io.IOException;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.logging.Logger;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.Convert;
+import consulo.xml.util.xml.GenericAttributeValue;
 
 /**
  * @author Eugene Zhuravlev
@@ -32,7 +29,7 @@ import java.io.IOException;
  */
 public abstract class AntDomLoadFileTask extends AntDomPropertyDefiningTask {
 
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.dom.AntDomLoadFileTask");
+  private static final Logger LOG = Logger.getInstance(AntDomLoadFileTask.class);
   
   private String myCachedText;
 
@@ -48,22 +45,16 @@ public abstract class AntDomLoadFileTask extends AntDomPropertyDefiningTask {
     if (text != null) {
       return text; 
     }
-    final PsiFileSystemItem file = getSrcFile().getValue();
-    if (!(file instanceof PsiFile)) {
+    final consulo.language.psi.PsiFileSystemItem file = getSrcFile().getValue();
+    if (!(file instanceof consulo.language.psi.PsiFile)) {
       return "";
     }
     final VirtualFile vFile = ((PsiFile)file).getOriginalFile().getVirtualFile();
     if (vFile == null) {
       return "";
     }
-    try {
-      text = VfsUtil.loadText(vFile);
-      myCachedText = text;
-    }
-    catch (IOException e) {
-      LOG.info(e);
-      text = "";
-    }
+    text = vFile.loadText().toString();
+    myCachedText = text;
     return text;
   }
 }

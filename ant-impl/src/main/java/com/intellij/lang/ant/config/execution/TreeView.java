@@ -15,34 +15,37 @@
  */
 package com.intellij.lang.ant.config.execution;
 
-import com.intellij.ide.CopyProvider;
-import com.intellij.ide.DataManager;
-import com.intellij.ide.OccurenceNavigator;
-import com.intellij.ide.OccurenceNavigatorSupport;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildModelBase;
 import com.intellij.lang.ant.config.AntBuildTargetBase;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.config.impl.BuildTask;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.ide.CopyPasteManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.pom.Navigatable;
-import com.intellij.ui.AutoScrollToSourceHandler;
-import com.intellij.ui.PopupHandler;
-import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.EditSourceOnDoubleClickHandler;
-import com.intellij.util.OpenSourceUtil;
-import com.intellij.util.StringBuilderSpinAllocator;
-import com.intellij.util.ui.tree.TreeUtil;
+import consulo.application.ApplicationManager;
+import consulo.application.util.function.Computable;
+import consulo.dataContext.DataContext;
+import consulo.dataContext.DataManager;
+import consulo.dataContext.DataProvider;
+import consulo.ide.impl.idea.ide.OccurenceNavigatorSupport;
+import consulo.language.editor.PlatformDataKeys;
+import consulo.navigation.Navigatable;
+import consulo.navigation.OpenFileDescriptor;
+import consulo.navigation.OpenFileDescriptorFactory;
+import consulo.project.Project;
+import consulo.ui.ex.CopyProvider;
+import consulo.ui.ex.OccurenceNavigator;
+import consulo.ui.ex.OpenSourceUtil;
+import consulo.ui.ex.action.*;
+import consulo.ui.ex.awt.AutoScrollToSourceHandler;
+import consulo.ui.ex.awt.CopyPasteManager;
+import consulo.ui.ex.awt.EditSourceOnDoubleClickHandler;
+import consulo.ui.ex.awt.PopupHandler;
+import consulo.ui.ex.awt.tree.Tree;
+import consulo.ui.ex.awt.tree.TreeUtil;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
@@ -71,8 +74,10 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
   private DefaultMutableTreeNode myStatusNode;
   private final AutoScrollToSourceHandler myAutoScrollToSourceHandler;
   private OccurenceNavigatorSupport myOccurenceNavigatorSupport;
-  @NonNls public static final String ROOT_TREE_USER_OBJECT = "root";
-  @NonNls public static final String JUNIT_TASK_NAME = "junit";
+  @NonNls
+  public static final String ROOT_TREE_USER_OBJECT = "root";
+  @NonNls
+  public static final String JUNIT_TASK_NAME = "junit";
 
   public TreeView(final Project project, final AntBuildFile buildFile) {
     myProject = project;
@@ -136,7 +141,7 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
           return null;
         }
 
-        return new OpenFileDescriptor(myProject, messageNode.getFile(), messageNode.getOffset());
+        return OpenFileDescriptorFactory.getInstance(myProject).builder(messageNode.getFile()).offset(messageNode.getOffset()).build();
       }
 
       @Nullable
@@ -226,35 +231,30 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
   }
 
   public void addJavacMessage(AntMessage message, String url) {
-    final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-    try {
-      final VirtualFile file = message.getFile();
-      if (message.getLine() > 0) {
-        if (file != null) {
-          ApplicationManager.getApplication().runReadAction(new Runnable() {
-            public void run() {
-              String presentableUrl = file.getPresentableUrl();
-              builder.append(presentableUrl);
-              builder.append(' ');
-            }
-          });
-        }
-        else if (url != null) {
-          builder.append(url);
-          builder.append(' ');
-        }
-        builder.append('(');
-        builder.append(message.getLine());
-        builder.append(':');
-        builder.append(message.getColumn());
-        builder.append(") ");
+    final StringBuilder builder = new StringBuilder();
+    final VirtualFile file = message.getFile();
+    if (message.getLine() > 0) {
+      if (file != null) {
+        ApplicationManager.getApplication().runReadAction(new Runnable() {
+          public void run() {
+            String presentableUrl = file.getPresentableUrl();
+            builder.append(presentableUrl);
+            builder.append(' ');
+          }
+        });
       }
-      addJavacMessageImpl(new AntMessage(message.getType(), message.getPriority(), builder.toString() + message.getText(),
-                                         message.getFile(), message.getLine(), message.getColumn()));
+      else if (url != null) {
+        builder.append(url);
+        builder.append(' ');
+      }
+      builder.append('(');
+      builder.append(message.getLine());
+      builder.append(':');
+      builder.append(message.getColumn());
+      builder.append(") ");
     }
-    finally {
-      StringBuilderSpinAllocator.dispose(builder);
-    }
+    addJavacMessageImpl(new AntMessage(message.getType(), message.getPriority(), builder.toString() + message.getText(),
+                                       message.getFile(), message.getLine(), message.getColumn()));
   }
 
   private void addJavacMessageImpl(AntMessage message) {
@@ -365,7 +365,7 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
   private void popupInvoked(Component component, int x, int y) {
     final TreePath path = myTree.getLeadSelectionPath();
     if (path == null) return;
-    if (!(path.getLastPathComponent()instanceof MessageNode)) return;
+    if (!(path.getLastPathComponent() instanceof MessageNode)) return;
     if (getData(PlatformDataKeys.NAVIGATABLE_ARRAY) == null) return;
     DefaultActionGroup group = new DefaultActionGroup();
     group.add(ActionManager.getInstance().getAction(IdeActions.ACTION_EDIT_SOURCE));
@@ -377,7 +377,7 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
   private MessageNode getSelectedItem() {
     TreePath path = myTree.getSelectionPath();
     if (path == null) return null;
-    if (!(path.getLastPathComponent()instanceof MessageNode)) return null;
+    if (!(path.getLastPathComponent() instanceof MessageNode)) return null;
     return (MessageNode)path.getLastPathComponent();
   }
 
@@ -387,7 +387,7 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
       MessageNode item = getSelectedItem();
       if (item == null) return null;
       if (isValid(item.getFile())) {
-        return new OpenFileDescriptor(myProject, item.getFile(), item.getOffset());
+        return OpenFileDescriptorFactory.getInstance(myProject).builder(item.getFile()).offset(item.getOffset()).build();
       }
       if (item.getType() == AntBuildMessageView.MessageType.TARGET) {
         final OpenFileDescriptor descriptor = getDescriptorForTargetNode(item);
@@ -537,7 +537,7 @@ public final class TreeView implements AntOutputView, OccurenceNavigator {
         if (text.length == 0) continue;
         if (Comparing.equal(treeSelection.mySelectedTarget, text[0])) {
           TreePath pathToSelect = new TreePath(messageNode.getPath());
-          for (Enumeration enumeration = messageNode.children(); enumeration.hasMoreElements();) {
+          for (Enumeration enumeration = messageNode.children(); enumeration.hasMoreElements(); ) {
             Object o = enumeration.nextElement();
             if (o instanceof MessageNode) {
               messageNode = (MessageNode)o;

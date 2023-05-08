@@ -15,11 +15,11 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.ActionPlaces;
-import com.intellij.openapi.actionSystem.ActionToolbar;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
-import com.intellij.ui.ReorderableListController;
+import consulo.ide.impl.idea.ui.ReorderableListController;
+import consulo.ui.ex.action.ActionManager;
+import consulo.ui.ex.action.ActionPlaces;
+import consulo.ui.ex.action.ActionToolbar;
+import consulo.ui.ex.action.DefaultActionGroup;
 
 import javax.swing.*;
 import java.util.ArrayList;

@@ -18,11 +18,11 @@ package com.intellij.lang.ant.config.actions;
 import consulo.apache.ant.ApacheAntIcons;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.execution.AntBuildMessageView;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ToggleAction;
-import consulo.awt.TargetAWT;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.ToggleAction;
 
-public final class VerboseAction extends ToggleAction {
+public final class VerboseAction extends ToggleAction
+{
   private final AntBuildMessageView myAntBuildMessageView;
 
   public VerboseAction(AntBuildMessageView antBuildMessageView) {

@@ -15,25 +15,25 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.PsiReference;
-import com.intellij.util.xml.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.PsiReference;
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.util.xml.*;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: Apr 26, 2010
  */
-public class AntPathConverter extends Converter<PsiFileSystemItem> implements CustomReferenceConverter<PsiFileSystemItem>{
+public class AntPathConverter extends Converter<PsiFileSystemItem> implements CustomReferenceConverter<PsiFileSystemItem> {
 
   private final boolean myShouldValidateRefs;
 
@@ -46,7 +46,7 @@ public class AntPathConverter extends Converter<PsiFileSystemItem> implements Cu
   }
 
   @Override
-  public PsiFileSystemItem fromString(@Nullable @NonNls String s, ConvertContext context) {
+  public consulo.language.psi.PsiFileSystemItem fromString(@Nullable @NonNls String s, ConvertContext context) {
     final GenericAttributeValue attribValue = context.getInvocationElement().getParentOfType(GenericAttributeValue.class, false);
     if (attribValue == null) {
       return null;
@@ -94,7 +94,7 @@ public class AntPathConverter extends Converter<PsiFileSystemItem> implements Cu
   }
 
   @Override
-  public String toString(@Nullable PsiFileSystemItem file, ConvertContext context) {
+  public String toString(@Nullable consulo.language.psi.PsiFileSystemItem file, ConvertContext context) {
     final GenericAttributeValue attribValue = context.getInvocationElement().getParentOfType(GenericAttributeValue.class, false);
     if (attribValue == null) {
       return null;
@@ -104,7 +104,7 @@ public class AntPathConverter extends Converter<PsiFileSystemItem> implements Cu
 
 
   @Nonnull
-  public PsiReference[] createReferences(GenericDomValue<PsiFileSystemItem> genericDomValue, PsiElement element, ConvertContext context) {
+  public consulo.language.psi.PsiReference[] createReferences(GenericDomValue<PsiFileSystemItem> genericDomValue, PsiElement element, ConvertContext context) {
     if (genericDomValue instanceof GenericAttributeValue) {
       final GenericAttributeValue attrib = (GenericAttributeValue)genericDomValue;
       if (attrib.getRawText() != null) {

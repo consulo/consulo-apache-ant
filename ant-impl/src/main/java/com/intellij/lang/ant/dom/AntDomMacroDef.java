@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import com.intellij.util.xml.*;
+import consulo.xml.util.xml.*;
 
 import java.util.List;
 

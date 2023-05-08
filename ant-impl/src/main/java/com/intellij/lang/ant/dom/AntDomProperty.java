@@ -15,34 +15,34 @@
  */
 package com.intellij.lang.ant.dom;
 
+import com.intellij.lang.properties.IProperty;
+import com.intellij.lang.properties.PropertiesFileType;
+import com.intellij.lang.properties.psi.PropertiesFile;
+import consulo.language.pom.PomService;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.util.io.FileUtil;
+import consulo.util.io.PathUtil;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.Convert;
+import consulo.xml.util.xml.DomTarget;
+import consulo.xml.util.xml.GenericAttributeValue;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import com.intellij.lang.properties.IProperty;
-import com.intellij.lang.properties.PropertiesFileType;
-import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.pom.references.PomService;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.PathUtil;
-import java.util.HashMap;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.DomTarget;
-import com.intellij.util.xml.GenericAttributeValue;
-
 /**
  * @author Eugene Zhuravlev
- *         Date: Apr 21, 2010
+ * Date: Apr 21, 2010
  */
-public abstract class AntDomProperty extends AntDomClasspathComponent implements PropertiesProvider{
+public abstract class AntDomProperty extends AntDomClasspathComponent implements PropertiesProvider {
   private volatile Map<String, String> myCachedProperties;
   private volatile ClassLoader myCachedLoader;
 
@@ -53,14 +53,14 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
 
   @Attribute("location")
   @Convert(value = AntPathConverter.class)
-  public abstract GenericAttributeValue<PsiFileSystemItem> getLocation();
+  public abstract GenericAttributeValue<consulo.language.psi.PsiFileSystemItem> getLocation();
 
   @Attribute("resource")
   public abstract GenericAttributeValue<String> getResource();
 
   @Attribute("file")
   @Convert(value = AntPathValidatingConverter.class)
-  public abstract GenericAttributeValue<PsiFileSystemItem> getFile();
+  public abstract GenericAttributeValue<consulo.language.psi.PsiFileSystemItem> getFile();
 
   @Attribute("url")
   public abstract GenericAttributeValue<String> getUrl();
@@ -113,15 +113,15 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
         }
       }
     }
-    
+
     if (domTarget != null) {
-      final PsiElement psi = PomService.convertToPsi(domTarget);
+      final consulo.language.psi.PsiElement psi = PomService.convertToPsi(domTarget);
       if (psi != null) {
         return psi;
       }
     }
 
-    final PsiFileSystemItem psiFile = getFile().getValue();
+    final consulo.language.psi.PsiFileSystemItem psiFile = getFile().getValue();
     if (psiFile != null) {
       final String prefix = getPropertyPrefixValue();
       String _propertyName = propertyName;
@@ -133,7 +133,7 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
       }
       if (psiFile instanceof PropertiesFile) {
         final IProperty property = ((PropertiesFile)psiFile).findPropertyByKey(_propertyName);
-        return property != null? property.getPsiElement() : null;
+        return property != null ? property.getPsiElement() : null;
       }
     }
     return null;
@@ -212,8 +212,9 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
             final InputStream stream = loader.getResourceAsStream(resource);
             if (stream != null) {
               try {
-                final PropertiesFile propFile = (PropertiesFile)CustomAntElementsRegistry.loadContentAsFile(getXmlTag().getProject(), stream,
-						PropertiesFileType.INSTANCE);
+                final PropertiesFile propFile =
+                  (PropertiesFile)CustomAntElementsRegistry.loadContentAsFile(getXmlTag().getProject(), stream,
+                                                                              PropertiesFileType.INSTANCE);
                 result = new HashMap<String, String>();
                 for (final IProperty property : propFile.getProperties()) {
                   result.put(property.getUnescapedKey(), property.getValue());
@@ -236,7 +237,8 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
       return null;
     }
     // prefix is only valid when loading from an url, file or resource
-    final boolean prefixIsApplicable = (getName().getRawText() == null) && (getUrl().getRawText() != null || getFile().getRawText() != null || getResource().getRawText() != null);
+    final boolean prefixIsApplicable =
+      (getName().getRawText() == null) && (getUrl().getRawText() != null || getFile().getRawText() != null || getResource().getRawText() != null);
     if (!prefixIsApplicable) {
       return null;
     }
@@ -251,7 +253,8 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
   private ClassLoader getClassLoader() {
     ClassLoader loader = myCachedLoader;
     if (loader == null) {
-      myCachedLoader = loader = CustomAntElementsRegistry.createClassLoader(CustomAntElementsRegistry.collectUrls(this), getContextAntProject());
+      myCachedLoader =
+        loader = CustomAntElementsRegistry.createClassLoader(CustomAntElementsRegistry.collectUrls(this), getContextAntProject());
     }
     return loader;
   }

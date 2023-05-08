@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.segments;
 
-import com.intellij.execution.testframework.Printable;
+import consulo.execution.test.Printable;
 
 public interface OutputPacketProcessor
 {

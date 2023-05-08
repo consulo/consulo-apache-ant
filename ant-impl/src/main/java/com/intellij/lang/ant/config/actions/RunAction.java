@@ -15,19 +15,20 @@
  */
 package com.intellij.lang.ant.config.actions;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildListener;
 import com.intellij.lang.ant.config.execution.AntBuildMessageView;
 import com.intellij.lang.ant.config.execution.ExecutionHandler;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.Presentation;
+import consulo.application.AllIcons;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.Presentation;
 
 import java.util.Collections;
 
-public final class RunAction extends AnAction {
+public final class RunAction extends AnAction
+{
   private final AntBuildMessageView myAntBuildMessageView;
 
   public RunAction(AntBuildMessageView antBuildMessageView) {

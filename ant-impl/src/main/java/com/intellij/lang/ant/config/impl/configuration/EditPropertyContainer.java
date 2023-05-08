@@ -15,7 +15,8 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import com.intellij.util.config.AbstractProperty;
+import consulo.component.util.config.AbstractProperty;
+
 import java.util.HashMap;
 import javax.annotation.Nullable;
 import javax.annotation.Nonnull;

@@ -16,12 +16,13 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntFilesProvider;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.util.text.StringTokenizer;
-import com.intellij.util.xml.Attribute;
-import com.intellij.util.xml.Convert;
-import com.intellij.util.xml.GenericAttributeValue;
-import com.intellij.util.xml.SubTagList;
+import consulo.util.lang.text.StringTokenizer;
+import consulo.xml.util.xml.Attribute;
+import consulo.xml.util.xml.Convert;
+import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.util.xml.SubTagList;
+import consulo.language.psi.PsiFileSystemItem;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -64,7 +65,7 @@ public abstract class AntDomFileList extends AntDomFilesProviderImpl{
 
     final String filenames = getFilesString().getStringValue();
     if (filenames != null) {
-      final StringTokenizer tokenizer = new StringTokenizer(filenames, ", \t\n\r\f", false);
+      final consulo.util.lang.text.StringTokenizer tokenizer = new StringTokenizer(filenames, ", \t\n\r\f", false);
       while (tokenizer.hasMoreTokens()) {
         files.add(new File(root, tokenizer.nextToken()));
       }

@@ -15,16 +15,17 @@
  */
 package com.intellij.lang.ant.quickfix;
 
-import com.intellij.codeInsight.daemon.impl.HectorComponent;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.EditorPopupHelper;
+import consulo.fileEditor.FileEditorManager;
+import consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -53,7 +54,7 @@ public class AntChangeContextLocalFix implements LocalQuickFix {
     if (editor == null) {
       return;
     }
-    final HectorComponent component = new HectorComponent(containingFile.getOriginalFile());
-    component.showComponent(JBPopupFactory.getInstance().guessBestPopupLocation(editor));
+    final HectorComponent component = new consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent(containingFile.getOriginalFile());
+    component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
   }
 }

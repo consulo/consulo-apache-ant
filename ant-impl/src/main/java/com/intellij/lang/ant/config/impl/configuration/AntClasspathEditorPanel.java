@@ -18,9 +18,9 @@ package com.intellij.lang.ant.config.impl.configuration;
 import com.intellij.lang.ant.config.impl.AllJarsUnderDirEntry;
 import com.intellij.lang.ant.config.impl.AntClasspathEntry;
 import com.intellij.lang.ant.config.impl.SinglePathEntry;
-import com.intellij.ui.ListUtil;
-import com.intellij.util.config.AbstractProperty;
-import com.intellij.util.config.ListProperty;
+import consulo.component.util.config.AbstractProperty;
+import consulo.component.util.config.ListProperty;
+import consulo.ui.ex.awt.util.ListUtil;
 
 import javax.swing.*;
 import java.awt.*;

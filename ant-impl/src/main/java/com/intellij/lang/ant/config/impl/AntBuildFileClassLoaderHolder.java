@@ -15,57 +15,49 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
+import consulo.component.util.config.AbstractProperty;
+import consulo.content.bundle.Sdk;
+import consulo.logging.Logger;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import consulo.apache.ant.sdk.AntSdkClassLoaderUtil;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.util.config.AbstractProperty;
+public class AntBuildFileClassLoaderHolder extends ClassLoaderHolder {
+  private static final Logger LOG = Logger.getInstance(AntBuildFileClassLoaderHolder.class);
 
-public class AntBuildFileClassLoaderHolder extends ClassLoaderHolder
-{
-	private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntBuildFileClassLoaderHolder");
+  protected final AbstractProperty.AbstractPropertyContainer myOptions;
 
-	protected final AbstractProperty.AbstractPropertyContainer myOptions;
+  public AntBuildFileClassLoaderHolder(AbstractProperty.AbstractPropertyContainer options) {
+    myOptions = options;
+  }
 
-	public AntBuildFileClassLoaderHolder(AbstractProperty.AbstractPropertyContainer options)
-	{
-		myOptions = options;
-	}
+  @Override
+  protected ClassLoader buildClasspath() {
+    final ArrayList<File> files = new ArrayList<File>();
+    for (final AntClasspathEntry entry : AntBuildFileImpl.ADDITIONAL_CLASSPATH.get(myOptions)) {
+      entry.addFilesTo(files);
+    }
 
-	@Override
-	protected ClassLoader buildClasspath()
-	{
-		final ArrayList<File> files = new ArrayList<File>();
-		for(final AntClasspathEntry entry : AntBuildFileImpl.ADDITIONAL_CLASSPATH.get(myOptions))
-		{
-			entry.addFilesTo(files);
-		}
+    final Sdk antInstallation = AntBuildFileImpl.RUN_WITH_ANT.get(myOptions);
+    final ClassLoader parentLoader = (antInstallation != null) ? AntSdkClassLoaderUtil.getClassLoader(antInstallation) : null;
+    if (parentLoader != null && files.size() == 0) {
+      // no additional classpath, so it's ok to use ant installation's loader
+      return parentLoader;
+    }
 
-		final Sdk antInstallation = AntBuildFileImpl.RUN_WITH_ANT.get(myOptions);
-		final ClassLoader parentLoader = (antInstallation != null) ? AntSdkClassLoaderUtil.getClassLoader(antInstallation) : null;
-		if(parentLoader != null && files.size() == 0)
-		{
-			// no additional classpath, so it's ok to use ant installation's loader
-			return parentLoader;
-		}
-
-		final List<URL> urls = new ArrayList<URL>(files.size());
-		for(File file : files)
-		{
-			try
-			{
-				urls.add(file.toURI().toURL());
-			}
-			catch(MalformedURLException e)
-			{
-				LOG.debug(e);
-			}
-		}
-		return new AntResourcesClassLoader(urls, parentLoader, false, false);
-	}
+    final List<URL> urls = new ArrayList<URL>(files.size());
+    for (File file : files) {
+      try {
+        urls.add(file.toURI().toURL());
+      }
+      catch (MalformedURLException e) {
+        LOG.debug(e);
+      }
+    }
+    return new AntResourcesClassLoader(urls, parentLoader, false, false);
+  }
 }

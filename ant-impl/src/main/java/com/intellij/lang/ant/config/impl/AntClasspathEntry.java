@@ -15,31 +15,30 @@
  */
 package com.intellij.lang.ant.config.impl;
 
+import consulo.component.util.config.Externalizer;
+import consulo.fileChooser.FileChooserDescriptor;
+import consulo.fileChooser.IdeaFileChooser;
+import consulo.ide.ui.CellAppearanceEx;
+import consulo.util.collection.ContainerUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFilePathUtil;
+import org.jdom.Element;
+
+import javax.swing.*;
 import java.io.File;
 import java.util.List;
-
-import javax.swing.JComponent;
-
-import org.jdom.Element;
-import com.intellij.openapi.fileChooser.FileChooser;
-import com.intellij.openapi.fileChooser.FileChooserDescriptor;
-import com.intellij.openapi.roots.ui.CellAppearanceEx;
-import com.intellij.openapi.util.NullableFactory;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.Function;
-import com.intellij.util.PathUtil;
-import com.intellij.util.config.Externalizer;
-import com.intellij.util.containers.ContainerUtil;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public interface AntClasspathEntry {
   Externalizer<AntClasspathEntry> EXTERNALIZER = new Externalizer<AntClasspathEntry>() {
     public AntClasspathEntry readValue(Element dataElement) {
       String pathUrl = dataElement.getAttributeValue(SinglePathEntry.PATH);
       if (pathUrl != null)
-        return new SinglePathEntry(PathUtil.toPresentableUrl(pathUrl));
+        return new SinglePathEntry(VirtualFilePathUtil.toPresentableUrl(pathUrl));
       String dirUrl = dataElement.getAttributeValue(AllJarsUnderDirEntry.DIR);
       if (dirUrl != null)
-        return new AllJarsUnderDirEntry(PathUtil.toPresentableUrl(dirUrl));
+        return new AllJarsUnderDirEntry(VirtualFilePathUtil.toPresentableUrl(dirUrl));
       throw new IllegalStateException();
     }
 
@@ -54,7 +53,7 @@ public interface AntClasspathEntry {
 
   CellAppearanceEx getAppearance();
 
-  abstract class AddEntriesFactory implements NullableFactory<List<AntClasspathEntry>> {
+  abstract class AddEntriesFactory implements Supplier<List<AntClasspathEntry>> {
     private final JComponent myParentComponent;
     private final FileChooserDescriptor myDescriptor;
     private final Function<VirtualFile,AntClasspathEntry> myMapper;
@@ -67,8 +66,8 @@ public interface AntClasspathEntry {
       myMapper = mapper;
     }
 
-    public List<AntClasspathEntry> create() {
-      final VirtualFile[] files = FileChooser.chooseFiles(myDescriptor, myParentComponent, null, null);
+    public List<AntClasspathEntry> get() {
+      final VirtualFile[] files = IdeaFileChooser.chooseFiles(myDescriptor, myParentComponent, null, null);
       return files.length == 0 ? null : ContainerUtil.map(files, myMapper);
     }
   }

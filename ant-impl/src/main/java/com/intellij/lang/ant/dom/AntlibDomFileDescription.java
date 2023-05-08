@@ -15,16 +15,18 @@
  */
 package com.intellij.lang.ant.dom;
 
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.xml.psi.xml.XmlDocument;
+import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.psi.xml.XmlTag;
 
-import com.intellij.psi.xml.XmlDocument;
-import com.intellij.psi.xml.XmlFile;
-import com.intellij.psi.xml.XmlTag;
+import javax.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
  *         Date: Apr 6, 2010
  */
+@ExtensionImpl
 public class AntlibDomFileDescription extends AntFileDescription<AntDomAntlib> {
   private static final String ROOT_TAG_NAME = "antlib";
 

@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.ant;
 
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.progress.ProcessCanceledException;
-import com.intellij.openapi.util.Pair;
+import consulo.component.ProcessCanceledException;
+import consulo.logging.Logger;
+import consulo.util.lang.Pair;
 import org.jetbrains.annotations.NonNls;
 import javax.annotation.Nullable;
 

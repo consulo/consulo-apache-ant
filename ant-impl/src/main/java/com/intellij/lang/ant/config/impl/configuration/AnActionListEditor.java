@@ -15,24 +15,24 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import com.intellij.execution.ExecutionBundle;
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.ActionPlaces;
-import com.intellij.openapi.actionSystem.ActionToolbar;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Factory;
-import com.intellij.ui.ListScrollingUtil;
-import com.intellij.ui.ReorderableListController;
+import consulo.application.ApplicationManager;
+import consulo.execution.ExecutionBundle;
+import consulo.ide.impl.idea.ui.ListScrollingUtil;
+import consulo.ide.impl.idea.ui.ReorderableListController;
+import consulo.ui.ex.action.ActionManager;
+import consulo.ui.ex.action.ActionPlaces;
+import consulo.ui.ex.action.ActionToolbar;
+import consulo.ui.ex.action.DefaultActionGroup;
+import consulo.ui.ex.awt.Messages;
+import consulo.util.lang.function.Condition;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class AnActionListEditor<T> extends JPanel {
   private final Form<T> myForm = new Form<T>();
@@ -44,7 +44,7 @@ public class AnActionListEditor<T> extends JPanel {
     add(myForm.myWholePanel, BorderLayout.CENTER);
   }
 
-  public void addAddAction(final Factory<T> newItemFactory) {
+  public void addAddAction(final Supplier<T> newItemFactory) {
     ReorderableListController<T>.AddActionDescription description = myForm.getListActionsBuilder().addAddAction(
       AntBundle.message("add.action.name"), newItemFactory, true);
     description.addPostHandler(new ReorderableListController.ActionNotification<T>() {
@@ -55,7 +55,7 @@ public class AnActionListEditor<T> extends JPanel {
     description.setShowText(true);
   }
 
-  public void addRemoveButtonForAnt(final Condition<T> removeCondition, String actionName) {
+  public void addRemoveButtonForAnt(final consulo.util.lang.function.Condition<T> removeCondition, String actionName) {
     final ReorderableListController<T>.RemoveActionDescription description = myForm.getListActionsBuilder().addRemoveAction(actionName);
     description.addPostHandler(new ReorderableListController.ActionNotification<List<T>>() {
       public void afterActionPerformed(List<T> list) {
