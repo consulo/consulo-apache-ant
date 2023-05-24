@@ -610,7 +610,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
 
   private final class ShowModuleGrouping extends ToggleAction {
     public ShowModuleGrouping() {
-      super("Module grouping", "Module grouping", AllIcons.ObjectBrowser.ShowModules);
+      super("Module grouping", "Module grouping", AllIcons.Actions.GroupByModule);
     }
 
     public boolean isSelected(AnActionEvent event) {
