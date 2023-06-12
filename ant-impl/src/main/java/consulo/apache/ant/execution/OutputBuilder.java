@@ -9,7 +9,7 @@ import consulo.build.ui.progress.BuildProgress;
 import consulo.build.ui.progress.BuildProgressDescriptor;
 import consulo.compiler.CompilerMessageCategory;
 import consulo.logging.Logger;
-import consulo.process.local.BaseProcessHandler;
+import consulo.process.ProcessHandler;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
@@ -37,7 +37,7 @@ public class OutputBuilder implements OutputWatcher, MessageProcessor {
   private static final Logger LOG = Logger.getInstance(OutputBuilder.class);
   private final Project myProject;
   private final BuildProgress<BuildProgressDescriptor> myBuildProgress;
-  private final BaseProcessHandler<?> myProcessHandler;
+  private final ProcessHandler myProcessHandler;
   private boolean isStopped;
   private List<String> myJavacMessages;
   private boolean myIsEcho;
@@ -49,7 +49,7 @@ public class OutputBuilder implements OutputWatcher, MessageProcessor {
   private Deque<BuildProgress<BuildProgressDescriptor>> myQueue = new ConcurrentLinkedDeque<>();
 
   public OutputBuilder(Project project,
-                       BaseProcessHandler<?> processHandler,
+                       ProcessHandler processHandler,
                        BuildProgress<BuildProgressDescriptor> buildProgress) {
     myProject = project;
     myProcessHandler = processHandler;

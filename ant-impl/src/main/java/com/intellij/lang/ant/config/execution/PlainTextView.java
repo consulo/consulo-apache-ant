@@ -17,6 +17,7 @@ package com.intellij.lang.ant.config.execution;
 
 import consulo.application.ApplicationManager;
 import consulo.execution.ui.console.*;
+import consulo.process.NopProcessHandler;
 import consulo.process.ProcessHandler;
 import consulo.process.ProcessOutputTypes;
 import consulo.project.Project;
@@ -27,14 +28,13 @@ import consulo.virtualFileSystem.VirtualFile;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.io.File;
-import java.io.OutputStream;
 
 public final class PlainTextView implements AntOutputView {
 
   private final ConsoleView myConsole;
   private final Project myProject;
   private String myCommandLine;
-  private final LightProcessHandler myProcessHandler = new LightProcessHandler();
+  private final ProcessHandler myProcessHandler = new NopProcessHandler();
 
   public PlainTextView(Project project) {
     myProject = project;
@@ -215,29 +215,6 @@ public final class PlainTextView implements AntOutputView {
 
       OpenFileHyperlinkInfo info = new OpenFileHyperlinkInfo(myProject, file, lineNumber - 1);
       return new Result(textStartOffset, highlightEndOffset, info);
-    }
-  }
-
-  private static class LightProcessHandler extends ProcessHandler {
-    @Override
-    protected void destroyProcessImpl() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected void detachProcessImpl() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean detachIsDefault() {
-      return false;
-    }
-
-    @Override
-    @Nullable
-    public OutputStream getProcessInput() {
-      return null;
     }
   }
 }

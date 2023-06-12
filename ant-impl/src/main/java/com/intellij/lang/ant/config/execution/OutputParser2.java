@@ -23,7 +23,6 @@ import consulo.build.ui.progress.BuildProgress;
 import consulo.build.ui.progress.BuildProgressDescriptor;
 import consulo.process.event.ProcessEvent;
 import consulo.process.event.ProcessListener;
-import consulo.process.local.BaseProcessHandler;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessage;
@@ -39,7 +38,7 @@ final class OutputParser2 {
                                            AntBuildFile buildFile,
                                            BuildProgress<BuildProgressDescriptor> buildProgress) {
     final OutputBuilder parser = new OutputBuilder(myProject,
-                                                   (BaseProcessHandler<?>)handler.getProcessHandler(),
+                                                   handler.getProcessHandler(),
                                                    buildProgress
     );
     handler.addProcessListener(new ProcessListener() {

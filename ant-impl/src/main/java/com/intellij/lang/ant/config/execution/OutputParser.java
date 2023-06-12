@@ -24,7 +24,7 @@ import consulo.application.ApplicationManager;
 import consulo.application.progress.ProgressIndicator;
 import consulo.compiler.CompilerMessageCategory;
 import consulo.logging.Logger;
-import consulo.process.local.BaseProcessHandler;
+import consulo.process.ProcessHandler;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
@@ -47,7 +47,7 @@ public class OutputParser implements OutputWatcher {
   private final OldAntBuildMessageView myMessageView;
   private final WeakReference<ProgressIndicator> myProgress;
   private final String myBuildName;
-  private final BaseProcessHandler<?> myProcessHandler;
+  private final ProcessHandler myProcessHandler;
   private boolean isStopped;
   private List<String> myJavacMessages;
   private boolean myFirstLineProcessed;
@@ -55,7 +55,7 @@ public class OutputParser implements OutputWatcher {
   private boolean myIsEcho;
 
   public OutputParser(Project project,
-                      BaseProcessHandler<?> processHandler,
+                      ProcessHandler processHandler,
                       OldAntBuildMessageView errorsView,
                       ProgressIndicator progress,
                       String buildName) {
@@ -81,7 +81,7 @@ public class OutputParser implements OutputWatcher {
     return myProject;
   }
 
-  protected BaseProcessHandler<?> getProcessHandler() {
+  protected ProcessHandler getProcessHandler() {
     return myProcessHandler;
   }
 
