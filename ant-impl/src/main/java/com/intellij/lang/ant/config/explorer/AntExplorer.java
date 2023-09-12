@@ -32,6 +32,7 @@ import consulo.dataContext.DataProvider;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
 import consulo.execution.event.RunManagerListener;
+import consulo.execution.event.RunManagerListenerEvent;
 import consulo.fileChooser.FileChooserDescriptor;
 import consulo.fileChooser.IdeaFileChooser;
 import consulo.ide.impl.idea.ide.dnd.FileCopyPasteUtil;
@@ -164,7 +165,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements DataProvider, 
 
     myProject.getMessageBus().connect().subscribe(RunManagerListener.class, new RunManagerListener() {
       @Override
-      public void beforeRunTasksChanged() {
+      public void beforeRunTasksChanged(RunManagerListenerEvent event) {
         myBuilder.queueUpdate();
       }
     });
