@@ -1,8 +1,7 @@
 package consulo.apache.ant.util;
 
-import com.intellij.java.language.projectRoots.JavaSdk;
 import consulo.content.bundle.Sdk;
-import consulo.content.bundle.SdkTable;
+import consulo.java.language.bundle.JavaSdkTypeUtil;
 
 /**
  * @author VISTALL
@@ -10,7 +9,7 @@ import consulo.content.bundle.SdkTable;
  */
 public class AntJavaSdkUtil {
   public static Sdk getBundleSdk() {
-    return SdkTable.getInstance().findPredefinedSdkByType(JavaSdk.getInstance());
+    return JavaSdkTypeUtil.getAllJavaSdks().stream().filter(Sdk::isPredefined).findAny().orElse(null);
   }
 
   public static String getBundleSdkName() {

@@ -15,16 +15,15 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import com.intellij.java.language.projectRoots.JavaSdk;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.impl.*;
 import consulo.component.util.config.AbstractProperty;
 import consulo.content.bundle.Sdk;
-import consulo.content.bundle.SdkTable;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
 import consulo.execution.ui.awt.RawCommandLineEditor;
+import consulo.java.language.bundle.JavaSdkTypeUtil;
 import consulo.project.Project;
 import consulo.ui.ex.awt.*;
 import consulo.ui.ex.awt.table.JBTable;
@@ -443,8 +442,8 @@ public class BuildFilePropertiesPanel {
         }, String.CASE_INSENSITIVE_ORDER) {
           @Override
           public Iterator<Sdk> getAllListItems() {
-            List<Sdk> sdksOfType = SdkTable.getInstance().getSdksOfType(JavaSdk.getInstance());
-            List<Sdk> controller = new ArrayList<Sdk>(sdksOfType);
+            List<Sdk> sdksOfType = JavaSdkTypeUtil.getAllJavaSdks();
+            List<Sdk> controller = new ArrayList<>(sdksOfType);
             controller.add(0, null);
             return controller.iterator();
           }
