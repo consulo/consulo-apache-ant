@@ -17,12 +17,15 @@ package com.intellij.lang.ant.config.impl;
 
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.actions.TargetActionStub;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
 import consulo.disposer.Disposable;
 import consulo.project.Project;
-import consulo.project.startup.StartupManager;
 import consulo.ui.ex.action.ActionManager;
 import consulo.ui.ex.keymap.Keymap;
 import consulo.ui.ex.keymap.KeymapManager;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 /**
@@ -30,19 +33,17 @@ import jakarta.inject.Singleton;
  * Date: Apr 24, 2007
  */
 @Singleton
+@ServiceAPI(ComponentScope.PROJECT)
+@ServiceImpl
 public class AntToolwindowRegistrar implements Disposable {
   private final Project myProject;
 
-  @jakarta.inject.Inject
-  public AntToolwindowRegistrar(Project project, StartupManager startupManager) {
+  @Inject
+  public AntToolwindowRegistrar(Project project) {
     myProject = project;
-    if (project.isDefault()) {
-      return;
-    }
-    startupManager.registerPostStartupActivity(uiAccess -> projectOpened());
   }
 
-  private void projectOpened() {
+  public void projectOpened() {
     final KeymapManager keymapManager = KeymapManager.getInstance();
     final String prefix = AntConfiguration.getActionIdPrefix(myProject);
     final ActionManager actionManager = ActionManager.getInstance();
