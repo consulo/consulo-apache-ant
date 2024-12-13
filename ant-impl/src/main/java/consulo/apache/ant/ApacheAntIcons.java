@@ -12,9 +12,8 @@ public interface ApacheAntIcons {
   Image AntGroup = PlatformIconGroup.nodesFolder();
   Image AntInstallation = ApacheAntImplIconGroup.antinstallation();
   Image MetaTarget = ApacheAntImplIconGroup.metatarget();
-  Image Properties = PlatformIconGroup.actionsProperties();
   Image Target = ApacheAntImplIconGroup.target();
-  Image Task = ApacheAntImplIconGroup.task();
+  Image Task = PlatformIconGroup.nodesTask();
   Image ToolWindowAnt = ApacheAntImplIconGroup.toolwindowant();
-  Image Verbose = ApacheAntImplIconGroup.verbose();
+  Image Verbose = PlatformIconGroup.filetypesText();
 }

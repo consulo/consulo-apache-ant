@@ -17,7 +17,7 @@ package com.intellij.lang.ant.config.actions;
 
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.explorer.AntExplorer;
-import consulo.apache.ant.ApacheAntIcons;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.CommonShortcuts;
@@ -28,7 +28,7 @@ public final class AntBuildFilePropertiesAction extends AnAction {
 
   public AntBuildFilePropertiesAction(AntExplorer antExplorer) {
     super(AntBundle.message("build.file.properties.action.name"),
-          AntBundle.message("build.file.properties.action.description"), ApacheAntIcons.Properties);
+          AntBundle.message("build.file.properties.action.description"), PlatformIconGroup.actionsShow());
     myAntExplorer = antExplorer;
     registerCustomShortcutSet(CommonShortcuts.ALT_ENTER, myAntExplorer);
   }

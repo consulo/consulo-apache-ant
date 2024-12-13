@@ -16,8 +16,8 @@
 package consulo.apache.ant.config.explorer;
 
 import com.intellij.lang.ant.config.explorer.AntNodeDescriptor;
-import consulo.application.AllIcons;
 import consulo.module.Module;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;
@@ -29,15 +29,14 @@ import javax.annotation.Nonnull;
 * @author VISTALL
 * @date 14:08/08.03.13
 */
-public final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor
-{
+public final class AntModuleInfoNodeDescriptor extends AntNodeDescriptor {
   private Module myModule;
 
   public AntModuleInfoNodeDescriptor(Project project, NodeDescriptor parentDescriptor, Module module) {
     super(project, parentDescriptor);
     myModule = module;
     myName = module.getName();
-    setIcon(AllIcons.Actions.Module);
+    setIcon(PlatformIconGroup.nodesModule());
   }
 
   @Override
