@@ -15,24 +15,20 @@
  */
 package com.intellij.lang.ant.config.impl.configuration;
 
-import consulo.application.AllIcons;
-import consulo.content.bundle.SdkUtil;
-import consulo.ide.impl.idea.ide.macro.MacrosDialog;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.impl.AntClasspathEntry;
 import com.intellij.lang.ant.config.impl.AntReference;
 import com.intellij.lang.ant.config.impl.GlobalAntConfiguration;
-import consulo.logging.Logger;
+import consulo.application.AllIcons;
 import consulo.content.bundle.Sdk;
-import consulo.ide.ui.OrderEntryAppearanceService;
-import consulo.ui.ex.awt.*;
-import consulo.ui.ex.awt.ColoredListCellRenderer;
-import consulo.ui.ex.JBColor;
-import consulo.ui.ex.awt.SimpleColoredComponent;
-import consulo.ui.ex.SimpleTextAttributes;
+import consulo.content.bundle.SdkUtil;
+import consulo.ide.impl.idea.ide.macro.MacrosDialog;
 import consulo.ide.impl.idea.util.IconUtil;
-import consulo.ui.ex.awt.CellEditorComponentWithBrowseButton;
-import consulo.ui.ex.awt.FixedSizeButton;
+import consulo.ide.ui.OrderEntryAppearanceService;
+import consulo.logging.Logger;
+import consulo.ui.ex.JBColor;
+import consulo.ui.ex.SimpleTextAttributes;
+import consulo.ui.ex.awt.*;
 import consulo.ui.ex.awtUnsafe.TargetAWT;
 
 import javax.swing.*;
@@ -134,7 +130,7 @@ public class AntUIUtil
 			myComponent = new CellEditorComponentWithBrowseButton<JTextField>(new TextFieldWithBrowseButton(), this);
 			getChildComponent().setBorder(BorderFactory.createLineBorder(JBColor.black));
 
-			FixedSizeButton button = myComponent.getComponentWithButton().getButton();
+			JButton button = myComponent.getComponentWithButton().getButton();
 			button.setIcon(TargetAWT.to(IconUtil.getAddIcon()));
 			button.setToolTipText(AntBundle.message("ant.property.value.editor.insert.macro.tooltip.text"));
 			button.addActionListener(new ActionListener()
