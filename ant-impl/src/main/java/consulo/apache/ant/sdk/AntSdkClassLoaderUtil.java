@@ -5,7 +5,7 @@ import com.intellij.lang.ant.config.impl.ClassLoaderHolder;
 import consulo.content.bundle.Sdk;
 import consulo.util.dataholder.Key;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

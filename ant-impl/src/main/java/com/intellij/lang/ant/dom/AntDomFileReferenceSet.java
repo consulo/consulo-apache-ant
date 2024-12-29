@@ -29,8 +29,8 @@ import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.psi.xml.XmlAttributeValue;
 import consulo.xml.util.xml.GenericAttributeValue;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collection;
 
 public class AntDomFileReferenceSet extends FileReferenceSet {

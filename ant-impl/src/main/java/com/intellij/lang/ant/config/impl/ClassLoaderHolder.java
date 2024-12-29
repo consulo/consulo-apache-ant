@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev

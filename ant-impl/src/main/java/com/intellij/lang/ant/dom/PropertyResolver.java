@@ -19,7 +19,7 @@ import consulo.language.psi.PsiElement;
 import consulo.xml.util.xml.DomElement;
 import consulo.util.lang.Trinity;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.*;
 

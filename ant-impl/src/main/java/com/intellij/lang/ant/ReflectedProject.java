@@ -19,7 +19,7 @@ import consulo.component.ProcessCanceledException;
 import consulo.logging.Logger;
 import consulo.util.lang.Pair;
 import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.InvocationTargetException;

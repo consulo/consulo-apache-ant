@@ -51,7 +51,7 @@ import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.encoding.EncodingProjectManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;

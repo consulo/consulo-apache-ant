@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev

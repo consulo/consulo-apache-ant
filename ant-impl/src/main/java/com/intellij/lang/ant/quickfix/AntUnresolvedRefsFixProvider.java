@@ -22,7 +22,7 @@ import consulo.language.editor.intention.UnresolvedReferenceQuickFixProvider;
 import consulo.language.psi.PsiReference;
 import consulo.xml.psi.impl.source.xml.TagNameReference;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev

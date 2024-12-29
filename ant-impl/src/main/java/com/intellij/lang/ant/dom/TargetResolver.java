@@ -17,8 +17,8 @@ package com.intellij.lang.ant.dom;
 
 import consulo.util.lang.Pair;
 import java.util.HashMap;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 

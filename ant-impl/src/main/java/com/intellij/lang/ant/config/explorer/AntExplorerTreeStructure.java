@@ -31,8 +31,8 @@ import consulo.ui.ex.tree.NodeDescriptor;
 import consulo.ui.style.StandardColors;
 import consulo.util.concurrent.ActionCallback;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 final class AntExplorerTreeStructure extends AbstractTreeStructure {
   private static final Logger LOG = Logger.getInstance(AntExplorerTreeStructure.class);

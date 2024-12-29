@@ -18,7 +18,7 @@ package com.intellij.lang.ant.config;
 
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
 import consulo.dataContext.DataContext;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
 

@@ -28,8 +28,8 @@ import consulo.xml.util.xml.Convert;
 import consulo.xml.util.xml.DomTarget;
 import consulo.xml.util.xml.GenericAttributeValue;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

@@ -21,7 +21,7 @@ import consulo.xml.psi.xml.XmlElement;
 import consulo.xml.util.xml.DomTarget;
 import consulo.xml.util.xml.GenericAttributeValue;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.*;
 
 /**

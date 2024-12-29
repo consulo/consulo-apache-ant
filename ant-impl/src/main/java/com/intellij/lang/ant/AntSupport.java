@@ -33,7 +33,7 @@ import consulo.xml.util.xml.DomElement;
 import consulo.xml.util.xml.DomFileElement;
 import consulo.xml.util.xml.DomManager;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import javax.swing.*;
 
 public class AntSupport {

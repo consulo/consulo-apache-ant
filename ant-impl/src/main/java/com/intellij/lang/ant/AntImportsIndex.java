@@ -29,7 +29,7 @@ import consulo.util.xml.fastReader.NanoXmlUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.ide.highlighter.XmlFileType;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 

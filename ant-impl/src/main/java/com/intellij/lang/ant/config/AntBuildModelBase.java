@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import com.intellij.lang.ant.config.impl.BuildTask;
 import com.intellij.lang.ant.dom.AntDomProject;

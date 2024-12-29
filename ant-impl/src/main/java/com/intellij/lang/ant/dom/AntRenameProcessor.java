@@ -24,8 +24,8 @@ import consulo.util.lang.Trinity;
 import consulo.xml.util.xml.DomElement;
 import consulo.xml.util.xml.DomTarget;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

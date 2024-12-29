@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.validation;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProperty;

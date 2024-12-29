@@ -21,8 +21,8 @@ import consulo.application.dumb.DumbAware;
 import consulo.project.Project;
 import consulo.ui.ex.action.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

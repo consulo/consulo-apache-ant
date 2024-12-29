@@ -20,7 +20,7 @@ import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.psi.xml.XmlFile;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface AntBuildFile {
 

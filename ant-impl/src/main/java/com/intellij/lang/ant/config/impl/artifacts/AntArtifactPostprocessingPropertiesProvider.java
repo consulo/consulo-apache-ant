@@ -20,7 +20,7 @@ import consulo.compiler.artifact.ArtifactProperties;
 import consulo.compiler.artifact.ArtifactPropertiesProvider;
 import consulo.compiler.artifact.ArtifactType;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author nik

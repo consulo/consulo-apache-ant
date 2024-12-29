@@ -25,7 +25,7 @@ import consulo.project.Project;
 import consulo.language.psi.PsiDocumentManager;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import consulo.xml.util.xml.XmlName;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author Eugene Zhuravlev

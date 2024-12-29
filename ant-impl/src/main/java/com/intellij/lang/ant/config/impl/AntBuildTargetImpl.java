@@ -35,7 +35,7 @@ import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.util.xml.DomTarget;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 public class AntBuildTargetImpl implements AntBuildTargetBase {

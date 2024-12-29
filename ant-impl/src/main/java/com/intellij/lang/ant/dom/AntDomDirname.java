@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import consulo.ide.impl.idea.openapi.util.io.FileUtil;
 import consulo.xml.util.xml.Attribute;

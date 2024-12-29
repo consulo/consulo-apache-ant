@@ -26,7 +26,7 @@ import consulo.ui.ex.SimpleTextAttributes;
 import consulo.ui.ex.tree.NodeDescriptor;
 import consulo.util.lang.Comparing;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
 

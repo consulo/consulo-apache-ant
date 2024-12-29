@@ -42,7 +42,7 @@ import consulo.ui.util.LightDarkColorValue;
 import consulo.util.lang.Comparing;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 

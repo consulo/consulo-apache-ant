@@ -22,7 +22,7 @@ import consulo.process.ProcessHandlerBuilder;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.event.ProcessListener;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author dyoma

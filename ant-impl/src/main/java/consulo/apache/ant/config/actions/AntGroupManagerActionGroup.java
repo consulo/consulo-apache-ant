@@ -27,8 +27,8 @@ import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.AnSeparator;
 import consulo.ui.ex.awt.tree.Tree;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.ArrayList;
 import java.util.Collections;

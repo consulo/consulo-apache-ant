@@ -21,7 +21,7 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.xml.util.xml.highlighting.BasicDomElementsInspection;
 import org.jetbrains.annotations.Nls;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class AntInspection extends BasicDomElementsInspection<AntDomProject, Object> {
 

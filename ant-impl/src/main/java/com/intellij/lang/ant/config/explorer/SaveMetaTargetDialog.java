@@ -26,7 +26,7 @@ import consulo.ui.ex.awt.ScrollPaneFactory;
 import consulo.ui.ex.awt.JBList;
 import consulo.util.collection.ArrayUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

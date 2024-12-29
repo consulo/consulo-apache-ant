@@ -25,8 +25,8 @@ import consulo.xml.psi.xml.XmlAttribute;
 import consulo.xml.psi.xml.XmlAttributeValue;
 import consulo.xml.util.xml.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

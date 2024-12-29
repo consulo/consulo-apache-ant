@@ -22,7 +22,7 @@ import consulo.navigation.OpenFileDescriptorFactory;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.util.xml.DomTarget;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public final class BuildTask {
   public static final BuildTask[] EMPTY_ARRAY = new BuildTask[0];

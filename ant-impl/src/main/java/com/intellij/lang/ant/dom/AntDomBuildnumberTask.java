@@ -21,7 +21,7 @@ import consulo.xml.util.xml.GenericAttributeValue;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFileSystemItem;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.Iterator;

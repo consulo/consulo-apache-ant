@@ -33,7 +33,7 @@ import consulo.util.lang.Pair;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.psi.xml.XmlFile;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.*;
 
 public class AntBuildModelImpl implements AntBuildModelBase {

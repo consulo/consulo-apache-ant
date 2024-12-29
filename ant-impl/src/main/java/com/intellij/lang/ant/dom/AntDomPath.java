@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntFilesProvider;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.io.File;
 import java.util.Iterator;

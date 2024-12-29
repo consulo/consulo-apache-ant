@@ -23,7 +23,7 @@ import consulo.ide.ServiceManager;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 @ServiceAPI(ComponentScope.PROJECT)
 public abstract class AntConfiguration {

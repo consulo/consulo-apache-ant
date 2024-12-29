@@ -18,8 +18,8 @@ package com.intellij.lang.ant.config.impl.configuration;
 import consulo.component.util.config.AbstractProperty;
 
 import java.util.HashMap;
-import javax.annotation.Nullable;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.annotation.Nonnull;
 
 import java.util.Map;
 

@@ -39,7 +39,7 @@ import consulo.ui.ex.awt.tree.TreeUtil;
 import consulo.util.lang.Comparing;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
