@@ -18,6 +18,7 @@ package consulo.apache.ant.sdk;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.apache.ant.ApacheAntIcons;
 import consulo.apache.ant.util.AntVersionUtil;
+import consulo.application.Application;
 import consulo.container.plugin.PluginManager;
 import consulo.content.OrderRootType;
 import consulo.content.base.BinariesOrderRootType;
@@ -44,7 +45,7 @@ import java.util.List;
 public class AntSdkType extends SdkType {
   @Nonnull
   public static AntSdkType getInstance() {
-    return EP_NAME.findExtensionOrFail(AntSdkType.class);
+    return Application.get().getExtensionPoint(AntSdkType.class).findExtensionOrFail(AntSdkType.class);
   }
 
   public AntSdkType() {
