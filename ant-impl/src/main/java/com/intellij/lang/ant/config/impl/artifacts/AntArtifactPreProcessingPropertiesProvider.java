@@ -16,6 +16,7 @@
 package com.intellij.lang.ant.config.impl.artifacts;
 
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
 import consulo.compiler.artifact.ArtifactProperties;
 import consulo.compiler.artifact.ArtifactPropertiesProvider;
 import consulo.compiler.artifact.ArtifactType;
@@ -27,10 +28,6 @@ import jakarta.annotation.Nonnull;
  */
 @ExtensionImpl
 public class AntArtifactPreProcessingPropertiesProvider extends ArtifactPropertiesProvider {
-  public static AntArtifactPreProcessingPropertiesProvider getInstance() {
-    return EP_NAME.findExtension(AntArtifactPreProcessingPropertiesProvider.class);
-  }
-
   public AntArtifactPreProcessingPropertiesProvider() {
     super("ant-preprocessing");
   }

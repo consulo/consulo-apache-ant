@@ -27,17 +27,13 @@ import jakarta.annotation.Nonnull;
  */
 @ExtensionImpl
 public class AntArtifactPostprocessingPropertiesProvider extends ArtifactPropertiesProvider {
-  public static AntArtifactPostprocessingPropertiesProvider getInstance() {
-    return EP_NAME.findExtension(AntArtifactPostprocessingPropertiesProvider.class);
-  }
-
   public AntArtifactPostprocessingPropertiesProvider() {
     super("ant-postprocessing");
   }
 
+  @Override
   @Nonnull
   public ArtifactProperties<?> createProperties(@Nonnull ArtifactType artifactType) {
     return new AntArtifactProperties(true);
   }
-
 }
