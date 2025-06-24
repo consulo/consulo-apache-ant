@@ -188,10 +188,6 @@ public final class ExecutionHandler {
                                         AntBuildListener antBuildListener,
                                         @Nonnull BuildProgress<BuildProgressDescriptor> buildProgress) {
     final Project project = buildFile.getProject();
-    final StatusBar statusbar = WindowManager.getInstance().getStatusBar(project);
-    if (statusbar != null) {
-      statusbar.setInfo(AntBundle.message("ant.build.started.status.message"));
-    }
 
     final CheckCancelTask checkCancelTask = new CheckCancelTask(progress, wrapper.getProcessHandler());
     checkCancelTask.start(0);

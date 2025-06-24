@@ -713,10 +713,6 @@ public final class OldAntBuildMessageView extends JPanel implements DataProvider
       public void printOn(Printer printer) {
         if (!myProject.isDisposed()) { // if not disposed
           addCommand(new FinishBuildCommand(message));
-          final StatusBar statusBar = WindowManager.getInstance().getStatusBar(myProject);
-          if (statusBar != null) {
-            statusBar.setInfo(message);
-          }
         }
       }
     });
