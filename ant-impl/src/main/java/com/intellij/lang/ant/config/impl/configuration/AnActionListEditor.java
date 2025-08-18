@@ -18,13 +18,13 @@ package com.intellij.lang.ant.config.impl.configuration;
 import com.intellij.lang.ant.AntBundle;
 import consulo.application.ApplicationManager;
 import consulo.execution.ExecutionBundle;
-import consulo.ide.impl.idea.ui.ListScrollingUtil;
 import consulo.ide.impl.idea.ui.ReorderableListController;
 import consulo.ui.ex.action.ActionManager;
 import consulo.ui.ex.action.ActionPlaces;
 import consulo.ui.ex.action.ActionToolbar;
 import consulo.ui.ex.action.DefaultActionGroup;
 import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.ScrollingUtil;
 import consulo.util.lang.function.Condition;
 
 import javax.swing.*;
@@ -115,7 +115,7 @@ public class AnActionListEditor<T> extends JPanel {
     for (T item : items) {
       model.addElement(item);
     }
-    ListScrollingUtil.ensureSelectionExists(getList());
+    ScrollingUtil.ensureSelectionExists(getList());
   }
 
   public void updateItem(T item) {
@@ -160,10 +160,10 @@ public class AnActionListEditor<T> extends JPanel {
 
     public void select(T item) {
       if (item != null) {
-        ListScrollingUtil.selectItem(myList, item);
+        ScrollingUtil.selectItem(myList, item);
       }
       else {
-        ListScrollingUtil.ensureSelectionExists(myList);
+        ScrollingUtil.ensureSelectionExists(myList);
       }
     }
 

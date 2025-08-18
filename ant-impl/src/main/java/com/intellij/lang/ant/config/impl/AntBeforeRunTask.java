@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import consulo.execution.BeforeRunTask;
 import com.intellij.lang.ant.config.AntBuildTarget;
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
+import consulo.execution.BeforeRunTask;
+import consulo.util.io.FileUtil;
 import consulo.util.lang.Comparing;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;

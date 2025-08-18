@@ -28,10 +28,10 @@ import consulo.project.Project;
 import consulo.ui.ex.awt.*;
 import consulo.ui.ex.awt.table.JBTable;
 import consulo.ui.ex.awt.table.ListTableModel;
-import org.jetbrains.annotations.NonNls;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.jetbrains.annotations.NonNls;
+
 import javax.swing.*;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
@@ -253,7 +253,7 @@ public class BuildFilePropertiesPanel {
           }
           BuildFileProperty item = new BuildFileProperty();
           consulo.ui.ex.awt.table.ListTableModel<BuildFileProperty> model = (ListTableModel<BuildFileProperty>)myPropertiesTable.getModel();
-          ArrayList<BuildFileProperty> items = new ArrayList<BuildFileProperty>(model.getItems());
+          ArrayList<BuildFileProperty> items = new ArrayList<>(model.getItems());
           items.add(item);
           model.setItems(items);
           int newIndex = model.indexOf(item);
@@ -323,7 +323,7 @@ public class BuildFilePropertiesPanel {
       }
     };
 
-    private static final Comparator<TargetFilter> NAME_COMPARATOR = new Comparator<TargetFilter>() {
+    private static final Comparator<TargetFilter> NAME_COMPARATOR = new Comparator<>() {
       @Override
       public int compare(TargetFilter o1, TargetFilter o2) {
         final String name1 = o1.getTargetName();
@@ -350,7 +350,7 @@ public class BuildFilePropertiesPanel {
         }
       };
 
-    private static final Comparator<TargetFilter> DESCRIPTION_COMPARATOR = new Comparator<TargetFilter>() {
+    private static final Comparator<TargetFilter> DESCRIPTION_COMPARATOR = new Comparator<>() {
       @Override
       public int compare(TargetFilter o1, TargetFilter o2) {
         String description1 = o1.getDescription();
@@ -434,12 +434,7 @@ public class BuildFilePropertiesPanel {
       setLabelFor(myJDKLabel, myJDKs);
 
       myJDKsController =
-        new ChooseAndEditComboBoxController<Sdk, String>(myJDKs, new consulo.ide.impl.idea.util.containers.Convertor<Sdk, String>() {
-          @Override
-          public String convert(Sdk jdk) {
-            return jdk != null ? jdk.getName() : "";
-          }
-        }, String.CASE_INSENSITIVE_ORDER) {
+        new ChooseAndEditComboBoxController<>(myJDKs, jdk -> jdk != null ? jdk.getName() : "", String.CASE_INSENSITIVE_ORDER) {
           @Override
           public Iterator<Sdk> getAllListItems() {
             List<Sdk> sdksOfType = JavaSdkTypeUtil.getAllJavaSdks();

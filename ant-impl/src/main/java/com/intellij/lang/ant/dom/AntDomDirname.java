@@ -15,14 +15,13 @@
  */
 package com.intellij.lang.ant.dom;
 
-import jakarta.annotation.Nullable;
-
-import consulo.ide.impl.idea.openapi.util.io.FileUtil;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.util.xml.Attribute;
 import consulo.xml.util.xml.Convert;
 import consulo.xml.util.xml.GenericAttributeValue;
-import consulo.language.psi.PsiFileSystemItem;
-import consulo.virtualFileSystem.VirtualFile;
+import jakarta.annotation.Nullable;
 
 /**
  * @author Eugene Zhuravlev
@@ -41,7 +40,7 @@ public abstract class AntDomDirname extends AntDomPropertyDefiningTask {
       if (parent != null) {
         final VirtualFile vFile = parent.getVirtualFile();
         if (vFile != null) {
-          return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(vFile.getPath());
+          return FileUtil.toSystemDependentName(vFile.getPath());
         }
       }
     }
@@ -50,7 +49,7 @@ public abstract class AntDomDirname extends AntDomPropertyDefiningTask {
     if (projectBasedirPath == null) {
       return null;
     }
-    return consulo.ide.impl.idea.openapi.util.io.FileUtil.toSystemDependentName(projectBasedirPath);
+    return FileUtil.toSystemDependentName(projectBasedirPath);
   }
 
 }

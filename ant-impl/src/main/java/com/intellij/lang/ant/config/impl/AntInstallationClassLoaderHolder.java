@@ -17,10 +17,10 @@ package com.intellij.lang.ant.config.impl;
 
 import consulo.content.base.BinariesOrderRootType;
 import consulo.content.bundle.Sdk;
-import consulo.ide.impl.idea.openapi.vfs.VfsUtil;
 import consulo.logging.Logger;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.archive.ArchiveVfsUtil;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -44,7 +44,7 @@ public class AntInstallationClassLoaderHolder extends ClassLoaderHolder {
     for (consulo.virtualFileSystem.VirtualFile virtualFile : virtualFiles) {
       VirtualFile localFile = ArchiveVfsUtil.getVirtualFileForArchive(virtualFile);
       if (localFile != null) {
-        files.add(VfsUtil.virtualToIoFile(localFile));
+        files.add(VirtualFileUtil.virtualToIoFile(localFile));
       }
     }
 

@@ -20,8 +20,8 @@ import consulo.component.util.config.ListProperty;
 import consulo.component.util.config.StorageProperty;
 import consulo.disposer.Disposable;
 import consulo.execution.ui.awt.RawCommandLineEditor;
-import consulo.ide.impl.idea.ui.ListScrollingUtil;
 import consulo.ui.ex.awt.ColumnInfo;
+import consulo.ui.ex.awt.ScrollingUtil;
 import consulo.ui.ex.awt.SortedListModel;
 import consulo.ui.ex.awt.event.DocumentAdapter;
 import consulo.ui.ex.awt.table.BaseTableView;
@@ -599,7 +599,7 @@ public abstract class UIPropertyBinding {
 
     public void loadValues(AbstractProperty.AbstractPropertyContainer container) {
       getModel().setAll(getProperty().get(container));
-      ListScrollingUtil.ensureSelectionExists(getList());
+      ScrollingUtil.ensureSelectionExists(getList());
     }
 
     private consulo.ui.ex.awt.SortedListModel<T> getModel() {
@@ -621,7 +621,7 @@ public abstract class UIPropertyBinding {
         Object item = iterator.next();
         model.addElement(item);
       }
-      ListScrollingUtil.ensureSelectionExists(getList());
+      ScrollingUtil.ensureSelectionExists(getList());
     }
 
     private DefaultListModel getModel() {
@@ -638,7 +638,7 @@ public abstract class UIPropertyBinding {
           }
           for (final T item : items) {
             getModel().addElement(item);
-            ListScrollingUtil.selectItem(getList(), item);
+            ScrollingUtil.selectItem(getList(), item);
           }
         }
       });

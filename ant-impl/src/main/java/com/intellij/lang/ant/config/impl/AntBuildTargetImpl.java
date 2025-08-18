@@ -23,7 +23,6 @@ import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.lang.ant.dom.AntDomRecursiveVisitor;
 import com.intellij.lang.ant.dom.AntDomTarget;
 import consulo.dataContext.DataContext;
-import consulo.ide.impl.idea.util.StringBuilderSpinAllocator;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
 import consulo.navigation.OpenFileDescriptor;
@@ -34,8 +33,8 @@ import consulo.util.lang.Comparing;
 import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.util.xml.DomTarget;
-
 import jakarta.annotation.Nullable;
+
 import java.util.List;
 
 public class AntBuildTargetImpl implements AntBuildTargetBase {
@@ -128,18 +127,13 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
     if (modelName == null || modelName.length() == 0) {
       return null;
     }
-    final StringBuilder name = consulo.ide.impl.idea.util.StringBuilderSpinAllocator.alloc();
-    try {
-      name.append(AntConfiguration.getActionIdPrefix(myModel.getBuildFile().getProject()));
-      name.append("_");
-      name.append(modelName);
-      name.append('_');
-      name.append(getName());
-      return name.toString();
-    }
-    finally {
-      StringBuilderSpinAllocator.dispose(name);
-    }
+    final StringBuilder name = new StringBuilder();
+    name.append(AntConfiguration.getActionIdPrefix(myModel.getBuildFile().getProject()));
+    name.append("_");
+    name.append(modelName);
+    name.append('_');
+    name.append(getName());
+    return name.toString();
   }
 
   @Nullable

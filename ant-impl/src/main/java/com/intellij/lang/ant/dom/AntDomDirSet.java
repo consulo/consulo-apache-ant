@@ -17,7 +17,6 @@ package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntFilesProvider;
 import consulo.language.psi.PsiFileSystemItem;
-import consulo.ide.impl.idea.util.StringBuilderSpinAllocator;
 import consulo.xml.util.xml.Attribute;
 import consulo.xml.util.xml.Convert;
 import consulo.xml.util.xml.GenericAttributeValue;
@@ -98,15 +97,8 @@ public abstract class AntDomDirSet extends AntDomFilesProviderImpl{
       if (parentPath.length() == 0) {
         return name;
       }
-      final StringBuilder builder = StringBuilderSpinAllocator.alloc();
-      try {
-        return builder.append(parentPath).append("/").append(name).toString();
-      }
-      finally {
-        StringBuilderSpinAllocator.dispose(builder);
-      }
+      final StringBuilder builder = new StringBuilder();
+      return builder.append(parentPath).append("/").append(name).toString();
     }
-
   }
-
 }

@@ -23,9 +23,9 @@ import consulo.application.AllIcons;
 import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkUtil;
 import consulo.ide.impl.idea.ide.macro.MacrosDialog;
-import consulo.ide.impl.idea.util.IconUtil;
 import consulo.ide.ui.OrderEntryAppearanceService;
 import consulo.logging.Logger;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.JBColor;
 import consulo.ui.ex.SimpleTextAttributes;
 import consulo.ui.ex.awt.*;
@@ -131,7 +131,7 @@ public class AntUIUtil
 			getChildComponent().setBorder(BorderFactory.createLineBorder(JBColor.black));
 
 			JButton button = myComponent.getComponentWithButton().getButton();
-			button.setIcon(TargetAWT.to(IconUtil.getAddIcon()));
+			button.setIcon(TargetAWT.to(PlatformIconGroup.generalAdd()));
 			button.setToolTipText(AntBundle.message("ant.property.value.editor.insert.macro.tooltip.text"));
 			button.addActionListener(new ActionListener()
 			{

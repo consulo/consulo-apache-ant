@@ -15,11 +15,11 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import consulo.ide.impl.idea.execution.impl.BaseExecuteBeforeRunDialog;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTask;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTaskProvider;
+import consulo.execution.ui.awt.BaseExecuteBeforeRunDialog;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
 import consulo.virtualFileSystem.VirtualFile;

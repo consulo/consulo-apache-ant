@@ -54,7 +54,7 @@ public class AntChangeContextLocalFix implements LocalQuickFix {
     if (editor == null) {
       return;
     }
-    final HectorComponent component = new consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent(containingFile.getOriginalFile());
+    final HectorComponent component = new HectorComponent(containingFile.getOriginalFile());
     component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
   }
 }
