@@ -35,7 +35,7 @@ import consulo.component.ProcessCanceledException;
 import consulo.dataContext.DataContext;
 import consulo.document.FileDocumentManager;
 import consulo.execution.CantRunException;
-import consulo.ide.impl.idea.execution.util.ExecutionErrorDialog;
+import consulo.execution.ui.awt.ExecutionErrorDialog;
 import consulo.localHistory.LocalHistory;
 import consulo.logging.Logger;
 import consulo.pathMacro.Macro;
@@ -45,13 +45,11 @@ import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.event.ProcessEvent;
 import consulo.process.event.ProcessListener;
 import consulo.project.Project;
-import consulo.project.ui.wm.StatusBar;
-import consulo.project.ui.wm.WindowManager;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.encoding.EncodingProjectManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-
 import jakarta.annotation.Nonnull;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
