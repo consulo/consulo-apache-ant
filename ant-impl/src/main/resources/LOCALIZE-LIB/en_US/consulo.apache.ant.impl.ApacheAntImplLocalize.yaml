@@ -1,0 +1,382 @@
+action.AddAntBuildFile.description:
+    text: Add current XML file to the list of project's Ant build files
+action.AddAntBuildFile.text:
+    text: Add as A_nt Build File
+action.RunTargetAction.description:
+    text: Runs currently selected Ant target
+action.RunTargetAction.text:
+    text: Run Ant Target {0}
+add.action.name:
+    text: Add
+add.ant.file.action.description:
+    text: Add an existing Ant build file to the list
+add.ant.file.action.name:
+    text: Add
+additional.classpath.tab.add.all.in.directory.button:
+    text: Add A&ll in Directory
+additional.classpath.tab.classpath.border:
+    text: 'Class&path:'
+ant.actual.attribute.value.additional.info.to.xml.attribute.error.message:
+    text: (actual attribute value''{0}'')
+ant.build.local.history.label:
+    text: 'Running Ant: ''''{0}'''''
+ant.build.message.node.prefix.text:
+    text: 'Build:'
+ant.build.progress.dialog.title:
+    text: Ant Build Progress
+ant.build.started.status.message:
+    text: Ant build started
+ant.build.tab.content.title:
+    text: Ant Build
+ant.cant.resolve.property.error.message:
+    text: 'Can''''t resolve property: {0}'
+ant.create.meta.target.action.description:
+    text: Save selected targets as a meta-target
+ant.create.meta.target.action.name:
+    text: Create Meta Target
+ant.create.target.intention.description:
+    text: Create target ''{0}''
+ant.duplicate.imported.targets.inspection:
+    text: Duplicate targets in imported files
+ant.duplicate.targets.inspection:
+    text: Duplicate targets
+ant.element.role.ant.project.name:
+    text: Ant project name
+ant.element.role.macrodef.element:
+    text: Macrodef element
+ant.element.role.scriptdef.element:
+    text: Scriptdef element
+ant.element.role.user.task:
+    text: User task
+ant.event.after.compilation.presentable.name:
+    text: After Compilation
+ant.event.before.compilation.presentable.name:
+    text: Before Compilation
+ant.event.before.run.debug.presentable.name:
+    text: Before Run/Debug
+ant.execution.next.error.warning.action.name:
+    text: Next Error/Warning
+ant.execution.previous.error.warning.action.name:
+    text: Previous Error/Warning
+ant.explorer.assign.shortcut.action.name:
+    text: Assign Shortcut...
+ant.explorer.collapse.all.nodes.action.description:
+    text: Collapse all build file nodes
+ant.explorer.execute.on.action.group.name:
+    text: Execute on
+ant.explorer.expand.all.nodes.action.description:
+    text: Expand all build file nodes
+ant.file.structure.narrow.down.the.list.on.typing.checkbox:
+    text: '&Narrow down the list on typing'
+ant.implicit.ant.properties.property.declaration.name:
+    text: implicit ant properties
+ant.inspections.display.name:
+    text: Ant inspections
+ant.installation.not.configured.error.message:
+    text: Ant installation is not configured. Check out Ant build file properties
+ant.intention.create.property.family.name:
+    text: Create Property
+ant.intention.create.property.text:
+    text: Add property definition ''{0}''
+ant.intention.create.target.family.name:
+    text: Create Target
+ant.is.active.terminate.confirmation.text:
+    text: Ant process from the same build file is active. Terminate it?
+ant.jar.is.directory.error.message:
+    text: '{0} is directory'
+ant.jar.not.found.in.directory.error.message:
+    text: ant.jar not found in directory ''{0}''
+ant.missing.properties.file.inspection:
+    text: Missing properties file
+ant.process.is.active.terminate.confirmation.text:
+    text: Ant Process is active. Terminate Ant process?
+ant.properties.declaration.element.description:
+    text: Ant properties declaration
+ant.property.value.editor.insert.macro.tooltip.text:
+    text: Insert Macro
+ant.reference.bundled.ant.name:
+    text: Bundled Ant
+ant.role.ant.property:
+    text: Ant property
+ant.role.ant.target:
+    text: Ant target
+ant.role.ant.task:
+    text: Ant task
+ant.settings.classpath.label:
+    text: '&Classpath:'
+ant.settings.home.label:
+    text: '&Home:'
+ant.settings.name.label:
+    text: '&Name:'
+ant.setup.dialog.title:
+    text: Ant Setup
+ant.substitution.not.allowed.error.message:
+    text: Substitution not allowed
+ant.target:
+    text: Target
+ant.target.before.run.description:
+    text: Run Ant target ''{0}''
+ant.target.before.run.description.empty:
+    text: Run Ant target
+ant.target.choser.title:
+    text: Choose Ant Target to Execute
+ant.target.message.node.prefix.text:
+    text: 'Target:'
+ant.target.name.default.target:
+    text: <default target>
+ant.task.message.node.prefix.text:
+    text: 'Task:'
+ant.tree.structure.no.build.files.message:
+    text: <The list of build files is empty>
+ant.unknown.version.string.presentation:
+    text: Unknown version
+ant.verbose.show.all.messages.action.description:
+    text: Show all messages produces by ant build
+ant.verbose.show.all.messages.action.name:
+    text: Show All Messages
+ant.view.pause.output.action.name:
+    text: Pause Output
+ant.view.toggle.tree.text.action.name:
+    text: Toggle tree/text mode
+apache.ant.with.version.string.presentation:
+    text: Apache Ant version {0}
+attribute.is.not.allowed.here:
+    text: Attribute ''{0}'' is not allowed here
+background.button:
+    text: '&Background'
+build.file.properties.action.description:
+    text: Show Ant build file properties dialog
+build.file.properties.action.name:
+    text: Properties
+build.file.properties.close.message.view.checkbox:
+    text: '&Close message view if no error occurred'
+build.file.properties.dialog.title:
+    text: Build File Properties
+build.file.properties.make.in.background.cjeclbox:
+    text: Make build in &background
+build.file.properties.maximum.heap.size.label:
+    text: 'Maximum &heap size (Mb):'
+build.file.properties.maximum.stack.size.label:
+    text: 'Maximum &stack size (Mb):'
+build.finished.status.ant.build.aborted:
+    text: Ant build aborted in {0} at {1}
+build.finished.status.ant.build.completed.successfully:
+    text: Ant build completed successfully in {0} at {1}
+build.finished.status.ant.build.completed.with.errors.warnings:
+    text: Ant build completed with {0, choice, 1#one error|2#{0} errors} {1, choice, 1#one warning|2#{0} warnings} in {2} at {3}
+build.finished.status.ant.build.completed.with.warnings:
+    text: Ant build completed with {0, choice, 1#one warning|2#{0} warnings} in {1} at {2}
+button.add:
+    text: '&Add'
+button.move.down:
+    text: Move &Down
+button.move.up:
+    text: Move &Up
+button.remove:
+    text: '&Remove'
+cancel.button:
+    text: Cancel
+canceled.by.user.error.message:
+    text: Canceled by user
+cannot.add.ant.files.dialog.title:
+    text: Cannot Add Files
+cannot.add.build.file.dialog.title:
+    text: Cannot Add Build File
+cannot.add.build.files.from.excluded.directories.error.message:
+    text: |-
+        Cannot add build files from excluded directories
+        {0}
+cannot.resolve.refid:
+    text: Cannot resolve ''{0}'' refid
+cannot.resolve.target:
+    text: Target ''{0}'' is unknown
+cannot.start.build.name.error.message:
+    text: Cannot start {0}
+cant.add.file.error.message:
+    text: 'Cannot add file {0}: {1}'
+cant.read.from.ant.jar.error.message:
+    text: Can''t read from {0}
+cant.run.ant.ant.reference.is.not.configured.error.message:
+    text: ANT ''{0}'' is not configured
+cant.run.ant.erorr.dialog.title:
+    text: Cannot Run ANT
+cant.run.ant.no.ant.configured.error.message:
+    text: No ANT configured
+close.ant.build.messages.dialog.title:
+    text: Close Ant Build Messages
+configure.ant.dialog.title:
+    text: Configure Ant
+confirm.remove.dialog.title:
+    text: Confirm Remove
+could.not.start.process.erorr.dialog.title:
+    text: Could Not Start Process
+delete.selected.ant.configuration.confirmation.text:
+    text: Delete selected Ant configuration?
+delete.selected.ant.configurations.confirmation.text:
+    text: Delete selected Ant configurations?
+edit.ant.properties.additional.classpath.tab.display.name:
+    text: Additional Classpath
+edit.ant.properties.description.column.name:
+    text: Description
+edit.ant.properties.execution.tab.display.name:
+    text: Execution
+edit.ant.properties.filters.tab.display.name:
+    text: Filters
+edit.ant.properties.name.column.name:
+    text: Name
+edit.ant.properties.tab.display.name:
+    text: Properties
+edit.ant.properties.value.column.name:
+    text: Value
+execute.target.before.run.debug.dialog.title:
+    text: Execute Target Before Run/Debug
+execute.target.wrong.name.format.error.message:
+    text: 'Wrong name format: {0}'
+executes.before.run.debug.acton.name:
+    text: Before Run/Debug...
+executing.task.tag.value.status.text:
+    text: 'Executing task: {0}'
+failed.to.load.types:
+    text: Failed to load type(s)
+file.doesnt.exist:
+    text: '''''{0}'''' does not exist'
+filter.ant.targets.action.description:
+    text: Filter targets
+filter.ant.targets.action.name:
+    text: Filter targets
+global.sdk:
+    text: Global SDK ({0})
+global.sdk.none:
+    text: Global SDK (not specified)
+integer.attribute.has.invalid.value:
+    text: Attribute ''{0}'' should have an integer value
+intention.configure.highlighting.family.name:
+    text: Configure highlighting
+intention.configure.highlighting.text:
+    text: Configure highlighting
+intention.create.macrodef.family.name:
+    text: Create macrodef
+intention.create.presetdef.family.name:
+    text: Create presetdef
+intention.create.property.family.name:
+    text: Create property
+intention.create.target.family.name:
+    text: Create target
+jdk.with.name.bad.configured.error.message:
+    text: JDK ({0}) needed to run this ANT target is incorrectly configured. Please update your settings in the Project | Libraries menu.
+jdk.with.name.not.configured.error.message:
+    text: JDK ({0}) needed to run this ANT target is not configured. Please update your settings in the Project | Libraries menu.
+lib.directory.not.found.in.ant.path.error.message:
+    text: lib directory not found in {0}
+loading.ant.config.progress:
+    text: Loading Ant configuration...
+meta.target.build.sequence.name.display.name:
+    text: Build sequence {0}
+move.out.from.group:
+    text: Move out from group
+move.to:
+    text: Move to
+move.to.this.group:
+    text: Move to this group
+nested.element.is.not.allowed.here:
+    text: Nested element ''{0}'' is not allowed here
+new.group.or.subgroup:
+    text: New Group/SubGroup
+path.to.ant.does.not.exist.error.message:
+    text: Path {0} does not exist
+please.specify.a.property:
+    text: Please set a property here
+project.jdk.not.specified.error.message:
+    text: Project JDK not specified
+register.ant.build.progress:
+    text: Registering Ant build file ''{0}''...
+remove.action.name:
+    text: Remove
+remove.ant.file.action.description:
+    text: Remove the selected build file from the list
+remove.ant.file.action.name:
+    text: Remove
+remove.build.file.action.name:
+    text: Remove
+remove.groups.name:
+    text: Remove group(s)
+remove.meta.target.action.name:
+    text: Remove Meta Target
+remove.meta.targets.action.description:
+    text: Remove selected meta target(s)
+remove.meta.targets.action.name:
+    text: Remove
+remove.selected.build.file.action.name:
+    text: Remove Build File
+remove.selected.meta.targets.action.name:
+    text: Remove Meta Targets
+remove.the.reference.to.file.confirmation.text:
+    text: |-
+        Do you want to remove the reference to
+        {0}?
+rerun.ant.action.name:
+    text: Rerun
+run.ant.build.action.name:
+    text: Run Build
+run.ant.erorr.dialog.title:
+    text: Run ANT
+run.ant.file.or.target.action.description:
+    text: Run the selected build file or selected target(s) with Ant
+run.ant.file.or.target.action.name:
+    text: Run
+run.ant.target.action.name:
+    text: Run Target
+run.ant.targets.action.name:
+    text: Run Targets
+run.execution.tab.ant.command.line.dialog.title:
+    text: Ant Command Line
+run.execution.tab.ant.command.line.hint:
+    text: Use "-J" prefix to specify JVM arguments
+run.execution.tab.ant.command.line.label:
+    text: 'Ant command &line:'
+run.execution.tab.run.under.jdk.label:
+    text: 'Run under &JDK:'
+run.execution.tab.run.with.ant.border:
+    text: 'Run with Ant:'
+run.execution.tab.set.default.button:
+    text: '&Set Default...'
+run.execution.tab.use.custom.ant.radio:
+    text: 'Use c&ustom Ant:'
+run.execution.tab.use.project.default.ant.radio:
+    text: 'Use &default Ant:'
+run.filters.tab.targets.label:
+    text: 'Targets:'
+save.meta.data.name.label:
+    text: '&Name:'
+save.meta.data.such.sequence.of.targets.already.exists.error.message:
+    text: Such sequence of targets already exists
+save.meta.data.targets.label:
+    text: 'Targets:'
+select.ant.build.file.dialog.description:
+    text: Select one or more build.xml files to be added to the list
+select.ant.build.file.dialog.title:
+    text: Select Ant build file
+starting.ant.build.dialog.title:
+    text: Starting Ant Build
+stop.ant.action.name:
+    text: Stop
+target.is.duplicated:
+    text: Target ''{0}'' is duplicated
+target.is.duplicated.in.imported.file:
+    text: Target ''{0}'' is duplicated in file ''{1}''
+target.tag.name.status.text:
+    text: 'Target: {0}'
+text.in.the.file:
+    text: in the ''{0}'' file
+undefined.element:
+    text: Element ''{0}'' is undefined
+unknown.macro.attribute:
+    text: Macro attribute ''{0}'' is unknown
+unknown.property:
+    text: Property ''{0}'' is unknown
+unnamed.string.presentation:
+    text: <Unnamed>
+user.inout.request.ant.build.input.dialog.title:
+    text: Ant Build Input
+using.definition.which.type.failed.to.load:
+    text: Using definition which type failed to load

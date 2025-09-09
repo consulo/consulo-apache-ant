@@ -15,25 +15,25 @@
  */
 package com.intellij.lang.ant;
 
+import consulo.annotation.internal.MigratedExtensionsTo;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.component.util.localize.AbstractBundle;
 import org.jetbrains.annotations.PropertyKey;
 
-public class AntBundle extends AbstractBundle
-{
-	private static final AntBundle ourInstance = new AntBundle();
+@Deprecated
+@MigratedExtensionsTo(ApacheAntImplLocalize.class)
+public class AntBundle extends AbstractBundle {
+  private static final AntBundle ourInstance = new AntBundle();
 
-	private AntBundle()
-	{
-		super("messages.AntBundle");
-	}
+  private AntBundle() {
+    super("messages.AntBundle");
+  }
 
-	public static String message(@PropertyKey(resourceBundle = "messages.AntBundle") String key)
-	{
-		return ourInstance.getMessage(key);
-	}
+  public static String message(@PropertyKey(resourceBundle = "messages.AntBundle") String key) {
+    return ourInstance.getMessage(key);
+  }
 
-	public static String message(@PropertyKey(resourceBundle = "messages.AntBundle") String key, Object... params)
-	{
-		return ourInstance.getMessage(key, params);
-	}
+  public static String message(@PropertyKey(resourceBundle = "messages.AntBundle") String key, Object... params) {
+    return ourInstance.getMessage(key, params);
+  }
 }

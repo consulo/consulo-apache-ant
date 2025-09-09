@@ -15,16 +15,17 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.AntConfiguration;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.dataContext.DataContext;
 import consulo.execution.BeforeRunTaskProvider;
 import consulo.execution.configuration.RunConfiguration;
 import consulo.execution.runner.ExecutionEnvironment;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.image.Image;
@@ -32,10 +33,9 @@ import consulo.util.concurrent.AsyncResult;
 import consulo.util.dataholder.Key;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
-import jakarta.inject.Inject;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
 
 /**
  * @author Vladislav.Kaznacheev
@@ -50,13 +50,16 @@ public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRun
     myProject = project;
   }
 
+  @Nonnull
+  @Override
   public Key<AntBeforeRunTask> getId() {
     return ID;
   }
 
+  @Nonnull
   @Override
-  public String getName() {
-    return AntBundle.message("ant.target.before.run.description.empty");
+  public LocalizeValue getName() {
+    return ApacheAntImplLocalize.antTargetBeforeRunDescriptionEmpty();
   }
 
   @Override
@@ -70,19 +73,22 @@ public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRun
     return antTarget instanceof MetaTarget ? ApacheAntIcons.MetaTarget : ApacheAntIcons.Target;
   }
 
+  @Nonnull
   @Override
-  public String getDescription(AntBeforeRunTask task) {
+  public LocalizeValue getDescription(AntBeforeRunTask task) {
     final String targetName = task.getTargetName();
     if (targetName == null) {
-      return AntBundle.message("ant.target.before.run.description.empty");
+      return ApacheAntImplLocalize.antTargetBeforeRunDescriptionEmpty();
     }
-    return AntBundle.message("ant.target.before.run.description", targetName);
+    return ApacheAntImplLocalize.antTargetBeforeRunDescription(targetName);
   }
 
+  @Override
   public boolean isConfigurable() {
     return true;
   }
 
+  @Override
   @RequiredUIAccess
   @Nonnull
   public AsyncResult<Void> configureTask(RunConfiguration runConfiguration, AntBeforeRunTask task) {
@@ -105,6 +111,7 @@ public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRun
     return result;
   }
 
+  @Override
   public AntBeforeRunTask createTask(RunConfiguration runConfiguration) {
     return new AntBeforeRunTask();
   }
@@ -114,6 +121,7 @@ public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRun
     return findTargetToExecute(task) != null;
   }
 
+  @Override
   public boolean executeTask(DataContext context, RunConfiguration configuration, ExecutionEnvironment env, AntBeforeRunTask task) {
     final AntBuildTarget target = findTargetToExecute(task);
     if (target != null) {
