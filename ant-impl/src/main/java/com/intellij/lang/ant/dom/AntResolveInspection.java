@@ -21,6 +21,7 @@ import com.intellij.lang.ant.validation.AntInspection;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.psi.PsiPolyVariantReference;
 import consulo.language.psi.PsiReference;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.xml.psi.xml.XmlElement;
 import consulo.xml.util.xml.DomElement;
@@ -40,8 +41,8 @@ public class AntResolveInspection extends AntInspection {
   public static final String SHORT_NAME = "AntResolveInspection";
 
   @Nonnull
-  public String getDisplayName() {
-    return "Ant references resolve problems";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Ant references resolve problems");
   }
 
   @Nonnull

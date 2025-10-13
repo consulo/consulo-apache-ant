@@ -15,12 +15,11 @@
  */
 package com.intellij.lang.ant.validation;
 
-import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProject;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.localize.LocalizeValue;
 import consulo.xml.util.xml.highlighting.BasicDomElementsInspection;
-import org.jetbrains.annotations.Nls;
-
 import jakarta.annotation.Nonnull;
 
 public abstract class AntInspection extends BasicDomElementsInspection<AntDomProject, Object> {
@@ -29,10 +28,10 @@ public abstract class AntInspection extends BasicDomElementsInspection<AntDomPro
     super(AntDomProject.class);
   }
 
-  @Nls
+  @Override
   @Nonnull
-  public String getGroupDisplayName() {
-    return AntBundle.message("ant.inspections.display.name");
+  public LocalizeValue getGroupDisplayName() {
+    return ApacheAntImplLocalize.antInspectionsDisplayName();
   }
 
   @Nonnull

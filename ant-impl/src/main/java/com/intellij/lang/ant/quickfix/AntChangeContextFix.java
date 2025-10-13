@@ -15,29 +15,30 @@
  */
 package com.intellij.lang.ant.quickfix;
 
-import com.intellij.lang.ant.AntBundle;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.codeEditor.Editor;
 import consulo.codeEditor.EditorPopupHelper;
 import consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent;
 import consulo.language.editor.intention.BaseIntentionAction;
+import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-
 import jakarta.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
  * Date: May 12, 2008
  */
-public class AntChangeContextFix extends BaseIntentionAction {
+public class AntChangeContextFix extends BaseIntentionAction implements SyntheticIntentionAction {
   public AntChangeContextFix() {
-    setText(AntBundle.message("intention.configure.highlighting.text"));
+    setText(ApacheAntImplLocalize.intentionConfigureHighlightingText());
   }
 
   @Nonnull
-  public final String getFamilyName() {
-    return AntBundle.message("intention.configure.highlighting.family.name");
+  public final LocalizeValue getFamilyName() {
+    return ApacheAntImplLocalize.intentionConfigureHighlightingFamilyName();
   }
 
   public boolean isAvailable(@Nonnull final Project project, final Editor editor, final PsiFile file) {

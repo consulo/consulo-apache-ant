@@ -19,25 +19,26 @@ import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProject;
 import com.intellij.lang.ant.dom.AntDomTarget;
 import com.intellij.lang.ant.dom.TargetResolver;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
+import consulo.localize.LocalizeValue;
 import consulo.util.lang.Comparing;
 import consulo.xml.util.xml.DomElement;
 import consulo.xml.util.xml.highlighting.DomElementAnnotationHolder;
 import consulo.xml.util.xml.highlighting.DomHighlightingHelper;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NonNls;
-
 import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NonNls;
 
 public class AntDuplicateTargetsInspection extends AntInspection {
 
   private static final String SHORT_NAME = "AntDuplicateTargetsInspection";
 
-  @Nls
+  @Override
   @Nonnull
-  public String getDisplayName() {
-    return AntBundle.message("ant.duplicate.targets.inspection");
+  public LocalizeValue getDisplayName() {
+    return ApacheAntImplLocalize.antDuplicateTargetsInspection();
   }
 
+  @Override
   @NonNls
   @Nonnull
   public String getShortName() {
@@ -48,6 +49,7 @@ public class AntDuplicateTargetsInspection extends AntInspection {
     if (element instanceof AntDomProject) {
       final AntDomProject project = (AntDomProject)element;
       TargetResolver.validateDuplicateTargets(project.getContextAntProject(), new TargetResolver.TargetSink() {
+        @Override
         public void duplicateTargetDetected(AntDomTarget existingTarget, AntDomTarget duplicatingTarget, String targetEffectiveName) {
           final AntDomProject existingTargetProj = existingTarget.getAntProject();
           final AntDomProject duplucatingTargetProj = duplicatingTarget.getAntProject();

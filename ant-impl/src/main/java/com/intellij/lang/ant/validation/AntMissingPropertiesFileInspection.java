@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.ant.validation;
 
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 import com.intellij.lang.ant.AntBundle;
@@ -29,12 +31,12 @@ import org.jetbrains.annotations.NonNls;
 
 public class AntMissingPropertiesFileInspection extends AntInspection {
 
-  @NonNls private static final String SHORT_NAME = "AntMissingPropertiesFileInspection";
+  private static final String SHORT_NAME = "AntMissingPropertiesFileInspection";
 
   @Nls
   @Nonnull
-  public String getDisplayName() {
-    return AntBundle.message("ant.missing.properties.file.inspection");
+  public LocalizeValue getDisplayName() {
+    return ApacheAntImplLocalize.antMissingPropertiesFileInspection();
   }
 
   @NonNls

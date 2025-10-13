@@ -16,6 +16,7 @@
 package com.intellij.lang.ant.quickfix;
 
 import com.intellij.lang.ant.AntBundle;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.codeEditor.Editor;
 import consulo.codeEditor.EditorPopupHelper;
 import consulo.fileEditor.FileEditorManager;
@@ -24,6 +25,7 @@ import consulo.language.editor.inspection.LocalQuickFix;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -35,13 +37,8 @@ import jakarta.annotation.Nonnull;
 public class AntChangeContextLocalFix implements LocalQuickFix {
 
   @Nonnull
-  public String getName() {
-    return AntBundle.message("intention.configure.highlighting.text");
-  }
-
-  @Nonnull
-  public final String getFamilyName() {
-    return AntBundle.message("intention.configure.highlighting.family.name");
+  public LocalizeValue getName() {
+    return ApacheAntImplLocalize.intentionConfigureHighlightingText();
   }
 
   public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
