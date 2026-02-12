@@ -16,7 +16,7 @@
 package consulo.apache.ant.sdk;
 
 import consulo.annotation.component.ExtensionImpl;
-import consulo.apache.ant.ApacheAntIcons;
+import consulo.apache.ant.impl.icon.ApacheAntImplIconGroup;
 import consulo.apache.ant.util.AntVersionUtil;
 import consulo.application.Application;
 import consulo.container.plugin.PluginManager;
@@ -25,13 +25,13 @@ import consulo.content.base.BinariesOrderRootType;
 import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkModificator;
 import consulo.content.bundle.SdkType;
-import consulo.ui.image.Image;
+import consulo.localize.LocalizeValue;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.archive.ArchiveVfsUtil;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,11 +45,11 @@ import java.util.List;
 public class AntSdkType extends SdkType {
   @Nonnull
   public static AntSdkType getInstance() {
-    return Application.get().getExtensionPoint(AntSdkType.class).findExtensionOrFail(AntSdkType.class);
+    return Application.get().getExtensionPoint(SdkType.class).findExtensionOrFail(AntSdkType.class);
   }
 
   public AntSdkType() {
-    super("APACHE_ANT");
+    super("APACHE_ANT", LocalizeValue.localizeTODO("Apache Ant"), ApacheAntImplIconGroup.antinstallation());
   }
 
   @Nonnull
@@ -94,11 +94,6 @@ public class AntSdkType extends SdkType {
   }
 
   @Override
-  public Image getIcon() {
-    return ApacheAntIcons.AntInstallation;
-  }
-
-  @Override
   public boolean isValidSdkHome(String path) {
     return AntVersionUtil.getVersion(path) != null;
   }
@@ -112,18 +107,7 @@ public class AntSdkType extends SdkType {
   }
 
   @Override
-  public String suggestSdkName(String currentSdkName, String sdkHome) {
-    return getPresentableName() + " " + getVersionString(sdkHome);
-  }
-
-  @Override
   public boolean isRootTypeApplicable(OrderRootType type) {
     return type == BinariesOrderRootType.getInstance();
-  }
-
-  @Nonnull
-  @Override
-  public String getPresentableName() {
-    return "Apache Ant";
   }
 }
