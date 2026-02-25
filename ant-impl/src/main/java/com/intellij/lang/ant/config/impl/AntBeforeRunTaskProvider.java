@@ -63,12 +63,12 @@ public class AntBeforeRunTaskProvider extends BeforeRunTaskProvider<AntBeforeRun
   }
 
   @Override
-  public Image getIcon() {
+  public Image getIcon(@Nonnull RunConfiguration configuration) {
     return ApacheAntIcons.Target;
   }
 
   @Override
-  public Image getTaskIcon(AntBeforeRunTask task) {
+  public Image getTaskIcon(@Nonnull RunConfiguration configuration, AntBeforeRunTask task) {
     AntBuildTarget antTarget = findTargetToExecute(task);
     return antTarget instanceof MetaTarget ? ApacheAntIcons.MetaTarget : ApacheAntIcons.Target;
   }
