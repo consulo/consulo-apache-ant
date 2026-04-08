@@ -25,7 +25,7 @@ import consulo.language.psi.resolve.ResolveCache;
 import consulo.language.util.IncorrectOperationException;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Trinity;
-import consulo.xml.psi.xml.XmlAttributeValue;
+import consulo.xml.language.psi.XmlAttributeValue;
 import consulo.xml.util.xml.DomElement;
 
 import jakarta.annotation.Nonnull;

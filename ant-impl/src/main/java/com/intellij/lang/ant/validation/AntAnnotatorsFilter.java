@@ -21,7 +21,7 @@ import consulo.language.editor.annotation.ExternalAnnotator;
 import consulo.language.editor.annotation.ExternalAnnotatorsFilter;
 import consulo.language.psi.PsiFile;
 import consulo.xml.lang.base.XMLBasedExternalAnnotator;
-import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.language.psi.XmlFile;
 
 /**
  * @author Dmitry Avdeev

@@ -21,7 +21,7 @@ import consulo.language.psi.PsiFileSystemItem;
 import consulo.util.dataholder.Key;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.Pair;
-import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.language.psi.XmlFile;
 import consulo.xml.util.xml.DomElement;
 
 import jakarta.annotation.Nonnull;

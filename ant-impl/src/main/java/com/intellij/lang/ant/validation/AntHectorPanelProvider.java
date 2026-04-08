@@ -20,8 +20,8 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.HectorComponentPanel;
 import consulo.language.editor.HectorComponentPanelsProvider;
 import consulo.language.psi.PsiFile;
-import consulo.xml.psi.xml.XmlFile;
 
+import consulo.xml.language.psi.XmlFile;
 import jakarta.annotation.Nonnull;
 
 /**

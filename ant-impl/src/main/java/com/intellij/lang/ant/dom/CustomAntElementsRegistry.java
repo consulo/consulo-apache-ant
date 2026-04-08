@@ -35,9 +35,9 @@ import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.ide.highlighter.XmlFileType;
-import consulo.xml.psi.xml.XmlElement;
-import consulo.xml.psi.xml.XmlFile;
-import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.language.psi.XmlElement;
+import consulo.xml.language.psi.XmlFile;
+import consulo.xml.language.psi.XmlTag;
 import consulo.xml.util.xml.XmlName;
 import org.jetbrains.annotations.NonNls;
 

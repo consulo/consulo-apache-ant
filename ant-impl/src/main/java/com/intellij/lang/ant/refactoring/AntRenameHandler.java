@@ -27,8 +27,8 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiReference;
 import consulo.project.Project;
-import consulo.xml.psi.xml.XmlFile;
 
+import consulo.xml.language.psi.XmlFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Collection;

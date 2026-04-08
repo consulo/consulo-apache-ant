@@ -30,7 +30,7 @@ import consulo.ui.ex.awt.IdeBorderFactory;
 import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFilePathUtil;
-import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.language.psi.XmlFile;
 import org.jetbrains.annotations.NonNls;
 
 import javax.swing.*;

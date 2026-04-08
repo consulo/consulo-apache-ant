@@ -17,7 +17,7 @@ package com.intellij.lang.ant.dom;
 
 import consulo.language.pom.PomService;
 import consulo.language.psi.PsiElement;
-import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.language.psi.XmlElement;
 import consulo.xml.util.xml.DomTarget;
 import consulo.xml.util.xml.GenericAttributeValue;
 

@@ -19,9 +19,9 @@ import com.intellij.lang.ant.AntSupport;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import consulo.language.psi.PsiFile;
 import consulo.util.dataholder.Key;
-import consulo.xml.psi.xml.XmlElement;
-import consulo.xml.psi.xml.XmlFile;
-import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.language.psi.XmlElement;
+import consulo.xml.language.psi.XmlFile;
+import consulo.xml.language.psi.XmlTag;
 import consulo.xml.util.xml.*;
 
 import java.util.Collections;

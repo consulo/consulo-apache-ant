@@ -18,8 +18,8 @@ package com.intellij.lang.ant.config;
 
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.psi.xml.XmlFile;
 
+import consulo.xml.language.psi.XmlFile;
 import jakarta.annotation.Nullable;
 
 public interface AntBuildFile {

@@ -23,7 +23,7 @@ import consulo.language.psi.PsiPolyVariantReference;
 import consulo.language.psi.PsiReference;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
-import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.language.psi.XmlElement;
 import consulo.xml.util.xml.DomElement;
 import consulo.xml.util.xml.DomUtil;
 import consulo.xml.util.xml.GenericDomValue;

@@ -36,7 +36,7 @@ import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.archive.ArchiveVfsUtil;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.language.psi.XmlFile;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 

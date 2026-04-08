@@ -31,8 +31,8 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.Pair;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.psi.xml.XmlFile;
 
+import consulo.xml.language.psi.XmlFile;
 import jakarta.annotation.Nullable;
 import java.util.*;
 

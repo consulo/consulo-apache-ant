@@ -19,9 +19,9 @@ import consulo.document.util.TextRange;
 import consulo.language.psi.ElementManipulators;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
-import consulo.xml.psi.xml.XmlAttribute;
-import consulo.xml.psi.xml.XmlAttributeValue;
-import consulo.xml.psi.xml.XmlElement;
+import consulo.xml.language.psi.XmlAttribute;
+import consulo.xml.language.psi.XmlAttributeValue;
+import consulo.xml.language.psi.XmlElement;
 import consulo.xml.util.xml.*;
 import org.jetbrains.annotations.NonNls;
 

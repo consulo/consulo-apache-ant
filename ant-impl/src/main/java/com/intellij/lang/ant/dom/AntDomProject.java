@@ -32,8 +32,8 @@ import consulo.language.psi.PsiFileSystemItem;
 import consulo.logging.Logger;
 import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.psi.xml.XmlElement;
-import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.language.psi.XmlElement;
+import consulo.xml.language.psi.XmlTag;
 import consulo.xml.util.xml.*;
 
 import jakarta.annotation.Nonnull;

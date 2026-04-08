@@ -30,9 +30,9 @@ import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.Presentation;
 import consulo.ui.ex.awt.Messages;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.psi.xml.XmlDocument;
-import consulo.xml.psi.xml.XmlFile;
-import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.language.psi.XmlDocument;
+import consulo.xml.language.psi.XmlFile;
+import consulo.xml.language.psi.XmlTag;
 
 public class AddAntBuildFile extends AnAction
 {

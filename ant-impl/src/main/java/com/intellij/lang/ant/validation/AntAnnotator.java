@@ -18,7 +18,7 @@ package com.intellij.lang.ant.validation;
 import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.*;
 import consulo.document.util.TextRange;
-import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.language.psi.XmlTag;
 import consulo.xml.util.xml.DomElement;
 import consulo.xml.util.xml.highlighting.DomElementAnnotationHolder;
 import consulo.xml.util.xml.highlighting.DomElementsAnnotator;

@@ -25,9 +25,9 @@ import consulo.language.psi.PsiFileSystemItem;
 import consulo.logging.Logger;
 import consulo.util.dataholder.Key;
 import consulo.util.lang.Pair;
-import consulo.xml.psi.xml.XmlAttribute;
-import consulo.xml.psi.xml.XmlElement;
-import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.language.psi.XmlAttribute;
+import consulo.xml.language.psi.XmlElement;
+import consulo.xml.language.psi.XmlTag;
 import consulo.xml.util.xml.*;
 import consulo.xml.util.xml.reflect.*;
 

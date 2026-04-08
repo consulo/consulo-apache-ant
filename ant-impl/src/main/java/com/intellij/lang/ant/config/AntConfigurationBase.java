@@ -19,8 +19,8 @@ import consulo.component.util.config.ExternalizablePropertyContainer;
 import consulo.content.bundle.Sdk;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
-import consulo.xml.psi.xml.XmlFile;
 
+import consulo.xml.language.psi.XmlFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.List;
