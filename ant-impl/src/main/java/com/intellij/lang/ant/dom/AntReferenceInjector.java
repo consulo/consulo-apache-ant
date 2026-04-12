@@ -23,7 +23,7 @@ import consulo.language.psi.PsiReference;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.xml.language.psi.XmlAttribute;
 import consulo.xml.language.psi.XmlAttributeValue;
-import consulo.xml.util.xml.*;
+import consulo.xml.dom.*;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

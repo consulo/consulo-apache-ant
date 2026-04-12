@@ -17,8 +17,8 @@ package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntFilesProvider;
 import consulo.util.io.PathUtil;
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.GenericAttributeValue;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;

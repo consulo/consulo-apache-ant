@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.ant.dom;
 
-import consulo.xml.util.xml.ConvertContext;
-import consulo.xml.util.xml.Converter;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.ConvertContext;
+import consulo.xml.dom.Converter;
+import consulo.xml.dom.GenericAttributeValue;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nullable;

@@ -22,7 +22,7 @@ import consulo.language.psi.PsiReference;
 import consulo.xml.language.psi.XmlAttribute;
 import consulo.xml.language.psi.XmlAttributeValue;
 import consulo.xml.language.psi.XmlElement;
-import consulo.xml.util.xml.*;
+import consulo.xml.dom.*;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;

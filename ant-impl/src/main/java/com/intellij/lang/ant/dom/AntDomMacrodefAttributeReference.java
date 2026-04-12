@@ -20,9 +20,10 @@ import consulo.language.editor.completion.lookup.LookupElementBuilder;
 import com.intellij.lang.ant.AntBundle;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.ResolveCache;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomTarget;
-import consulo.xml.util.xml.DomUtil;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomService;
+import consulo.xml.dom.DomTarget;
+import consulo.xml.dom.DomUtil;
 import consulo.language.editor.completion.AutoCompletionPolicy;
 import consulo.language.editor.completion.lookup.LookupElement;
 import consulo.language.pom.PomService;
@@ -104,7 +105,7 @@ public class AntDomMacrodefAttributeReference extends AntDomReferenceBase{
       final String name = AntStringResolver.computeString(domElement, psiReference.getCanonicalText());
       for (AntDomMacrodefAttribute attribute : macrodef.getMacroAttributes()) {
         if (name.equals(attribute.getName().getStringValue())) {
-          final DomTarget target = DomTarget.getTarget(attribute);
+          final DomTarget target = DomService.getInstance().getTarget(attribute);
           return target != null? PomService.convertToPsi(target) : null;
         }
       }

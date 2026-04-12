@@ -17,10 +17,10 @@ package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntFilesProvider;
 import consulo.util.lang.text.StringTokenizer;
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.Convert;
-import consulo.xml.util.xml.GenericAttributeValue;
-import consulo.xml.util.xml.SubTagList;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.Convert;
+import consulo.xml.dom.GenericAttributeValue;
+import consulo.xml.dom.SubTagList;
 import consulo.language.psi.PsiFileSystemItem;
 
 import jakarta.annotation.Nonnull;

@@ -61,10 +61,10 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.dataholder.Key;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import consulo.xml.ide.highlighter.XmlFileType;
-import consulo.xml.util.xml.DomEventListener;
-import consulo.xml.util.xml.DomManager;
-import consulo.xml.util.xml.events.DomEvent;
+import consulo.xml.language.XmlFileType;
+import consulo.xml.dom.DomEventListener;
+import consulo.xml.dom.DomManager;
+import consulo.xml.dom.DomEvent;
 import jakarta.annotation.Nullable;
 import org.jetbrains.annotations.NonNls;
 

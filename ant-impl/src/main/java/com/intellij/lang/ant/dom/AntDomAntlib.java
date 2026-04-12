@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import consulo.xml.util.xml.SubTagList;
+import consulo.xml.dom.SubTagList;
 import jakarta.annotation.Nullable;
 
 import java.util.List;

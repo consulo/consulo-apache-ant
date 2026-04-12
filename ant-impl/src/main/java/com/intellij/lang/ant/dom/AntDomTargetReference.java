@@ -28,9 +28,10 @@ import consulo.language.util.IncorrectOperationException;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Pair;
 import consulo.util.lang.text.StringTokenizer;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomTarget;
-import consulo.xml.util.xml.DomUtil;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomService;
+import consulo.xml.dom.DomTarget;
+import consulo.xml.dom.DomUtil;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -203,7 +204,7 @@ class AntDomTargetReference extends AntDomReferenceBase implements BindablePsiRe
         return null;
       }
       final Pair<AntDomTarget, String> pair = result.getResolvedTarget(psiReference.getCanonicalText());
-      final DomTarget domTarget = pair != null && pair.getFirst() != null ? DomTarget.getTarget(pair.getFirst()) : null;
+      final DomTarget domTarget = pair != null && pair.getFirst() != null ? DomService.getInstance().getTarget(pair.getFirst()) : null;
       return domTarget != null ? PomService.convertToPsi(domTarget) : null;
     }
   }

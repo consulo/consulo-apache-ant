@@ -17,10 +17,10 @@ package com.intellij.lang.ant.dom;
 
 import consulo.language.psi.PsiFileSystemItem;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.Convert;
-import consulo.xml.util.xml.ConvertContext;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.Convert;
+import consulo.xml.dom.ConvertContext;
+import consulo.xml.dom.GenericAttributeValue;
 
 /**
  * @author Eugene Zhuravlev

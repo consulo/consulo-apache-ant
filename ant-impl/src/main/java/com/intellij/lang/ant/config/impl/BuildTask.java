@@ -20,7 +20,8 @@ import com.intellij.lang.ant.dom.AntDomElement;
 import consulo.navigation.OpenFileDescriptor;
 import consulo.navigation.OpenFileDescriptorFactory;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.util.xml.DomTarget;
+import consulo.xml.dom.DomService;
+import consulo.xml.dom.DomTarget;
 
 import jakarta.annotation.Nullable;
 
@@ -33,7 +34,7 @@ public final class BuildTask {
   public BuildTask(final AntBuildTargetBase target, final AntDomElement task) {
     myTarget = target;
     myName = task.getXmlElementName();
-    final DomTarget domTarget = DomTarget.getTarget(task);
+    final DomTarget domTarget = DomService.getInstance().getTarget(task);
     if (domTarget != null) {
       myOffset = domTarget.getTextOffset();
     }

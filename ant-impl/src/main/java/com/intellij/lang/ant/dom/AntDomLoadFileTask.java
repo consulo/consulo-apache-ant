@@ -19,9 +19,9 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileSystemItem;
 import consulo.logging.Logger;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.Convert;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.Convert;
+import consulo.xml.dom.GenericAttributeValue;
 
 /**
  * @author Eugene Zhuravlev

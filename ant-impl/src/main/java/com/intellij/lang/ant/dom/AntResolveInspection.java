@@ -24,11 +24,11 @@ import consulo.language.psi.PsiReference;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.xml.language.psi.XmlElement;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomUtil;
-import consulo.xml.util.xml.GenericDomValue;
-import consulo.xml.util.xml.highlighting.DomElementAnnotationHolder;
-import consulo.xml.util.xml.highlighting.DomHighlightingHelper;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomUtil;
+import consulo.xml.dom.GenericDomValue;
+import consulo.xml.dom.editor.DomElementAnnotationHolder;
+import consulo.xml.dom.editor.DomHighlightingHelper;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;

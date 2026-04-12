@@ -39,9 +39,9 @@ import consulo.virtualFileSystem.archive.ZipArchiveFileType;
 import consulo.xml.language.XMLLanguage;
 import consulo.xml.language.psi.XmlElement;
 import consulo.xml.language.psi.XmlTag;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomTarget;
-import consulo.xml.util.xml.reflect.DomChildrenDescription;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomTarget;
+import consulo.xml.dom.reflect.DomChildrenDescription;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;

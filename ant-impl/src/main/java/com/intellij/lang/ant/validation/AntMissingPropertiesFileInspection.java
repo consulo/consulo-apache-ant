@@ -23,9 +23,9 @@ import com.intellij.lang.ant.AntBundle;
 import com.intellij.lang.ant.dom.AntDomProperty;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import consulo.language.psi.PsiFileSystemItem;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.highlighting.DomElementAnnotationHolder;
-import consulo.xml.util.xml.highlighting.DomHighlightingHelper;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.editor.DomElementAnnotationHolder;
+import consulo.xml.dom.editor.DomHighlightingHelper;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 

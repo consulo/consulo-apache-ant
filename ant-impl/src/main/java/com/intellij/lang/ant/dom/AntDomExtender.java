@@ -28,8 +28,10 @@ import consulo.util.lang.Pair;
 import consulo.xml.language.psi.XmlAttribute;
 import consulo.xml.language.psi.XmlElement;
 import consulo.xml.language.psi.XmlTag;
-import consulo.xml.util.xml.*;
-import consulo.xml.util.xml.reflect.*;
+import consulo.xml.dom.*;
+import consulo.xml.dom.reflect.*;
+import consulo.xml.language.XmlName;
+import consulo.xml.util.xml.DummyEvaluatedXmlName;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -414,17 +416,17 @@ public class AntDomExtender extends DomExtender<AntDomElement> {
       if (declaringElement == null) {
         return null;
       }
-      DomTarget target = DomTarget.getTarget(declaringElement);
+      DomTarget target = DomService.getInstance().getTarget(declaringElement);
       if (target == null && declaringElement instanceof AntDomTypeDef) {
         final AntDomTypeDef typedef = (AntDomTypeDef)declaringElement;
         final GenericAttributeValue<PsiFileSystemItem> resource = typedef.getResource();
         if (resource != null) {
-          target = DomTarget.getTarget(declaringElement, resource);
+          target = DomService.getInstance().getTarget(declaringElement, resource);
         }
         if (target == null) {
           final GenericAttributeValue<PsiFileSystemItem> file = typedef.getFile();
           if (file != null) {
-            target = DomTarget.getTarget(declaringElement, file);
+            target = DomService.getInstance().getTarget(declaringElement, file);
           }
         }
       }

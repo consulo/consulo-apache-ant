@@ -28,10 +28,10 @@ import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.language.psi.XmlFile;
 import consulo.xml.language.psi.XmlTag;
-import consulo.xml.util.xml.ConvertContext;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomFileElement;
-import consulo.xml.util.xml.DomManager;
+import consulo.xml.dom.ConvertContext;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomFileElement;
+import consulo.xml.dom.DomManager;
 
 import jakarta.annotation.Nullable;
 import javax.swing.*;

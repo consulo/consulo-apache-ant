@@ -26,9 +26,9 @@ import jakarta.annotation.Nullable;
 
 import com.intellij.lang.ant.AntFilesProvider;
 import consulo.language.psi.PsiFileSystemItem;
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.Convert;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.Convert;
+import consulo.xml.dom.GenericAttributeValue;
 
 /**
  * @author Eugene Zhuravlev

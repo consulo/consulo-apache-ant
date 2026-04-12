@@ -22,7 +22,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.ref.Ref;
-import consulo.xml.util.xml.*;
+import consulo.xml.dom.*;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;
@@ -59,7 +59,7 @@ public class AntDomRefIdConverter extends Converter<AntDomElement> implements Cu
         if (value == null) {
           return null;
         }
-        final DomTarget target = DomTarget.getTarget(value, value.getId());
+        final DomTarget target = DomService.getInstance().getTarget(value, value.getId());
         if (target == null) {
           return null;
         }

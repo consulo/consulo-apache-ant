@@ -22,7 +22,7 @@ import consulo.util.dataholder.Key;
 import consulo.xml.language.psi.XmlElement;
 import consulo.xml.language.psi.XmlFile;
 import consulo.xml.language.psi.XmlTag;
-import consulo.xml.util.xml.*;
+import consulo.xml.dom.*;
 
 import java.util.Collections;
 import java.util.Iterator;

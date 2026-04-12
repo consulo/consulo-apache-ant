@@ -32,7 +32,8 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.util.xml.DomTarget;
+import consulo.xml.dom.DomService;
+import consulo.xml.dom.DomTarget;
 import jakarta.annotation.Nullable;
 
 import java.util.List;
@@ -66,7 +67,7 @@ public class AntBuildTargetImpl implements AntBuildTargetBase {
     }
     myDisplayName = name;
     myProject = target.getManager().getProject();
-    final DomTarget domTarget = DomTarget.getTarget(target);
+    final DomTarget domTarget = DomService.getInstance().getTarget(target);
     if (domTarget != null) {
       myTextOffset = domTarget.getTextOffset();
     }

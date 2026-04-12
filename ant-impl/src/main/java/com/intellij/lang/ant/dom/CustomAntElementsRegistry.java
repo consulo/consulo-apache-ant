@@ -34,11 +34,11 @@ import consulo.util.lang.LocalTimeCounter;
 import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.ide.highlighter.XmlFileType;
+import consulo.xml.language.XmlFileType;
 import consulo.xml.language.psi.XmlElement;
 import consulo.xml.language.psi.XmlFile;
 import consulo.xml.language.psi.XmlTag;
-import consulo.xml.util.xml.XmlName;
+import consulo.xml.language.XmlName;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;

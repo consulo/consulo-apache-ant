@@ -21,8 +21,8 @@ import consulo.language.pom.PomTarget;
 import consulo.language.pom.PomTargetPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.util.lang.Trinity;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomTarget;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomTarget;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

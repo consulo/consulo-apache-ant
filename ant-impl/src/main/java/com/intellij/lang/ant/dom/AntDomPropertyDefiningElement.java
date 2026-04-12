@@ -18,8 +18,9 @@ package com.intellij.lang.ant.dom;
 import consulo.language.pom.PomService;
 import consulo.language.psi.PsiElement;
 import consulo.xml.language.psi.XmlElement;
-import consulo.xml.util.xml.DomTarget;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.DomService;
+import consulo.xml.dom.DomTarget;
+import consulo.xml.dom.GenericAttributeValue;
 
 import jakarta.annotation.Nonnull;
 import java.util.*;
@@ -51,13 +52,13 @@ public abstract class AntDomPropertyDefiningElement extends AntDomElement implem
       if (!propertyName.equals(value.getStringValue())) {
         continue;
       }
-      final DomTarget domTarget = DomTarget.getTarget(this, value);
+      final DomTarget domTarget = DomService.getInstance().getTarget(this, value);
       return domTarget != null? consulo.language.pom.PomService.convertToPsi(domTarget) : null;
     }
     
     for (String propName : getImplicitPropertyNames()) {
       if (propertyName.equals(propName)) {
-        final DomTarget domTarget = DomTarget.getTarget(this);
+        final DomTarget domTarget = DomService.getInstance().getTarget(this);
         if (domTarget != null) {
           return PomService.convertToPsi(domTarget);
         }

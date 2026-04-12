@@ -22,9 +22,9 @@ import com.intellij.lang.ant.dom.TargetResolver;
 import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.localize.LocalizeValue;
 import consulo.util.lang.Comparing;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.highlighting.DomElementAnnotationHolder;
-import consulo.xml.util.xml.highlighting.DomHighlightingHelper;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.editor.DomElementAnnotationHolder;
+import consulo.xml.dom.editor.DomHighlightingHelper;
 import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
 

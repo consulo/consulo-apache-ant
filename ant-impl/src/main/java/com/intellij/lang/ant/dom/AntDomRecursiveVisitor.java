@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.dom;
 
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomElementVisitor;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomElementVisitor;
 
 import java.util.Iterator;
 

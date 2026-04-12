@@ -20,7 +20,7 @@ import consulo.application.util.function.Computable;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.util.collection.ContainerUtil;
-import consulo.xml.util.xml.*;
+import consulo.xml.dom.*;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;

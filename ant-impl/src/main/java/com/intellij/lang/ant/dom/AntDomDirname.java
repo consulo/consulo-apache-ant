@@ -18,9 +18,9 @@ package com.intellij.lang.ant.dom;
 import consulo.language.psi.PsiFileSystemItem;
 import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.Convert;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.Convert;
+import consulo.xml.dom.GenericAttributeValue;
 import jakarta.annotation.Nullable;
 
 /**

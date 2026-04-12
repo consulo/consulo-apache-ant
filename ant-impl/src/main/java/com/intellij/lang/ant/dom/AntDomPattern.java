@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import consulo.util.io.FileUtil;
-import consulo.xml.util.xml.reflect.DomAttributeChildDescription;
+import consulo.xml.dom.reflect.DomAttributeChildDescription;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nullable;

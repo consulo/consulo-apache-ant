@@ -16,10 +16,11 @@
 package com.intellij.lang.ant.dom;
 
 import consulo.annotation.component.ExtensionImpl;
-import consulo.xml.util.xml.AbstractDomDeclarationSearcher;
-import consulo.xml.util.xml.DomElement;
-import consulo.xml.util.xml.DomTarget;
-import consulo.xml.util.xml.GenericDomValue;
+import consulo.xml.dom.AbstractDomDeclarationSearcher;
+import consulo.xml.dom.DomElement;
+import consulo.xml.dom.DomService;
+import consulo.xml.dom.DomTarget;
+import consulo.xml.dom.GenericDomValue;
 
 /**
  * @author Eugene Zhuravlev
@@ -30,10 +31,10 @@ public class AntDomDeclarationSearcher extends AbstractDomDeclarationSearcher {
 
   protected DomTarget createDomTarget(DomElement parent, DomElement nameElement) {
     if (parent instanceof AntDomElement && nameElement.equals(((AntDomElement)parent).getId())) { // id attrib is defined
-      return DomTarget.getTarget(parent, (GenericDomValue)nameElement);
+      return DomService.getInstance().getTarget(parent, (GenericDomValue)nameElement);
     }
     if (parent instanceof AntDomProperty && nameElement.equals(((AntDomProperty)parent).getEnvironment())) { // environment attrib is defined
-      return DomTarget.getTarget(parent, (GenericDomValue)nameElement);
+      return DomService.getInstance().getTarget(parent, (GenericDomValue)nameElement);
     }
     return null;
   }

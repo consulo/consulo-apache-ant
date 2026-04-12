@@ -22,7 +22,7 @@ import consulo.language.psi.PsiReference;
 import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.util.xml.*;
+import consulo.xml.dom.*;
 import org.jetbrains.annotations.NonNls;
 
 import jakarta.annotation.Nonnull;

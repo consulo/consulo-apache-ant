@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.dom;
 
 import consulo.language.psi.PsiElement;
-import consulo.xml.util.xml.DomElement;
+import consulo.xml.dom.DomElement;
 import consulo.util.dataholder.Key;
 
 import jakarta.annotation.Nonnull;

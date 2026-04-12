@@ -27,7 +27,7 @@ import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.ManagingFS;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.language.psi.XmlAttributeValue;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.GenericAttributeValue;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

@@ -34,7 +34,7 @@ import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.language.psi.XmlElement;
 import consulo.xml.language.psi.XmlTag;
-import consulo.xml.util.xml.*;
+import consulo.xml.dom.*;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -203,7 +203,7 @@ public abstract class AntDomProject extends AntDomNamedElement implements Proper
 
   @Nullable
   public PsiElement getNavigationElement(String propertyName) {
-    final DomTarget target = DomTarget.getTarget(this);
+    final DomTarget target = DomService.getInstance().getTarget(this);
     final PsiElement nameElementPsi = target != null ? PomService.convertToPsi(target) : null;
     if (nameElementPsi != null) {
       return nameElementPsi;

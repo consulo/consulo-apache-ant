@@ -23,10 +23,11 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFileSystemItem;
 import consulo.util.io.FileUtil;
 import consulo.util.io.PathUtil;
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.Convert;
-import consulo.xml.util.xml.DomTarget;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.Convert;
+import consulo.xml.dom.DomService;
+import consulo.xml.dom.DomTarget;
+import consulo.xml.dom.GenericAttributeValue;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -100,16 +101,16 @@ public abstract class AntDomProperty extends AntDomClasspathComponent implements
   }
 
   public PsiElement getNavigationElement(final String propertyName) {
-    DomTarget domTarget = DomTarget.getTarget(this);
+    DomTarget domTarget = DomService.getInstance().getTarget(this);
     if (domTarget == null) {
       final GenericAttributeValue<String> environment = getEnvironment();
       if (environment.getRawText() != null) {
-        domTarget = DomTarget.getTarget(this, environment);
+        domTarget = DomService.getInstance().getTarget(this, environment);
       }
       if (domTarget == null) {
         final GenericAttributeValue<String> resource = getResource();
         if (resource.getRawText() != null) {
-          domTarget = DomTarget.getTarget(this, resource);
+          domTarget = DomService.getInstance().getTarget(this, resource);
         }
       }
     }

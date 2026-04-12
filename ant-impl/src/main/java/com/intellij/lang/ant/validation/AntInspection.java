@@ -19,7 +19,7 @@ import com.intellij.lang.ant.dom.AntDomProject;
 import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.localize.LocalizeValue;
-import consulo.xml.util.xml.highlighting.BasicDomElementsInspection;
+import consulo.xml.dom.editor.BasicDomElementsInspection;
 import jakarta.annotation.Nonnull;
 
 public abstract class AntInspection extends BasicDomElementsInspection<AntDomProject, Object> {

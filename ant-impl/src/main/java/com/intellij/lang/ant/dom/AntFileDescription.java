@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.dom;
 
-import consulo.xml.util.xml.DomFileDescription;
+import consulo.xml.dom.DomFileDescription;
 
 /**
  * @author Eugene Zhuravlev

@@ -15,8 +15,8 @@
  */
 package com.intellij.lang.ant.dom;
 
-import consulo.xml.util.xml.Attribute;
-import consulo.xml.util.xml.GenericAttributeValue;
+import consulo.xml.dom.Attribute;
+import consulo.xml.dom.GenericAttributeValue;
 
 /**
  * @author Eugene Zhuravlev
