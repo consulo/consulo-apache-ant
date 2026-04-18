@@ -41,7 +41,7 @@ import java.util.Map;
 public class AntImportsIndex extends ScalarIndexExtension<Integer>{
   public static final consulo.index.io.ID<Integer, Void> INDEX_NAME = ID.create("ant-imports");
   private static final int VERSION = 5;
-  public static final Integer ANT_FILES_WITH_IMPORTS_KEY = new Integer(0);
+  public static final Integer ANT_FILES_WITH_IMPORTS_KEY = Integer.valueOf(0);
   
   private static final DataIndexer<Integer,Void,FileContent> DATA_INDEXER = new consulo.index.io.DataIndexer<Integer, Void, consulo.language.psi.stub.FileContent>() {
     @Override
