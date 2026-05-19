@@ -119,7 +119,7 @@ public class AntCommandLineBuilder {
     final String libraryDir = antHome + (antHome.endsWith("/") || antHome.endsWith(File.separator) ? "" : File.separator) + "lib";
     vmParametersList.add("-Dant.library.dir=" + libraryDir);
 
-    String[] urls = jdk.getRootProvider().getUrls(BinariesOrderRootType.getInstance());
+    String[] urls = jdk.getRootProvider().getUrls(BinariesOrderRootType.ID);
     final String jdkHome = homeDirectory.getPath().replace('/', File.separatorChar);
     @NonNls final String pathToJre = jdkHome + File.separator + "jre" + File.separator;
     for (String url : urls) {

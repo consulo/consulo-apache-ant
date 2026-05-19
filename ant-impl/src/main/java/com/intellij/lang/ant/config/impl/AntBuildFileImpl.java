@@ -96,7 +96,7 @@ public class AntBuildFileImpl implements AntBuildFileBase {
       Sdk antInstallation = ANT_INSTALLATION.get(container);
       if (antInstallation != null) {
         consulo.virtualFileSystem.VirtualFile[] virtualFiles =
-          antInstallation.getRootProvider().getFiles(BinariesOrderRootType.getInstance());
+          antInstallation.getRootProvider().getFiles(BinariesOrderRootType.ID);
         for (consulo.virtualFileSystem.VirtualFile virtualFile : virtualFiles) {
           consulo.virtualFileSystem.VirtualFile localFile = ArchiveVfsUtil.getVirtualFileForArchive(virtualFile);
           if (localFile != null) {

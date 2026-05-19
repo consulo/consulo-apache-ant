@@ -40,7 +40,7 @@ public class AntInstallationClassLoaderHolder extends ClassLoaderHolder {
   protected ClassLoader buildClasspath() {
     final ArrayList<File> files = new ArrayList<>();
     // ant installation jars
-    consulo.virtualFileSystem.VirtualFile[] virtualFiles = mySdk.getRootProvider().getFiles(BinariesOrderRootType.getInstance());
+    consulo.virtualFileSystem.VirtualFile[] virtualFiles = mySdk.getRootProvider().getFiles(BinariesOrderRootType.ID);
     for (consulo.virtualFileSystem.VirtualFile virtualFile : virtualFiles) {
       VirtualFile localFile = ArchiveVfsUtil.getVirtualFileForArchive(virtualFile);
       if (localFile != null) {

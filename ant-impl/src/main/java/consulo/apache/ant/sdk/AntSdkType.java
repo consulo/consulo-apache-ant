@@ -86,7 +86,7 @@ public class AntSdkType extends SdkType {
       for (consulo.virtualFileSystem.VirtualFile virtualFile : lib.getChildren()) {
         VirtualFile archiveRootForLocalFile = ArchiveVfsUtil.getArchiveRootForLocalFile(virtualFile);
         if (archiveRootForLocalFile != null) {
-          sdkModificator.addRoot(archiveRootForLocalFile, BinariesOrderRootType.getInstance());
+          sdkModificator.addRoot(archiveRootForLocalFile, BinariesOrderRootType.ID);
         }
       }
     }
@@ -107,7 +107,7 @@ public class AntSdkType extends SdkType {
   }
 
   @Override
-  public boolean isRootTypeApplicable(OrderRootType type) {
-    return type == BinariesOrderRootType.getInstance();
+  public boolean isRootTypeApplicable(String type) {
+    return BinariesOrderRootType.ID.equals(type);
   }
 }
