@@ -289,7 +289,7 @@ public class OutputParser implements OutputWatcher {
                 return new CompileContext.MessageBuilder() {
                     private String myUrl = null;
                     private VirtualFile myFile = null;
-                    private int myRow = 0, myColumn = 1;
+                    private int myRow = -1, myColumn = -1;
 
                     @Override
                     public CompileContext.MessageBuilder url(String url) {
