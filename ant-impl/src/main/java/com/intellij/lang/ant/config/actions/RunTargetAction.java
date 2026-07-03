@@ -33,6 +33,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.Presentation;
 import consulo.util.lang.Pair;
 import consulo.virtualFileSystem.VirtualFile;
@@ -48,7 +49,7 @@ import java.util.Collections;
  * Created by Eugene Petrenko (eugene.petrenko@gmail.com)
  * Date: 28.05.12 16:07
  */
-public class RunTargetAction extends AnAction {
+public class RunTargetAction extends AnAction implements AnActionWithSyncUpdate {
   public RunTargetAction() {
     super();
   }
@@ -68,8 +69,6 @@ public class RunTargetAction extends AnAction {
 
   @Override
   public void update(AnActionEvent e) {
-    super.update(e);
-
     final Presentation presentation = e.getPresentation();
 
     Pair<AntBuildFileBase, AntDomTarget> antTarget = findAntTarget(e);

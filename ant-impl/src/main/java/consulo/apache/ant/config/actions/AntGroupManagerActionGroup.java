@@ -20,11 +20,10 @@ import com.intellij.lang.ant.config.explorer.AntBuildFileNodeDescriptor;
 import consulo.apache.ant.ApacheAntIcons;
 import consulo.apache.ant.config.AntBuildFileGroup;
 import consulo.apache.ant.config.AntBuildFileGroupManager;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import consulo.ui.ex.action.ActionGroup;
-import consulo.ui.ex.action.AnAction;
-import consulo.ui.ex.action.AnActionEvent;
-import consulo.ui.ex.action.AnSeparator;
+import consulo.ui.ex.action.*;
 import consulo.ui.ex.awt.tree.Tree;
 
 import jakarta.annotation.Nonnull;
@@ -38,13 +37,13 @@ import java.util.List;
  * @author VISTALL
  * @since 12:19/09.03.13
  */
-public class AntGroupManagerActionGroup extends ActionGroup {
+public class AntGroupManagerActionGroup extends ActionGroup implements AnActionWithSyncUpdate {
   private final AnAction[] myDefaultActions;
   private final AntBuildFileGroup myGroup;
   private final Tree myTree;
 
   public AntGroupManagerActionGroup(AntBuildFileGroup group, Tree tree) {
-    super(group == null ? AntBundle.message("move.to") : group.getName(), true);
+    super(group == null ? ApacheAntImplLocalize.moveTo() : LocalizeValue.of(group.getName()), true);
     myGroup = group;
     myTree = tree;
     if(myGroup != null) {
@@ -85,6 +84,7 @@ public class AntGroupManagerActionGroup extends ActionGroup {
   @Override
   public void update(AnActionEvent e) {
     final Object lastSelectedPathComponent = myTree.getLastSelectedPathComponent();
-    e.getPresentation().setEnabledAndVisible(lastSelectedPathComponent instanceof DefaultMutableTreeNode && ((DefaultMutableTreeNode)lastSelectedPathComponent).getUserObject() instanceof AntBuildFileNodeDescriptor);
+    e.getPresentation().setEnabledAndVisible(lastSelectedPathComponent instanceof DefaultMutableTreeNode n
+                                               && n.getUserObject() instanceof AntBuildFileNodeDescriptor);
   }
 }

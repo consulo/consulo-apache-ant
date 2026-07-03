@@ -15,13 +15,14 @@
  */
 package consulo.apache.ant.config.actions;
 
-import com.intellij.lang.ant.AntBundle;
 import consulo.apache.ant.config.AntBuildFileGroupManager;
 import consulo.apache.ant.config.explorer.AntBuildGroupNodeDescriptor;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.awt.tree.AbstractTreeBuilder;
 import consulo.ui.ex.awt.tree.Tree;
 import consulo.ui.ex.awt.tree.TreeUtil;
@@ -32,11 +33,11 @@ import java.util.List;
  * @author VISTALL
  * @since 14:24/09.03.13
  */
-public class RemoveGroupsAction extends AnAction {
+public class RemoveGroupsAction extends AnAction implements AnActionWithSyncUpdate {
   private final Tree myTree;
 
   public RemoveGroupsAction(Tree tree) {
-    super(AntBundle.message("remove.groups.name"), AntBundle.message("remove.groups.name"), PlatformIconGroup.generalRemove());
+    super(ApacheAntImplLocalize.removeGroupsName(), ApacheAntImplLocalize.removeGroupsName(), PlatformIconGroup.generalRemove());
     myTree = tree;
   }
 
