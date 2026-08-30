@@ -21,7 +21,7 @@ import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.impl.AntConfigurationImpl;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
-import consulo.compiler.CompilerMessageCategory;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.compiler.artifact.ArtifactProperties;
 import consulo.compiler.artifact.ui.ArtifactEditorContext;
 import consulo.compiler.artifact.ui.ArtifactPropertiesEditor;
@@ -84,7 +84,7 @@ public class AntArtifactProperties extends ArtifactProperties<AntArtifactExtensi
         List<BuildFileProperty> properties = getAllProperties(artifact);
         final boolean success = AntConfigurationImpl.executeTargetSynchronously(dataContext, target, properties);
         if (!success) {
-          compileContext.addMessage(CompilerMessageCategory.ERROR, "Cannot build artifact '" + artifact.getName() + "': ant target '" + target.getDisplayName() + "' failed with error", null, -1, -1);
+          compileContext.newError(ApacheAntImplLocalize.cannotBuildArtifactErrorMessage(artifact.getName(), target.getDisplayName())).add();
         }
       }
     }
