@@ -29,10 +29,12 @@ import consulo.ui.ex.keymap.KeyMapBundle;
 import consulo.ui.ex.keymap.KeymapExtension;
 import consulo.ui.ex.keymap.KeymapGroup;
 import consulo.ui.ex.keymap.KeymapGroupFactory;
+import consulo.ui.ex.keymap.localize.KeyMapLocalize;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
 /**
@@ -42,10 +44,15 @@ import java.util.function.Predicate;
 public class AntKeymapExtension implements KeymapExtension {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntProjectKeymap");
 
-  public KeymapGroup createGroup(final Predicate<AnAction> filtered, ComponentManager project) {
+  @Override
+  public CompletableFuture<KeymapGroup> createGroupAsync(final Predicate<AnAction> filtered, ComponentManager project) {
+    return CompletableFuture.supplyAsync(() -> createGroup(filtered, project));
+  }
+
+  private static KeymapGroup createGroup(final Predicate<AnAction> filtered, ComponentManager project) {
     final Map<AntBuildFile, KeymapGroup> buildFileToGroup = new HashMap<AntBuildFile, KeymapGroup>();
     final KeymapGroup result =
-      KeymapGroupFactory.getInstance().createGroup(KeyMapBundle.message("ant.targets.group.title"), ApacheAntIcons.AntGroup);
+      KeymapGroupFactory.getInstance().createGroup(KeyMapLocalize.antTargetsGroupTitle(), ApacheAntIcons.AntGroup);
 
     final ActionManager actionManager = ActionManager.getInstance();
     final String[] ids =
