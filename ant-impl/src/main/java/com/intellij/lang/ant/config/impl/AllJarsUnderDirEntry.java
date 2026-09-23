@@ -17,8 +17,8 @@ package com.intellij.lang.ant.config.impl;
 
 import consulo.application.AllIcons;
 import consulo.fileChooser.FileChooserDescriptorFactory;
-import consulo.ide.impl.idea.openapi.roots.ui.ModifiableCellAppearanceEx;
-import consulo.ide.ui.CellAppearanceEx;
+import consulo.ui.ex.util.ModifiableCellAppearanceEx;
+import consulo.ui.ex.util.CellAppearanceEx;
 import consulo.ide.ui.FileAppearanceService;
 import consulo.util.collection.ContainerUtil;
 import consulo.virtualFileSystem.LocalFileSystem;

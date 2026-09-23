@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.config.explorer;
 
-import consulo.ide.ui.CellAppearanceEx;
+import consulo.ui.ex.util.CellAppearanceEx;
 import consulo.project.Project;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;

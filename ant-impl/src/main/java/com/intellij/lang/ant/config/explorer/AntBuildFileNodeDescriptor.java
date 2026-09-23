@@ -19,7 +19,7 @@ import com.intellij.lang.ant.config.AntBuildFile;
 import com.intellij.lang.ant.config.AntBuildFileBase;
 import com.intellij.lang.ant.config.AntBuildModelBase;
 import consulo.apache.ant.ApacheAntIcons;
-import consulo.ide.impl.idea.openapi.roots.ui.util.CompositeAppearance;
+import consulo.ui.ex.util.CompositeAppearance;
 import consulo.project.Project;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;
@@ -31,7 +31,7 @@ import jakarta.annotation.Nonnull;
 public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
 
   private final AntBuildFileBase myBuildFile;
-  private consulo.ide.impl.idea.openapi.roots.ui.util.CompositeAppearance myAppearance;
+  private consulo.ui.ex.util.CompositeAppearance myAppearance;
 
   public AntBuildFileNodeDescriptor(Project project, NodeDescriptor parentDescriptor, AntBuildFileBase buildFile) {
     super(project, parentDescriptor);
@@ -50,7 +50,7 @@ public final class AntBuildFileNodeDescriptor extends AntNodeDescriptor {
     setIcon(ApacheAntIcons.AntInstallation);
 
     CompositeAppearance oldAppearance = myAppearance;
-    myAppearance = new consulo.ide.impl.idea.openapi.roots.ui.util.CompositeAppearance();
+    myAppearance = new consulo.ui.ex.util.CompositeAppearance();
     myAppearance.getEnding().addText(myBuildFile.getPresentableName(), SimpleTextAttributes.REGULAR_ATTRIBUTES);
     myAppearance.setIcon(getIcon());
     final AntBuildModelBase buildModel = myBuildFile.getModelIfRegistered();

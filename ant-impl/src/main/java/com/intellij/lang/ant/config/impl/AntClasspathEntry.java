@@ -18,7 +18,7 @@ package com.intellij.lang.ant.config.impl;
 import consulo.component.util.config.Externalizer;
 import consulo.fileChooser.FileChooserDescriptor;
 import consulo.fileChooser.IdeaFileChooser;
-import consulo.ide.ui.CellAppearanceEx;
+import consulo.ui.ex.util.CellAppearanceEx;
 import consulo.util.collection.ContainerUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFilePathUtil;

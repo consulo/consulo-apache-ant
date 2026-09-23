@@ -41,7 +41,7 @@ import consulo.apache.ant.ApacheAntClasses;
  */
 public final class AntIntrospector
 {
-	private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.AntIntrospector");
+	private static final Logger LOG = Logger.getInstance(AntIntrospector.class);
 	private final Object myHelper;
 	//private static final ObjectCache<String, SoftReference<Object>> ourCache = new ObjectCache<String, SoftReference<Object>>(300);
 	private static final HashMap<Class, Object> ourCache = new HashMap<Class, Object>();

@@ -16,7 +16,7 @@
 package com.intellij.lang.ant.config.impl;
 
 import consulo.fileChooser.FileChooserDescriptor;
-import consulo.ide.ui.CellAppearanceEx;
+import consulo.ui.ex.util.CellAppearanceEx;
 import consulo.ide.ui.FileAppearanceService;
 import consulo.util.xml.serializer.InvalidDataException;
 import consulo.virtualFileSystem.LocalFileSystem;
