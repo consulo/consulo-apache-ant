@@ -15,197 +15,250 @@
  */
 package com.intellij.lang.ant.config.impl;
 
-import com.intellij.lang.ant.AntBundle;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.component.util.config.AbstractProperty;
 import consulo.component.util.config.Externalizer;
 import consulo.content.bundle.Sdk;
 import consulo.execution.CantRunException;
 import consulo.logging.Logger;
-import consulo.util.lang.Comparing;
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-
 import jakarta.annotation.Nullable;
+import org.jdom.Element;
+
 import java.util.Comparator;
+import java.util.Objects;
 
 public abstract class AntReference {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.ant.config.impl.AntReference");
-  @NonNls private static final String PROJECT_DEFAULT_ATTR = "projectDefault";
-  @NonNls private static final String NAME_ATTR = "name";
-  @NonNls private static final String BUNDLED_ANT_ATTR = "bundledAnt";
+    private static final Logger LOG = Logger.getInstance(AntReference.class);
+    private static final String PROJECT_DEFAULT_ATTR = "projectDefault";
+    private static final String NAME_ATTR = "name";
+    private static final String BUNDLED_ANT_ATTR = "bundledAnt";
 
-  public static final Externalizer<AntReference> EXTERNALIZER = new Externalizer<AntReference>() {
-    public AntReference readValue(Element dataElement)  {
-      if (Boolean.valueOf(dataElement.getAttributeValue(PROJECT_DEFAULT_ATTR)).booleanValue()) return PROJECT_DEFAULT;
-      if (Boolean.valueOf(dataElement.getAttributeValue(BUNDLED_ANT_ATTR)).booleanValue()) return BUNDLED_ANT;
-      String name = dataElement.getAttributeValue(NAME_ATTR);
-      if (name == null) throw new IllegalStateException();
-      return new MissingAntReference(name);
-    }
+    public static final Externalizer<AntReference> EXTERNALIZER = new Externalizer<>() {
+        @Override
+        public AntReference readValue(Element dataElement) {
+            if (Boolean.valueOf(dataElement.getAttributeValue(PROJECT_DEFAULT_ATTR))) {
+                return PROJECT_DEFAULT;
+            }
+            if (Boolean.valueOf(dataElement.getAttributeValue(BUNDLED_ANT_ATTR))) {
+                return BUNDLED_ANT;
+            }
+            String name = dataElement.getAttributeValue(NAME_ATTR);
+            if (name == null) {
+                throw new IllegalStateException();
+            }
+            return new MissingAntReference(name);
+        }
 
-    public void writeValue(Element dataElement, AntReference antReference) {
-      antReference.writeExternal(dataElement);
-    }
-  };
-  public static final Comparator<AntReference> COMPARATOR = new Comparator<AntReference>() {
-    public int compare(AntReference reference, AntReference reference1) {
-      if (reference.equals(reference1)) return 0;
-      if (reference == BUNDLED_ANT) return -1;
-      if (reference1 == BUNDLED_ANT) return 1;
-      return reference.getName().compareToIgnoreCase(reference1.getName());
-    }
-  };
+        @Override
+        public void writeValue(Element dataElement, AntReference antReference) {
+            antReference.writeExternal(dataElement);
+        }
+    };
+    public static final Comparator<AntReference> COMPARATOR = new Comparator<>() {
+        @Override
+        public int compare(AntReference reference, AntReference reference1) {
+            if (reference.equals(reference1)) {
+                return 0;
+            }
+            if (reference == BUNDLED_ANT) {
+                return -1;
+            }
+            if (reference1 == BUNDLED_ANT) {
+                return 1;
+            }
+            return reference.getName().compareToIgnoreCase(reference1.getName());
+        }
+    };
 
-  protected abstract void writeExternal(Element dataElement);
+    protected abstract void writeExternal(Element dataElement);
 
-  public String toString() {
-    return getName();
-  }
-
-  public static final AntReference PROJECT_DEFAULT = new AntReference() {
-    protected void writeExternal(Element dataElement) {
-      dataElement.setAttribute(PROJECT_DEFAULT_ATTR, Boolean.TRUE.toString());
-    }
-
-    public Sdk find(GlobalAntConfiguration ants) {
-      throw new UnsupportedOperationException("Should not call");
-    }
-
-    public AntReference bind(GlobalAntConfiguration antConfiguration) {
-      return this;
-    }
-
-    public String getName() {
-      throw new UnsupportedOperationException("Should not call");
-    }
-
-    @SuppressWarnings({"HardCodedStringLiteral"})
+    @Override
     public String toString() {
-      return "PROJECT_DEFAULT";
+        return getName();
     }
 
-    public boolean equals(Object obj) {
-      return obj == this;
-    }
-  };
+    public static final AntReference PROJECT_DEFAULT = new AntReference() {
+        @Override
+        protected void writeExternal(Element dataElement) {
+            dataElement.setAttribute(PROJECT_DEFAULT_ATTR, Boolean.TRUE.toString());
+        }
 
-  public static final AntReference BUNDLED_ANT = new AntReference() {
-    protected void writeExternal(Element dataElement) {
-      dataElement.setAttribute(BUNDLED_ANT_ATTR, Boolean.TRUE.toString());
-    }
+        @Override
+        public Sdk find(GlobalAntConfiguration ants) {
+            throw new UnsupportedOperationException("Should not call");
+        }
 
-    public boolean equals(Object obj) {
-      return obj == this;
-    }
+        @Override
+        public AntReference bind(GlobalAntConfiguration antConfiguration) {
+            return this;
+        }
 
-    public String getName() {
-      return GlobalAntConfiguration.BUNDLED_ANT_NAME;
-    }
+        @Override
+        public String getName() {
+            throw new UnsupportedOperationException("Should not call");
+        }
 
-    public Sdk find(GlobalAntConfiguration antConfiguration) {
-      return antConfiguration.findBundleAntBundle();
-    }
+        @Override
+        @SuppressWarnings({"HardCodedStringLiteral"})
+        public String toString() {
+            return "PROJECT_DEFAULT";
+        }
 
-    public AntReference bind(GlobalAntConfiguration antConfiguration) {
-      return this;
-    }
-  };
+        @Override
+        public boolean equals(Object obj) {
+            return obj == this;
+        }
+    };
 
-  public abstract String getName();
+    public static final AntReference BUNDLED_ANT = new AntReference() {
+        @Override
+        protected void writeExternal(Element dataElement) {
+            dataElement.setAttribute(BUNDLED_ANT_ATTR, Boolean.TRUE.toString());
+        }
 
-  public abstract Sdk find(GlobalAntConfiguration antConfiguration);
+        @Override
+        public boolean equals(Object obj) {
+            return obj == this;
+        }
 
-  public abstract AntReference bind(GlobalAntConfiguration antConfiguration);
+        @Override
+        public String getName() {
+            return GlobalAntConfiguration.BUNDLED_ANT_NAME;
+        }
 
-  public int hashCode() {
-    return getName().hashCode();
-  }
+        @Override
+        public Sdk find(GlobalAntConfiguration antConfiguration) {
+            return antConfiguration.findBundleAntBundle();
+        }
 
-  public boolean equals(Object obj) {
-    if (obj == PROJECT_DEFAULT) return this == PROJECT_DEFAULT;
-    if (obj == BUNDLED_ANT) return this == BUNDLED_ANT;
-    return obj instanceof AntReference && Comparing.equal(getName(), ((AntReference)obj).getName());
-  }
+        @Override
+        public AntReference bind(GlobalAntConfiguration antConfiguration) {
+            return this;
+        }
+    };
 
-  @Nullable
-  public static Sdk findAnt(AbstractProperty<AntReference> property, AbstractProperty.AbstractPropertyContainer container) {
-    GlobalAntConfiguration antConfiguration = GlobalAntConfiguration.INSTANCE.get(container);
-    LOG.assertTrue(antConfiguration != null);
-    AntReference antReference = property.get(container);
-    if (antReference == PROJECT_DEFAULT) {
-      antReference = AntConfigurationImpl.DEFAULT_ANT.get(container);
-    }
-    if (antReference == null) return null;
-    return antReference.find(antConfiguration);
-  }
+    public abstract String getName();
 
-  public static Sdk findNotNullAnt(AbstractProperty<AntReference> property,
-														  AbstractProperty.AbstractPropertyContainer container,
-														  GlobalAntConfiguration antConfiguration) throws CantRunException {
-    AntReference antReference = property.get(container);
-    if (antReference == PROJECT_DEFAULT) antReference = AntConfigurationImpl.DEFAULT_ANT.get(container);
-    if (antReference == null) throw new CantRunException(AntBundle.message("cant.run.ant.no.ant.configured.error.message"));
-	  Sdk antInstallation = antReference.find(antConfiguration);
-    if (antInstallation == null) {
-      throw new CantRunException(AntBundle.message("cant.run.ant.ant.reference.is.not.configured.error.message", antReference.getName()));
-    }
-    return antInstallation;
-  }
+    public abstract Sdk find(GlobalAntConfiguration antConfiguration);
 
-  @Nullable
-  public static Sdk findAntOrBundled(AbstractProperty.AbstractPropertyContainer container) {
-    GlobalAntConfiguration antConfiguration = GlobalAntConfiguration.INSTANCE.get(container);
-    if (container.hasProperty(AntBuildFileImpl.ANT_REFERENCE)) return findAnt(AntBuildFileImpl.ANT_REFERENCE, container);
-    return antConfiguration.findBundleAntBundle();
-  }
+    public abstract AntReference bind(GlobalAntConfiguration antConfiguration);
 
-  static class MissingAntReference extends AntReference {
-    private final String myName;
-
-    public MissingAntReference(String name) {
-      myName = name;
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
     }
 
-    protected void writeExternal(Element dataElement) {
-      dataElement.setAttribute(NAME_ATTR, myName);
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == PROJECT_DEFAULT) {
+            return this == PROJECT_DEFAULT;
+        }
+        if (obj == BUNDLED_ANT) {
+            return this == BUNDLED_ANT;
+        }
+        return obj instanceof AntReference that
+            && Objects.equals(getName(), that.getName());
     }
 
-    public String getName() {
-      return myName;
+    @Nullable
+    public static Sdk findAnt(AbstractProperty<AntReference> property, AbstractProperty.AbstractPropertyContainer container) {
+        GlobalAntConfiguration antConfiguration = GlobalAntConfiguration.INSTANCE.get(container);
+        LOG.assertTrue(antConfiguration != null);
+        AntReference antReference = property.get(container);
+        if (antReference == PROJECT_DEFAULT) {
+            antReference = AntConfigurationImpl.DEFAULT_ANT.get(container);
+        }
+        if (antReference == null) {
+            return null;
+        }
+        return antReference.find(antConfiguration);
     }
 
-    public Sdk find(GlobalAntConfiguration antConfiguration) {
-      return antConfiguration.getConfiguredAnts().get(this);
+    public static Sdk findNotNullAnt(
+        AbstractProperty<AntReference> property,
+        AbstractProperty.AbstractPropertyContainer container,
+        GlobalAntConfiguration antConfiguration
+    ) throws CantRunException {
+        AntReference antReference = property.get(container);
+        if (antReference == PROJECT_DEFAULT) {
+            antReference = AntConfigurationImpl.DEFAULT_ANT.get(container);
+        }
+        if (antReference == null) {
+            throw new CantRunException(ApacheAntImplLocalize.cantRunAntNoAntConfiguredErrorMessage());
+        }
+        Sdk antInstallation = antReference.find(antConfiguration);
+        if (antInstallation == null) {
+            throw new CantRunException(ApacheAntImplLocalize.cantRunAntAntReferenceIsNotConfiguredErrorMessage(antReference.getName()));
+        }
+        return antInstallation;
     }
 
-    public AntReference bind(GlobalAntConfiguration antConfiguration) {
-		Sdk antInstallation = find(antConfiguration);
-      if (antInstallation != null) return new BindedReference(antInstallation);
-      return this;
-    }
-  }
-
-  public static class BindedReference extends AntReference {
-    private final Sdk myAnt;
-
-    public BindedReference(Sdk ant) {
-      myAnt = ant;
+    @Nullable
+    public static Sdk findAntOrBundled(AbstractProperty.AbstractPropertyContainer container) {
+        GlobalAntConfiguration antConfiguration = GlobalAntConfiguration.INSTANCE.get(container);
+        if (container.hasProperty(AntBuildFileImpl.ANT_REFERENCE)) {
+            return findAnt(AntBuildFileImpl.ANT_REFERENCE, container);
+        }
+        return antConfiguration.findBundleAntBundle();
     }
 
-    public Sdk find(GlobalAntConfiguration antConfiguration) {
-      return myAnt;
+    static class MissingAntReference extends AntReference {
+        private final String myName;
+
+        public MissingAntReference(String name) {
+            myName = name;
+        }
+
+        @Override
+        protected void writeExternal(Element dataElement) {
+            dataElement.setAttribute(NAME_ATTR, myName);
+        }
+
+        @Override
+        public String getName() {
+            return myName;
+        }
+
+        @Override
+        public Sdk find(GlobalAntConfiguration antConfiguration) {
+            return antConfiguration.getConfiguredAnts().get(this);
+        }
+
+        @Override
+        public AntReference bind(GlobalAntConfiguration antConfiguration) {
+            Sdk antInstallation = find(antConfiguration);
+            if (antInstallation != null) {
+                return new BindedReference(antInstallation);
+            }
+            return this;
+        }
     }
 
-    public String getName() {
-      return myAnt.getName();
-    }
+    public static class BindedReference extends AntReference {
+        private final Sdk myAnt;
 
-    protected void writeExternal(Element dataElement) {
-      dataElement.setAttribute(NAME_ATTR, getName());
-    }
+        public BindedReference(Sdk ant) {
+            myAnt = ant;
+        }
 
-    public AntReference bind(GlobalAntConfiguration antConfiguration) {
-      return this;
+        @Override
+        public Sdk find(GlobalAntConfiguration antConfiguration) {
+            return myAnt;
+        }
+
+        @Override
+        public String getName() {
+            return myAnt.getName();
+        }
+
+        @Override
+        protected void writeExternal(Element dataElement) {
+            dataElement.setAttribute(NAME_ATTR, getName());
+        }
+
+        @Override
+        public AntReference bind(GlobalAntConfiguration antConfiguration) {
+            return this;
+        }
     }
-  }
 }
