@@ -25,7 +25,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.ex.RelativePoint;
 import jakarta.annotation.Nonnull;
 
 /**
@@ -47,23 +47,25 @@ public class AntChangeContextFix extends BaseIntentionAction implements Syntheti
         //if (!(file instanceof XmlFile)) {
         //    return false;
         //}
+
         //final XmlTag xmlTag = PsiTreeUtil.getParentOfType(file.findElementAt(editor.getCaretModel().getOffset()), XmlTag.class);
         //if (xmlTag == null) {
-        //    return false;
+        //  return false;
         //}
         //final AntDomElement antDomElement = AntSupport.getAntDomElement(xmlTag);
         //if (antDomElement == null) {
-        //    return false;
+        //  return false;
         //}
         return true;
     }
 
     @Override
-    @RequiredUIAccess
-    public void invoke(@Nonnull Project project, Editor editor, consulo.language.psi.PsiFile file) throws IncorrectOperationException {
-        consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent component = new HectorComponent(file);
-        //JComponent focusComponent = findComponentToFocus(component);
-        component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
+    public void invoke(@Nonnull final Project project,
+                       Editor editor,
+                       consulo.language.psi.PsiFile file) throws IncorrectOperationException {
+        final consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent component = new HectorComponent(file);
+        //final JComponent focusComponent = findComponentToFocus(component);
+        component.showComponent(RelativePoint.from(EditorPopupHelper.getInstance().guessBestPopupLocation(editor)));
     }
 
     //@Nullable

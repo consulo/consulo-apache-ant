@@ -27,6 +27,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
+import consulo.ui.ex.RelativePoint;
 import jakarta.annotation.Nonnull;
 
 /**
@@ -52,7 +53,8 @@ public class AntChangeContextLocalFix implements LocalQuickFix {
         if (editor == null) {
             return;
         }
-        HectorComponent component = new HectorComponent(containingFile.getOriginalFile());
-        component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
+
+        final HectorComponent component = new HectorComponent(containingFile.getOriginalFile());
+        component.showComponent(RelativePoint.from(EditorPopupHelper.getInstance().guessBestPopupLocation(editor)));
     }
 }
