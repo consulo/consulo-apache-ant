@@ -22,7 +22,7 @@ import consulo.execution.CantRunException;
 import consulo.project.Project;
 
 public class RunCanceledException extends CantRunException {
-    public RunCanceledException(String message) {
+    public RunCanceledException(LocalizeValue message) {
         super(message);
     }
 

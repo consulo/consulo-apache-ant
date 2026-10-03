@@ -25,58 +25,60 @@ import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
+import consulo.ui.annotation.RequiredUIAccess;
 import jakarta.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
- * Date: May 12, 2008
+ * @since 2008-05-12
  */
 public class AntChangeContextFix extends BaseIntentionAction implements SyntheticIntentionAction {
-  public AntChangeContextFix() {
-    setText(ApacheAntImplLocalize.intentionConfigureHighlightingText());
-  }
+    public AntChangeContextFix() {
+        setText(ApacheAntImplLocalize.intentionConfigureHighlightingText());
+    }
 
-  @Nonnull
-  public final LocalizeValue getFamilyName() {
-    return ApacheAntImplLocalize.intentionConfigureHighlightingFamilyName();
-  }
+    @Nonnull
+    public final LocalizeValue getFamilyName() {
+        return ApacheAntImplLocalize.intentionConfigureHighlightingFamilyName();
+    }
 
-  public boolean isAvailable(@Nonnull final Project project, final Editor editor, final PsiFile file) {
-    //if (!(file instanceof XmlFile)) {
-    //  return false;
+    @Override
+    public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
+        //if (!(file instanceof XmlFile)) {
+        //    return false;
+        //}
+        //final XmlTag xmlTag = PsiTreeUtil.getParentOfType(file.findElementAt(editor.getCaretModel().getOffset()), XmlTag.class);
+        //if (xmlTag == null) {
+        //    return false;
+        //}
+        //final AntDomElement antDomElement = AntSupport.getAntDomElement(xmlTag);
+        //if (antDomElement == null) {
+        //    return false;
+        //}
+        return true;
+    }
+
+    @Override
+    @RequiredUIAccess
+    public void invoke(@Nonnull Project project, Editor editor, consulo.language.psi.PsiFile file) throws IncorrectOperationException {
+        consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent component = new HectorComponent(file);
+        //JComponent focusComponent = findComponentToFocus(component);
+        component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
+    }
+
+    //@Nullable
+    //private static JComponent findComponentToFocus(final JComponent component) {
+    //    if (component.getClientProperty(AntHectorConfigurable.CONTEXTS_COMBO_KEY) != null) {
+    //        return component;
+    //    }
+    //    for (Component child : component.getComponents()) {
+    //        if (child instanceof JComponent) {
+    //            final JComponent found = findComponentToFocus((JComponent)child);
+    //            if (found != null) {
+    //                return found;
+    //            }
+    //        }
+    //    }
+    //    return null;
     //}
-    //final XmlTag xmlTag = PsiTreeUtil.getParentOfType(file.findElementAt(editor.getCaretModel().getOffset()), XmlTag.class);
-    //if (xmlTag == null) {
-    //  return false;
-    //}
-    //final AntDomElement antDomElement = AntSupport.getAntDomElement(xmlTag);
-    //if (antDomElement == null) {
-    //  return false;
-    //}
-    return true;
-  }
-
-  public void invoke(@Nonnull final Project project,
-                     final Editor editor,
-                     final consulo.language.psi.PsiFile file) throws IncorrectOperationException {
-    final consulo.ide.impl.idea.codeInsight.daemon.impl.HectorComponent component = new HectorComponent(file);
-    //final JComponent focusComponent = findComponentToFocus(component);
-    component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
-  }
-
-  //@Nullable
-  //private static JComponent findComponentToFocus(final JComponent component) {
-  //  if (component.getClientProperty(AntHectorConfigurable.CONTEXTS_COMBO_KEY) != null) {
-  //    return component;
-  //  }
-  //  for (Component child : component.getComponents()) {
-  //    if (child instanceof JComponent) {
-  //      final JComponent found = findComponentToFocus((JComponent)child);
-  //      if (found != null) {
-  //        return found;
-  //      }
-  //    }
-  //  }
-  //  return null;
-  //}
 }

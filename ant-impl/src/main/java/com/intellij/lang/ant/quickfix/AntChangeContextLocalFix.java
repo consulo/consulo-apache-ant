@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.ant.quickfix;
 
-import com.intellij.lang.ant.AntBundle;
+import consulo.annotation.access.RequiredWriteAction;
 import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.codeEditor.Editor;
 import consulo.codeEditor.EditorPopupHelper;
@@ -27,31 +27,32 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-
 import jakarta.annotation.Nonnull;
 
 /**
  * @author Eugene Zhuravlev
- *         Date: May 12, 2008
+ * @since 2008-05-12
  */
 public class AntChangeContextLocalFix implements LocalQuickFix {
-
-  @Nonnull
-  public LocalizeValue getName() {
-    return ApacheAntImplLocalize.intentionConfigureHighlightingText();
-  }
-
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
-    final PsiElement psiElement = descriptor.getPsiElement();
-    final PsiFile containingFile = psiElement.getContainingFile();
-    if (containingFile == null) {
-      return;
+    @Nonnull
+    @Override
+    public LocalizeValue getName() {
+        return ApacheAntImplLocalize.intentionConfigureHighlightingText();
     }
-    final Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
-    if (editor == null) {
-      return;
+
+    @Override
+    @RequiredWriteAction
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+        PsiElement psiElement = descriptor.getPsiElement();
+        PsiFile containingFile = psiElement.getContainingFile();
+        if (containingFile == null) {
+            return;
+        }
+        Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+        if (editor == null) {
+            return;
+        }
+        HectorComponent component = new HectorComponent(containingFile.getOriginalFile());
+        component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
     }
-    final HectorComponent component = new HectorComponent(containingFile.getOriginalFile());
-    component.showComponent(EditorPopupHelper.getInstance().guessBestPopupLocation(editor));
-  }
 }
