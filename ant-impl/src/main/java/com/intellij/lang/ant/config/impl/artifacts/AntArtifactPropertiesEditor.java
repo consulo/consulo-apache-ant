@@ -15,237 +15,315 @@
  */
 package com.intellij.lang.ant.config.impl.artifacts;
 
-import com.intellij.lang.ant.AntBundle;
+import com.intellij.lang.ant.config.AntBuildFile;
+import com.intellij.lang.ant.config.AntBuildModel;
 import com.intellij.lang.ant.config.AntBuildTarget;
 import com.intellij.lang.ant.config.AntConfiguration;
 import com.intellij.lang.ant.config.impl.BuildFileProperty;
-import com.intellij.lang.ant.config.impl.TargetChooserDialog;
-import com.intellij.lang.ant.config.impl.configuration.UIPropertyBinding;
+import consulo.apache.ant.impl.localize.ApacheAntImplLocalize;
 import consulo.compiler.artifact.ui.ArtifactEditorContext;
 import consulo.compiler.artifact.ui.ArtifactPropertiesEditor;
-import consulo.component.util.config.ListProperty;
+import consulo.disposer.Disposable;
+import consulo.localize.LocalizeValue;
+import consulo.ui.Button;
+import consulo.ui.CheckBox;
+import consulo.ui.Component;
+import consulo.ui.Table;
+import consulo.ui.TableItemEditor;
+import consulo.ui.TextAttribute;
+import consulo.ui.TextBox;
+import consulo.ui.UIAccess;
+import consulo.ui.ValueComponent;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.ex.action.ActionToolbarPosition;
 import consulo.ui.ex.action.AnActionEvent;
-import consulo.ui.ex.awt.*;
-import consulo.ui.ex.awt.table.JBTable;
-import consulo.ui.ex.awt.table.ListTableModel;
-import consulo.ui.ex.awt.util.TableUtil;
-import consulo.util.collection.ContainerUtil;
-import consulo.util.lang.Comparing;
-import consulo.util.lang.function.Condition;
+import consulo.ui.ex.dialog.ChooseItemsDialogDescriptor;
+import consulo.ui.ex.toolbar.AddAction;
+import consulo.ui.ex.toolbar.DownMoveAction;
+import consulo.ui.ex.toolbar.EditAction;
+import consulo.ui.ex.toolbar.RemoveAction;
+import consulo.ui.ex.toolbar.ToolbarDecoratorBuilderFactory;
+import consulo.ui.ex.toolbar.UpMoveAction;
+import consulo.ui.layout.DockLayout;
+import consulo.ui.layout.HorizontalLayout;
+import consulo.ui.model.FlatDataModel;
+import consulo.ui.model.MutableFlatDataModel;
+import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
+import org.jspecify.annotations.Nullable;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * @author nik
  */
 public class AntArtifactPropertiesEditor extends ArtifactPropertiesEditor {
-  private static final ListProperty<BuildFileProperty> ANT_PROPERTIES = ListProperty.create("ant-properties");
-  private static final ColumnInfo<BuildFileProperty, String> NAME_COLUMN =
-    new consulo.ui.ex.awt.ColumnInfo<BuildFileProperty, String>(AntBundle.message("edit.ant.properties.name.column.name")) {
-      public String valueOf(BuildFileProperty buildFileProperty) {
-        return buildFileProperty.getPropertyName();
-      }
+    private final AntArtifactProperties myProperties;
+    private final ArtifactEditorContext myContext;
+    private final boolean myPostProcessing;
+    private final MutableFlatDataModel<BuildFileProperty> myPropertiesModel = FlatDataModel.of(List.of());
 
-      public boolean isCellEditable(BuildFileProperty buildFileProperty) {
-        return USER_PROPERTY_CONDITION.value(buildFileProperty);
-      }
+    private @Nullable CheckBox myRunTargetCheckBox;
+    private @Nullable Button mySelectTargetButton;
+    private @Nullable Component myPropertiesPanel;
+    private @Nullable AntBuildTarget myTarget;
 
-      public void setValue(BuildFileProperty buildFileProperty, String name) {
-        buildFileProperty.setPropertyName(name);
-      }
-    };
-  private static final ColumnInfo<BuildFileProperty, String> VALUE_COLUMN =
-    new ColumnInfo<BuildFileProperty, String>(AntBundle.message("edit.ant.properties.value.column.name")) {
-      public boolean isCellEditable(BuildFileProperty buildFileProperty) {
-        return USER_PROPERTY_CONDITION.value(buildFileProperty);
-      }
+    public AntArtifactPropertiesEditor(AntArtifactProperties properties, ArtifactEditorContext context, boolean postProcessing) {
+        myProperties = properties;
+        myContext = context;
+        myPostProcessing = postProcessing;
+    }
 
-      public String valueOf(BuildFileProperty buildFileProperty) {
-        return buildFileProperty.getPropertyValue();
-      }
-
-      public void setValue(BuildFileProperty buildFileProperty, String value) {
-        buildFileProperty.setPropertyValue(value);
-      }
-    };
-  private static final ColumnInfo[] PROPERTY_COLUMNS = new consulo.ui.ex.awt.ColumnInfo[]{NAME_COLUMN, VALUE_COLUMN};
-  private static final Condition<BuildFileProperty> USER_PROPERTY_CONDITION = new Condition<BuildFileProperty>() {
     @Override
-    public boolean value(BuildFileProperty property) {
-      return !AntArtifactProperties.isPredefinedProperty(property.getPropertyName());
+    public LocalizeValue getTabName() {
+        return myPostProcessing ? POST_PROCESSING_TAB : PRE_PROCESSING_TAB;
     }
-  };
-  private final AntArtifactProperties myProperties;
-  private final ArtifactEditorContext myContext;
-  private JPanel myMainPanel;
-  private JCheckBox myRunTargetCheckBox;
-  private FixedSizeButton mySelectTargetButton;
-  private JBTable myPropertiesTable;
-  private JPanel myPropertiesPanel;
-  private AntBuildTarget myTarget;
-  private final boolean myPostProcessing;
-  private UIPropertyBinding.TableListBinding<BuildFileProperty> myBinding;
-  protected SinglePropertyContainer<ListProperty> myContainer;
 
-  public AntArtifactPropertiesEditor(AntArtifactProperties properties,
-                                     consulo.compiler.artifact.ui.ArtifactEditorContext context,
-                                     boolean postProcessing) {
-    myProperties = properties;
-    myContext = context;
-    myPostProcessing = postProcessing;
-    mySelectTargetButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        selectTarget();
-      }
-    });
-    myRunTargetCheckBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        mySelectTargetButton.setEnabled(myRunTargetCheckBox.isSelected());
-        if (myRunTargetCheckBox.isSelected() && myTarget == null) {
-          selectTarget();
-        }
-        updatePanel();
-      }
-    });
-
-    myPropertiesTable = new JBTable();
-    UIPropertyBinding.Composite binding = new UIPropertyBinding.Composite();
-    myBinding = binding.bindList(myPropertiesTable, PROPERTY_COLUMNS, ANT_PROPERTIES);
-    myPropertiesPanel.add(
-      ToolbarDecorator.createDecorator(myPropertiesTable)
-                      .setAddAction(new AnActionButtonRunnable() {
-                        @Override
-                        public void run(AnActionButton button) {
-                          consulo.ui.ex.awt.table.ListTableModel<BuildFileProperty> model =
-                            (ListTableModel<BuildFileProperty>)myPropertiesTable.getModel();
-                          if (myPropertiesTable.isEditing() && !myPropertiesTable.getCellEditor().stopCellEditing()) {
-                            return;
-                          }
-                          BuildFileProperty item = new BuildFileProperty();
-                          ArrayList<BuildFileProperty> items = new ArrayList<BuildFileProperty>(model.getItems());
-                          items.add(item);
-                          model.setItems(items);
-                          int newIndex = model.indexOf(item);
-                          ListSelectionModel selectionModel = myPropertiesTable.getSelectionModel();
-                          selectionModel.clearSelection();
-                          selectionModel.setSelectionInterval(newIndex, newIndex);
-                          ColumnInfo[] columns = model.getColumnInfos();
-                          for (int i = 0; i < columns.length; i++) {
-                            consulo.ui.ex.awt.ColumnInfo column = columns[i];
-                            if (column.isCellEditable(item)) {
-                              myPropertiesTable.requestFocusInWindow();
-                              myPropertiesTable.editCellAt(newIndex, i);
-                              break;
-                            }
-                          }
-                        }
-                      }).setRemoveAction(new AnActionButtonRunnable() {
-        @Override
-        public void run(AnActionButton button) {
-          TableUtil.removeSelectedItems(myPropertiesTable);
-        }
-      }).setRemoveActionUpdater(new AnActionButtonUpdater() {
-        @Override
-        public boolean isEnabled(AnActionEvent e) {
-          final ListSelectionModel selectionModel = myPropertiesTable.getSelectionModel();
-          consulo.ui.ex.awt.table.ListTableModel<BuildFileProperty> model = (ListTableModel<BuildFileProperty>)myPropertiesTable.getModel();
-          boolean enable = false;
-          if (!selectionModel.isSelectionEmpty()) {
-            enable = true;
-            for (int i : myPropertiesTable.getSelectedRows()) {
-              if (AntArtifactProperties.isPredefinedProperty(model.getItems().get(i).getPropertyName())) {
-                enable = false;
-                break;
-              }
+    @Override
+    @RequiredUIAccess
+    public Component createUIComponent(Disposable uiDisposable) {
+        CheckBox runTargetCheckBox = CheckBox.create(ApacheAntImplLocalize.artifactRunTargetNoneCheckbox());
+        Button selectTargetButton = Button.create(ApacheAntImplLocalize.artifactSelectTargetButton(), event -> selectTarget());
+        runTargetCheckBox.addValueListener(event -> {
+            boolean selected = Boolean.TRUE.equals(event.getValue());
+            selectTargetButton.setEnabled(selected);
+            if (selected && myTarget == null) {
+                selectTarget();
             }
-          }
-          return enable;
+            updatePanel();
+        });
+
+        Table<BuildFileProperty> table = Table.create(myPropertiesModel);
+        addColumn(table, ApacheAntImplLocalize.editAntPropertiesNameColumnName(), BuildFileProperty::getPropertyName, BuildFileProperty::setPropertyName);
+        addColumn(table, ApacheAntImplLocalize.editAntPropertiesValueColumnName(), BuildFileProperty::getPropertyValue, BuildFileProperty::setPropertyValue);
+
+        Component propertiesPanel = ToolbarDecoratorBuilderFactory.getInstance()
+            .create(table)
+            .addOrReplaceAction(new AddPropertyAction(table))
+            .addOrReplaceAction(new RemovePropertyAction())
+            .disableAction(EditAction.class)
+            .disableAction(UpMoveAction.class)
+            .disableAction(DownMoveAction.class)
+            .withToolbarPosition(ActionToolbarPosition.TOP)
+            .build();
+
+        HorizontalLayout targetPanel = HorizontalLayout.create();
+        targetPanel.add(runTargetCheckBox);
+        targetPanel.add(selectTargetButton);
+
+        DockLayout panel = DockLayout.create();
+        panel.top(targetPanel);
+        panel.center(propertiesPanel);
+
+        myRunTargetCheckBox = runTargetCheckBox;
+        mySelectTargetButton = selectTargetButton;
+        myPropertiesPanel = propertiesPanel;
+        return panel;
+    }
+
+    @RequiredUIAccess
+    private void addColumn(
+        Table<BuildFileProperty> table,
+        LocalizeValue header,
+        Function<BuildFileProperty, @Nullable String> getter,
+        BiConsumer<BuildFileProperty, String> setter
+    ) {
+        table.addColumn(header, property -> StringUtil.notNullize(getter.apply(property)))
+            .setEditor(new TableItemEditor<>() {
+                @Override
+                @RequiredUIAccess
+                public ValueComponent<String> createComponent(BuildFileProperty property) {
+                    return TextBox.create(StringUtil.notNullize(getter.apply(property)));
+                }
+
+                @Override
+                @RequiredUIAccess
+                public void commit(BuildFileProperty property, @Nullable String value) {
+                    setter.accept(property, StringUtil.notNullize(value));
+                    myPropertiesModel.update(property);
+                }
+
+                @Override
+                public boolean isEditable(BuildFileProperty property) {
+                    return !AntArtifactProperties.isPredefinedProperty(property.getPropertyName());
+                }
+            });
+    }
+
+    @RequiredUIAccess
+    private void selectTarget() {
+        AntConfiguration antConfiguration = AntConfiguration.getInstance(myContext.getProject());
+        List<AntBuildTarget> targets = new ArrayList<>();
+        for (AntBuildFile buildFile : antConfiguration.getBuildFiles()) {
+            collectTargets(targets, antConfiguration.getMetaTargets(buildFile));
+            AntBuildModel model = antConfiguration.getModel(buildFile);
+            if (model != null) {
+                collectTargets(targets, model.getTargets());
+            }
         }
-      }).disableUpDownActions().createPanel(), BorderLayout.CENTER);
-  }
 
-  private void selectTarget() {
-    final TargetChooserDialog dialog = new TargetChooserDialog(myContext.getProject(), myTarget);
-    dialog.show();
-    if (dialog.isOK()) {
-      myTarget = dialog.getSelectedTarget();
-      updatePanel();
+        AntBuildTarget currentTarget = myTarget;
+        UIAccess uiAccess = UIAccess.current();
+        ChooseItemsDialogDescriptor.showAsync(
+            myPropertiesPanel,
+            ApacheAntImplLocalize.antTargetChoserTitle(),
+            LocalizeValue.empty(),
+            targets,
+            (target, presentation) -> {
+                presentation.append(target.getDisplayName());
+                AntBuildFile buildFile = target.getModel().getBuildFile();
+                if (buildFile != null) {
+                    presentation.append(" (" + buildFile.getPresentableName() + ")", TextAttribute.GRAY);
+                }
+            },
+            false,
+            currentTarget == null ? List.of() : List.of(currentTarget)
+        ).whenCompleteAsync((selected, error) -> {
+            if (error == null && !selected.isEmpty()) {
+                myTarget = selected.get(0);
+                updatePanel();
+            }
+        }, uiAccess);
     }
-  }
 
-  private void updatePanel() {
-    if (myTarget != null) {
-      myRunTargetCheckBox.setText("Run Ant target '" + myTarget.getName() + "'");
+    private static void collectTargets(List<AntBuildTarget> targets, AntBuildTarget[] candidates) {
+        for (AntBuildTarget target : candidates) {
+            if (target.getName() != null) {
+                targets.add(target);
+            }
+        }
     }
-    else {
-      myRunTargetCheckBox.setText("Run Ant target <none>");
+
+    @RequiredUIAccess
+    private void updatePanel() {
+        CheckBox runTargetCheckBox = myRunTargetCheckBox;
+        if (runTargetCheckBox == null) {
+            return;
+        }
+
+        AntBuildTarget target = myTarget;
+        if (target != null) {
+            runTargetCheckBox.setLabelText(ApacheAntImplLocalize.artifactRunTarget0Checkbox(target.getName()));
+        }
+        else {
+            runTargetCheckBox.setLabelText(ApacheAntImplLocalize.artifactRunTargetNoneCheckbox());
+        }
+
+        Component propertiesPanel = myPropertiesPanel;
+        if (propertiesPanel != null) {
+            propertiesPanel.setEnabledRecursive(target != null && Boolean.TRUE.equals(runTargetCheckBox.getValue()));
+        }
     }
-    final boolean enabled = myTarget != null && myRunTargetCheckBox.isSelected();
-    UIUtil.setEnabled(myPropertiesPanel, enabled, true);
-  }
 
-  public String getTabName() {
-    return myPostProcessing ? POST_PROCESSING_TAB : PRE_PROCESSING_TAB;
-  }
-
-  public void apply() {
-    myProperties.setEnabled(myRunTargetCheckBox.isSelected());
-    if (myTarget != null) {
-      final consulo.virtualFileSystem.VirtualFile file = myTarget.getModel().getBuildFile().getVirtualFile();
-      if (file != null) {
-        myProperties.setFileUrl(file.getUrl());
-        myProperties.setTargetName(myTarget.getName());
-        final List<BuildFileProperty> properties = getUserProperties();
-        myProperties.setUserProperties(properties);
-        return;
-      }
+    @Override
+    @RequiredUIAccess
+    public void apply() {
+        myProperties.setEnabled(isRunTargetSelected());
+        AntBuildTarget target = myTarget;
+        if (target != null) {
+            VirtualFile file = target.getModel().getBuildFile().getVirtualFile();
+            if (file != null) {
+                myProperties.setFileUrl(file.getUrl());
+                myProperties.setTargetName(target.getName());
+                myProperties.setUserProperties(getUserProperties());
+                return;
+            }
+        }
+        myProperties.setFileUrl(null);
+        myProperties.setTargetName(null);
     }
-    myProperties.setFileUrl(null);
-    myProperties.setTargetName(null);
-  }
 
-  private List<BuildFileProperty> getUserProperties() {
-    final SinglePropertyContainer<ListProperty> container = new SinglePropertyContainer<ListProperty>(ANT_PROPERTIES, null);
-    myBinding.apply(container);
-    final List<BuildFileProperty> allProperties = (List<BuildFileProperty>)container.getValueOf(ANT_PROPERTIES);
-    return ContainerUtil.filter(allProperties, USER_PROPERTY_CONDITION);
-  }
-
-  public JComponent createComponent() {
-    return myMainPanel;
-  }
-
-  public boolean isModified() {
-    if (myProperties.isEnabled() != myRunTargetCheckBox.isSelected()) return true;
-    if (myTarget == null) {
-      return myProperties.getFileUrl() != null;
+    private boolean isRunTargetSelected() {
+        CheckBox runTargetCheckBox = myRunTargetCheckBox;
+        return runTargetCheckBox != null && Boolean.TRUE.equals(runTargetCheckBox.getValue());
     }
-    if (!Comparing.equal(myTarget.getName(), myProperties.getTargetName())) return true;
 
-    final VirtualFile file = myTarget.getModel().getBuildFile().getVirtualFile();
-    if (file != null && !Comparing.equal(file.getUrl(), myProperties.getFileUrl())) return true;
-
-    return !getUserProperties().equals(myProperties.getUserProperties());
-  }
-
-  public void reset() {
-    myRunTargetCheckBox.setSelected(myProperties.isEnabled());
-    myTarget = myProperties.findTarget(AntConfiguration.getInstance(myContext.getProject()));
-    final List<BuildFileProperty> properties = new ArrayList<BuildFileProperty>();
-    for (BuildFileProperty property : myProperties.getAllProperties(myContext.getArtifact())) {
-      properties.add(new BuildFileProperty(property.getPropertyName(), property.getPropertyValue()));
+    private List<BuildFileProperty> getUserProperties() {
+        List<BuildFileProperty> properties = new ArrayList<>();
+        for (int i = 0; i < myPropertiesModel.getSize(); i++) {
+            BuildFileProperty property = myPropertiesModel.get(i);
+            if (!AntArtifactProperties.isPredefinedProperty(property.getPropertyName())) {
+                properties.add(new BuildFileProperty(property.getPropertyName(), property.getPropertyValue()));
+            }
+        }
+        return properties;
     }
-    myContainer = new SinglePropertyContainer<ListProperty>(ANT_PROPERTIES, properties);
-    myBinding.loadValues(myContainer);
-    updatePanel();
-  }
 
-  public void disposeUIResources() {
-  }
+    @Override
+    @RequiredUIAccess
+    public boolean isModified() {
+        if (myRunTargetCheckBox == null) {
+            return false;
+        }
+        if (myProperties.isEnabled() != isRunTargetSelected()) {
+            return true;
+        }
+
+        AntBuildTarget target = myTarget;
+        if (target == null) {
+            return myProperties.getFileUrl() != null;
+        }
+        if (!Objects.equals(target.getName(), myProperties.getTargetName())) {
+            return true;
+        }
+
+        VirtualFile file = target.getModel().getBuildFile().getVirtualFile();
+        if (file != null && !Objects.equals(file.getUrl(), myProperties.getFileUrl())) {
+            return true;
+        }
+        return !getUserProperties().equals(myProperties.getUserProperties());
+    }
+
+    @Override
+    @RequiredUIAccess
+    public void reset() {
+        CheckBox runTargetCheckBox = myRunTargetCheckBox;
+        if (runTargetCheckBox == null) {
+            return;
+        }
+
+        myTarget = myProperties.findTarget(AntConfiguration.getInstance(myContext.getProject()));
+        runTargetCheckBox.setValue(myProperties.isEnabled(), false);
+        Button selectTargetButton = mySelectTargetButton;
+        if (selectTargetButton != null) {
+            selectTargetButton.setEnabled(myProperties.isEnabled());
+        }
+
+        List<BuildFileProperty> properties = new ArrayList<>();
+        for (BuildFileProperty property : myProperties.getAllProperties(myContext.getArtifact())) {
+            properties.add(new BuildFileProperty(property.getPropertyName(), property.getPropertyValue()));
+        }
+        myPropertiesModel.replaceAll(properties);
+        updatePanel();
+    }
+
+    private class AddPropertyAction extends AddAction<BuildFileProperty> {
+        private final Table<BuildFileProperty> myTable;
+
+        private AddPropertyAction(Table<BuildFileProperty> table) {
+            myTable = table;
+        }
+
+        @Override
+        @RequiredUIAccess
+        protected void doAdd(AnActionEvent e) {
+            BuildFileProperty property = new BuildFileProperty("", "");
+            myPropertiesModel.add(property);
+            myTable.select(property);
+        }
+    }
+
+    private class RemovePropertyAction extends RemoveAction<BuildFileProperty> {
+        @Override
+        @RequiredUIAccess
+        protected void doRemove(BuildFileProperty value, AnActionEvent e) {
+            if (!AntArtifactProperties.isPredefinedProperty(value.getPropertyName())) {
+                myPropertiesModel.remove(value);
+            }
+        }
+    }
 }

@@ -19,14 +19,17 @@ import com.intellij.lang.ant.AntImportsIndex;
 import com.intellij.lang.ant.config.AntConfigurationBase;
 import com.intellij.lang.ant.dom.AntDomFileDescription;
 import consulo.configurable.ConfigurationException;
+import consulo.disposer.Disposable;
 import consulo.language.editor.HectorComponentPanel;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.stub.FileBasedIndex;
 import consulo.project.Project;
+import consulo.ui.Component;
 import consulo.ui.ex.awt.ComboBox;
 import consulo.ui.ex.awt.IdeBorderFactory;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFilePathUtil;
@@ -69,7 +72,7 @@ public class AntHectorConfigurable extends HectorComponentPanel {
     return !myCombo.isPopupVisible();
   }
 
-  public JComponent createComponent() {
+  public Component createUIComponent(Disposable parentDisposable) {
     final JPanel panel = new JPanel(new GridBagLayout());
     panel.setBorder(IdeBorderFactory.createTitledBorder("File Context", false));
     myCombo = new ComboBox();
@@ -125,7 +128,7 @@ public class AntHectorConfigurable extends HectorComponentPanel {
     }
     myCombo.setSelectedItem(myOriginalContext);
 
-    return panel;
+    return TargetAWT.wrap(panel);
   }
 
   public boolean isModified() {

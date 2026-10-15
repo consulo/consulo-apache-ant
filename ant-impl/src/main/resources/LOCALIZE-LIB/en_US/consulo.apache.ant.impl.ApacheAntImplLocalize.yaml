@@ -140,6 +140,12 @@ ant.view.toggle.tree.text.action.name:
     text: Toggle tree/text mode
 apache.ant.with.version.string.presentation:
     text: Apache Ant version {0}
+artifact.run.target.0.checkbox:
+    text: Run Ant target ''{0}''
+artifact.run.target.none.checkbox:
+    text: Run Ant target <none>
+artifact.select.target.button:
+    text: Select Target…
 attribute.is.not.allowed.here:
     text: Attribute ''{0}'' is not allowed here
 background.button:

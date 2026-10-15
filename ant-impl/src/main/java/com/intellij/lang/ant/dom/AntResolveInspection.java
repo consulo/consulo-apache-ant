@@ -16,7 +16,6 @@
 package com.intellij.lang.ant.dom;
 
 import com.intellij.lang.ant.AntBundle;
-import com.intellij.lang.ant.quickfix.AntChangeContextLocalFix;
 import com.intellij.lang.ant.validation.AntInspection;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.psi.PsiPolyVariantReference;
@@ -103,7 +102,7 @@ public class AntResolveInspection extends AntInspection {
       }
       if (!isResolvable(ref)) {
 
-        holder.createProblem(domElement, ProblemHighlightType.LIKE_UNKNOWN_SYMBOL, antDomRef.getUnresolvedMessagePattern(), ref.getRangeInElement(), new AntChangeContextLocalFix());
+        holder.createProblem(domElement, ProblemHighlightType.LIKE_UNKNOWN_SYMBOL, antDomRef.getUnresolvedMessagePattern(), ref.getRangeInElement());
 
         if (ref instanceof AntDomFileReference) {
           if (processed == null) {
