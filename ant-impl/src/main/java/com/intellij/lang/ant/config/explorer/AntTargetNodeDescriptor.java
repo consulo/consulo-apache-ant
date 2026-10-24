@@ -17,7 +17,6 @@ package com.intellij.lang.ant.config.explorer;
 
 import com.intellij.lang.ant.config.*;
 import com.intellij.lang.ant.config.impl.AntBeforeRunTask;
-import com.intellij.lang.ant.config.impl.AntBeforeRunTaskProvider;
 import com.intellij.lang.ant.config.impl.ExecuteCompositeTargetEvent;
 import com.intellij.lang.ant.config.impl.MetaTarget;
 import consulo.apache.ant.ApacheAntIcons;
@@ -101,7 +100,7 @@ final class AntTargetNodeDescriptor extends AntNodeDescriptor {
     final RunManager runManager = RunManager.getInstance(myProject);
     final VirtualFile vFile = buildFile.getVirtualFile();
     if (vFile != null) {
-      for (AntBeforeRunTask task : runManager.getBeforeRunTasks(AntBeforeRunTaskProvider.ID)) {
+      for (AntBeforeRunTask task : runManager.getBeforeRunTasks(AntBeforeRunTask.class)) {
         if (task.isRunningTarget(myTarget)) {
           myHighlightedText.getEnding().addText(" (Before Run/Debug)", ourPostfixAttributes);
           break;

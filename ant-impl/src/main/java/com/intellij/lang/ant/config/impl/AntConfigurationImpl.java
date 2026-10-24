@@ -872,7 +872,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
     if (configName != null) {
       for (RunConfiguration configuration : runManager.getConfigurations(type)) {
         if (configName.equals(configuration.getName())) {
-          final List<AntBeforeRunTask> tasks = runManager.getBeforeRunTasks(configuration, AntBeforeRunTaskProvider.ID);
+          final List<AntBeforeRunTask> tasks = runManager.getBeforeRunTasks(configuration, AntBeforeRunTask.class);
           if (!tasks.isEmpty()) {
             AntBeforeRunTask task = tasks.get(0);//This is legacy code, we had only one task that time
             task.setEnabled(true);
@@ -885,7 +885,7 @@ public class AntConfigurationImpl extends AntConfigurationBase implements Persis
     else {
       for (ConfigurationFactory factory : type.getConfigurationFactories()) {
         final RunConfiguration template = runManager.getConfigurationTemplate(factory).getConfiguration();
-        final List<AntBeforeRunTask> tasks = runManager.getBeforeRunTasks(template, AntBeforeRunTaskProvider.ID);
+        final List<AntBeforeRunTask> tasks = runManager.getBeforeRunTasks(template, AntBeforeRunTask.class);
         if (!tasks.isEmpty()) {
           AntBeforeRunTask task = tasks.get(0);//This is legacy code, we had only one task that time
           task.setEnabled(true);

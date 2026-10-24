@@ -25,6 +25,7 @@ import com.intellij.lang.ant.config.impl.configuration.BuildFilePropertiesPanel;
 import consulo.apache.ant.config.actions.AntGroupManagerActionGroup;
 import consulo.apache.ant.config.actions.RemoveGroupsAction;
 import consulo.application.AllIcons;
+import consulo.application.Application;
 import consulo.application.ApplicationManager;
 import consulo.dataContext.DataContext;
 import consulo.dataContext.DataManager;
@@ -43,6 +44,7 @@ import consulo.navigation.Navigatable;
 import consulo.navigation.OpenFileDescriptorFactory;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
+import consulo.ui.UIAccess;
 import consulo.ui.ex.SimpleTextAttributes;
 import consulo.ui.ex.TreeExpander;
 import consulo.ui.ex.action.*;
@@ -56,6 +58,7 @@ import consulo.ui.ex.awt.speedSearch.TreeSpeedSearch;
 import consulo.ui.ex.awt.tree.ColoredTreeCellRenderer;
 import consulo.ui.ex.awt.tree.Tree;
 import consulo.ui.ex.awt.tree.TreeUtil;
+import consulo.ui.ex.dialog.DialogService;
 import consulo.ui.ex.keymap.Keymap;
 import consulo.ui.ex.keymap.KeymapManager;
 import consulo.ui.ex.keymap.event.KeymapManagerListener;
@@ -684,8 +687,13 @@ public class AntExplorer extends SimpleToolWindowPanel implements UiDataProvider
     }
 
     public void actionPerformed(AnActionEvent e) {
-      final AntExecuteBeforeRunDialog dialog = new AntExecuteBeforeRunDialog(myProject, myTarget);
-      dialog.show();
+      AntExecuteBeforeRunDialogDescriptor descriptor = new AntExecuteBeforeRunDialogDescriptor(myProject, myTarget);
+      UIAccess uiAccess = UIAccess.current();
+      Application.get().getInstance(DialogService.class).build(myProject, descriptor).showAsync().whenCompleteAsync((value, error) -> {
+        if (error == null) {
+          descriptor.apply();
+        }
+      }, uiAccess);
     }
 
     public void update(AnActionEvent e) {
