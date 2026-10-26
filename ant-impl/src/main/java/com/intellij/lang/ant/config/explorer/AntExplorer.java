@@ -36,7 +36,7 @@ import consulo.disposer.Disposer;
 import consulo.execution.event.RunManagerListener;
 import consulo.execution.event.RunManagerListenerEvent;
 import consulo.fileChooser.FileChooserDescriptor;
-import consulo.fileChooser.IdeaFileChooser;
+import consulo.fileChooser.FileChooserFactory;
 import consulo.language.editor.LangDataKeys;
 import consulo.language.editor.PlatformDataKeys;
 import consulo.language.psi.PsiElement;
@@ -231,8 +231,11 @@ public class AntExplorer extends SimpleToolWindowPanel implements UiDataProvider
     final FileChooserDescriptor descriptor = createXmlDescriptor();
     descriptor.setTitle(AntBundle.message("select.ant.build.file.dialog.title"));
     descriptor.setDescription(AntBundle.message("select.ant.build.file.dialog.description"));
-    final VirtualFile[] files = IdeaFileChooser.chooseFiles(descriptor, myProject, null);
-    addBuildFile(files);
+    FileChooserFactory.getInstance().newBuilder(descriptor).project(myProject).showMultipleAsVirtualFiles().whenComplete((files, error) -> {
+      if (error == null) {
+        addBuildFile(files.toArray(VirtualFile.EMPTY_ARRAY));
+      }
+    });
   }
 
   private void addBuildFile(final VirtualFile[] files) {

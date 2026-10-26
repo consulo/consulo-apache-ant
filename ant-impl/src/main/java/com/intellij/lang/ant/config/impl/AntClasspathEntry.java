@@ -17,7 +17,7 @@ package com.intellij.lang.ant.config.impl;
 
 import consulo.component.util.config.Externalizer;
 import consulo.fileChooser.FileChooserDescriptor;
-import consulo.fileChooser.IdeaFileChooser;
+import consulo.fileChooser.FileChooserFactory;
 import consulo.ui.ex.util.CellAppearanceEx;
 import consulo.util.collection.ContainerUtil;
 import consulo.virtualFileSystem.VirtualFile;
@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.concurrent.CompletableFuture;
 
 public interface AntClasspathEntry {
   Externalizer<AntClasspathEntry> EXTERNALIZER = new Externalizer<AntClasspathEntry>() {
@@ -53,7 +54,7 @@ public interface AntClasspathEntry {
 
   CellAppearanceEx getAppearance();
 
-  abstract class AddEntriesFactory implements Supplier<List<AntClasspathEntry>> {
+  abstract class AddEntriesFactory implements Supplier<CompletableFuture<List<AntClasspathEntry>>> {
     private final JComponent myParentComponent;
     private final FileChooserDescriptor myDescriptor;
     private final Function<VirtualFile,AntClasspathEntry> myMapper;
@@ -66,9 +67,12 @@ public interface AntClasspathEntry {
       myMapper = mapper;
     }
 
-    public List<AntClasspathEntry> get() {
-      final VirtualFile[] files = IdeaFileChooser.chooseFiles(myDescriptor, myParentComponent, null, null);
-      return files.length == 0 ? null : ContainerUtil.map(files, myMapper);
+    public CompletableFuture<List<AntClasspathEntry>> get() {
+      return FileChooserFactory.getInstance()
+        .newBuilder(myDescriptor)
+        .parent(myParentComponent)
+        .showMultipleAsVirtualFiles()
+        .thenApply(files -> ContainerUtil.map(files, myMapper));
     }
   }
 }

@@ -45,6 +45,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class UIPropertyBinding {
   public abstract void loadValues(AbstractProperty.AbstractPropertyContainer container);
@@ -628,18 +629,19 @@ public abstract class UIPropertyBinding {
       return ((DefaultListModel)getList().getModel());
     }
 
-    public void addAddManyFacility(JButton button, final Supplier<List<T>> factory) {
+    public void addAddManyFacility(JButton button, final Supplier<CompletableFuture<List<T>>> factory) {
       button.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          List<T> items = factory.get();
-          getList().requestFocusInWindow();
-          if (items == null || items.size() == 0) {
-            return;
-          }
-          for (final T item : items) {
-            getModel().addElement(item);
-            ScrollingUtil.selectItem(getList(), item);
-          }
+          factory.get().whenComplete((items, error) -> {
+            getList().requestFocusInWindow();
+            if (items == null || items.size() == 0) {
+              return;
+            }
+            for (final T item : items) {
+              getModel().addElement(item);
+              ScrollingUtil.selectItem(getList(), item);
+            }
+          });
         }
       });
       addComponent(button);
