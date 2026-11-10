@@ -58,6 +58,7 @@ import consulo.ui.ex.awt.speedSearch.TreeSpeedSearch;
 import consulo.ui.ex.awt.tree.ColoredTreeCellRenderer;
 import consulo.ui.ex.awt.tree.Tree;
 import consulo.ui.ex.awt.tree.TreeUtil;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 import consulo.ui.ex.dialog.DialogService;
 import consulo.ui.ex.keymap.Keymap;
 import consulo.ui.ex.keymap.KeymapManager;
@@ -734,7 +735,7 @@ public class AntExplorer extends SimpleToolWindowPanel implements UiDataProvider
 
     public RemoveMetaTargetsOrBuildFileAction() {
       super(AntBundle.message("remove.meta.targets.action.name"), AntBundle.message("remove.meta.targets.action.description"), null);
-      registerCustomShortcutSet(new CustomShortcutSet(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0)), myTree);
+      registerCustomShortcutSet(new CustomShortcutSet(TargetAWT.from(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0))), myTree);
       Disposer.register(AntExplorer.this, () -> RemoveMetaTargetsOrBuildFileAction.this.unregisterCustomShortcutSet(myTree));
       myTree.registerKeyboardAction(new AbstractAction() {
         public void actionPerformed(ActionEvent e) {
