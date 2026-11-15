@@ -35,6 +35,7 @@ import jakarta.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class OutputParser implements OutputWatcher {
@@ -307,6 +308,11 @@ public class OutputParser implements OutputWatcher {
 
                     @Override
                     public CompileContext.MessageBuilder navigatable(Navigatable navigatable) {
+                        return this;
+                    }
+
+                    @Override
+                    public CompileContext.MessageBuilder moduleNames(Collection<String> moduleNames) {
                         return this;
                     }
 

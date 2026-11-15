@@ -313,6 +313,11 @@ public class OutputBuilder implements OutputWatcher, MessageProcessor {
                     }
 
                     @Override
+                    public CompileContext.MessageBuilder moduleNames(Collection<String> moduleNames) {
+                        return this;
+                    }
+
+                    @Override
                     public void add() {
                         if (category == CompilerMessageCategory.ERROR) {
                             errorCount.incrementAndGet();
